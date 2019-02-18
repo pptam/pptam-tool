@@ -1,0 +1,28 @@
+-- Create our table
+drop table default_profile
+create table default_profile (METANAME varchar(128), METAVALUE decimal(9,2), SOURCE varchar(32))
+
+
+-- CPU Utilization
+insert into default_profile values ('CPU Usr %', (select avg("us") from vmstat), 'cpu')
+insert into default_profile values ('CPU Sys %', (select avg("sy") from vmstat), 'cpu')
+
+-- Average Reads and writes from iostat
+insert into default_profile values ('Average reads per sec', (select avg(tot_rps) from (select sum(rps) as tot_rps from iostat group by Time) as a), 'io')
+insert into default_profile values ('Average writes per sec', (select avg(tot_wps) from (select sum(wps) as tot_wps from iostat group by Time) as a), 'io')
+insert into default_profile values ('Total Read bandwidth per sec', (select avg(tot_kbrps) from (select sum(kbrps) as tot_kbrps from iostat group by Time) as a), 'io')
+insert into default_profile values ('Total Write bandwidth per sec', (select avg(tot_kbwps) from (select sum(kbwps) as tot_kbwps from iostat group by Time) as a), 'io')
+insert into default_profile values ('Average reads per sec per disk', (select avg(rps) from iostat), 'io')
+insert into default_profile values ('Average writes per sec per disk', (select avg(wps) from iostat), 'io')
+insert into default_profile values ('Average Disk Service time(ms)', (select avg(SVCT) from iostat), 'io')
+insert into default_profile values ('Average Disk Busy(%)', (select avg(BUSYP) from iostat), 'io')
+insert into default_profile values ('Average Read size (KB)', (select avg(kbrps/rps) from iostat where rps > 0), 'io')
+insert into default_profile values ('Average write size (KB)', (select avg(kbwps/wps) from iostat where wps > 0), 'io')
+
+
+-- Now we insert these into the view
+insert into export_view values ('profile', 'System Info', 'table', 1, 'select METANAME AS "Name", metavalue as "Value" from default_profile where source =''cpu''')
+insert into export_view values ('profile', 'IO', 'table', 1, 'select metaname as "Name", metavalue as "Value" from default_profile where source =''io''') 
+insert into export_view values ('profile', 'IO KB/s', 'Line', 1, 'select time, sum(kbrps) as "Read KB/s",sum(kbwps) as "Write KB/s"  from iostat group by Time') 
+
+-- select * from default_profile

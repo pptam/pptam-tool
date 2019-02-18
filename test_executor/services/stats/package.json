@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "mongodb": "^2.2.16",
+    "npm": "^5.7.1",
+    "os-utils": "0.0.14"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.2"
+  }
+}

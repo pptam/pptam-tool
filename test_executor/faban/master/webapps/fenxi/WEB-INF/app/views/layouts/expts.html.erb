@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title><%= @page_title || "Fenxi" %></title>
+    <%#= stylesheet_link_tag 'scaffold' %>
+    <%= javascript_include_tag :defaults %>
+    <%= stylesheet_link_tag 'fenxi' %>
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo">
+        <span class="fenxibig">fenxi</span>
+        <%= image_tag 'spinner.gif', :id => 'spinner', :style => 'display:none;' %>
+      </div>
+      <div id="menu">
+        <ul>
+          <li><%= link_to 'Experiments', expts_path %></li>
+          <li><a href="http://fenxi.dev.java.net">Download</a></li>
+          <li><a href="http://fenxi.dev.java.net/manual.html">Help</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="container">
+      <p style="color: red" id="flash-error"><%= flash[:error] %></p>
+      <p style="color: green" id="flash-notice"><%= flash[:notice] %></p>
+      <%= yield %>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+page.remove "expt-#{@expt.to_param}"
+page.replace_html 'ajax-error', ""
+if @expts.size == 0 then
+  page.hide 'expts-list'
+end
+if @expts.size < 2 then
+  page.form.disable 'compare-form'
+else
+  page.form.enable 'compare-form'
+end

@@ -1,0 +1,40 @@
+<% rowno = 1 
+if ARGV[0] !="view" then #UGLY UGLY HACK. FIXME:
+  %>
+  <div class="compare_table_header">
+    <a href="#" onclick="color_code('table<%=id%>');return false;">Color code</a> |
+    <a href="#" onclick="hide_similar('table<%=id%>');return false;">Hide similar</a> |
+    <a href="#" onclick="show_all('table<%=id%>');return false;">Show All</a><BR>
+  </div>
+<%
+end
+%>
+<table class="section_table" id="table<%=id%>">
+  <thead>
+    <% section.query_result.headers.each do |header| %>
+      <th><%= h(header)%></th>
+    <%end%>
+  </thead>
+  <tbody>
+    <% section.query_result.rows.each do |row| %>
+      <tr class="row<%=rowno%>">
+        <% rowno = 1 - rowno %>
+        <% row.each_with_index do |col, j| %>
+          <td class="<%=section.query_result.types[j] %>">
+            <%
+            op = case
+            when section.query_result.types[j] == "image"
+              %Q|<img src="#{imagestore(col)}"></img>|
+            when section.query_result.types[j] == "float"
+              col == "-" ? "-" : "%.2f" % col.to_f
+            else
+              col
+            end
+          %>
+            <%=op %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

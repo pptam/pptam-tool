@@ -1,0 +1,23 @@
+<% @page_title = "Viewing #{h(@expt.name)} -- Fenxi" %>
+<h3><%= link_to 'Experiments', expts_path%> &raquo; <%= h(@expt.name) %></h3>
+<table class="section-show">
+  <tr valign="top">
+    <td style="width:200px;">
+      <% pretty_list = pretty_tool_list(@expt)
+      pretty_list.each do |host, tools| %>
+        <%= render :partial => 'host_list', :locals => {:host=>host, :tools=> tools} %>
+      <% end %>
+    </td>
+    <td>
+      <p style="color: red" id="ajax-error"></p>
+      <div id="section-holder">
+        <% if @section then %>
+          <%= render :partial => 'section', :object => @section%>
+        <% end %>
+      </div>
+    </td>
+  </tr>
+</table>
+<div id="footer">
+  <%= link_to 'Back', expts_path %>
+</div>

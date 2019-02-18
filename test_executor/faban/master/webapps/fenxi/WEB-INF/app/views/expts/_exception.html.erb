@@ -1,0 +1,6 @@
+<div class="exception">
+  <P style="color: red; font-size:120%;">
+    <%=exception.message %>
+  </P>
+  <PRE><%= exception.backtrace[0..2].join("\n") %></PRE>
+</div>

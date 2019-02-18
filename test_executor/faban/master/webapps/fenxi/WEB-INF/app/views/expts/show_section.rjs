@@ -1,0 +1,2 @@
+page.replace_html 'section-holder', :partial => 'section', :locals => {:section => @section }
+page.replace_html 'ajax-error', ""

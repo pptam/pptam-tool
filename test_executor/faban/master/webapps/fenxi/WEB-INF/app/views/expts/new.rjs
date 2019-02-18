@@ -1,0 +1,9 @@
+page.insert_html :bottom, 'expts', :partial => 'expt'
+page.show 'expts-list'
+page.visual_effect :highlight, "expt-#{@expt.to_param}"
+page.replace_html 'ajax-error', ""
+if @expts.length >= 2 then
+  page.form.enable 'compare-form'
+else
+  page.form.disable 'compare-form'
+end
