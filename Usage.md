@@ -60,5 +60,5 @@ After executing all tests, the executed tests are stored in the ~/test_executor/
    - mix compile
    - mix run -e "Parser.parse()"
 
-## Vizualize data
+## Visualize data
 
