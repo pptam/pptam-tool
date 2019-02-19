@@ -7,6 +7,6 @@
     "os-utils": "0.0.14"
   },
   "devDependencies": {
-    "nodemon": "^1.17.2"
+    "nodemon": "^1.18.10"
   }
 }
