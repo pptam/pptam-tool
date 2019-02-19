@@ -7,8 +7,12 @@ defmodule Parser do
     prefix =
       "../test_executor/executed"
 
+    output = "../analyzer/BenchflowOutput.csv"
+
     {:ok, to_do} = File.ls(prefix)
-    {:ok, results} = File.open("#{prefix}/results.csv", [:write])
+
+    File.rm(output)    
+    {:ok, results} = File.open(output, [:write])
 
     to_do
     |> Enum.filter(fn item ->
