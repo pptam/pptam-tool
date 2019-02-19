@@ -1,8 +1,8 @@
 # Adding Mirai as a possible attack during testing
 
-To use Mirai to attack a particular end point during testing, we modified benchflow.sh inside the test executor so that the attack is launched after 180 seconds of running a test. Moreover, we use a modified version of Mirai that only attacks without infecting the system.
+To use the Mirai bot to attack a particular end point during testing, benchflow.sh inside the test executor contains the necessary logic so that the attack is launched after 180 seconds of running a test. We use a modified version of Mirai that only attacks without infecting the system.
 
-**Only** on the **driver** machine perform the following operations:
+To enable the Mirai bot, **only** on the **driver** machine perform the following operations:
 
 1. Modify benchflow.sh and uncomment the following lines:
    - #echo "RUN MIRAI!!!!"
