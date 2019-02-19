@@ -47,6 +47,8 @@ After such a call, a new test case folder is present in the ~/test_executor/to_e
 
 You find the results in the "results" folder, in a folder named with the test id. Faban results are also available in the Faban Web Interface, usually reachable on the port 9980 of the load driver machine. 
 
+To add Mirai as an additional load to the tested micro services, see [here](Mirai.md).
+
 ## Extract data
 
 After executing all tests, the executed tests are stored in the ~/test_executor/executed folder. 
