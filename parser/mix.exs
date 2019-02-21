@@ -7,7 +7,8 @@ defmodule Parser.MixProject do
       version: "0.1.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      escript: escript()
     ]
   end
 
@@ -26,5 +27,9 @@ defmodule Parser.MixProject do
       {:yaml_elixir, "~> 2.1.0"},
       {:sweet_xml, "~> 0.6.5"}
     ]
+  end
+
+  defp escript do
+    [main_module: Parser.Parser]
   end
 end

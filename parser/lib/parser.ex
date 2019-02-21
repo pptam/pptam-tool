@@ -1,34 +1,49 @@
-defmodule Parser do
+defmodule Parser.Parser do
   import SweetXml
 
   # Run from command line with iex -S mix run -e "Parser.parse"
+  # Build using mix escript.build
+  # Run on Windows using escript parser
 
-  def parse do
-    prefix =
-      "../test_executor/executed"
+  def main(args) do
+    args |> parse_args |> parse_all_directories!
+  end
 
-    output = "../analyzer/BenchflowOutput.csv"
+  defp parse_args(args) do
+    {options, _, _} = OptionParser.parse(args, switches: [input: :string, output: :string])
+    options
+  end
+
+  def parse_all_directories!([input: input, output: output]) do
+    IO.puts("Processing #{input} and writing #{output}...")
 
     {:ok, to_do} = File.ls(prefix)
 
-    File.rm(output)    
+    File.rm(output)
     {:ok, results} = File.open(output, [:write])
 
     to_do
     |> Enum.filter(fn item ->
-      {:ok, %File.Stat{type: type}} = File.lstat("#{prefix}/#{item}")
+      {:ok, %File.Stat{type: type}} = File.lstat("#{input}/#{item}")
       type == :directory
     end)
     |> Enum.with_index()
-    |> Enum.each(fn {id, index} -> parse_directory("#{prefix}/#{id}", results, index) end)
+    |> Enum.each(fn {id, index} -> parse_single_directory!("#{input}/#{id}", results, index) end)
 
     File.close(results)
 
-    System.halt
-    :ok    
+    System.halt()
+    :ok
   end
 
-  def parse_directory(path, file, index) do
+  def parse_all_directories!(_options) do
+    IO.puts("Parses result directories coming from Faban into a single csv file.")
+    IO.puts("")
+    IO.puts("PARSER --input=(folder name in which all the experiments are) --output=(csv file to which to write the result of the parsing)")
+    IO.puts("")
+  end
+
+  def parse_single_directory!(path, file, index) do
     IO.puts("Parsing #{path}...")
 
     {:ok, compose} = File.read("#{path}/definition/docker-compose.yml")
@@ -47,11 +62,11 @@ defmodule Parser do
       compose
       |> YamlElixir.read_from_string()
 
-      {memory_as_float, "M"} =
+    {memory_as_float, "M"} =
       memory_as_string
-        |> Float.parse
+      |> Float.parse()
 
-      memory = memory_as_float / 1000
+    memory = memory_as_float / 1000
     {:ok, run} = File.read("#{path}/definition/run.xml")
     {:ok, summary} = File.read("#{path}/faban/summary.xml")
 
@@ -105,17 +120,17 @@ defmodule Parser do
     )
 
     Enum.each(pages, fn page ->
-      %{mix: mix} = parse_operation(path, page, summary)
+      %{mix: mix} = parse_operation!(path, page, summary)
       IO.write(file, ",#{mix}")
     end)
 
     IO.write(file, ",#{Path.basename(path)},#{passed}")
     IO.write(file, "\r\n")
-    
+
     :ok
   end
 
-  def parse_operation(_path, page, summary) do
+  def parse_operation!(_path, page, summary) do
     %{summary: successes} =
       summary
       |> xmap(
