@@ -10,3 +10,4 @@ It is implemented as a command line application, which can be compliled using ``
 Example:
 
 ``./parser --input=../test_executor/executed --output=../analyzer/BenchflowOutput.csv``
+
