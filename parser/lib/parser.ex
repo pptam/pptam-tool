@@ -1,17 +1,14 @@
 defmodule Parser.Parser do
   import SweetXml
 
-  def main(args) do
-    args |> parse_args |> parse_all_directories!
+  def main() do
+    input = "C:\\Users\\ajanes\\OneDrive - Scientific Network South Tyrol\\implement\\2018-Performance of Microservices\\20190221-experiments3"
+    output = "C:\\Users\\ajanes\\OneDrive - Scientific Network South Tyrol\\implement\\2018-Performance of Microservices\\20190221-experiments3"
+
+    parse_all_directories!(input, output)
   end
 
-  defp parse_args(args) do
-    {options, _, _} = OptionParser.parse(args, switches: [input: :string, output: :string])
-
-    options
-  end
-
-  def parse_all_directories!(input: input, output: output) do
+  def parse_all_directories!(input, output) do
     IO.puts("Processing #{input} and writing to #{output}...")
 
     {:ok, to_do} = File.ls(input)
@@ -81,6 +78,13 @@ defmodule Parser.Parser do
       summary
       |> xpath(~x"//mix/operation/@name"l)
 
+    ended =
+      summary
+      |> xpath(~x"/benchResults/benchSummary/endTime/text()")
+      |> to_string
+      |> Timex.parse!("%a %b %d %T %Z %Y", :strftime)
+      |> Timex.format!("%Y%m%d %H%M%S", :strftime)
+
     passed =
       summary
       |> xpath(~x"/benchResults/benchSummary/passed/text()")
@@ -90,14 +94,14 @@ defmodule Parser.Parser do
       |> xmap(scale: ~x"//fa:runConfig/fa:scale/text()")
 
     if index == 0 do
-      IO.write(io_benchflow_output, "ID,Users,Memory,CPU,CartReplicas,Metric")
+      IO.write(io_benchflow_output, "sep=,ID,Users,Memory,CPU,CartReplicas,Metric")
       Enum.each(pages, fn page -> IO.write(io_benchflow_output, ",#{page}") end)
-      IO.write(io_benchflow_output, ",FabanID,Passed\r\n")
+      IO.write(io_benchflow_output, "\r\n")
 
-      IO.write(io_summary_output, "ID,Users,Memory,CPU,CartReplicas,FabanID,Passed\r\n")
+      IO.write(io_summary_output, "sep=,\r\nID,Users,Memory,CPU,CartReplicas,FabanID,Passed,Ended\r\n")
     end
 
-    IO.write(io_summary_output, "#{index + 1},#{scale},#{memory},#{cpus},#{replicas},#{Path.basename(path)},#{passed}\r\n")
+    IO.write(io_summary_output, "#{index + 1},#{scale},#{memory},#{cpus},#{replicas},#{Path.basename(path)},#{passed},#{ended}\r\n")
 
     IO.write(io_benchflow_output, "#{index + 1},#{scale},#{memory},#{cpus},#{replicas},Avg (sec)")
 
@@ -106,7 +110,7 @@ defmodule Parser.Parser do
       IO.write(io_benchflow_output, ",#{avg}")
     end)
 
-    IO.write(io_benchflow_output, ",#{Path.basename(path)},#{passed}\r\n")
+    IO.write(io_benchflow_output, "\r\n")
 
     IO.write(io_benchflow_output, "#{index + 1},#{scale},#{memory},#{cpus},#{replicas},SD (sec)")
 
@@ -115,7 +119,7 @@ defmodule Parser.Parser do
       IO.write(io_benchflow_output, ",#{sd}")
     end)
 
-    IO.write(io_benchflow_output, ",#{Path.basename(path)},#{passed}\r\n")
+    IO.write(io_benchflow_output, "\r\n")
 
     IO.write(io_benchflow_output, "#{index + 1},#{scale},#{memory},#{cpus},#{replicas},Mix % (take failure into account)")
 
@@ -124,7 +128,7 @@ defmodule Parser.Parser do
       IO.write(io_benchflow_output, ",#{mix}")
     end)
 
-    IO.write(io_benchflow_output, ",#{Path.basename(path)},#{passed}\r\n")
+    IO.write(io_benchflow_output, "\r\n")
 
     :ok
   end

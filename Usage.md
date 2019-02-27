@@ -60,7 +60,7 @@ After executing all tests, the executed tests are stored in the ~/test_executor/
    - cd ~/parser
    - mix deps.get 
    - mix compile
-   - mix run -e "Parser.parse()"
+   - mix run -e "Parser.Parser.main()"
 
 ## Visualize data
 

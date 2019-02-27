@@ -136,14 +136,18 @@ At this point, the machines are ready to perform tests and to collect the result
    - cd ~
    - jupyter notebook --generate-config
    - jupyter notebook password (Define your jupyter password, or type ENTER twice for an empty password)
-2. Update the following values in/home/user/.jupyter/-    jupyter_notebook_config.py:
+2. Update the following values in/home/user/.jupyter/jupyter_notebook_config.py:
    - c.NotebookApp.allow_remote_access = True
    - c.NotebookApp.ip = '*'
    - c.NotebookApp.open_browser = False
 3. Then, execute:
    - conda install -c r r-essentials (answer y)
+   - conda deactivate
    - mkdir ~/notebooks
    - cd ~/notebooks
+   - conda create -n pptam python anaconda r-essentials (see https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-with-commands)
+   - conda activate pptam
+
    - jupyter notebook (now http://localhost:8888/ should be reachable)
 
 
