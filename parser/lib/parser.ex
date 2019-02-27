@@ -94,7 +94,7 @@ defmodule Parser.Parser do
       |> xmap(scale: ~x"//fa:runConfig/fa:scale/text()")
 
     if index == 0 do
-      IO.write(io_benchflow_output, "sep=,ID,Users,Memory,CPU,CartReplicas,Metric")
+      IO.write(io_benchflow_output, "sep=,\r\nID,Users,Memory,CPU,CartReplicas,Metric")
       Enum.each(pages, fn page -> IO.write(io_benchflow_output, ",#{page}") end)
       IO.write(io_benchflow_output, "\r\n")
 
