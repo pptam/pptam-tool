@@ -113,7 +113,7 @@ At this point, the machines are ready to perform tests and to collect the result
    - sudo apt update && sudo apt install -y influxdb
    - sudo service influxdb start
 
-### Install Elixir (to extract and prepare the collected data)
+### Install Elixir and the parser (to extract and prepare the collected data)
 
 **Only** on the **driver** machine perform the following operations:
 
@@ -123,8 +123,9 @@ At this point, the machines are ready to perform tests and to collect the result
    - sudo apt update && sudo apt install -y esl-erlang elixir
    - mix local.hex --force
    - mix local.rebar --force
+2. Then, zip the [parser](parser) folder to parser.zip and copy it into the home of the current user (I used [Cyberduck](https://cyberduck.io/)). 
 
-### Install Jupyter (to analyze the collected data)
+### Install Jupyter and the Jupyter notebook file (to analyze the collected data)
 
 **Only** on the **driver** machine perform the following operations:
 
@@ -147,8 +148,7 @@ At this point, the machines are ready to perform tests and to collect the result
    - cd ~/notebooks
    - conda create -n pptam python anaconda r-essentials (see https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-with-commands)
    - conda activate pptam
-
    - jupyter notebook (now http://localhost:8888/ should be reachable)
-
+4. Then, copy the files of the [analyzer](analyzer) folder into the notebooks folder created above (I used [Cyberduck](https://cyberduck.io/)). 
 
 

@@ -55,8 +55,7 @@ After executing all tests, the executed tests are stored in the ~/test_executor/
 
 **Only** on the **driver** machine perform the following operations:
 
-1. Zip the [parser](parser) folder to parser.zip and copy it into the home of the current user (I used [Cyberduck](https://cyberduck.io/)). 
-2. Then, execute:
+1. Execute:
    - cd ~/parser
    - mix deps.get 
    - mix compile
@@ -64,3 +63,4 @@ After executing all tests, the executed tests are stored in the ~/test_executor/
 
 ## Visualize data
 
+1. Open Jupyter Notebook at http://localhost:8888/ and execute the analysis.
