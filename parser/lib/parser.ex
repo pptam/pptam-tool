@@ -2,8 +2,8 @@ defmodule Parser.Parser do
   import SweetXml
 
   def main() do
-    input = "C:\\Users\\ajanes\\OneDrive - Scientific Network South Tyrol\\implement\\2018-Performance of Microservices\\20190221-experiments3"
-    output = "C:\\Users\\ajanes\\OneDrive - Scientific Network South Tyrol\\implement\\2018-Performance of Microservices\\20190221-experiments3"
+    input = "/Volumes/GoogleDrive/Meine Ablage/research/2018-Performance of Microservices/20190403-experiments7/"
+    output = input
 
     parse_all_directories!(input, output)
   end
@@ -15,6 +15,8 @@ defmodule Parser.Parser do
 
     benchflow_output = "#{output}/benchflow_output.csv"
     summary_output = "#{output}/summary_output.csv"
+
+    IO.puts("Generating #{benchflow_output} and #{summary_output}...")
 
     File.rm(benchflow_output)
     File.rm(summary_output)
@@ -82,6 +84,15 @@ defmodule Parser.Parser do
       summary
       |> xpath(~x"/benchResults/benchSummary/endTime/text()")
       |> to_string
+      |> String.split(" ")
+      |> Enum.with_index
+      |> Enum.map(fn {x, i} -> case i do
+          4 -> "UTC"
+          _ -> x
+         end
+        end)
+      |> Enum.join(" ")
+      |> IO.inspect
       |> Timex.parse!("%a %b %d %T %Z %Y", :strftime)
       |> Timex.format!("%Y%m%d %H%M%S", :strftime)
 
