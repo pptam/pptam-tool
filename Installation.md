@@ -21,7 +21,7 @@ Start [Oracle VM VirtualBox](https://www.oracle.com/technetwork/server-storage/v
 
 On **both** machines perform the following operations:
 
-1. Upon start, install both VMs using the [ubuntu-18.04.1.0-live-server-amd64.iso](http://releases.ubuntu.com/18.04/) (or newer)
+1. Upon start, install both VMs using the [ubuntu-18.04.1.0-live-server-amd64.iso](http://releases.ubuntu.com/18.04/)
 2. During setup, while the network configuration is displayed, configure both machines as follows (this configuration is later stored in /etc/cloud/cloud.cfg.d/50-curtin-networking.cfg. If you need to change it and want to modify that file, you have to execute sudo cloud-init clean && sudo cloud-init init && sudo netplan apply):
    - Let the first network card as it is (initialized through DHCP, with a valid IP address displayed during setup; enable IPv6 DHCP in case there is no valid address for IPv4)
    - Manually configure the second network card to an IPv4 address:
@@ -32,25 +32,12 @@ On **both** machines perform the following operations:
        - Subnet: 192.168.2.0/24
        - Address: 192.168.2.2
 3. Also during setup, configure a user (I used username "user" and password "user", but you can take any user with any password).
-4. After setup, start both machines and execute:
-   - sudo -i (to execute all following commands as sudo)
-   - apt update -y
-   - apt upgrade -y
-   - apt install -y apt-transport-https ca-certificates curl lxc iptables
-   - curl -sSL https://get.docker.com/ | sh
-   - usermod -aG docker user
-   - apt install -y nano unzip ant inetutils-ping
-   - apt-get install -y openjdk-8-jdk
-   - Add to /etc/environment:
-     - JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
-   - Add to /etc/hosts:
-     - 192.168.2.1 driver
-     - 192.168.2.2 test
+4. Also during setup, install OpenSSH
 
 **Only** on the **driver** machine perform the following operations:
 
 1. Open the settings of the virtual machine, open the network tab, for adapter 1, open the advanced settings and open the port forwarding window. Define the following rules:
-   - (Optional) SSH (this allows you to use a comfortable SSH client to interact with the virtual machines, e.g., allowing you to copy/paste instructions into the client): 
+   - SSH (this allows you to use a comfortable SSH client to interact with the virtual machines, e.g., allowing you to copy/paste instructions into the client): 
      - Name: SSH
      - Protocol: TCP
      - Host IP: (empty)
@@ -71,15 +58,48 @@ On **both** machines perform the following operations:
      - Host Port: 8888
      - Guest IP: (empty)
      - Guest Port: 8888
-2. Run the machine, zip the [test_executor](test_executor) folder to test_exector.zip and copy it into the home of the current user (I used [Cyberduck](https://cyberduck.io/)). The test executor is adapted from Alberto Avritzer, Vincenzo Ferme, Andrea Janes, Barbara Russo, Henning Schulz, & André van Hoorn. (2018). A Quantitative Approach for the Assessment of Microservice Architecture Deployment Alternatives by Automated Performance Testing [Data set]. Zenodo. http://doi.org/10.5281/zenodo.1256488
-3. Then within the driver machine execute:
+
+**Only** on the **test** machine perform the following operations:
+
+1. Open the settings of the virtual machine, open the network tab, for adapter 1, open the advanced settings and open the port forwarding window. Define the following rules:
+   - SSH (this allows you to use a comfortable SSH client to interact with the virtual machines, e.g., allowing you to copy/paste instructions into the client): 
+     - Name: SSH
+     - Protocol: TCP
+     - Host IP: (empty)
+     - Host Port: 2223
+     - Guest IP: (empty)
+     - Guest Port: 22
+
+Now you can connect the the driver and test machine using your favourite ssh client to:
+- localhost, port 2222 (to connect to the driver)
+- localhost, port 2223 (to connect to the test)
+
+On **both** machines perform the following operations:
+1. After setup, start both machines and execute:
+   - sudo -i (to execute all following commands as sudo)
+   - apt update -y
+   - apt upgrade -y
+   - apt install -y apt-transport-https ca-certificates curl lxc iptables
+   - curl -sSL https://get.docker.com/ | sh
+   - usermod -aG docker user
+   - apt install -y nano unzip ant inetutils-ping
+   - apt-get install -y openjdk-8-jdk
+   - Add to /etc/environment:
+     - JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
+   - Add to /etc/hosts:
+     - 192.168.2.1 driver
+     - 192.168.2.2 test
+
+**Only** on the **driver** machine perform the following operations: 
+1. Run the machine, zip the [test_executor](test_executor) folder to test_exector.zip and copy it into the home of the current user (I used [Cyberduck](https://cyberduck.io/)). The test executor is adapted from Alberto Avritzer, Vincenzo Ferme, Andrea Janes, Barbara Russo, Henning Schulz, & André van Hoorn. (2018). A Quantitative Approach for the Assessment of Microservice Architecture Deployment Alternatives by Automated Performance Testing [Data set]. Zenodo. http://doi.org/10.5281/zenodo.1256488
+2. Then within the driver machine execute:
    - cd ~
    - unzip test_executor.zip
    - sudo docker swarm init --advertise-addr 192.168.2.1
-4. Moreover, to prepare the test execution, execute:
+3. Moreover, to prepare the test execution, execute:
    - cd ~/test_executor
    - mkdir drivers/tmp
-5. Modify ~/test_executor/config.properties to include the current configuration:
+4. Modify ~/test_executor/config.properties to include the current configuration:
    - faban.ip=192.168.2.1
    - sut.ip=192.168.2.2
    - sut.hostname=test
