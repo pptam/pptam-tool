@@ -16,8 +16,8 @@ The installation is grouped into the following parts:
 
 Start [Oracle VM VirtualBox](https://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html) and create two machines for Linux/Ubuntu (64 bit). One called “driver”, one called “test”. Setup the network configuration for both VMs to use two network cards:
 
-- one set to “NAT” and
-- one set to “Host-only Adapter”.
+- one (Adapter 1) set to “NAT” and
+- one (Adapter 2) set to “Host-only Adapter”.
 
 On **both** machines perform the following operations:
 

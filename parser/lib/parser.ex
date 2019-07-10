@@ -2,7 +2,7 @@ defmodule Parser.Parser do
   import SweetXml
 
   def main() do
-    input = "/Volumes/GoogleDrive/Meine Ablage/research/2018-Performance of Microservices/20190403-experiments7/"
+    input = "/Volumes/GoogleDrive/Meine Ablage/research/2018-Performance of Microservices/20190423-experiments9-Mirai/"
     output = input
 
     parse_all_directories!(input, output)
@@ -92,7 +92,6 @@ defmodule Parser.Parser do
          end
         end)
       |> Enum.join(" ")
-      |> IO.inspect
       |> Timex.parse!("%a %b %d %T %Z %Y", :strftime)
       |> Timex.format!("%Y%m%d %H%M%S", :strftime)
 
