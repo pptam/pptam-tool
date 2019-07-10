@@ -21,7 +21,7 @@ Start [Oracle VM VirtualBox](https://www.oracle.com/technetwork/server-storage/v
 
 On **both** machines perform the following operations:
 
-1. Upon start, install both VMs using the [ubuntu-18.04.1.0-live-server-amd64.iso](http://releases.ubuntu.com/18.04/)
+1. Upon start, install both VMs using the [ubuntu-18.04.1.0-live-server-amd64.iso](http://releases.ubuntu.com/18.04/) (or newer)
 2. During setup, while the network configuration is displayed, configure both machines as follows (this configuration is later stored in /etc/cloud/cloud.cfg.d/50-curtin-networking.cfg. If you need to change it and want to modify that file, you have to execute sudo cloud-init clean && sudo cloud-init init && sudo netplan apply):
    - Let the first network card as it is (initialized through DHCP, with a valid IP address displayed during setup; enable IPv6 DHCP in case there is no valid address for IPv4)
    - Manually configure the second network card to an IPv4 address:
