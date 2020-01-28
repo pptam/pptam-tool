@@ -51,7 +51,7 @@ On **both** machines perform the following operations:
      - Host Port: 9980
      - Guest IP: (empty)
      - Guest Port: 9980
-   - Jupyter (this allows you to see the analysis results):
+   - Optional: Jupyter (this allows you to see the analysis results):
      - Name: Jupyter
      - Protocol: TCP
      - Host IP: (empty)
@@ -107,22 +107,14 @@ On **both** machines perform the following operations:
 
 **Only** on the **test** machine perform the following operations:
 
-1. Open the settings of the virtual machine, open the network tab, for adapter 1, open the advanced settings and open the port forwarding window. Define the following rules:
-   - (Optional) SSH (this allows you to use a comfortable SSH client to interact with the virtual machines, e.g., allowing you to copy/paste instructions into the client): 
-     - Name: SSH
-     - Protocol: TCP
-     - Host IP: (empty)
-     - Host Port: 2223 
-     - Guest IP: (empty)
-     - Guest Port: 22
-2. Execute:
+1. Execute:
    - sudo (command that swarm init executed above recommends to execute)
 
 At this point, the machines are ready to perform tests and to collect the results. As a next step, we need to install the necessary tools to analyze and visualize the data.
 
 ## Part 2: install the tools to collect, analyze, and visualize data
 
-### Install InfluxDB (to collect the necessary data to generate the operational profile)
+### Optional: Install InfluxDB (to collect the necessary data to generate the operational profile)
 
 **Only** on the **driver** machine perform the following operations:
 
@@ -133,7 +125,7 @@ At this point, the machines are ready to perform tests and to collect the result
    - sudo apt update && sudo apt install -y influxdb
    - sudo service influxdb start
 
-### Install Elixir and the parser (to extract and prepare the collected data)
+### Deprecated: Install Elixir and the parser (to extract and prepare the collected data)
 
 **Only** on the **driver** machine perform the following operations:
 
@@ -145,7 +137,7 @@ At this point, the machines are ready to perform tests and to collect the result
    - mix local.rebar --force
 2. Then, zip the [parser](parser) folder to parser.zip and copy it into the home of the current user (I used [Cyberduck](https://cyberduck.io/)). 
 
-### Install Jupyter and the Jupyter notebook file (to analyze the collected data)
+### Optional: Install Jupyter and the Jupyter notebook file (to analyze the collected data)
 
 **Only** on the **driver** machine perform the following operations:
 
