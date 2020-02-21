@@ -104,6 +104,13 @@ On **both** machines perform the following operations:
    - sut.ip=192.168.2.2
    - sut.hostname=test
    - java.home=\/usr\/lib\/jvm\/java-8-openjdk-amd64\/
+5. Make sure the following empty folders exist
+   - mkdir ~/test_executor/faban/master/common/endorsed
+   - mkdir ~/test_executor/executed
+   - mkdir ~/test_executor/to_execute
+   - mkdir ~/test_executor/drivers
+   - mkdir ~/test_executor/drivers/tmp
+   - mkdir ~/test_executor/faban/master/temp
 
 **Only** on the **test** machine perform the following operations:
 
