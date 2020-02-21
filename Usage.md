@@ -49,6 +49,9 @@ You find the results in the "results" folder, in a folder named with the test id
 
 To add Mirai as an additional load to the tested micro services, see [here](Mirai.md).
 
+## Pitfalls
+- benchflow.sh gives "^M: bad interpreter: No such file or directory" when executed. Please see https://stackoverflow.com/questions/17131249/how-to-solve-bad-interpreter-no-such-file-or-directory/17131267
+
 ## Extract data
 
 After executing all tests, the executed tests are stored in the ~/test_executor/executed folder. 
