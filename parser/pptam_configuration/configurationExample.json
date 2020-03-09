@@ -1,0 +1,1 @@
+{"faban": {"cpuLimitation": 90}, "docker": {"numberOfUsers": 1}, "systemUnderTest": {"IP": "192.168.0.1"}}
