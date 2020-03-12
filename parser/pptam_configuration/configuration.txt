@@ -1,0 +1,39 @@
+###############################################################################
+# PPTAM configuration
+###############################################################################
+# The ip of the server on which Faban runs (load driver machine).
+FABAN_IP = 192.168.2.1 
+# The path to Java for Faban, set once only when installing the system.
+JAVA_HOME_FABAN = 
+# The path where Faban should write the results, set once only when installing the system.
+FABAN_OUTPUT_DIR = 
+# System under test IP (SUT_IP): the ip of the server on which the system under test is going to be deployed (sut machine)
+SUT_IP = 
+# System under test port (SUT_PORT): the port of the sut (the default one is 80)
+SUT_PORT = 
+# System under test host name (SUT_HOSTNAME): the hostname of the server on which the system under test is going to be deployed (sut machine)
+SUT_HOSTNAME = 
+
+###############################################################################
+# Docker configuration
+###############################################################################
+# CPU limitation (CARTS_CPUS_LIMITS): parameter of docker compose, specific to socks shop, limits how many cpus the carts microservice can use.
+CARTS_CPUS_LIMITS = 
+# CPU reservation (CARTS_CPUS_RESERVATIONS): parameter of docker compose, specific to socks shop, defines how many cpus are reserved for the carts microservice.
+CARTS_CPUS_RESERVATIONS
+# RAM limitation (CARTS_RAM_LIMITS): parameter of docker compose, specific to socks shop, limits how much RAM the carts microservice can use.
+CARTS_RAM_LIMITS = 
+# RAM limitation (CARTS_RAM_LIMITS): parameter of docker compose, specific to socks shop, limits how much RAM the carts microservice can use.
+CARTS_RAM_LIMITS = 
+# RAM reservation (CARTS_RAM_RESERVATIONS): parameter of docker compose, specific to socks shop, defines how much RAM is reserved for the carts microservice.
+CARTS_RAM_RESERVATIONS = 
+# RAM reservation (CARTS_RAM_RESERVATIONS): parameter of docker compose, specific to socks shop, defines how much RAM is reserved for the carts microservice.
+CARTS_RAM_RESERVATIONS
+# Number of replicas (CARTS_REPLICAS): parameter of docker compose, specific to socks shop, defines how much RAM is reserved for the carts microservice
+CARTS_REPLICAS = 
+
+###############################################################################
+# Faban configuration
+###############################################################################
+# Number of users (NUM_USERS): Number of users generated to simulate the test.
+NUM_USERS = 
