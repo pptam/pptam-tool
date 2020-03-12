@@ -6,6 +6,7 @@ import json
 
 from WriteToFile import WriteToFile
 from ReadFromFile import ReadFromFile
+from ParseConfiguration import ParseConfiguration
 
 # Path to the configuration file
 configurationFilePath = ""
@@ -32,3 +33,9 @@ json_file.close()
 
 print(configurationExample)
 print(configurationExample["systemUnderTest"]["IP"])
+
+parseConfiguration = ParseConfiguration("configuration.txt")
+dictionaryConf = parseConfiguration.getJSON_Dictionary()
+json_file = open("configurationExample.json", "w", encoding="utf-8")
+json.dump(dictionaryConf, json_file, ensure_ascii=False)
+json_file.close()
