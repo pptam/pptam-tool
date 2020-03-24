@@ -35,7 +35,11 @@ print(configurationExample)
 print(configurationExample["systemUnderTest"]["IP"])
 
 parseConfiguration = ParseConfiguration("configuration.txt")
+parseConfiguration.parseConfigFile()
 dictionaryConf = parseConfiguration.getJSON_Dictionary()
+print(dictionaryConf)
 json_file = open("configurationExample.json", "w", encoding="utf-8")
 json.dump(dictionaryConf, json_file, ensure_ascii=False)
 json_file.close()
+
+

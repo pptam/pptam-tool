@@ -20,15 +20,11 @@ SUT_HOSTNAME =
 # CPU limitation (CARTS_CPUS_LIMITS): parameter of docker compose, specific to socks shop, limits how many cpus the carts microservice can use.
 CARTS_CPUS_LIMITS = 
 # CPU reservation (CARTS_CPUS_RESERVATIONS): parameter of docker compose, specific to socks shop, defines how many cpus are reserved for the carts microservice.
-CARTS_CPUS_RESERVATIONS
-# RAM limitation (CARTS_RAM_LIMITS): parameter of docker compose, specific to socks shop, limits how much RAM the carts microservice can use.
-CARTS_RAM_LIMITS = 
+CARTS_CPUS_RESERVATIONS =
 # RAM limitation (CARTS_RAM_LIMITS): parameter of docker compose, specific to socks shop, limits how much RAM the carts microservice can use.
 CARTS_RAM_LIMITS = 
 # RAM reservation (CARTS_RAM_RESERVATIONS): parameter of docker compose, specific to socks shop, defines how much RAM is reserved for the carts microservice.
 CARTS_RAM_RESERVATIONS = 
-# RAM reservation (CARTS_RAM_RESERVATIONS): parameter of docker compose, specific to socks shop, defines how much RAM is reserved for the carts microservice.
-CARTS_RAM_RESERVATIONS
 # Number of replicas (CARTS_REPLICAS): parameter of docker compose, specific to socks shop, defines how much RAM is reserved for the carts microservice
 CARTS_REPLICAS = 
 

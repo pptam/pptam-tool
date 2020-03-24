@@ -1,0 +1,7 @@
+bench.shortname=Qd0pFMxNTzBnVYbNeDM6j7l3mp06erwF
+faban.home=../../faban
+faban.url=http://${FABAN_IP}:9980/
+deploy.user=admin
+deploy.password=adminadmin
+deploy.clearconfig=true
+compiler.source.version=1.7

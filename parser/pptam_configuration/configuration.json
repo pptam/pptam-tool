@@ -1,0 +1,1 @@
+{"PPTAM_Configuration": {"FABAN_IP": " 192.168.2.1", "JAVA_HOME_FABAN": "", "FABAN_OUTPUT_DIR": "", "SUT_IP": "", "SUT_PORT": "", "SUT_HOSTNAME": ""}, "Faban_Configuration": {"NUM_USERS": ""}, "Docker_Configuration": {"CARTS_CPUS_LIMITS": "", "CARTS_CPUS_RESERVATIONS": "", "CARTS_RAM_LIMITS": "", "CARTS_RAM_RESERVATIONS": "", "CARTS_REPLICAS": ""}}
