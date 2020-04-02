@@ -88,11 +88,11 @@ class BashScript():
 		dockerConfigurationData = systemConfigurationData.getDockerConfigurationData()
 		
   		# Configure the Faban driver - build.properties
-		self.replaceValueInFile("${FABAN_IP}", pptamConfigurationData.getFabanIP(), pathTmp+"/build.properties")
+		self.replaceValueInFileRelPath("${FABAN_IP}", pptamConfigurationData.getFabanIP(), pathTmp+"/build.properties")
 		# Configure the Test ID - build.properties
-		self.replaceValueInFile("${TEST_NAME}", testID, pathTmp+"/build.properties")
+		self.replaceValueInFileRelPath("${TEST_NAME}", testID, pathTmp+"/build.properties")
 		# Configure JAVA_HOME_FABAN - run.xml
-		self.replaceValueInFile("${JAVA_HOME_FABAN}", pptamConfigurationData.getJavaHomeFaban(), pathTmp+"/build.xml")
+		self.replaceValueInFileRelPath("${JAVA_HOME_FABAN}", pptamConfigurationData.getJavaHomeFaban(), pathTmp+"/build.xml")
 
 		# Remove bak files
 		self.removeFileRelativePath(pathTmp+"/build.properties.bak")
@@ -104,17 +104,17 @@ class BashScript():
 		# Configure TEST_ID - run.xml
 		#./drivers/tmp/deploy/run.xml
 		pathTmpDeployRun = pathTmp+"/deploy/run.xml"
-		self.replaceValueInFile("${TEST_NAME}", testID, pathTmpDeployRun)
+		self.replaceValueInFileRelPath("${TEST_NAME}", testID, pathTmpDeployRun)
 		# Configure FABAN_IP - run.xml
-		self.replaceValueInFile("${FABAN_IP}", pptamConfigurationData.getFabanIP(), pathTmpDeployRun)
+		self.replaceValueInFileRelPath("${FABAN_IP}", pptamConfigurationData.getFabanIP(), pathTmpDeployRun)
 		# Configure NUM_USERS - run.xml
-		self.replaceValueInFile("${NUM_USERS}", fabanConfigurationData.getNumberOfUsers(), pathTmpDeployRun)
+		self.replaceValueInFileRelPath("${NUM_USERS}", fabanConfigurationData.getNumberOfUsers(), pathTmpDeployRun)
 		# Configure FABAN_OUTPUT_DIR - run.xml
-		self.replaceValueInFile("${FABAN_OUTPUT_DIR}", pptamConfigurationData.getfabanOutputDir(), pathTmpDeployRun)
+		self.replaceValueInFileRelPath("${FABAN_OUTPUT_DIR}", pptamConfigurationData.getfabanOutputDir(), pathTmpDeployRun)
 		# Configure SUT_IP - run.xml
-		self.replaceValueInFile("${SUT_IP}", pptamConfigurationData.getSutIP(), pathTmpDeployRun)
+		self.replaceValueInFileRelPath("${SUT_IP}", pptamConfigurationData.getSutIP(), pathTmpDeployRun)
 		# Configure SUT_PORT - run.xml
-		self.replaceValueInFile("${SUT_PORT}", pptamConfigurationData.getSutPort(), pathTmpDeployRun)
+		self.replaceValueInFileRelPath("${SUT_PORT}", pptamConfigurationData.getSutPort(), pathTmpDeployRun)
 		# Config (just replace with the one generated for deploy)
 		pathTmpConfigRun = pathTmp+"/config/"
 		self.copyFileRel(pathTmpDeployRun, pathTmpConfigRun)
@@ -123,9 +123,10 @@ class BashScript():
 		# Remove bak file.
 		self.removeFileRelativePath(pathTmp+"/deploy/run.xml.bak")
 	    #rm ./drivers/tmp/deploy/run.xml.bak
-
-		# Configure SUT_PORT - run.xml
-		self.replaceValueInFile("${TEST_NAME}", testID, "WebDriver.java")
+		
+		# Configure testID - WebDriver.java
+		self.replaceValueInFileRelPath("${TEST_NAME}", testID, pathTmp+"/src/ecsa/driver/WebDriver.java")
+	
 		# Remove bak file
 		self.removeFileRelativePath(pathTmp+"/src/ecsa/driver/WebDriver.java.bak")
 		# rm ./drivers/tmp/src/ecsa/driver/WebDriver.java.bak
@@ -138,17 +139,17 @@ class BashScript():
 		
   		#cp -aR ./templates/deployment_descriptor/template/docker-compose.yml ./drivers/tmp/deploy
 		# Configure SUT_HOSTNAME - docker-compose.yml
-		self.replaceValueInFile("${SUT_HOSTNAME}", pptamConfigurationData.getSutHostname(), "docker-compose.yml")
+		self.replaceValueInFileRelPath("${SUT_HOSTNAME}", pptamConfigurationData.getSutHostname(), dockerFolderTarget+"/docker-compose.yml")
 		# Configure CARTS_REPLICAS - docker-compose.yml
-		self.replaceValueInFile("${CARTS_REPLICAS}", dockerConfigurationData.getNumOfReplicas(), "docker-compose.yml")
+		self.replaceValueInFileRelPath("${CARTS_REPLICAS}", dockerConfigurationData.getNumOfReplicas(), dockerFolderTarget+"/docker-compose.yml")
 		# Configure CARTS_CPUS_LIMITS - docker-compose.yml
-		self.replaceValueInFile("${CARTS_CPUS_LIMITS}", dockerConfigurationData.getCpuLimit(), "docker-compose.yml")
+		self.replaceValueInFileRelPath("${CARTS_CPUS_LIMITS}", dockerConfigurationData.getCpuLimit(), dockerFolderTarget+"/docker-compose.yml")
 		# Configure CARTS_CPUS_RESERVATIONS - docker-compose.yml
-		self.replaceValueInFile("${CARTS_CPUS_RESERVATIONS}", dockerConfigurationData.getCpuReservation(), "docker-compose.yml")
+		self.replaceValueInFileRelPath("${CARTS_CPUS_RESERVATIONS}", dockerConfigurationData.getCpuReservation(), dockerFolderTarget+"/docker-compose.yml")
 		# Configure CARTS_RAM_LIMITS - docker-compose.yml
-		self.replaceValueInFile("${CARTS_RAM_LIMITS}", dockerConfigurationData.getRamLimit(), "docker-compose.yml")
+		self.replaceValueInFileRelPath("${CARTS_RAM_LIMITS}", dockerConfigurationData.getRamLimit(), dockerFolderTarget+"/docker-compose.yml")
 		# Configure CARTS_RAM_RESERVATIONS - docker-compose.yml
-		self.replaceValueInFile("${CARTS_RAM_RESERVATIONS}", dockerConfigurationData.getRamReservation(), "docker-compose.yml")
+		self.replaceValueInFileRelPath("${CARTS_RAM_RESERVATIONS}", dockerConfigurationData.getRamReservation(), dockerFolderTarget+"/docker-compose.yml")
 		
 		self.removeFileRelativePath(dockerFolderTarget+"/docker-compose.yml.bak")
 		#rm ./drivers/tmp/deploy/docker-compose.yml.bak
@@ -167,6 +168,11 @@ class BashScript():
 
 		# Compile and package for deploy the faban driver
 		print("Compiling the Faban driver")
+		#os.system("cwd=$(pwd)")
+		terminalCmd = "cd ./drivers/"+testID
+		os.system(terminalCmd)
+		#os.system("ant deploy.jar")
+		#os.system("cd \"$cwd\"")
 		#cwd=$(pwd)
 		#cd ./drivers/$TEST_ID
 		#ant deploy.jar
@@ -242,7 +248,7 @@ class BashScript():
 		elif (os.path.isfile(pathToBuildProperties)):
 			readFromFile = ReadFromFile(pathToBuildProperties)
 		else:
-			print("No file at "+pathToBuildProperties+".")
+			print("replaceValueInFileWithTempFile:No file at "+pathToBuildProperties+".")
 			return
 
 		#print("Try to replace " + paramPlaceHolder + " with " + paramValue + ".")
@@ -276,13 +282,17 @@ class BashScript():
 			print(line)
 
 	# Read file, replace the value, overwrite the file.
-	def replaceValueInFile(self, paramPlaceHolder, paramValue, pathToFileOrigin):
+	def replaceValueInFileRelPath(self, paramPlaceHolder, paramValue, pathToFileOrigin):
 		readFromFile = None
+
+		currentPath = self.getCurrentPath()
+		pathToFileOriginAbs = os.path.join(currentPath, pathToFileOrigin)
 		
-		if (os.path.isfile(pathToFileOrigin)):
-			readFromFile = ReadFromFile(pathToFileOrigin)
+		if (os.path.isfile(pathToFileOriginAbs)):
+			readFromFile = ReadFromFile(pathToFileOriginAbs)
+			# print("replaceValueInFileRelPath "+pathToFileOriginAbs+".")
 		else:
-			print("No file at "+pathToFileOrigin+".")
+			print("replaceValueInFileRelPath: No file at "+pathToFileOriginAbs+" !!!")
 			return
 
 		#print("Try to replace " + paramPlaceHolder + " with " + paramValue + ".")
