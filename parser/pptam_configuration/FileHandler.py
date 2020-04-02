@@ -10,7 +10,8 @@ class FileHandler:
             raise TypeError("The file name must be a string.")
         self.fileName = name
         if os.path.exists(self.fileName):
-            print("The file with path:"+self.fileName+" already exists.")            
+            #print("The file with path:"+self.fileName+" already exists.")    
+            pass        
         else:
             try:
                 with open(self.fileName, 'w', encoding="utf-8") as f:

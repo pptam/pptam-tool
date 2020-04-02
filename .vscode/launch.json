@@ -10,6 +10,13 @@
       "request": "launch",
       "cwd": "${workspaceFolder}/parser/pptam_configuration",
       "program": "${workspaceFolder}/parser/pptam_configuration/userInputParser.py"
+    },
+    {
+      "name": "Launch ParseConfiguration.py",
+      "type": "python",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/parser/pptam_configuration",
+      "program": "${workspaceFolder}/parser/pptam_configuration/ParseConfiguration.py"
     }
   ]
 }

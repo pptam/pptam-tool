@@ -3,10 +3,14 @@ from BashScript import BashScript
 #sysConfPath = "configuration.json"
 sysConfPath = "configuration.txt"
 
+testExecutorOrigin = "../../test_executor"
+
+fabanDriverDestination = "./drivers"
+
 bashScript = BashScript()
 
 bashScript.readConfiguration(sysConfPath)
-bashScript.generateTests()
+bashScript.generateTests(testExecutorOrigin, fabanDriverDestination)
 
 def generate_tests(confFileName):
 	print("Load configuration from "+confFileName+".")

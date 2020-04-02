@@ -1,8 +1,11 @@
 import os
+import shutil
+from shutil import copyfile
 import subprocess
 import random
 import string
 import json 
+from distutils.dir_util import copy_tree
 
 from ParseConfiguration import ParseConfiguration
 from ReadFromFile import ReadFromFile
@@ -39,7 +42,14 @@ class BashScript():
 		print("configurationFilePath="+configurationFilePath)
 		print("configurationFilePath_JSON="+configurationFilePath_JSON)
 		print("Parsing system configuration --- COMPLETE.")
-	def generateTests(self):
+
+	# Copy necessary files to a test folder.
+	# Change place holder values in these files.	
+	def generateTests(self, testExecutorOrigin, fabanDriverDestination):
+
+		fabanTemplatesOrigin = testExecutorOrigin+"/templates"
+		fabanDriverEcsaOrigin = fabanTemplatesOrigin+"/faban/driver/ecsa"
+
 		systemConfigurationData = self.parseConfiguration.getSystemConfigurationData()
 
 		# Get a random test id.
@@ -49,57 +59,209 @@ class BashScript():
 		print("Generate a test with ID="+testID)
 
 		# Configure the template for this test in the tmp folder
-  		#rm -rf ./drivers/tmp/*
-  		#cp -aR ./templates/faban/driver/ecsa/* ./drivers/tmp/
+		# - Check if drivers/tmp exists. If not, create it.
+		pathTmp = self.getCurrentPath()
+		fabanDriverEcsaDestinationTmp = fabanDriverDestination+"/tmp"
+		try:
+			# For nested paths, create folder per folder.
+			for folderName in fabanDriverEcsaDestinationTmp.split("/"):
+				if not folderName:
+					continue
+				pathTmp = pathTmp+"/"+folderName
+				# Avoid creating folders if they already exist.
+				if os.path.isdir(pathTmp):
+					continue
+				os.mkdir(pathTmp)
+		except OSError:
+			print ("Creation of the directory %s failed" % pathTmp)
+		else:
+			print ("Successfully created the directory %s " % pathTmp)
+		
+		# Delete all files in the temp folder
+		self.deleteFilesFromFolder(pathTmp)
 
+		# Copy FABAN files
+		self.copyFromFolder2Folder(fabanDriverEcsaOrigin, fabanDriverEcsaDestinationTmp)
+		
 		pptamConfigurationData = systemConfigurationData.getPPTAMConfigurationData()
 		fabanConfigurationData = systemConfigurationData.getFabanConfigurationData()
+		dockerConfigurationData = systemConfigurationData.getDockerConfigurationData()
 		
-  		# Configure the Faban driver
-		self.replaceValueInFile("${FABAN_IP}", pptamConfigurationData.getFabanIP(), "build.properties")
-		# Configure the Test ID
-		self.replaceValueInFile("${TEST_NAME}", testID, "build.properties")
-  		#FABAN_IP=$(getProperty "faban.ip")
-  		#JAVA_HOME_FABAN=$(getProperty "java.home")
-  		#sed -i.bak 's/${FABAN_IP}/'$FABAN_IP'/' ./drivers/tmp/build.properties
-  		#sed -i.bak 's/${TEST_NAME}/'$TEST_ID'/' ./drivers/tmp/build.properties
-  		#sed -i.bak 's/${JAVA_HOME_FABAN}/'$JAVA_HOME_FABAN'/' ./drivers/tmp/build.xml
-  		#rm ./drivers/tmp/build.properties.bak
-  		#rm ./drivers/tmp/build.xml.bak
-#bench.shortname=${TEST_NAME}
-#faban.home=../../faban
-#faban.url=http://${FABAN_IP}:9980/
-#deploy.user=admin
-#deploy.password=adminadmin
-#deploy.clearconfig=true
-#compiler.source.version=1.7
+  		# Configure the Faban driver - build.properties
+		self.replaceValueInFile("${FABAN_IP}", pptamConfigurationData.getFabanIP(), pathTmp+"/build.properties")
+		# Configure the Test ID - build.properties
+		self.replaceValueInFile("${TEST_NAME}", testID, pathTmp+"/build.properties")
+		# Configure JAVA_HOME_FABAN - run.xml
+		self.replaceValueInFile("${JAVA_HOME_FABAN}", pptamConfigurationData.getJavaHomeFaban(), pathTmp+"/build.xml")
 
-#bench.shortname=oPCi9uI5YoQUIhX35yFF9rKSs0C7uI8n
-#faban.home=../../faban
-#faban.url=http://192.168.2.1:9980/
-#deploy.user=admin
-#deploy.password=adminadmin
-#deploy.clearconfig=true
-#compiler.source.version=1.7
-	def replaceValueInFile(self, paramPlaceHolder, paramValue, pathToBuildProperties):
-		readFromFile = ReadFromFile(pathToBuildProperties)
+		# Remove bak files
+		self.removeFileRelativePath(pathTmp+"/build.properties.bak")
+		self.removeFileRelativePath(pathTmp+"/build.xml.bak")
+		# rm ./drivers/tmp/build.properties.bak
+		# rm ./drivers/tmp/build.xml.bak
+		
+		# Deploy
+		# Configure TEST_ID - run.xml
+		#./drivers/tmp/deploy/run.xml
+		pathTmpDeployRun = pathTmp+"/deploy/run.xml"
+		self.replaceValueInFile("${TEST_NAME}", testID, pathTmpDeployRun)
+		# Configure FABAN_IP - run.xml
+		self.replaceValueInFile("${FABAN_IP}", pptamConfigurationData.getFabanIP(), pathTmpDeployRun)
+		# Configure NUM_USERS - run.xml
+		self.replaceValueInFile("${NUM_USERS}", fabanConfigurationData.getNumberOfUsers(), pathTmpDeployRun)
+		# Configure FABAN_OUTPUT_DIR - run.xml
+		self.replaceValueInFile("${FABAN_OUTPUT_DIR}", pptamConfigurationData.getfabanOutputDir(), pathTmpDeployRun)
+		# Configure SUT_IP - run.xml
+		self.replaceValueInFile("${SUT_IP}", pptamConfigurationData.getSutIP(), pathTmpDeployRun)
+		# Configure SUT_PORT - run.xml
+		self.replaceValueInFile("${SUT_PORT}", pptamConfigurationData.getSutPort(), pathTmpDeployRun)
+		# Config (just replace with the one generated for deploy)
+		pathTmpConfigRun = pathTmp+"/config/"
+		self.copyFileRel(pathTmpDeployRun, pathTmpConfigRun)
+  		#yes | cp -rf ./drivers/tmp/deploy/run.xml ./drivers/tmp/config/run.xml
 
-		print("Try to replace " + paramPlaceHolder + " with " + paramValue + ".")
+		# Remove bak file.
+		self.removeFileRelativePath(pathTmp+"/deploy/run.xml.bak")
+	    #rm ./drivers/tmp/deploy/run.xml.bak
+
+		# Configure SUT_PORT - run.xml
+		self.replaceValueInFile("${TEST_NAME}", testID, "WebDriver.java")
+		# Remove bak file
+		self.removeFileRelativePath(pathTmp+"/src/ecsa/driver/WebDriver.java.bak")
+		# rm ./drivers/tmp/src/ecsa/driver/WebDriver.java.bak
+		
+		# Configure the deployment descriptor
+		#print("fabanTemplatesOrigin = "+fabanTemplatesOrigin)
+		dockerFileOrigin = fabanTemplatesOrigin+"/deployment_descriptor/template/docker-compose.yml"
+		dockerFolderTarget = pathTmp+"/deploy"
+		self.copyFileRel(dockerFileOrigin, dockerFolderTarget)
+		
+  		#cp -aR ./templates/deployment_descriptor/template/docker-compose.yml ./drivers/tmp/deploy
+		# Configure SUT_HOSTNAME - docker-compose.yml
+		self.replaceValueInFile("${SUT_HOSTNAME}", pptamConfigurationData.getSutHostname(), "docker-compose.yml")
+		# Configure CARTS_REPLICAS - docker-compose.yml
+		self.replaceValueInFile("${CARTS_REPLICAS}", dockerConfigurationData.getNumOfReplicas(), "docker-compose.yml")
+		# Configure CARTS_CPUS_LIMITS - docker-compose.yml
+		self.replaceValueInFile("${CARTS_CPUS_LIMITS}", dockerConfigurationData.getCpuLimit(), "docker-compose.yml")
+		# Configure CARTS_CPUS_RESERVATIONS - docker-compose.yml
+		self.replaceValueInFile("${CARTS_CPUS_RESERVATIONS}", dockerConfigurationData.getCpuReservation(), "docker-compose.yml")
+		# Configure CARTS_RAM_LIMITS - docker-compose.yml
+		self.replaceValueInFile("${CARTS_RAM_LIMITS}", dockerConfigurationData.getRamLimit(), "docker-compose.yml")
+		# Configure CARTS_RAM_RESERVATIONS - docker-compose.yml
+		self.replaceValueInFile("${CARTS_RAM_RESERVATIONS}", dockerConfigurationData.getRamReservation(), "docker-compose.yml")
+		
+		self.removeFileRelativePath(dockerFolderTarget+"/docker-compose.yml.bak")
+		#rm ./drivers/tmp/deploy/docker-compose.yml.bak
+		
+		# create a folder for the new test and copy the tmp data
+		self.createFolderRelPath(fabanDriverDestination+"/"+testID)
+		# Move all files from tmp to a created folder that coresponds to a test.
+		# - First copy, then delete.
+		#self.moveFromFolder2Folder(fabanDriverEcsaDestinationTmp, fabanDriverDestination+"/"+testID)
+		self.copyFromFolder2Folder(fabanDriverEcsaDestinationTmp, fabanDriverDestination+"/"+testID)
+		self.deleteFilesFromFolder(fabanDriverEcsaDestinationTmp)
+			
+  		#mkdir -p ./drivers/$TEST_ID
+		#cp -aR ./drivers/tmp/* ./drivers/$TEST_ID
+		#rm -rf ./drivers/tmp/*
+
+		# Compile and package for deploy the faban driver
+		print("Compiling the Faban driver")
+		#cwd=$(pwd)
+		#cd ./drivers/$TEST_ID
+		#ant deploy.jar
+		#cd "$cwd"
+		
+		# create a folder for the test
+		self.createFolderRelPath(testExecutorOrigin+"/to_execute")
+		self.createFolderRelPath(testExecutorOrigin+"/to_execute/"+testID)
+		# mkdir -p ./to_execute/$TEST_ID
+		# copy the driver jarm run.xml and deployment descriptor
+		self.copyFileRel(fabanDriverDestination+"/"+testID+"/build/"+testID+".jar", testExecutorOrigin+"/to_execute/"+testID)
+		# cp ./drivers/$TEST_ID/build/$TEST_ID.jar ./to_execute/$TEST_ID
+		self.copyFileRel(fabanDriverDestination+"/"+testID+"/config/run.xml", testExecutorOrigin+"/to_execute/"+testID)
+		# cp ./drivers/$TEST_ID/config/run.xml ./to_execute/$TEST_ID
+		self.copyFileRel(fabanDriverDestination+"/"+testID+"/deploy/docker-compose.yml", testExecutorOrigin+"/to_execute/"+testID)
+		# cp ./drivers/$TEST_ID/deploy/docker-compose.yml ./to_execute/$TEST_ID
+
+	# Create folder with relative path.
+	def createFolderRelPath(self, path):
+		try:
+			# Create target Directory
+			os.mkdir(path)
+			print("Directory " , path ,  " Created ")
+		except FileExistsError:
+			print("Directory " , path ,  " already exists")
+
+	# Copy all files and folders from a folder to a folder.
+	def copyFromFolder2Folder(self, folderOriginRelPath, folderTargetRelPath):
+		currentPath = self.getCurrentPath()
+		folderOriginAbsPath = os.path.join(currentPath, folderOriginRelPath)
+		folderTargetAbsPath = os.path.join(currentPath, folderTargetRelPath)
+		if not os.path.isdir(folderOriginAbsPath):
+			print(folderOriginAbsPath+" -- no such path!")
+			return
+		if not os.path.isdir(folderTargetAbsPath):
+			print(folderTargetAbsPath+" -- no such path!")
+			return
+		# Copy all from origin to destination.
+		try:
+			copy_tree(folderOriginAbsPath, folderTargetAbsPath)
+		except:
+			print("Copy failed.")
+	
+	# Move all files and folders from a folder to a folder.
+	def moveFromFolder2Folder(self, folderOriginRelPath, folderTargetRelPath):
+		currentPath = self.getCurrentPath()
+		folderOriginAbsPath = os.path.join(currentPath, folderOriginRelPath)
+		folderTargetAbsPath = os.path.join(currentPath, folderTargetRelPath)
+
+		filesToMove = os.listdir(folderOriginRelPath)
+		
+		for f in filesToMove:
+			shutil.move(folderOriginAbsPath+f, folderTargetRelPath)
+
+	def removeFileRelativePath(self, pathRel):
+		currentPath = self.getCurrentPath()
+		pathAbs = os.path.join(currentPath, pathRel)
+		if not os.path.isfile(pathAbs):
+			#print("File " + pathAbs + " does not exist.")
+			return
+		else:
+			try:
+				os.remove("ChangedFile.csv")
+			except:
+				print("Cannot delete file " + pathAbs + " does not exist.")
+
+	# Create temp file, instead of replacing the existing file.
+	def replaceValueInFileWithTempFile(self, paramPlaceHolder, paramValue, pathToBuildProperties):
+		readFromFile = None
+		
+		if (os.path.isfile(pathToBuildProperties+".tmp")):
+			readFromFile = ReadFromFile(pathToBuildProperties+".tmp")
+		elif (os.path.isfile(pathToBuildProperties)):
+			readFromFile = ReadFromFile(pathToBuildProperties)
+		else:
+			print("No file at "+pathToBuildProperties+".")
+			return
+
+		#print("Try to replace " + paramPlaceHolder + " with " + paramValue + ".")
 
 		newFileDictionary = []
 
 		# Rewrite the file
+		# Attention: there could be several instances to replace. Replace them all.
 		for line in readFromFile.readLines():
 			if (paramPlaceHolder in line):
 				line = line.replace(paramPlaceHolder,paramValue)
-				print("	Replace " + paramPlaceHolder + " with " + paramValue + ".")
-				print("	Result: " + line + ".")
+				#print("	Replace " + paramPlaceHolder + " with " + paramValue + ".")
+				#print("	Result: " + line + ".")
 			#else:
 				#print("Line "+line+" does not contain "+paramPlaceHolder+".")
 
 			newFileDictionary.append(line)
 
-		pathToBuildPropertiesTmp = "build.properties.tmp"
+		pathToBuildPropertiesTmp = pathToBuildProperties+".tmp"
 		writeToFile = WriteToFile(pathToBuildPropertiesTmp)
 		writeToFile.overwriteTheExistingFile()
 
@@ -112,11 +274,87 @@ class BashScript():
 		readFromFileTmp = ReadFromFile(pathToBuildPropertiesTmp)
 		for line in readFromFile.readLines():
 			print(line)
-					
+
+	# Read file, replace the value, overwrite the file.
+	def replaceValueInFile(self, paramPlaceHolder, paramValue, pathToFileOrigin):
+		readFromFile = None
+		
+		if (os.path.isfile(pathToFileOrigin)):
+			readFromFile = ReadFromFile(pathToFileOrigin)
+		else:
+			print("No file at "+pathToFileOrigin+".")
+			return
+
+		#print("Try to replace " + paramPlaceHolder + " with " + paramValue + ".")
+
+		newFileDictionary = []
+
+		# Rewrite the file
+		# Attention: there could be several instances to replace. Replace them all.
+		for line in readFromFile.readLines():
+			if (paramPlaceHolder in line):
+				line = line.replace(paramPlaceHolder,paramValue)
+				#print("	Replace " + paramPlaceHolder + " with " + paramValue + ".")
+				#print("	Result: " + line + ".")
+			#else:
+				#print("Line "+line+" does not contain "+paramPlaceHolder+".")
+
+			newFileDictionary.append(line)
+
+		writeToFile = WriteToFile(pathToFileOrigin)
+		writeToFile.overwriteTheExistingFile()
+
+		for line in newFileDictionary:
+			writeToFile.writeLine(line)
+
+		#for line in readFromFile.readLines():
+			#print(line)
+
+		#readFromFileTmp = ReadFromFile(pathToBuildPropertiesTmp)
+		#for line in readFromFile.readLines():
+			#print(line)
+
+
+	def copyFileRel(self, fileOriginRelPath, fileTargetRelPath):
+		currentPath = self.getCurrentPath()
+		fileOriginAbsPath = os.path.join(currentPath, fileOriginRelPath)
+		fileTargetAbsPath = os.path.join(currentPath, fileTargetRelPath)
+
+		#print("Copy from "+fileOriginAbsPath+" -> " +fileTargetAbsPath)
+		if not os.path.isfile(fileOriginAbsPath):
+			print(fileOriginAbsPath+" -- no such file!")
+			return
+		if not os.path.isdir(fileTargetAbsPath):
+			print(fileTargetAbsPath+" -- no such target dir!")
+			return
+		# Copy all from origin to destination.
+		try:
+			shutil.copy2(fileOriginAbsPath, fileTargetAbsPath)
+		except:
+			print("Copy failed.")
+
 	def randomString(self, stringLength):
     	# Generate a random string of fixed length.
 		letters = string.ascii_lowercase + string.ascii_uppercase + string.digits
 		return ''.join(random.choice(letters) for i in range(stringLength))
+	
+	# Get current path.
+	def getCurrentPath(self):
+		return os.path.dirname(os.path.abspath(__file__))
+
+	# Delete all files from folder.
+	def deleteFilesFromFolder(self, folderPath):
+		for filename in os.listdir(folderPath):
+			file_path = os.path.join(folderPath, filename)
+			try:
+				if os.path.isfile(file_path) or os.path.islink(file_path):
+					os.unlink(file_path)
+				elif os.path.isdir(file_path):
+					shutil.rmtree(file_path)
+			except Exception as e:
+				print('Failed to delete %s. Reason: %s' % (file_path, e))
+				return
+		print("Folder "+folderPath+" cleansed!")
 
 def generate_test(NUM_USERS, CARTS_REPLICAS, CARTS_CPUS_LIMITS, CARTS_CPUS_RESERVATIONS, CARTS_RAM_LIMITS, CARTS_RAM_RESERVATIONS):
 	# head -n 1 - shows the first line of a text file.

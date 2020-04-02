@@ -27,18 +27,18 @@ class ParseConfiguration():
         FABAN_IP = JAVA_HOME_FABAN = FABAN_OUTPUT_DIR = SUT_IP = SUT_PORT = SUT_HOSTNAME = None
         CARTS_CPUS_LIMITS = CARTS_CPUS_RESERVATIONS = CARTS_RAM_LIMITS = CARTS_RAM_RESERVATIONS = CARTS_REPLICAS = None
         NUM_USERS = None
-        print(readFromFile.readLines())
+        #print(readFromFile.readLines())
         for line in readFromFile.readLines():
-            print("Loop")
+            #print("Loop")
             # Avoid comments and empty spaces.
             if line.startswith("#") or len(line)==0:
                 continue
-            print(line)
+            #print(line)
             # PPTAM configuration
             if line.startswith("FABAN_IP"):
                 FABAN_IP = line.split("=")
                 self.configurationJSON["PPTAM_Configuration"]["FABAN_IP"]=FABAN_IP[1]
-                print("Add FABAN IP to the configuration.")
+                #print("Add FABAN IP to the configuration.")
             elif line.startswith("JAVA_HOME_FABAN"):
                 JAVA_HOME_FABAN = line.split("=")
                 self.configurationJSON["PPTAM_Configuration"]["JAVA_HOME_FABAN"]=JAVA_HOME_FABAN[1]
@@ -74,7 +74,7 @@ class ParseConfiguration():
             elif line.startswith("NUM_USERS"):
                 CARTS_REPLICAS = line.split("=")
                 self.configurationJSON["Faban_Configuration"]["NUM_USERS"]=CARTS_REPLICAS[1]
-            print("New step")
+            #print("New step")
         #return configurationJSON
     
     # Reads JSON configuration file into configurationJSON - JSON dictionary.
