@@ -36,7 +36,7 @@ After such a call, a new test case folder is present in the ~/test_executor/to_e
 
 1. Make sure Faban runs executing:
    - cd ~/test_executor/faban/master/bin/
-   - ./startup.sh (now http://localhost:9980/ should be reachable)
+   - sudo ./startup.sh (now http://localhost:9980/ should be reachable)
 2. Run tests executing:
    - cd ~/test_executor
    - Either on the console:
@@ -48,6 +48,15 @@ After such a call, a new test case folder is present in the ~/test_executor/to_e
 You find the results in the "results" folder, in a folder named with the test id. Faban results are also available in the Faban Web Interface, usually reachable on the port 9980 of the load driver machine. 
 
 To add Mirai as an additional load to the tested micro services, see [here](Mirai.md).
+
+## Use another webdriver
+
+To modify webdriver, modify the source file at the following location: ~/test_executor/faban/driver/ecsa/src/ecsa/driver/WebDriver.java
+
+## Modify the duration of the experiment
+
+To modify the duration of the experiment, modify the property file at the following location:
+~/test_executor/templates/faban/driver/ecsa/deploy/run.xml; modify the steadystate for the experiment duration.
 
 ## Pitfalls
 - benchflow.sh gives "^M: bad interpreter: No such file or directory" when executed. Please see https://stackoverflow.com/questions/17131249/how-to-solve-bad-interpreter-no-such-file-or-directory/17131267
