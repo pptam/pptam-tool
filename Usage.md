@@ -60,6 +60,7 @@ To modify the duration of the experiment, modify the property file at the follow
 
 ## Pitfalls
 - benchflow.sh gives "^M: bad interpreter: No such file or directory" when executed. Please see https://stackoverflow.com/questions/17131249/how-to-solve-bad-interpreter-no-such-file-or-directory/17131267
+- Recover from an interrupted test: find out the test id and run `docker stack rm <test_id>` to clean up everything. Retry.
 
 ## Extract data
 
