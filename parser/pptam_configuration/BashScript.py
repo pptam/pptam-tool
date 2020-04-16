@@ -171,7 +171,7 @@ class BashScript():
 		#os.system("cwd=$(pwd)")
 		terminalCmd = "cd ./drivers/"+testID
 		os.system(terminalCmd)
-		#os.system("ant deploy.jar")
+		os.system("ant deploy.jar")
 		#os.system("cd \"$cwd\"")
 		#cwd=$(pwd)
 		#cd ./drivers/$TEST_ID
@@ -189,8 +189,53 @@ class BashScript():
 		# cp ./drivers/$TEST_ID/config/run.xml ./to_execute/$TEST_ID
 		self.copyFileRel(fabanDriverDestination+"/"+testID+"/deploy/docker-compose.yml", testExecutorOrigin+"/to_execute/"+testID)
 		# cp ./drivers/$TEST_ID/deploy/docker-compose.yml ./to_execute/$TEST_ID
+	
+	def executeTests():
+		systemConfigurationData = self.parseConfiguration.getSystemConfigurationData()
+		pptamConfigurationData = systemConfigurationData.getPPTAMConfigurationData()
+		fabanConfigurationData = systemConfigurationData.getFabanConfigurationData()
+		dockerConfigurationData = systemConfigurationData.getDockerConfigurationData()
 
-	# Create folder with relative path.
+		FABAN_IP = pptamConfigurationData.getFabanIP()
+		#FABAN_IP=$(getProperty "faban.ip")
+		FABAN_MASTER = "http://"+pptamConfigurationData.getFabanIP()+":"+pptamConfigurationData.getSutPort()+"/"
+		#FABAN_MASTER="http://$FABAN_IP:9980/";
+		# TODO: should we configure FABAN_CLIENT externally?
+		FABAN_CLIENT="./faban/benchflow-faban-client/target/benchflow-faban-client.jar"
+		SUT_IP=pptamConfigurationData.getSutIP()
+  		#SUT_IP=$(getProperty "sut.ip")
+    	#STAT_COLLECTOR_PORT=$(getProperty "stat.collector.port")
+    	
+    	# Get all test folders - test IDs.
+    	for f in os.scandir(folder):
+    	 	if f.is_dir():
+    	 		print("Starting test: $TEST_ID")
+    	 		print("Deploying the system under test")
+    	 		testID = f
+    	 		terminalCmd = "cd ./to_execute/"+testID 
+    	 		os.system(terminalCmd)
+    	 		
+    	 		terminalCmd = "docker stack deploy --compose-file=docker-compose.yml "+testID 
+    	 		os.system(terminalCmd)
+    	 		
+    	 		print("Waiting for the system to be ready")
+    	 		terminalCmd = "sleep 120"
+    	 		os.system(terminalCmd)
+    	 		
+    	 		terminalCmd = "export "+testID 
+    	 		os.system(terminalCmd)
+    	 		
+    	 		test_name=testID
+    	 		driver="to_execute/"+testID+"/"+testID+".jar"
+            	driver_conf="to_execute/"+testID+"/run.xml"
+             	deployment_descriptor="to_execute/"+testID+"/docker-compose.yml"
+             	
+             	print("Deploying the load driver")
+             	# Deploy and start the test
+             	terminalCmd = "java -jar "+FABAN_CLIENT+" "+FABAN_MASTER+" deploy "+test_name+" "+driver+" "+driver_conf+" | (read RUN_ID ; echo $RUN_ID > RUN_ID.txt)"
+             	os.system(terminalCmd)
+    
+    # Create folder with relative path.
 	def createFolderRelPath(self, path):
 		try:
 			# Create target Directory

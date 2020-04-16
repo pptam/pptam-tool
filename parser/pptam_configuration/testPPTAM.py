@@ -11,6 +11,7 @@ bashScript = BashScript()
 
 bashScript.readConfiguration(sysConfPath)
 bashScript.generateTests(testExecutorOrigin, fabanDriverDestination)
+bashScript.executeTests()
 
 def generate_tests(confFileName):
 	print("Load configuration from "+confFileName+".")
