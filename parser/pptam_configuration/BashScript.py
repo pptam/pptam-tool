@@ -1,12 +1,15 @@
 import os
 import shutil
-from shutil import copyfile
 import subprocess
 import random
 import string
 import json 
+import time
+
+from shutil import copyfile
 from distutils.dir_util import copy_tree
 
+# Import classes.
 from ParseConfiguration import ParseConfiguration
 from ReadFromFile import ReadFromFile
 from WriteToFile import WriteToFile
@@ -190,7 +193,7 @@ class BashScript():
 		self.copyFileRel(fabanDriverDestination+"/"+testID+"/deploy/docker-compose.yml", testExecutorOrigin+"/to_execute/"+testID)
 		# cp ./drivers/$TEST_ID/deploy/docker-compose.yml ./to_execute/$TEST_ID
 	
-	def executeTests():
+	def executeTests(self, rootDirectory):
 		systemConfigurationData = self.parseConfiguration.getSystemConfigurationData()
 		pptamConfigurationData = systemConfigurationData.getPPTAMConfigurationData()
 		fabanConfigurationData = systemConfigurationData.getFabanConfigurationData()
@@ -203,39 +206,130 @@ class BashScript():
 		# TODO: should we configure FABAN_CLIENT externally?
 		FABAN_CLIENT="./faban/benchflow-faban-client/target/benchflow-faban-client.jar"
 		SUT_IP=pptamConfigurationData.getSutIP()
-  		#SUT_IP=$(getProperty "sut.ip")
-    	#STAT_COLLECTOR_PORT=$(getProperty "stat.collector.port")
-    	
-    	# Get all test folders - test IDs.
-    	for f in os.scandir(folder):
-    	 	if f.is_dir():
-    	 		print("Starting test: $TEST_ID")
-    	 		print("Deploying the system under test")
-    	 		testID = f
-    	 		terminalCmd = "cd ./to_execute/"+testID 
-    	 		os.system(terminalCmd)
-    	 		
-    	 		terminalCmd = "docker stack deploy --compose-file=docker-compose.yml "+testID 
-    	 		os.system(terminalCmd)
-    	 		
-    	 		print("Waiting for the system to be ready")
-    	 		terminalCmd = "sleep 120"
-    	 		os.system(terminalCmd)
-    	 		
-    	 		terminalCmd = "export "+testID 
-    	 		os.system(terminalCmd)
-    	 		
-    	 		test_name=testID
-    	 		driver="to_execute/"+testID+"/"+testID+".jar"
-            	driver_conf="to_execute/"+testID+"/run.xml"
-             	deployment_descriptor="to_execute/"+testID+"/docker-compose.yml"
-             	
-             	print("Deploying the load driver")
-             	# Deploy and start the test
-             	terminalCmd = "java -jar "+FABAN_CLIENT+" "+FABAN_MASTER+" deploy "+test_name+" "+driver+" "+driver_conf+" | (read RUN_ID ; echo $RUN_ID > RUN_ID.txt)"
-             	os.system(terminalCmd)
-    
-    # Create folder with relative path.
+		#SUT_IP=$(getProperty "sut.ip")
+		#STAT_COLLECTOR_PORT=$(getProperty "stat.collector.port")
+		# Get all test folders - test IDs.
+		testFolder = rootDirectory+"/test_executor/to_execute/"
+		print("Execute tests from "+testFolder)
+		for f in os.scandir(testFolder):
+			if f.is_dir():
+				testID = f
+				print("Starting test: "+testID)
+				print("Deploying the system under test")
+				
+				terminalCmd = "cd ./to_execute/"+testID 
+				os.system(terminalCmd)
+				terminalCmd = "docker stack deploy --compose-file=docker-compose.yml "+testID 
+				os.system(terminalCmd)
+				
+				print("Waiting for the system to be ready")
+				time.sleep(120)
+				#terminalCmd = "sleep 120"
+				#os.system(terminalCmd)
+				
+				terminalCmd = "export "+testID 
+				os.system(terminalCmd)
+				
+				test_name=testID
+				driver="to_execute/"+testID+"/"+testID+".jar"
+				driver_conf="to_execute/"+testID+"/run.xml"
+				deployment_descriptor="to_execute/"+testID+"/docker-compose.yml"
+				
+				print("Deploying the load driver")
+				# Deploy and start the test
+				RUN_ID_FILE = "RUN_ID.txt"
+				terminalCmd = "java -jar "+FABAN_CLIENT+" "+FABAN_MASTER+" deploy "+test_name+" "+driver+" "+driver_conf+" | (read RUN_ID ; echo $RUN_ID > "+RUN_ID_FILE+")"
+				os.system(terminalCmd)
+				
+				RUN_ID = ""
+				readFromFile = ReadFromFile(RUN_ID_FILE)
+				for line in readFromFile.readLines():
+					RUN_ID = readFromFile.readLines()
+				
+				# Cleanup
+				removeFileRelativePath(RUN_ID_FILE)
+				
+				print("Run ID: "+RUN_ID)
+				
+				
+				# Wait for the test to be done.
+				STATUS=""
+				
+				while ( (STATUS != "COMPLETED") and (STATUS != "COMPLETED")):
+					STATUS_FILE = "STATUS.txt"
+					
+					terminalCmd = "java -jar ./faban/benchflow-faban-client/target/benchflow-faban-client.jar"++" status $RUN_ID | (read STATUS ; echo $STATUS > "+STATUS_FILE+")"
+					
+					readFromFile = ReadFromFile(STATUS_FILE)
+					for line in readFromFile.readLines():
+						STATUS = readFromFile.readLines()
+					
+					print("Current STATUS: "+STATUS)
+					
+					# Only used for testing with Mirai
+					# TODO: Not sure how these should work.
+					#if (STATUS != "STARTED"):
+						#duration=$SECONDS
+						#echo "$(($duration / 60)) minutes and $(($duration % 60)) seconds elapsed."
+						#if [ $MIRAI_STARTED -eq 0 ]
+						#if [ $SECONDS -gt 180 ]
+						#MIRAI_STARTED=1
+						#pass
+						
+					# cleanup
+					os.remove(STATUS_FILE)
+					
+					time.sleep(120)
+				
+				# Stop the resource data collection and store the data
+				#echo "Data collection: "
+				#curl http://$SUT_IP:$STAT_COLLECTOR_PORT/stop
+				#echo ""
+				
+				print("Undeploying the system under test")
+				# undeploy the system under test
+				
+				terminalCmd = "cd "+rootDirectory+"/"+testID 
+				os.system(terminalCmd)
+				#cd ./to_execute/$TEST_ID/
+				
+				terminalCmd = "docker stack rm"+testID 
+				os.system(terminalCmd)
+				
+				# be sure everything is clean
+				terminalCmd = "docker stack rm $(docker stack ls --format \"{{.Name}}\") || true" 
+				os.system(terminalCmd)
+				terminalCmd = "docker rm -f -v $(docker ps -a -q) || true" 
+				os.system(terminalCmd)
+				
+				# saving test results
+				print("Saving test results")
+				
+				os.mkdir(rootDirectory+"/test_executor/executed/"+testID)
+				os.mkdir(rootDirectory+"/test_executor/executed/"+testID+"/faban")
+				
+				terminalCmd = "java -jar ./faban/benchflow-faban-client/target/benchflow-faban-client.jar "+FABAN_MASTER+" info "+RUN_ID+" > executed/"+testID+"/faban/runInfo.txt" 
+				os.system(terminalCmd)
+				
+				fileOriginRelPath = "./faban/output/"+RUN_ID+"/summary.xml"
+				fileTargetRelPath = "./executed/"+testID+"/faban/"
+				copyFileRel(fileOriginRelPath, fileTargetRelPath)
+				
+				fileOriginRelPath = "./faban/output/"+RUN_ID+"/summary.xml"
+				fileTargetRelPath = "./executed/"+testID+"/faban/"
+				copyFileRel(fileOriginRelPath, fileTargetRelPath)
+				
+				fileOriginRelPath = "./faban/output/"+RUN_ID+"/log.xml"
+				fileTargetRelPath = "./executed/"+testID+"/faban/"
+				copyFileRel(fileOriginRelPath, fileTargetRelPath)
+				#mkdir -p ./executed/$TEST_ID/stats
+				# curl http://$SUT_IP:$STAT_COLLECTOR_PORT/data > executed/$TEST_ID/stats/cpu.txt
+				#cp ./services/stats/cpu.txt ./executed/$TEST_ID/stats/cpu.txt
+				folderOriginRelPath = "./to_execute/"+testID+"/"
+				folderTargetRelPath = "./executed/"+testID+"/definition"
+				moveFromFolder2Folder(folderOriginRelPath, folderTargetRelPath)
+				
+	# Create folder with relative path.
 	def createFolderRelPath(self, path):
 		try:
 			# Create target Directory
@@ -424,18 +518,3 @@ def generate_test(NUM_USERS, CARTS_REPLICAS, CARTS_CPUS_LIMITS, CARTS_CPUS_RESER
 	print(myCmd+", length "+str(len(myCmd))+".")
 	#myCmd = os.popen('ls -la').read()
 	#print(myCmd)
-
-
-
-
-NUM_USERS=50
-CARTS_REPLICAS=1
-CARTS_CPUS_LIMITS=0.25
-CARTS_CPUS_RESERVATIONS=0.25
-CARTS_RAM_LIMITS="500M"
-CARTS_RAM_RESERVATIONS="500M"
-
-#generate_test(NUM_USERS, CARTS_REPLICAS, CARTS_CPUS_LIMITS, CARTS_CPUS_RESERVATIONS, CARTS_RAM_LIMITS, CARTS_RAM_RESERVATIONS)
-
-#TEST_ID = randomString(32)
-#print(TEST_ID+", length "+str(len(TEST_ID))+".")

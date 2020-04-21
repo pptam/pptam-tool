@@ -72,8 +72,8 @@ class ParseConfiguration():
                 self.configurationJSON["Docker_Configuration"]["CARTS_REPLICAS"]=CARTS_REPLICAS[1]
             # Docker configuration
             elif line.startswith("NUM_USERS"):
-                CARTS_REPLICAS = line.split("=")
-                self.configurationJSON["Faban_Configuration"]["NUM_USERS"]=CARTS_REPLICAS[1]
+                NUM_USERS = line.split("=")
+                self.configurationJSON["Faban_Configuration"]["NUM_USERS"]=NUM_USERS[1]
             #print("New step")
         #return configurationJSON
     

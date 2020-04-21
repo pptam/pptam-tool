@@ -18,18 +18,18 @@ SUT_HOSTNAME =
 # Docker configuration
 ###############################################################################
 # CPU limitation (CARTS_CPUS_LIMITS): parameter of docker compose, specific to socks shop, limits how many cpus the carts microservice can use.
-CARTS_CPUS_LIMITS = 
+CARTS_CPUS_LIMITS = 0.25
 # CPU reservation (CARTS_CPUS_RESERVATIONS): parameter of docker compose, specific to socks shop, defines how many cpus are reserved for the carts microservice.
-CARTS_CPUS_RESERVATIONS =
+CARTS_CPUS_RESERVATIONS = 0.25
 # RAM limitation (CARTS_RAM_LIMITS): parameter of docker compose, specific to socks shop, limits how much RAM the carts microservice can use.
-CARTS_RAM_LIMITS = 
+CARTS_RAM_LIMITS = "500M"
 # RAM reservation (CARTS_RAM_RESERVATIONS): parameter of docker compose, specific to socks shop, defines how much RAM is reserved for the carts microservice.
-CARTS_RAM_RESERVATIONS = 
+CARTS_RAM_RESERVATIONS = "500M"
 # Number of replicas (CARTS_REPLICAS): parameter of docker compose, specific to socks shop, defines how much RAM is reserved for the carts microservice
-CARTS_REPLICAS = 
+CARTS_REPLICAS = 1
 
 ###############################################################################
 # Faban configuration
 ###############################################################################
 # Number of users (NUM_USERS): Number of users generated to simulate the test.
-NUM_USERS = 
+NUM_USERS = 50

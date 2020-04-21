@@ -1,3 +1,5 @@
+import os
+
 from BashScript import BashScript
 
 #sysConfPath = "configuration.json"
@@ -7,14 +9,14 @@ testExecutorOrigin = "../../test_executor"
 
 fabanDriverDestination = "./drivers"
 
+os.chdir("..")
+os.chdir("..")
+
+rootDirectory = os.path.abspath(os.curdir)
+
 bashScript = BashScript()
 
+print("Load configuration from "+sysConfPath+".")
 bashScript.readConfiguration(sysConfPath)
 bashScript.generateTests(testExecutorOrigin, fabanDriverDestination)
-bashScript.executeTests()
-
-def generate_tests(confFileName):
-	print("Load configuration from "+confFileName+".")
-	bashScript.readConfiguration(confFileName)
-	bashScript.generateTests()
-	
+bashScript.executeTests(rootDirectory)
