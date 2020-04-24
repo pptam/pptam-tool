@@ -9,8 +9,8 @@ testExecutorOrigin = "../../test_executor"
 
 fabanDriverDestination = "./drivers"
 
-os.chdir("..")
-os.chdir("..")
+#os.chdir("..")
+#os.chdir("..")
 
 rootDirectory = os.path.abspath(os.curdir)
 
