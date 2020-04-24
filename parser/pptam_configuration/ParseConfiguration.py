@@ -19,6 +19,7 @@ class ParseConfiguration():
     def parseConfigFile(self, fileName):
         FileHandler(fileName)
         readFromFile = ReadFromFile(fileName)
+        print("ParseConfiguration::parseConfigFile::opened = "+fileName);
         # Dictionary.
         self.configurationJSON={}
         self.configurationJSON["PPTAM_Configuration"]={}
@@ -27,9 +28,10 @@ class ParseConfiguration():
         FABAN_IP = JAVA_HOME_FABAN = FABAN_OUTPUT_DIR = SUT_IP = SUT_PORT = SUT_HOSTNAME = None
         CARTS_CPUS_LIMITS = CARTS_CPUS_RESERVATIONS = CARTS_RAM_LIMITS = CARTS_RAM_RESERVATIONS = CARTS_REPLICAS = None
         NUM_USERS = None
-        #print(readFromFile.readLines())
+        print(readFromFile.readLines())
+        print("ParseConfiguration::parseConfigFile::configurtion::to JSON file");
         for line in readFromFile.readLines():
-            #print("Loop")
+            print("Loop")
             # Avoid comments and empty spaces.
             if line.startswith("#") or len(line)==0:
                 continue
@@ -38,7 +40,7 @@ class ParseConfiguration():
             if line.startswith("FABAN_IP"):
                 FABAN_IP = line.split("=")
                 self.configurationJSON["PPTAM_Configuration"]["FABAN_IP"]=FABAN_IP[1]
-                #print("Add FABAN IP to the configuration.")
+                print("Add FABAN IP="+FABAN_IP[1]+" to the configuration.")
             elif line.startswith("JAVA_HOME_FABAN"):
                 JAVA_HOME_FABAN = line.split("=")
                 self.configurationJSON["PPTAM_Configuration"]["JAVA_HOME_FABAN"]=JAVA_HOME_FABAN[1]

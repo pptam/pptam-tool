@@ -10,13 +10,17 @@ class ReadFromFile(FileHandler):
 
     def readLines(self): 
         # Open file.
+        print("Try to open "+self.fileName)
+        f = open(self.fileName, "r")
+        print(f.readline())
         try:
-            with open(self.fileName) as f:
+            with open(self.fileName, "r") as f:
                 content = f.readlines()
+                print("Content")
                 # Remove whitespace characters like `\n` at the end of each line.
                 content = [x.strip() for x in content] 
                 f.close()
                 return content
         except:
-            print("Cannot write to file "+self.fileName+"-")
+            print("Cannot read from file "+self.fileName+"-")
             return -1

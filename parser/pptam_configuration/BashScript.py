@@ -26,6 +26,7 @@ class BashScript():
 
 		# If the input is configuration.txt, parse it and create a json fine..
 		if(configurationFilePath.endswith('txt')):
+			print("readConfiguration::Convert text file to a JSON.")
 			#dictionaryConf = parseConfiguration.getJSON_Dictionary() 
 			self.parseConfiguration.parseConfigFile(configurationFilePath) 
 			# Create a path to a text file, but .json extension.
@@ -39,7 +40,7 @@ class BashScript():
 			json.dump(self.parseConfiguration.getJSON_Dictionary(), json_file, ensure_ascii=False)
 			json_file.close()
 
-		print(configurationFilePath_JSON)
+		print("configurationFilePath_JSON = "+configurationFilePath_JSON)
 		self.parseConfiguration.parseJSONConfigFile(configurationFilePath_JSON)
 
 		print("configurationFilePath="+configurationFilePath)
