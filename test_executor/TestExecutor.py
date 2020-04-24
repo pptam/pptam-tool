@@ -28,7 +28,8 @@ class TestExecutor:
         
         # Check the folder for the future executed tests.
         # Make it clean.
-        executedTests = testExecutorDestination+"/to_execute/executed"
+        executedFolderName = "executed"
+        executedTests = testExecutorDestination+"/to_execute/"+executedFolderName
         print("Store executed tests in: "+executedTests)
         if path.isdir(executedTests):
             print("Clean folder "+executedTests)
@@ -54,6 +55,10 @@ class TestExecutor:
         testFolder = testExecutorDestination+"/to_execute"
         print("Execute tests from "+testFolder)
         for f in os.scandir(testFolder):
+            # Avoid folder "executed". Focus on other folders that contain actual tests.
+            if f.is_dir():
+                if f.name == executedFolderName:
+                    continue
             # Execute commands before a test.
             for preExec in pptamConfigurationData.getPreExecExternalCommands():
                 print("")
@@ -124,6 +129,7 @@ class TestExecutor:
                     for line in readFromFile.readLines():
                         STATUS = readFromFile.readLines()
                     
+                    # TODO: Comment out
                     #STATUS = "COMPLETED"
                     print("Current STATUS: "+STATUS)
                     
@@ -180,24 +186,32 @@ class TestExecutor:
                 os.mkdir(executedTests+"/"+testID)
                 os.mkdir(executedTests+"/"+testID+"/faban")
                 
-                terminalCmd = "java -jar "+testExecutorDestination+"/faban/benchflow-faban-client/target/benchflow-faban-client.jar "+FABAN_MASTER+" info "+RUN_ID+" > executed/"+testID+"/faban/runInfo.txt" 
+                terminalCmd = "java -jar "+testExecutorDestination+"/faban/benchflow-faban-client/target/benchflow-faban-client.jar "+FABAN_MASTER+" info "+RUN_ID+" > "+executedTests+"/"+testID+"/faban/runInfo.txt" 
                 print("To execute: "+terminalCmd)
                 os.system(terminalCmd)
                 
-                fileOriginAbsPath = testExecutorDestination+"/faban/output/"+RUN_ID+"/summary.xml"
-                folderTargetAbsPath = testExecutorDestination+"/executed/"+testID+"/faban/"
+                fileOriginAbsPath = testExecutorDestination+"/faban/output/"+RUN_ID+"summary.xml"
+                folderTargetAbsPath = executedTests+"/"+testID+"/faban/"
+                if path.isdir(folderTargetAbsPath) == False:
+                    os.mkdir(folderTargetAbsPath)
                 commonMethods.copyFile(fileOriginAbsPath, folderTargetAbsPath)
                 
-                fileOriginAbsPath = testExecutorDestination+"/faban/output/"+RUN_ID+"/summary.xml"
-                folderTargetAbsPath = testExecutorDestination+"/executed/"+testID+"/faban/"
+                fileOriginAbsPath = testExecutorDestination+"/faban/output/"+RUN_ID+"summary.xml"
+                folderTargetAbsPath = executedTests+"/"+testID+"/faban/"
+                if path.isdir(folderTargetAbsPath) == False:
+                    os.mkdir(folderTargetAbsPath)
                 commonMethods.copyFileRel(fileOriginAbsPath, folderTargetAbsPath)
                 
-                fileOriginAbsPath = testExecutorDestination+"/faban/output/"+RUN_ID+"/log.xml"
-                folderTargetAbsPath = testExecutorDestination+"/executed/"+testID+"/faban/"
+                fileOriginAbsPath = testExecutorDestination+"/faban/output/"+RUN_ID+"log.xml"
+                folderTargetAbsPath = executedTests+"/"+testID+"/faban/"
+                if path.isdir(folderTargetAbsPath) == False:
+                    os.mkdir(folderTargetAbsPath)
                 commonMethods.copyFileRel(fileOriginAbsPath, folderTargetAbsPath)
                 #mkdir -p ./executed/$TEST_ID/stats
                 # curl http://$SUT_IP:$STAT_COLLECTOR_PORT/data > executed/$TEST_ID/stats/cpu.txt
                 #cp ./services/stats/cpu.txt ./executed/$TEST_ID/stats/cpu.txt
                 folderOriginAbsPath = testExecutorDestination+"/to_execute/"+testID+"/"
-                folderTargetAbsPath = testExecutorDestination+"/executed/"+testID+"/definition"
-                commonMethods.moveFromFolder2Folder(fileOriginAbsPath, folderTargetAbsPath)
+                folderTargetAbsPath = executedTests+"/"+testID+"/definition"
+                if path.isdir(folderTargetAbsPath) == False:
+                    os.mkdir(folderTargetAbsPath)
+                commonMethods.moveFromFolder2Folder(folderOriginAbsPath, folderTargetAbsPath)

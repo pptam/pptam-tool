@@ -15,10 +15,10 @@ class Parser:
         self.pptamConfiguration = PPTAMConfiguration()
         self.pptamConfiguration.readConfiguration(sysConfPath)
         
-    def generateTests(self, testExecutorOrigin, fabanDriverDestination):
+    def generateTests(self, testExecutorOrigin, fabanDriverDestination, driversDestination):
         print("test_executor folder = " + testExecutorOrigin)
         print("Faban driver temp destination folder = " + testExecutorOrigin)
-        self.pptamConfiguration.generateTests(testExecutorOrigin, fabanDriverDestination)
+        self.pptamConfiguration.generateTests(testExecutorOrigin, fabanDriverDestination, driversDestination)
     
     def getParseConfiguration(self):
         return self.pptamConfiguration.getParseConfiguration()

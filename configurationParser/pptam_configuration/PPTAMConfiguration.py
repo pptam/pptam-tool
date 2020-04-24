@@ -3,6 +3,8 @@ import shutil
 import subprocess
 import json 
 import time
+import os.path
+from os import path
 
 from shutil import copyfile
 from distutils.dir_util import copy_tree
@@ -46,12 +48,12 @@ class PPTAMConfiguration():
 
 	# Copy necessary files to a test folder.
 	# Change place holder values in these files.	
-	def generateTests(self, testExecutorOrigin, fabanDriverDestination):
+	def generateTests(self, testExecutorOrigin, fabanDriverDestination, driversDestination):
 		
 		commonMethods = CommonMethods()
 
 		fabanTemplatesOrigin = testExecutorOrigin+"/templates"
-		fabanDriverEcsaOrigin = fabanTemplatesOrigin+"/faban/driver/ecsa"
+		fabanDriverEcsaOrigin = fabanDriverDestination+"/driver/ecsa"
 
 		systemConfigurationData = self.parseConfiguration.getSystemConfigurationData()
 
@@ -64,115 +66,121 @@ class PPTAMConfiguration():
 		# Configure the template for this test in the tmp folder
 		# - Check if drivers/tmp exists. If not, create it.
 		#pathTmp = commonMethods.getCurrentPath()
-		pathTmp = ""
+		#pathTmp = ""
 		#print("Current path = "+pathTmp)
-		fabanDriverEcsaDestinationTmp = fabanDriverDestination+"/tmp"
+		driversDestinationTmp = driversDestination+"/tmp"
 		#print("fabanDriverEcsaDestinationTmp = "+fabanDriverEcsaDestinationTmp)
-		try:
+		# For some reason, the code below has an issue on Linux.
+		# It removes the starting slash "/" sign.
+		#try:
 			# For nested paths, create folder per folder.
-			for folderName in fabanDriverEcsaDestinationTmp.split("/"):
+		#	for folderName in driversDestinationTmp.split("/"):
 				# Avoid empty strings
-				if not folderName:
-					continue
+		#		if not folderName:
+		#			continue
 				# The first input
-				if pathTmp=="":
-					pathTmp = folderName
-				else:
-					pathTmp = pathTmp+"/"+folderName
+		#		if pathTmp=="":
+		#			pathTmp = folderName
+		#		else:
+		#			pathTmp = pathTmp+"/"+folderName
 				# Avoid creating folders if they already exist.
-				if os.path.isdir(pathTmp):
-					continue
-				os.mkdir(pathTmp)
-		except OSError:
-			print ("Creation of the directory %s failed" % pathTmp)
-		else:
-			print ("Successfully created the directory %s " % pathTmp)
+		#		if os.path.isdir(pathTmp):
+		#			continue
+		#		os.mkdir(pathTmp)
+		#except OSError:
+		#	print ("Creation of the directory %s failed" % pathTmp)
+		#else:
+		#	print ("Successfully created the directory %s " % pathTmp)
+		if path.isdir(driversDestination) == False:
+			commonMethods.createFolderRelPath(driversDestination)
+		if path.isdir(driversDestinationTmp) == False:
+			commonMethods.createFolderRelPath(driversDestinationTmp)
 		
 		# Delete all files in the temp folder
-		print("Delete all files from path = "+pathTmp)
-		commonMethods.deleteFilesFromFolder(pathTmp)
+		print("Delete all files from path = "+driversDestinationTmp)
+		commonMethods.deleteFilesFromFolder(driversDestinationTmp)
 
 		# Copy FABAN files
-		commonMethods.copyFromFolder2Folder(fabanDriverEcsaOrigin, fabanDriverEcsaDestinationTmp)
+		commonMethods.copyFromFolder2Folder(fabanDriverEcsaOrigin, driversDestinationTmp)
 		
 		pptamConfigurationData = systemConfigurationData.getPPTAMConfigurationData()
 		fabanConfigurationData = systemConfigurationData.getFabanConfigurationData()
 		dockerConfigurationData = systemConfigurationData.getDockerConfigurationData()
 		
   		# Configure the Faban driver - build.properties
-		commonMethods.replaceValueInFileRelPath("${FABAN_IP}", pptamConfigurationData.getFabanIP(), pathTmp+"/build.properties")
+		commonMethods.replaceValueInFile("${FABAN_IP}", pptamConfigurationData.getFabanIP(), driversDestinationTmp+"/build.properties")
 		# Configure the Test ID - build.properties
-		commonMethods.replaceValueInFileRelPath("${TEST_NAME}", testID, pathTmp+"/build.properties")
+		commonMethods.replaceValueInFile("${TEST_NAME}", testID, driversDestinationTmp+"/build.properties")
 		# Configure JAVA_HOME_FABAN - run.xml
-		commonMethods.replaceValueInFileRelPath("${JAVA_HOME_FABAN}", pptamConfigurationData.getJavaHomeFaban(), pathTmp+"/build.xml")
+		commonMethods.replaceValueInFile("${JAVA_HOME_FABAN}", pptamConfigurationData.getJavaHomeFaban(), driversDestinationTmp+"/build.xml")
 
 		# Remove bak files
-		commonMethods.removeFileRelativePath(pathTmp+"/build.properties.bak")
-		commonMethods.removeFileRelativePath(pathTmp+"/build.xml.bak")
+		commonMethods.removeFileRelativePath(driversDestinationTmp+"/build.properties.bak")
+		commonMethods.removeFileRelativePath(driversDestinationTmp+"/build.xml.bak")
 		# rm ./drivers/tmp/build.properties.bak
 		# rm ./drivers/tmp/build.xml.bak
 		
 		# Deploy
 		# Configure TEST_ID - run.xml
 		#./drivers/tmp/deploy/run.xml
-		pathTmpDeployRun = pathTmp+"/deploy/run.xml"
-		commonMethods.replaceValueInFileRelPath("${TEST_NAME}", testID, pathTmpDeployRun)
+		pathTmpDeployRun = driversDestinationTmp+"/deploy/run.xml"
+		commonMethods.replaceValueInFile("${TEST_NAME}", testID, pathTmpDeployRun)
 		# Configure FABAN_IP - run.xml
-		commonMethods.replaceValueInFileRelPath("${FABAN_IP}", pptamConfigurationData.getFabanIP(), pathTmpDeployRun)
+		commonMethods.replaceValueInFile("${FABAN_IP}", pptamConfigurationData.getFabanIP(), pathTmpDeployRun)
 		# Configure NUM_USERS - run.xml
-		commonMethods.replaceValueInFileRelPath("${NUM_USERS}", fabanConfigurationData.getNumberOfUsers(), pathTmpDeployRun)
+		commonMethods.replaceValueInFile("${NUM_USERS}", fabanConfigurationData.getNumberOfUsers(), pathTmpDeployRun)
 		# Configure FABAN_OUTPUT_DIR - run.xml
-		commonMethods.replaceValueInFileRelPath("${FABAN_OUTPUT_DIR}", pptamConfigurationData.getfabanOutputDir(), pathTmpDeployRun)
+		commonMethods.replaceValueInFile("${FABAN_OUTPUT_DIR}", pptamConfigurationData.getfabanOutputDir(), pathTmpDeployRun)
 		# Configure SUT_IP - run.xml
-		commonMethods.replaceValueInFileRelPath("${SUT_IP}", pptamConfigurationData.getSutIP(), pathTmpDeployRun)
+		commonMethods.replaceValueInFile("${SUT_IP}", pptamConfigurationData.getSutIP(), pathTmpDeployRun)
 		# Configure SUT_PORT - run.xml
-		commonMethods.replaceValueInFileRelPath("${SUT_PORT}", pptamConfigurationData.getSutPort(), pathTmpDeployRun)
+		commonMethods.replaceValueInFile("${SUT_PORT}", pptamConfigurationData.getSutPort(), pathTmpDeployRun)
 		# Config (just replace with the one generated for deploy)
-		pathTmpConfigRun = pathTmp+"/config/"
+		pathTmpConfigRun = driversDestinationTmp+"/config/"
 		commonMethods.copyFileRel(pathTmpDeployRun, pathTmpConfigRun)
   		#yes | cp -rf ./drivers/tmp/deploy/run.xml ./drivers/tmp/config/run.xml
 
 		# Remove bak file.
-		commonMethods.removeFileRelativePath(pathTmp+"/deploy/run.xml.bak")
+		commonMethods.removeFileRelativePath(driversDestinationTmp+"/deploy/run.xml.bak")
 	    #rm ./drivers/tmp/deploy/run.xml.bak
 		
 		# Configure testID - WebDriver.java
-		commonMethods.replaceValueInFileRelPath("${TEST_NAME}", testID, pathTmp+"/src/ecsa/driver/WebDriver.java")
+		commonMethods.replaceValueInFile("${TEST_NAME}", testID, driversDestinationTmp+"/src/ecsa/driver/WebDriver.java")
 	
 		# Remove bak file
-		commonMethods.removeFileRelativePath(pathTmp+"/src/ecsa/driver/WebDriver.java.bak")
+		commonMethods.removeFileRelativePath(driversDestinationTmp+"/src/ecsa/driver/WebDriver.java.bak")
 		# rm ./drivers/tmp/src/ecsa/driver/WebDriver.java.bak
 		
 		# Configure the deployment descriptor
 		#print("fabanTemplatesOrigin = "+fabanTemplatesOrigin)
 		dockerFileOrigin = fabanTemplatesOrigin+"/deployment_descriptor/template/docker-compose.yml"
-		dockerFolderTarget = pathTmp+"/deploy"
+		dockerFolderTarget = driversDestinationTmp+"/deploy"
 		commonMethods.copyFileRel(dockerFileOrigin, dockerFolderTarget)
 		
   		#cp -aR ./templates/deployment_descriptor/template/docker-compose.yml ./drivers/tmp/deploy
 		# Configure SUT_HOSTNAME - docker-compose.yml
-		commonMethods.replaceValueInFileRelPath("${SUT_HOSTNAME}", pptamConfigurationData.getSutHostname(), dockerFolderTarget+"/docker-compose.yml")
+		commonMethods.replaceValueInFile("${SUT_HOSTNAME}", pptamConfigurationData.getSutHostname(), dockerFolderTarget+"/docker-compose.yml")
 		# Configure CARTS_REPLICAS - docker-compose.yml
-		commonMethods.replaceValueInFileRelPath("${CARTS_REPLICAS}", dockerConfigurationData.getNumOfReplicas(), dockerFolderTarget+"/docker-compose.yml")
+		commonMethods.replaceValueInFile("${CARTS_REPLICAS}", dockerConfigurationData.getNumOfReplicas(), dockerFolderTarget+"/docker-compose.yml")
 		# Configure CARTS_CPUS_LIMITS - docker-compose.yml
-		commonMethods.replaceValueInFileRelPath("${CARTS_CPUS_LIMITS}", dockerConfigurationData.getCpuLimit(), dockerFolderTarget+"/docker-compose.yml")
+		commonMethods.replaceValueInFile("${CARTS_CPUS_LIMITS}", dockerConfigurationData.getCpuLimit(), dockerFolderTarget+"/docker-compose.yml")
 		# Configure CARTS_CPUS_RESERVATIONS - docker-compose.yml
-		commonMethods.replaceValueInFileRelPath("${CARTS_CPUS_RESERVATIONS}", dockerConfigurationData.getCpuReservation(), dockerFolderTarget+"/docker-compose.yml")
+		commonMethods.replaceValueInFile("${CARTS_CPUS_RESERVATIONS}", dockerConfigurationData.getCpuReservation(), dockerFolderTarget+"/docker-compose.yml")
 		# Configure CARTS_RAM_LIMITS - docker-compose.yml
-		commonMethods.replaceValueInFileRelPath("${CARTS_RAM_LIMITS}", dockerConfigurationData.getRamLimit(), dockerFolderTarget+"/docker-compose.yml")
+		commonMethods.replaceValueInFile("${CARTS_RAM_LIMITS}", dockerConfigurationData.getRamLimit(), dockerFolderTarget+"/docker-compose.yml")
 		# Configure CARTS_RAM_RESERVATIONS - docker-compose.yml
-		commonMethods.replaceValueInFileRelPath("${CARTS_RAM_RESERVATIONS}", dockerConfigurationData.getRamReservation(), dockerFolderTarget+"/docker-compose.yml")
+		commonMethods.replaceValueInFile("${CARTS_RAM_RESERVATIONS}", dockerConfigurationData.getRamReservation(), dockerFolderTarget+"/docker-compose.yml")
 		
 		commonMethods.removeFileRelativePath(dockerFolderTarget+"/docker-compose.yml.bak")
 		#rm ./drivers/tmp/deploy/docker-compose.yml.bak
 		
 		# create a folder for the new test and copy the tmp data
-		commonMethods.createFolderRelPath(fabanDriverDestination+"/"+testID)
+		commonMethods.createFolderRelPath(driversDestination+"/"+testID)
 		# Move all files from tmp to a created folder that coresponds to a test.
 		# - First copy, then delete.
 		#self.moveFromFolder2Folder(fabanDriverEcsaDestinationTmp, fabanDriverDestination+"/"+testID)
-		commonMethods.copyFromFolder2Folder(fabanDriverEcsaDestinationTmp, fabanDriverDestination+"/"+testID)
-		commonMethods.deleteFilesFromFolder(fabanDriverEcsaDestinationTmp)
+		commonMethods.copyFromFolder2Folder(driversDestinationTmp, driversDestination+"/"+testID)
+		commonMethods.deleteFilesFromFolder(driversDestinationTmp)
 			
   		#mkdir -p ./drivers/$TEST_ID
 		#cp -aR ./drivers/tmp/* ./drivers/$TEST_ID
@@ -186,7 +194,7 @@ class PPTAMConfiguration():
 		#os.system(terminalCmd)
 		#ant -Dbasedir=`pwd` -f path/to/build.xml
 		#os.system("ant "+fabanDriverDestination+"/"+testID+" deploy.jar")
-		terminalCmd="ant -f "+fabanDriverDestination+"/"+testID+"/build.xml deploy.jar"
+		terminalCmd="ant -f "+driversDestination+"/"+testID+"/build.xml deploy.jar"
 		print("To execute: "+terminalCmd)
 		os.system(terminalCmd)
 		#os.system("cd \"$cwd\"")
@@ -196,15 +204,25 @@ class PPTAMConfiguration():
 		#cd "$cwd"
 		
 		# create a folder for the test
-		commonMethods.createFolderRelPath(testExecutorOrigin+"/to_execute")
-		commonMethods.createFolderRelPath(testExecutorOrigin+"/to_execute/"+testID)
+		newDir = testExecutorOrigin+"/to_execute"
+		if path.isdir(newDir):
+			pass
+		else:
+			commonMethods.createFolderRelPath(newDir)
+			
+		newDir = testExecutorOrigin+"/to_execute/"+testID
+		if path.isdir(newDir):
+			pass
+		else:
+			commonMethods.createFolderRelPath(newDir)
+
 		# mkdir -p ./to_execute/$TEST_ID
 		# copy the driver jarm run.xml and deployment descriptor
-		commonMethods.copyFileRel(fabanDriverDestination+"/"+testID+"/build/"+testID+".jar", testExecutorOrigin+"/to_execute/"+testID)
+		commonMethods.copyFileRel(driversDestination+"/"+testID+"/build/"+testID+".jar", testExecutorOrigin+"/to_execute/"+testID)
 		# cp ./drivers/$TEST_ID/build/$TEST_ID.jar ./to_execute/$TEST_ID
-		commonMethods.copyFileRel(fabanDriverDestination+"/"+testID+"/config/run.xml", testExecutorOrigin+"/to_execute/"+testID)
+		commonMethods.copyFileRel(driversDestination+"/"+testID+"/config/run.xml", testExecutorOrigin+"/to_execute/"+testID)
 		# cp ./drivers/$TEST_ID/config/run.xml ./to_execute/$TEST_ID
-		commonMethods.copyFileRel(fabanDriverDestination+"/"+testID+"/deploy/docker-compose.yml", testExecutorOrigin+"/to_execute/"+testID)
+		commonMethods.copyFileRel(driversDestination+"/"+testID+"/deploy/docker-compose.yml", testExecutorOrigin+"/to_execute/"+testID)
 		# cp ./drivers/$TEST_ID/deploy/docker-compose.yml ./to_execute/$TEST_ID
 	
 	# To delete, not used anymore.

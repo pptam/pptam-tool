@@ -124,11 +124,18 @@ class CommonMethods:
         currentPath = self.getCurrentPath()
         pathToFileOriginAbs = os.path.join(currentPath, pathToFileOrigin)
         
+        self.replaceValueInFile(paramPlaceHolder, paramValue, pathToFileOriginAbs)
+
+        # Read file, replace the value, overwrite the file.
+    def replaceValueInFile(self, paramPlaceHolder, paramValue, pathToFileOriginAbs):
+        readFromFile = None
+        #print("replaceValueInFile::pathToFileOriginAbs: "+pathToFileOriginAbs)
+        
         if (os.path.isfile(pathToFileOriginAbs)):
             readFromFile = ReadFromFile(pathToFileOriginAbs)
             # print("replaceValueInFileRelPath "+pathToFileOriginAbs+".")
         else:
-            print("replaceValueInFileRelPath: No file at "+pathToFileOriginAbs+" !!!")
+            print("replaceValueInFile: No file at "+pathToFileOriginAbs+" !!!")
             return
 
         #print("Try to replace " + paramPlaceHolder + " with " + paramValue + ".")
@@ -147,7 +154,7 @@ class CommonMethods:
 
             newFileDictionary.append(line)
 
-        writeToFile = WriteToFile(pathToFileOrigin)
+        writeToFile = WriteToFile(pathToFileOriginAbs)
         writeToFile.overwriteTheExistingFile()
 
         for line in newFileDictionary:
@@ -159,7 +166,7 @@ class CommonMethods:
         #readFromFileTmp = ReadFromFile(pathToBuildPropertiesTmp)
         #for line in readFromFile.readLines():
             #print(line)
-
+            
     def copyFile(self, fileOriginAbsPath, fileTargetAbsPath):
 
         #print("Copy from "+fileOriginAbsPath+" -> " +fileTargetAbsPath)
