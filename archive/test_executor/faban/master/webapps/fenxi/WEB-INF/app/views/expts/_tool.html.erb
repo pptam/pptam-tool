@@ -1,0 +1,4 @@
+<div class="tool-page">
+  <h2><%= @tool %></h2>
+  <%= render :partial => 'section', :collection=>@expt.tools[@tool], :as => :section %>
+</div>

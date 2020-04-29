@@ -1,0 +1,36 @@
+<% rowno = 0 %>
+<% if @expt.db.nil? then %>
+    <div class="compare_table_funcs">
+    <a href="#" onclick="color_code('table<%=section.id%>');return false;">Color code</a> |
+    <a href="#" onclick="hide_similar('table<%=section.id%>');return false;">Hide similar</a> |
+    <a href="#" onclick="show_all('table<%=section.id%>');return false;">Show All</a><BR>
+  </div>
+<%  end %>
+<table class="section-table" id="table<%=section.id%>">
+  <thead>
+    <% section.query_result.headers.each do |header| %>
+      <th><%= h(header)%></th>
+    <%end%>
+  </thead>
+  <tbody>
+    <% section.query_result.rows.each_with_index do |row, i| %>
+      <tr class="row<%=rowno%>">
+        <% rowno = 1 - rowno %>
+        <% row.each_with_index do |col, j| %>
+          <td class="<%=section.query_result.types[j] %>">
+            <%
+            case
+            when section.query_result.types[j] == "image" %>
+              <%= image_tag url_for(:controller => 'expts', :action => 'sparkline',
+                :id=>@expt, :sectionid => section.id, :i => i, :j => j) %>
+            <%  when section.query_result.types[j] == "float" %>
+              <%=  (col == "-") ? "-" : "%.2f" % col.to_f %>
+            <%  else %>
+              <%= col %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

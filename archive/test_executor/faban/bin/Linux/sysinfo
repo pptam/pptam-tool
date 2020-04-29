@@ -1,0 +1,41 @@
+#!/bin/sh
+#########################################################################
+# The sysinfo script reads many files and calls many platform-dependent
+# tools to determine the system configuration. The output is a html
+# snippet recording the files and tools output.
+#########################################################################
+
+PATH=$PATH:/bin
+export PATH
+
+HOSTNAME=`uname -n`
+
+echo "        <h3>System parameters on server ${HOSTNAME}</h3>"
+echo "        <pre>"
+cat /etc/sysctl.conf
+echo "        <pre>"
+
+echo "        <h3>Processor info for server ${HOSTNAME}</h3>"
+echo "        <pre>"
+# We first check if cpu frequency can vary
+cpufreq-info -l >/tmp/freq.out 2>/dev/null
+if [ $? -eq 0 ]
+then
+   MAXFREQ=`cat /tmp/freq.out | cut -d' ' -f2`
+   MAXFREQ=`expr $MAXFREQ / 1000`
+   echo "Maximum frequency is $MAXFREQ MHz\n\n"
+fi
+rm -f /tmp/freq.out
+
+ cat /proc/cpuinfo |egrep 'processor|cpu|cache|model'
+echo "        <pre>"
+
+echo "        <h3>Memory info for server ${HOSTNAME}</h3>"
+echo "        <pre>"
+ cat /proc/meminfo |egrep 'Mem|Swap'
+echo "        <pre>"
+
+echo "        <h3>Kernel on server ${HOSTNAME}</h3>"
+echo "        <pre>"
+uname -srvm
+echo "        </pre>"

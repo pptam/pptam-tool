@@ -1,0 +1,25 @@
+<P>
+  <div class="section">
+    <h2><a name="<%=id%>">&nbsp;</a><%= section.desc %></h2>
+    <% if section.exception then%>
+      <div class="exception"><%=section.exception.message %><BR/>
+        <%= section.exception.backtrace[0..5].join("<BR/>") %>
+      </div>
+    <% elsif section.class.to_s == "Fenxi::ChartSection" then %>
+      <img src="<%=imagestore(section.image)%>"></img>
+    <% else %>     
+      <% outvar=""
+      render_partial("section_table_view.erb", binding, "outvar")
+    %>
+      <%= outvar %>
+    <% end %>
+    <div class="prevnext">
+      <a href="#<%=id - 1%>">Previous</a> |<a href="#<%=id + 1 %>">Next</a> |
+      <a href="#Top">Top</a> |
+      <a href="#" onclick="toggle('<%= "query#{id}"%>');return false;">Query</a>
+      <div class="error_body" id="query<%=id%>">
+        <%=h(section.query)%>
+      </div>
+    </div>
+  </div> <!-- section -->
+</P>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<!--
+ Copyright 2002, 2003 Sun Microsystems, Inc. All Rights Reserved.
+-->
+<web-app>
+    <context-param>
+        <param-name>faban.home</param-name>
+        <param-value>../../../</param-value>
+        <description>Path to Faban home directory, outside the webapp.
+                     A relative path is relative to the root context path
+                     of the web application.
+                     Note: Use '/' as the path separator, even on Windows.
+        </description>
+    </context-param>
+
+    <context-param>
+        <param-name>debug</param-name>
+        <param-value>true</param-value>
+        <description>flag for debugging the whole app</description>
+    </context-param>
+
+    <filter>
+        <filter-name>InitFilter</filter-name>
+        <filter-class>com.sun.faban.harness.engine.InitFilter</filter-class>
+    </filter>
+
+   <filter-mapping>
+      <filter-name>InitFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+   </filter-mapping>
+
+    <servlet>
+        <servlet-name>XFormServlet</servlet-name>
+        <servlet-class>com.sun.faban.harness.webclient.XFormServlet</servlet-class>
+        <init-param>
+            <param-name>configFile</param-name>
+            <param-value>WEB-INF/chiba-config.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>xsltDir</param-name>
+            <param-value>xslt</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>Dispatcher</servlet-name>
+        <servlet-class>com.sun.faban.harness.webclient.Dispatcher</servlet-class>
+        <init-param>
+            <param-name>controller.package</param-name>
+            <param-value>com.sun.faban.harness.webclient</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>LogReader</servlet-name>
+        <servlet-class>com.sun.faban.harness.webclient.LogReader</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>ContentReader</servlet-name>
+        <servlet-class>com.sun.faban.harness.webclient.ContentReader</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>Deployer</servlet-name>
+        <servlet-class>com.sun.faban.harness.webclient.Deployer</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>RunRetriever</servlet-name>
+        <servlet-class>com.sun.faban.harness.webclient.RunRetriever</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>RunUploader</servlet-name>
+        <servlet-class>com.sun.faban.harness.webclient.RunUploader</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>CLI</servlet-name>
+        <servlet-class>com.sun.faban.harness.webclient.CLIServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LogReader</servlet-name>
+        <url-pattern>/LogReader</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Dispatcher</servlet-name>
+        <url-pattern>/controller/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ContentReader</servlet-name>
+        <url-pattern>/output/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ContentReader</servlet-name>
+        <url-pattern>/analysis/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ContentReader</servlet-name>
+        <url-pattern>/bench_downloads/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ContentReader</servlet-name>
+        <url-pattern>/service_downloads/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ContentReader</servlet-name>
+        <url-pattern>/benchmarks/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Deployer</servlet-name>
+        <url-pattern>/deploy</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>RunRetriever</servlet-name>
+        <url-pattern>/pollrun</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>RunUploader</servlet-name>
+        <url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>XFormServlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CLI</servlet-name>
+        <url-pattern>/pending</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CLI</servlet-name>
+        <url-pattern>/status/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CLI</servlet-name>
+        <url-pattern>/logs/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CLI</servlet-name>
+        <url-pattern>/submit/*</url-pattern>        
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CLI</servlet-name>
+        <url-pattern>/kill/*</url-pattern>        
+    </servlet-mapping>
+
+    <session-config>
+        <session-timeout>-1</session-timeout>
+    </session-config>
+    
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

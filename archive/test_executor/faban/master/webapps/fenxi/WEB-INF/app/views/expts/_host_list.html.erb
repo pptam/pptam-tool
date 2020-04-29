@@ -1,0 +1,9 @@
+<%= content_tag(:div, host, :class=>"hostname") if host != "nil" %>
+<% tools.each do |tool| %>
+  <div class="tool-name">
+    <a href="<%= url_for(:id=>@expt.to_param, :action=>:show, :tool =>tool.first)%>" class="tool-list-href">
+      <%= tool.last%><span><%=tool.first%></span></a>
+  <%#= link_to tool.last, {:id=>@expt.to_param, :tool =>tool.first}, :class=>"tool-list-href" %>
+  </div>
+<% end %>
+<%#= render :partial => 'tool_list', :collection => tools, :as => :tool %>

@@ -1,0 +1,10 @@
+<div class="tool-name">
+  <span class="current-tool-name"><%= h(@tool) %></span>
+  <div class="section-list">
+    <ul class="tool-toc">
+      <% @expt.tools[@tool].each do |section|  %>
+        <li><%= link_to h(section.desc), "#section-#{section.id}"%></li>
+      <%  end %>
+    </ul>
+  </div>
+</div>

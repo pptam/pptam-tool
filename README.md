@@ -1,38 +1,12 @@
 # Tool for Production and Performance Testing Based Application Monitoring (pptam)
 
-## Installation
+We currently are working on the next version of PPTAM.
 
-The detailed installation instructions can be found in the file [Installation.md](Installation.md).
+If you are looking for the version published together with the following pubblications, see [here](archive/README.md).
 
-## Usage of the system
-
-Once installed, the instructions on how to use the installed tools can be found in the file [Usage.md](Usage.md).
-
-## Attributions
-- This work has been partly supported by eSulab\-Solutions, Inc., the German Federal Ministry of Education and Research (ContinuITy project, grant 01IS17010), and the Italian Ministry of Education, Universities and Research (GAUSS project, grant 2015KWREMX). 
-- The icon for the PPTAM organization was downloaded from https://www.flaticon.com/free-icon/speedometer_610106 and was made by https://www.flaticon.com/authors/vectors-market from www.flaticon.com.
-
-## Configuration parameters
-### PPTAM
-- TEST_ID
-- RUN_ID
-
-### Faban
-- FABAN_IP
-- JAVA_HOME_FABAN
-- FABAN_OUTPUT_DIR
-- FABAN_MASTER
-- FABAN_CLIENT
-- CPU limitation (CARTS_CPUS_LIMITS):
-- CPU reservation (CARTS_CPUS_RESERVATIONS):
-- RAM limitation (CARTS_RAM_LIMITS):
-- RAM reservation (CARTS_RAM_RESERVATIONS):
-
-### Docker
-- Number of users (NUM_USERS):
-- Number of replicas (CARTS_REPLICAS):
-
-### System under test
-- System under test IP (SUT_IP):
-- System under test port (SUT_PORT):
-- System under test host name (SUT_HOSTNAME):
+- Alberto Avritzer, Daniel Menasché, Vilc Rufino, Barbara Russo, Andrea Janes, Vincenzo Ferme, André van Hoorn, and Henning Schulz. 2019. PPTAM: Production and Performance Testing Based Application Monitoring. In Companion of the 2019 ACM/SPEC International Conference on Performance Engineering (ICPE ’19). Association for Computing Machinery, New York, NY, USA, 39–40. DOI: https://doi.org/10.1145/3302541.3311961
+- Andrea Janes, Barbara Russo:
+  Automatic Performance Monitoring and Regression Testing During the Transition from Monolith to Microservices. ISSRE Workshops 2019: 163-168. DOI: https://doi.org/10.1109/ISSREW.2019.00067
+- Alberto Avritzer, Vincenzo Ferme, Andrea Janes, Barbara Russo, André van Hoorn, Henning Schulz, Daniel Menasché, Vilc Rufino,
+  Scalability Assessment of Microservice Architecture Deployment Configurations: A Domain-based Approach Leveraging Operational Profiles and Load Tests,
+  Journal of Systems and Software, Volume 165, 2020, 110564, ISSN 0164-1212, DOI: https://doi.org/10.1016/j.jss.2020.110564.
