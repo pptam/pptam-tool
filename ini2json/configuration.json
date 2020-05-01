@@ -1,0 +1,18 @@
+{
+  "Configuration": {
+    "faban_ip": "192.168.2.1",
+    "java_home_faban": "",
+    "faban_output_dir": "",
+    "sut_ip": "",
+    "sut_port": "",
+    "sut_hostname": "",
+    "pre_exec_external_command": "",
+    "post_exec_external_command": "",
+    "carts_cpus_limits": "0.25",
+    "carts_cpus_reservations": "0.25",
+    "carts_ram_limits": "500M",
+    "carts_ram_reservations": "500M",
+    "carts_replicas": "1",
+    "num_users": "50"
+  }
+}
