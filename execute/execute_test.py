@@ -41,11 +41,7 @@ def execute_test(configuration_file_path):
         logging.debug(f"Executing test cases from {input}.")
 
     output = path.abspath(configuration["test_case_executed_folder"])
-    if not path.isdir(output):
-        logging.fatal(f"Cannot find the results folder {output}.")
-        quit()
-    else:
-        logging.debug(f"Storing results in {output}.")
+    logging.debug(f"Storing results in {output}.")
         
     faban_master = f"http://{configuration['faban_ip']}:9980/"
     faban_client = path.abspath("./faban/benchflow-faban-client/target/benchflow-faban-client.jar")
