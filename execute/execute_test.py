@@ -12,7 +12,7 @@ import subprocess
 
 def wait(seconds):
     while seconds > 0:
-        sys.stdout.write(f"Waiting for {seconds} + '...     \r")
+        sys.stdout.write(f"Waiting for {seconds}...     \r")
         seconds -= 1
         sleep(1)
 
@@ -57,12 +57,9 @@ def execute_test(configuration_file_path):
                 if result_before != 0:
                     logging.fatal(f"Could not execute {command_to_execute_before_a_test}.")
                     quit()
-            
-                current_folder = os.getcwd()
-                os.chdir(f)
 
                 test_id = f.name
-                command_deploy_stack = f"docker stack deploy --compose-file=docker-compose.yml {test_id}"
+                command_deploy_stack = f"docker stack deploy --compose-file={f}docker-compose.yml {test_id}"
                 
                 logging.debug("Deploying the system under test.")
                 result_deploy_stack = os.system(command_deploy_stack)
@@ -70,7 +67,6 @@ def execute_test(configuration_file_path):
                     logging.fatal(f"Could not deploy the system under test for test {test_id}.")       
                     raise RuntimeError                    
 
-                os.chdir(current_folder)
                 wait(seconds_to_wait_for_deployment)
 
                 driver = f"{input}/{test_id}/{test_id}.jar"
@@ -81,10 +77,10 @@ def execute_test(configuration_file_path):
                 
                 logging.debug("Deploying the load driver")
 
-                process_deploy_faban = subprocess.Popen(command_deploy_faban.split(" "), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-                stdout, stderr = process_deploy_faban.communicate()
-                result_deploy_faban = stdout
-                print(result_deploy_faban)
+                process_deploy_faban = subprocess.run(command_deploy_faban.split(" "), shell=True, stdout=subprocess.PIPE)
+                result_deploy_faban = process_deploy_faban.communicate()
+                print(result_deploy_faban.stdout.decode('utf-8'))
+
             finally:
                 command_undeploy_stack = f"docker stack rm {test_id}"
                 result_undeploy_stack = os.system(command_undeploy_stack)
