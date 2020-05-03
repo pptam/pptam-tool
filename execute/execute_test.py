@@ -109,12 +109,6 @@ def execute_test(configuration_file_path):
                 command_undeploy_stack = f"docker stack rm {test_id}"
                 run_external_applicaton(command_undeploy_stack, "Undeploying the system under test.", False)
 
-                cleanup_docker_1 = f'docker stack rm $(docker stack ls --format "{{.Name}}")'
-                run_external_applicaton(cleanup_docker_1, "Cleaning up Docker stacks", False)
-
-                cleanup_docker_2 = f'docker rm -f -v $(docker ps -a -q)'
-                run_external_applicaton(cleanup_docker_2, "Cleaning up Docker containers.", False)
-
                 os.remove(f"{f.name}_run_id.tmp")
                 os.remove(f"{f.name}_status.tmp")
 
