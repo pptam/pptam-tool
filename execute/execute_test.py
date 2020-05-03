@@ -49,48 +49,48 @@ def execute_test(configuration_file_path):
 
     for f in os.scandir(input):
         if (path.isdir(f)):
-            logging.info(f"Executing test case {f.name}.")
+            try:
+                logging.info(f"Executing test case {f.name}.")
+                
+                logging.debug(f"Executing {command_to_execute_before_a_test}.")
+                result_before = os.system(command_to_execute_before_a_test)
+                if result_before != 0:
+                    logging.fatal(f"Could not execute {command_to_execute_before_a_test}.")
+                    quit()
             
-            logging.debug(f"Executing {command_to_execute_before_a_test}.")
-            result_before = os.system(command_to_execute_before_a_test)
-            if result_before != 0:
-                logging.fatal(f"Could not execute {command_to_execute_before_a_test}.")
-                quit()
-           
-            current_folder = os.getcwd()
-            os.chdir(f)
+                current_folder = os.getcwd()
+                os.chdir(f)
 
-            test_id = f.name
-            command_deploy_stack = f"docker stack deploy --compose-file=docker-compose.yml {test_id}"
-            command_undeploy_stack = f"docker stack rm {test_id}"
+                test_id = f.name
+                command_deploy_stack = f"docker stack deploy --compose-file=docker-compose.yml {test_id}"
+                
+                logging.debug("Deploying the system under test.")
+                result_deploy_stack = os.system(command_deploy_stack)
+                if result_deploy_stack != 0:
+                    logging.fatal(f"Could not deploy the system under test for test {test_id}.")       
+                    raise RuntimeError                    
 
-            logging.debug("Deploying the system under test.")
-            result_deploy_stack = os.system(command_deploy_stack)
-            if result_deploy_stack != 0:
-                logging.fatal(f"Could not deploy the system under test for test {test_id}.")       
-                logging.debug(f"Cleaning up the deployed system.")
+                os.chdir(current_folder)
+                wait(seconds_to_wait_for_deployment)
 
+                driver = f"{input}/{test_id}/{test_id}.jar"
+                driver_configuration = f"{input}/{test_id}/run.xml"
+                deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
+
+                command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration}"
+                
+                logging.debug("Deploying the load driver")
+
+                process_deploy_faban = subprocess.Popen(command_deploy_faban.split(" "), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                stdout, stderr = process_deploy_faban.communicate()
+                result_deploy_faban = stdout
+                print(result_deploy_faban)
+            finally:
+                command_undeploy_stack = f"docker stack rm {test_id}"
                 result_undeploy_stack = os.system(command_undeploy_stack)
                 if result_undeploy_stack != 0:
                     logging.fatal(f"Could not undeploy the system under test for test {test_id}.")
                 quit()
-
-            os.chdir(current_folder)
-            wait(seconds_to_wait_for_deployment)
-
-            driver = f"{input}/{test_id}/{test_id}.jar"
-            driver_configuration = f"{input}/{test_id}/run.xml"
-            deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
-
-            command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration}"
-            
-            logging.debug("Deploying the load driver")
-
-            process_deploy_faban = subprocess.Popen(command_deploy_faban.split(" "), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            stdout, stderr = process_deploy_faban.communicate()
-            result_deploy_faban = stdout
-            print(result_deploy_faban)
-            
 
         #     RUN_ID = ""
         #     readFromFile = ReadFromFile(RUN_ID_FILE)
