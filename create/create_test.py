@@ -89,7 +89,7 @@ def create_test(configuration_file_path, configuration_entries_to_overwrite):
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Creates test cases.")
-    parser.add_argument("--configuration", help="Configuration file", default="configuration.json")    
+    parser.add_argument("--configuration", metavar="path_to_configuration_file", help="Configuration file", default="configuration.json")    
     parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)    
     parser.add_argument("--overwrite", help="Configuration values, which overwrite the values in the configuration file. Format: name1=value1 name2=value2 ...", metavar="key=value", nargs="+", default=[])    
     args = parser.parse_args()

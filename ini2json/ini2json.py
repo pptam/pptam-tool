@@ -7,8 +7,8 @@ from configparser import ConfigParser
 import logging
 
 parser = argparse.ArgumentParser(description="Converts ini files to json.")
-parser.add_argument("--input", help="The file name of the ini file to read.", default="configuration.ini")
-parser.add_argument("--output", help="The file name of the json file to write.", default="configuration.json")
+parser.add_argument("--input", metavar="ini_file", help="The file path of the ini file to read.", default="configuration.ini")
+parser.add_argument("--output", metavar="json_file", help="The file path of the json file to write.", default="configuration.json")
 args = parser.parse_args()
 
 with open(args.input, "r") as f:
