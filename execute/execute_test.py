@@ -73,14 +73,9 @@ def execute_test(configuration_file_path):
                 driver_configuration = f"{input}/{test_id}/run.xml"
                 deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
 
-                command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration}"
-                print(command_deploy_faban)
-
                 logging.debug("Deploying the load driver")
-
-                process_deploy_faban = subprocess.run(command_deploy_faban.split(" "), shell=True, stdout=subprocess.PIPE)
-                result_deploy_faban = process_deploy_faban.communicate()
-                print(result_deploy_faban.stdout.decode('utf-8'))
+                command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration} > {f.name}.tmp"
+                result_deploy_faban = os.system(command_deploy_faban)
 
             finally:
                 command_undeploy_stack = f"docker stack rm {test_id}"
