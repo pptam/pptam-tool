@@ -95,8 +95,9 @@ def execute_test(configuration_file_path):
                     with open(f"{f.name}_status.tmp", "r") as f:
                         std_out_status_faban = f.readline().rstrip()
                     status = std_out_status_faban
+                    logging.debug(f"Obtained {status} as status.")
 
-                    if (status == "STARTED" and external_tool_was_started == False):
+                    if (status == "STARTED" and external_tool_was_started == False and len(command_to_execute_before_a_test) > 0):
                         external_tool_was_started = True
                         run_external_applicaton(command_to_execute_at_a_test, "Running external application with the test.")  
 
