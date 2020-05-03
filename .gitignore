@@ -136,3 +136,7 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Application specific paths to ignore
+/generate/drivers
+/generate/to_execute
