@@ -80,7 +80,7 @@ def execute_test(configuration_file_path):
                 run_external_applicaton(command_deploy_faban, "Deploying the load driver.")
 
                 with open(f"{f.name}_run_id.tmp", "r") as f:
-                    std_out_deploy_faban = f.readline()
+                    std_out_deploy_faban = f.read()
                 run_id = std_out_deploy_faban
                 logging.debug(f"Obtained {run_id} as run ID.")
                 
@@ -125,7 +125,7 @@ def execute_test(configuration_file_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("--configuration", metavar="path_to_configuration_file", help="Configuration file", default="configuration.json")    
-    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=1)    
+    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)    
     args = parser.parse_args()
  
     logging.basicConfig(format='%(message)s', level=args.logging * 10)   
