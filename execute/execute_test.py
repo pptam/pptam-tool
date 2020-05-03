@@ -33,20 +33,18 @@ def execute_test(configuration_file_path):
     with open(configuration_file_path, "r") as f:
         configuration = json.load(f)["Configuration"]
 
-    input = configuration["test_case_to_execute_folder"]
+    input = path.abspath(configuration["test_case_to_execute_folder"])
     if not path.isdir(input):
         logging.fatal(f"Cannot find the test case folder {input}.")
         quit()
     else:
-        input = path.abspath(input)
         logging.debug(f"Executing test cases from {input}.")
 
-    output = configuration["test_case_executed_folder"]
-    if not path.isdir(input):
+    output = path.abspath(configuration["test_case_executed_folder"])
+    if not path.isdir(output):
         logging.fatal(f"Cannot find the results folder {output}.")
         quit()
     else:
-        output = path.abspath(output)
         logging.debug(f"Storing results in {output}.")
         
     faban_master = f"http://{configuration['faban_ip']}:9980/"
@@ -104,7 +102,8 @@ def execute_test(configuration_file_path):
                         external_tool_was_started = True
                         run_external_applicaton(command_to_execute_at_a_test, "Running external application with the test.")  
 
-                    wait(60)
+                    if ((status != "COMPLETED") and (status != "FAILED")):
+                        wait(60)
 
                 if (len(command_to_execute_after_a_test) > 0):
                     run_external_applicaton(command_to_execute_after_a_test, "Running external application after the test.")
