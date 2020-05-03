@@ -2,21 +2,23 @@ defmodule Parser.Parser do
   import SweetXml
 
   def main() do
-    input = "/Volumes/GoogleDrive/Meine Ablage/research/2018-Performance of Microservices/20190423-experiments9-Mirai/"
+    input =
+      "/Volumes/GoogleDrive/Meine Ablage/research/2018-Performance of Microservices/20190423-experiments9-Mirai/"
+
     output = input
 
     parse_all_directories!(input, output)
   end
 
   def parse_all_directories!(input, output) do
-    IO.puts("Processing #{input} and writing to #{output}...")
+    IO.puts("Processing #{input} and writing to #{output}.")
 
     {:ok, to_do} = File.ls(input)
 
     benchflow_output = "#{output}/benchflow_output.csv"
     summary_output = "#{output}/summary_output.csv"
 
-    IO.puts("Generating #{benchflow_output} and #{summary_output}...")
+    IO.puts("Generating #{benchflow_output} and #{summary_output}.")
 
     File.rm(benchflow_output)
     File.rm(summary_output)
@@ -43,7 +45,11 @@ defmodule Parser.Parser do
   def parse_all_directories!(_options) do
     IO.puts("Parses result directories coming from Faban into a single csv file.")
     IO.puts("")
-    IO.puts("PARSER --input=(folder name in which all the experiments are) --output=(folder to write the result of the parsing)")
+
+    IO.puts(
+      "PARSER --input=(folder name in which all the experiments are) --output=(folder to write the result of the parsing)"
+    )
+
     IO.puts("")
   end
 
@@ -85,12 +91,13 @@ defmodule Parser.Parser do
       |> xpath(~x"/benchResults/benchSummary/endTime/text()")
       |> to_string
       |> String.split(" ")
-      |> Enum.with_index
-      |> Enum.map(fn {x, i} -> case i do
+      |> Enum.with_index()
+      |> Enum.map(fn {x, i} ->
+        case i do
           4 -> "UTC"
           _ -> x
-         end
-        end)
+        end
+      end)
       |> Enum.join(" ")
       |> Timex.parse!("%a %b %d %T %Z %Y", :strftime)
       |> Timex.format!("%Y%m%d %H%M%S", :strftime)
@@ -108,10 +115,18 @@ defmodule Parser.Parser do
       Enum.each(pages, fn page -> IO.write(io_benchflow_output, ",#{page}") end)
       IO.write(io_benchflow_output, "\r\n")
 
-      IO.write(io_summary_output, "sep=,\r\nID,Users,Memory,CPU,CartReplicas,FabanID,Passed,Ended\r\n")
+      IO.write(
+        io_summary_output,
+        "sep=,\r\nID,Users,Memory,CPU,CartReplicas,FabanID,Passed,Ended\r\n"
+      )
     end
 
-    IO.write(io_summary_output, "#{index + 1},#{scale},#{memory},#{cpus},#{replicas},#{Path.basename(path)},#{passed},#{ended}\r\n")
+    IO.write(
+      io_summary_output,
+      "#{index + 1},#{scale},#{memory},#{cpus},#{replicas},#{Path.basename(path)},#{passed},#{
+        ended
+      }\r\n"
+    )
 
     IO.write(io_benchflow_output, "#{index + 1},#{scale},#{memory},#{cpus},#{replicas},Avg (sec)")
 
@@ -131,7 +146,10 @@ defmodule Parser.Parser do
 
     IO.write(io_benchflow_output, "\r\n")
 
-    IO.write(io_benchflow_output, "#{index + 1},#{scale},#{memory},#{cpus},#{replicas},Mix % (take failure into account)")
+    IO.write(
+      io_benchflow_output,
+      "#{index + 1},#{scale},#{memory},#{cpus},#{replicas},Mix % (take failure into account)"
+    )
 
     Enum.each(pages, fn page ->
       %{mix: mix} = parse_operation!(path, page, summary)
@@ -146,11 +164,15 @@ defmodule Parser.Parser do
   def parse_operation!(_path, page, summary) do
     %{summary: successes} =
       summary
-      |> xmap(summary: ~x"/benchResults/driverSummary/mix/operation[@name='#{page}']/successes/text()")
+      |> xmap(
+        summary: ~x"/benchResults/driverSummary/mix/operation[@name='#{page}']/successes/text()"
+      )
 
     %{summary: failures} =
       summary
-      |> xmap(summary: ~x"/benchResults/driverSummary/mix/operation[@name='#{page}']/failures/text()")
+      |> xmap(
+        summary: ~x"/benchResults/driverSummary/mix/operation[@name='#{page}']/failures/text()"
+      )
 
     %{summary: mix} =
       summary
@@ -162,15 +184,24 @@ defmodule Parser.Parser do
   def parse_response_times(_path, page, summary) do
     %{summary: avg} =
       summary
-      |> xmap(summary: ~x"/benchResults/driverSummary/responseTimes/operation[@name='#{page}']/avg/text()")
+      |> xmap(
+        summary:
+          ~x"/benchResults/driverSummary/responseTimes/operation[@name='#{page}']/avg/text()"
+      )
 
     %{summary: max} =
       summary
-      |> xmap(summary: ~x"/benchResults/driverSummary/responseTimes/operation[@name='#{page}']/max/text()")
+      |> xmap(
+        summary:
+          ~x"/benchResults/driverSummary/responseTimes/operation[@name='#{page}']/max/text()"
+      )
 
     %{summary: sd} =
       summary
-      |> xmap(summary: ~x"/benchResults/driverSummary/responseTimes/operation[@name='#{page}']/sd/text()")
+      |> xmap(
+        summary:
+          ~x"/benchResults/driverSummary/responseTimes/operation[@name='#{page}']/sd/text()"
+      )
 
     %{avg: avg, max: max, sd: sd}
   end
