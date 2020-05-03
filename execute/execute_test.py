@@ -52,19 +52,21 @@ def execute_test(configuration_file_path):
             try:
                 logging.info(f"Executing test case {f.name}.")
                 
-                logging.debug(f"Executing {command_to_execute_before_a_test}.")
-                result_before = os.system(command_to_execute_before_a_test)
-                if result_before != 0:
-                    logging.fatal(f"Could not execute {command_to_execute_before_a_test}.")
-                    quit()
+                if (len(command_to_execute_before_a_test) > 0):
+                    logging.debug(f"Executing {command_to_execute_before_a_test}.")
+                    result_before = os.system(command_to_execute_before_a_test)
+                    if result_before != 0:
+                        logging.fatal(f"Could not execute {command_to_execute_before_a_test}.")
+                        quit()
 
                 test_id = f.name
                 command_deploy_stack = f"docker stack deploy --compose-file={f.path}/docker-compose.yml {test_id}"
                 
-                logging.debug("Deploying the system under test.")
+                logging.info("Deploying the system under test.")
+                logging.debug(f"Executing {command_deploy_stack}.")
                 result_deploy_stack = os.system(command_deploy_stack)
                 if result_deploy_stack != 0:
-                    logging.fatal(f"Could not deploy the system under test for test {test_id}.")       
+                    logging.fatal(f"Could not deploy the system under test for test {test_id} to Docker.")       
                     raise RuntimeError                    
 
                 wait(seconds_to_wait_for_deployment)
@@ -72,11 +74,31 @@ def execute_test(configuration_file_path):
                 driver = f"{input}/{test_id}/{test_id}.jar"
                 driver_configuration = f"{input}/{test_id}/run.xml"
                 deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
-
-                logging.debug("Deploying the load driver")
                 command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration} > {f.name}.tmp"
+                
+                logging.info("Deploying the load driver")
+                logging.debug(f"Executing {command_deploy_faban}.")
                 result_deploy_faban = os.system(command_deploy_faban)
+                if result_deploy_faban != 0:
+                    logging.fatal(f"Could not deploy the system under test for test {test_id} to Faban.")       
+                    raise RuntimeError       
 
+                with open(f"{f.name}.tmp", "r") as f:
+                    std_out_deploy_faban = f.readline()
+
+                print(std_out_deploy_faban)
+
+                os.remove(f"{f.name}.tmp")
+
+
+
+
+                if (len(command_to_execute_after_a_test) > 0):
+                    logging.debug(f"Executing {command_to_execute_after_a_test}.")
+                    result_after = os.system(command_to_execute_after_a_test)
+                    if result_after != 0:
+                        logging.fatal(f"Could not execute {command_to_execute_after_a_test}.")
+                        quit()
             finally:
                 command_undeploy_stack = f"docker stack rm {test_id}"
                 result_undeploy_stack = os.system(command_undeploy_stack)
