@@ -74,6 +74,7 @@ def execute_test(configuration_file_path):
                 deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
 
                 command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration}"
+                print(command_deploy_faban)
                 
                 logging.debug("Deploying the load driver")
 
