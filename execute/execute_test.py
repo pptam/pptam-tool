@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.7
 
 import os
 import time
@@ -6,6 +6,14 @@ import argparse
 import logging
 from os import path
 import json
+import sys
+from time import sleep
+
+def wait(seconds):
+    while seconds > 0:
+        sys.stdout.write(str(seconds) + '     \r')
+        seconds -= 1
+        sleep(1)
 
 def execute_test(configuration_file_path):
     if not path.exists(configuration_file_path):
@@ -60,13 +68,14 @@ def execute_test(configuration_file_path):
             if result_deploy_stack != 0:
                 logging.fatal(f"Could not deploy the system under test for test {test_id}.")       
                 logging.debug(f"Cleaning up the deployed system.")
- 
+
                 result_undeploy_stack = os.system(command_undeploy_stack)
                 if result_undeploy_stack != 0:
                     logging.fatal(f"Could not undeploy the system under test for test {test_id}.")
                 quit()
 
-            time.sleep(seconds_to_wait_for_deployment)
+            os.chdir(current_folder)
+            wait(seconds_to_wait_for_deployment)
 
             driver = f"to_execute/{test_id}/{test_id}.jar"
             driver_configuration = f"to_execute/{test_id}/run.xml"
@@ -76,7 +85,7 @@ def execute_test(configuration_file_path):
             
             logging.debug("Deploying the load driver")
             result_deploy_faban = os.system(command_deploy_faban)
-            result_deploy_faban(result_deploy_faban)
+            print(result_deploy_faban)
 
         #     RUN_ID = ""
         #     readFromFile = ReadFromFile(RUN_ID_FILE)
@@ -203,7 +212,8 @@ def execute_test(configuration_file_path):
         #     commonMethods.moveFromFolder2Folder(
         #         folderOriginAbsPath, folderTargetAbsPath)
 
-            os.chdir(current_folder)
+            
+            quit()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
