@@ -15,6 +15,7 @@
     "test_case_ramp_down_in_seconds": "0",
     "pre_exec_external_command": "",
     "post_exec_external_command": "",
+    "on_exec_external_command": "",
     "test_case_prefix": "change_me",
     "num_users": "50",
     "carts_cpus_limits": "0.25",
