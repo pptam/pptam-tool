@@ -59,7 +59,7 @@ def execute_test(configuration_file_path):
                     quit()
 
                 test_id = f.name
-                command_deploy_stack = f"docker stack deploy --compose-file={f}docker-compose.yml {test_id}"
+                command_deploy_stack = f"docker stack deploy --compose-file={f.path}/docker-compose.yml {test_id}"
                 
                 logging.debug("Deploying the system under test.")
                 result_deploy_stack = os.system(command_deploy_stack)
@@ -75,7 +75,7 @@ def execute_test(configuration_file_path):
 
                 command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration}"
                 print(command_deploy_faban)
-                
+
                 logging.debug("Deploying the load driver")
 
                 process_deploy_faban = subprocess.run(command_deploy_faban.split(" "), shell=True, stdout=subprocess.PIPE)
