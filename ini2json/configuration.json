@@ -1,6 +1,6 @@
 {
   "Configuration": {
-    "faban_ip": "10.7.20.69",
+    "faban_ip": "10.7.20.68",
     "faban_java_home": "/usr/lib/jvm/java-8-openjdk-amd64",
     "faban_output_dir": "/tmp/",
     "sut_hostname": "socks2",
