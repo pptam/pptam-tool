@@ -115,15 +115,16 @@ def execute_test(configuration_file_path):
                 if path.isfile(temporary_file):
                     os.remove(temporary_file)
 
-            logging.info("Saving test results")
-            test_output_path = f"{output}/{test_id}/faban"
-            os.makedirs(test_output_path)
-
-            command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {f.name}_status.tmp"
-            shutil.copyfile(path.abspath(f"./faban/output/{run_id}/summary.xml"), test_output_path)
-            shutil.copyfile(path.abspath(f"./faban/output/{run_id}/detail.xan"), test_output_path)
-            shutil.copyfile(path.abspath(f"./faban/output/{run_id}/log.xml"), test_output_path)
-            shutil.move(f.path, f"{output}/{test_id}/definition")
+            if (status == "COMPLETED"):
+                logging.info("Saving test results")
+                test_output_path = f"{output}/{test_id}/faban"
+                os.makedirs(test_output_path)
+            
+                command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {f.name}_status.tmp"
+                shutil.copyfile(path.abspath(f"./faban/output/{run_id}/summary.xml"), test_output_path)
+                shutil.copyfile(path.abspath(f"./faban/output/{run_id}/detail.xan"), test_output_path)
+                shutil.copyfile(path.abspath(f"./faban/output/{run_id}/log.xml"), test_output_path)
+                shutil.move(f.path, f"{output}/{test_id}/definition")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
