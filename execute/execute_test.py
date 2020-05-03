@@ -12,7 +12,7 @@ import subprocess
 
 def wait(seconds):
     while seconds > 0:
-        sys.stdout.write(f"Waiting for {seconds}...     \r")
+        sys.stdout.write(f"Waiting for {seconds} seconds...     \r")
         seconds -= 1
         sleep(1)
 
