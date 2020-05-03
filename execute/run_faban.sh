@@ -7,7 +7,7 @@ SUDO=''
 if (( $EUID != 0 )); then
     SUDO='sudo'
 fi
-$SUDO /startup.sh
+$SUDO ./startup.sh
 
 cd ../../../
 
