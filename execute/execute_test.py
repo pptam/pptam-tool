@@ -80,7 +80,7 @@ def execute_test(configuration_file_path):
                 run_external_applicaton(command_deploy_faban, "Deploying the load driver.")
 
                 with open(f"{f.name}_run_id.tmp", "r") as f:
-                    std_out_deploy_faban = f.read()
+                    std_out_deploy_faban = f.readline().rstrip()
                 run_id = std_out_deploy_faban
                 logging.debug(f"Obtained {run_id} as run ID.")
                 
@@ -88,12 +88,12 @@ def execute_test(configuration_file_path):
                 status = ""
                 external_tool_was_started = False
                 while ((status != "COMPLETED") and (status != "FAILED")):
-                    command_status_faban = f"java -jar {faban_client} {faban_master} status {test_id} > {f.name}_status.tmp"
+                    command_status_faban = f"java -jar {faban_client} {faban_master} status {run_id} > {f.name}_status.tmp"
 
                     run_external_applicaton(command_status_faban, "Getting the status from Faban.")
 
                     with open(f"{f.name}_status.tmp", "r") as f:
-                        std_out_status_faban = f.read()
+                        std_out_status_faban = f.readline().rstrip()
                     status = std_out_status_faban
 
                     if (status == "STARTED" and external_tool_was_started == False):
@@ -116,7 +116,7 @@ def execute_test(configuration_file_path):
             test_output_path = f"{output}/{test_id}/faban"
             os.makedirs(test_output_path)
 
-            command_info_faban = f"java -jar {faban_client} {faban_master} info {test_id} > {f.name}_status.tmp"
+            command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {f.name}_status.tmp"
             shutil.copyfile(path.abspath(f"./faban/output/{run_id}/summary.xml"), test_output_path)
             shutil.copyfile(path.abspath(f"./faban/output/{run_id}/detail.xan"), test_output_path)
             shutil.copyfile(path.abspath(f"./faban/output/{run_id}/log.xml"), test_output_path)
