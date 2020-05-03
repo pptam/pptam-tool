@@ -138,5 +138,5 @@ dmypy.json
 cython_debug/
 
 # Application specific paths to ignore
-/generate/drivers
-/generate/to_execute
+/create/drivers
+/create/to_execute
