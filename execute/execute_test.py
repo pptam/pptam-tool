@@ -93,7 +93,7 @@ def execute_test(configuration_file_path):
                     run_external_applicaton(command_status_faban, "Getting the status from Faban.")
 
                     with open(f"{f.name}_status.tmp", "r") as f:
-                        std_out_status_faban = f.readline()
+                        std_out_status_faban = f.read()
                     status = std_out_status_faban
 
                     if (status == "STARTED" and external_tool_was_started == False):
@@ -125,7 +125,7 @@ def execute_test(configuration_file_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("--configuration", metavar="path_to_configuration_file", help="Configuration file", default="configuration.json")    
-    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)    
+    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=1)    
     args = parser.parse_args()
  
     logging.basicConfig(format='%(message)s', level=args.logging * 10)   
