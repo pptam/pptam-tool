@@ -75,33 +75,35 @@ def execute_test(configuration_file_path):
                 driver = f"{input}/{test_id}/{test_id}.jar"
                 driver_configuration = f"{input}/{test_id}/run.xml"
                 deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
-                command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration} > {f.name}_run_id.tmp"
+                temporary_file = f"{test_id}_run_id.tmp"
+                command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration} > {temporary_file}"
                 
                 run_external_applicaton(command_deploy_faban, "Deploying the load driver.")
 
-                with open(f"{f.name}_run_id.tmp", "r") as f:
+                with open(temporary_file, "r") as f:
                     std_out_deploy_faban = f.readline().rstrip()
                 run_id = std_out_deploy_faban
                 logging.debug(f"Obtained {run_id} as run ID.")
-                
+                os.remove(temporary_file)
+
                 logging.info("Waiting for the test to be completed")
                 status = ""
                 external_tool_was_started = False
                 while ((status != "COMPLETED") and (status != "FAILED")):
-                    command_status_faban = f"java -jar {faban_client} {faban_master} status {run_id} > {f.name}_status.tmp"
+                    command_status_faban = f"java -jar {faban_client} {faban_master} status {run_id} > {temporary_file}"
 
                     run_external_applicaton(command_status_faban, "Getting the status from Faban.")
 
-                    with open(f"{f.name}_status.tmp", "r") as f:
+                    with open(temporary_file, "r") as f:
                         std_out_status_faban = f.readline().rstrip()
                     status = std_out_status_faban
                     logging.debug(f"Obtained {status} as status.")
+                    os.remove(temporary_file)
 
                     if (status == "STARTED" and external_tool_was_started == False and len(command_to_execute_before_a_test) > 0):
                         external_tool_was_started = True
                         run_external_applicaton(command_to_execute_at_a_test, "Running external application with the test.")  
 
-                    os.remove(f"{f.name}_status.tmp")
                     wait(60)
 
                 if (len(command_to_execute_after_a_test) > 0):
@@ -110,8 +112,8 @@ def execute_test(configuration_file_path):
                 command_undeploy_stack = f"docker stack rm {test_id}"
                 run_external_applicaton(command_undeploy_stack, "Undeploying the system under test.", False)
 
-                os.remove(f"{f.name}_run_id.tmp")
-                os.remove(f"{f.name}_status.tmp")
+                if path.isfile(temporary_file):
+                    os.remove(temporary_file)
 
             logging.info("Saving test results")
             test_output_path = f"{output}/{test_id}/faban"
