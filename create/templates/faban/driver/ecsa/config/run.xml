@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <webBenchmark${TEST_NAME}>
     <jvmConfig xmlns="http://faban.sunsource.net/ns/fabanharness">
-        <javaHome>${JAVA_HOME_FABAN}</javaHome>
+        <javaHome>${FABAN_JAVA_HOME}</javaHome>
         <jvmOptions>-Xmx1g -Xms256m -XX:+DisableExplicitGC</jvmOptions>
     </jvmConfig>
     <!-- The definition binds the config file with the benchmark class -->
@@ -25,9 +25,9 @@
         <fa:scale>${NUM_USERS}</fa:scale>
         <!-- The rampup, steadystate, and rampdown of the driver -->
         <fa:runControl unit="time">
-            <fa:rampUp>60</fa:rampUp>
-            <fa:steadyState>1800</fa:steadyState>
-            <fa:rampDown>0</fa:rampDown>
+            <fa:rampUp>${TEST_CASE_RAMP_UP_IN_SECONDS}</fa:rampUp>
+            <fa:steadyState>${TEST_CASE_STEADY_STATE_IN_SECONDS}</fa:steadyState>
+            <fa:rampDown>${TEST_CASE_RAMP_DOWN_IN_SECONDS}</fa:rampDown>
         </fa:runControl>
         <!-- Whether to sync the clock on all systems in the test rig to
         the master's clock. This will make it much easier to interpret

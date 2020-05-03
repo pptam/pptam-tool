@@ -1,20 +1,24 @@
 {
   "Configuration": {
-    "faban_ip": "10.7.20.68",
-    "java_home_faban": "/usr/lib/jvm/java-8-openjdk-amd64",
+    "faban_ip": "192.168.2.1",
+    "faban_java_home": "/usr/lib/jvm/java-8-openjdk-amd64",
     "faban_output_dir": "/tmp/",
+    "sut_hostname": "socks2",
     "sut_ip": "10.7.20.69",
     "sut_port": "80",
-    "sut_hostname": "socks2",
+    "test_case_creation_folder": "./to_execute",
+    "test_case_to_execute_folder": "../create/to_execute",
+    "test_case_executed_folder": "./executed",
+    "test_case_waiting_for_deployment_in_seconds": "120",
+    "test_case_ramp_up_in_seconds": "",
     "pre_exec_external_command": "",
     "post_exec_external_command": "",
-    "test_case_prefix": "test",
-    "where_to_write_the_tests_after_generating_them": "./to_execute",
+    "test_case_prefix": "change_me",
+    "num_users": "50",
     "carts_cpus_limits": "0.25",
     "carts_cpus_reservations": "0.25",
     "carts_ram_limits": "500M",
     "carts_ram_reservations": "500M",
-    "carts_replicas": "1",
-    "num_users": "50"
+    "carts_replicas": "1"
   }
 }

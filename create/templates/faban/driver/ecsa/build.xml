@@ -9,7 +9,7 @@
     <property name="faban.libs" value="${faban.home}/lib"/>
     <property name="faban.classes" value="${faban.home}/master/webapps/faban/WEB-INF/classes"/>
 
-    <property name="javac" location="${JAVA_HOME_FABAN}/bin/javac" />
+    <property name="javac" location="${FABAN_JAVA_HOME}/bin/javac" />
 
     <path id="taskclasspath">
         <fileset dir="${faban.home}/ant/lib" includes="*.jar"/>

@@ -15,214 +15,195 @@ def execute_test(configuration_file_path):
     with open(configuration_file_path, "r") as f:
         configuration = json.load(f)["Configuration"]
 
+    input = configuration["test_case_to_execute_folder"]
+    if not path.isdir(input):
+        logging.fatal(f"Cannot find the test case folder {input}.")
+        quit()
+    else:
+        input = path.abspath(input)
+        logging.debug(f"Executing test cases from {input}.")
 
+    output = configuration["test_case_executed_folder"]
+    if not path.isdir(input):
+        logging.fatal(f"Cannot find the results folder {output}.")
+        quit()
+    else:
+        output = path.abspath(output)
+        logging.debug(f"Storing results in {output}.")
+        
+    faban_master = f"http://{configuration['faban_ip']}:9980/"
+    faban_client = "./faban/benchflow-faban-client/target/benchflow-faban-client.jar"
 
+    command_to_execute_before_a_test = configuration["pre_exec_external_command"]
+    command_to_execute_after_a_test = configuration["post_exec_external_command"]
+    seconds_to_wait_for_deployment = int(configuration["test_case_waiting_for_deployment_in_seconds"])
 
+    for f in os.scandir(input):
+        if (path.isdir(f)):
+            logging.info(f"Executing test case {f.name}.")
+            
+            logging.debug(f"Executing {command_to_execute_before_a_test}.")
+            result_before = os.system(command_to_execute_before_a_test)
+            if result_before != 0:
+                logging.fatal(f"Could not execute {command_to_execute_before_a_test}.")
+                quit()
+           
+            current_folder = os.getcwd()
+            os.chdir(f)
 
+            test_id = f.name
+            command_deploy_stack = f"docker stack deploy --compose-file=docker-compose.yml {test_id}"
+            command_undeploy_stack = f"docker stack rm {test_id}"
 
-        # Check the folder for the future executed tests.
-        # Make it clean.
-        executedFolderName = "executed"
-        executedTests = testExecutorDestination + "/to_execute/" + executedFolderName
-        print("Store executed tests in: " + executedTests)
-        if path.isdir(executedTests):
-            print("Clean folder " + executedTests)
-            commonMethods.deleteFilesFromFolder(executedTests)
-        else:
-            os.mkdir(executedTests)
+            logging.debug("Deploying the system under test.")
+            result_deploy_stack = os.system(command_deploy_stack)
+            if result_deploy_stack != 0:
+                logging.fatal(f"Could not deploy the system under test for test {test_id}.")       
+                logging.debug(f"Cleaning up the deployed system.")
+ 
+                result_undeploy_stack = os.system(command_undeploy_stack)
+                if result_undeploy_stack != 0:
+                    logging.fatal(f"Could not undeploy the system under test for test {test_id}.")
+                quit()
 
-        FABAN_IP = pptamConfigurationData.getFabanIP()
-        FABAN_IP = FABAN_IP.replace(" ", "")
-        print("FABAN_IP=" + FABAN_IP)
-        # FABAN_IP=$(getProperty "faban.ip")
-        FABAN_MASTER = "http://" + pptamConfigurationData.getFabanIP() + ":" + \
-            pptamConfigurationData.getSutPort() + "/"
-        FABAN_MASTER = FABAN_MASTER.replace(" ", "")
-        print("FABAN_MASTER=" + FABAN_MASTER)
-        # FABAN_MASTER="http://$FABAN_IP:9980/";
-        # TODO: should we configure FABAN_CLIENT externally?
-        FABAN_CLIENT = "./faban/benchflow-faban-client/target/benchflow-faban-client.jar"
-        SUT_IP = pptamConfigurationData.getSutIP()
-        # SUT_IP=$(getProperty "sut.ip")
-        # STAT_COLLECTOR_PORT=$(getProperty "stat.collector.port")
+            time.sleep(seconds_to_wait_for_deployment)
 
-        # Get all test folders - test IDs.
-        testFolder = testExecutorDestination + "/to_execute"
-        print("Execute tests from " + testFolder)
-        for f in os.scandir(testFolder):
-            # Avoid folder "executed". Focus on other folders that contain actual tests.
-            if f.is_dir():
-                if f.name == executedFolderName:
-                    continue
-            # Execute commands before a test.
-            for preExec in pptamConfigurationData.getPreExecExternalCommands():
-                print("")
-                print("------------------------------------")
-                print("    --- Execute external command ---")
-                os.system(preExec)
-                print("------------------------------------")
-                print("")
+            driver = f"to_execute/{test_id}/{test_id}.jar"
+            driver_configuration = f"to_execute/{test_id}/run.xml"
+            deployment_descriptor = f"to_execute/{test_id}/docker-compose.yml"
 
-            if f.is_dir():
-                testID = f.name
-                print("")
-                print("Starting test: " + testID)
-                print("Deploying the system under test")
+            command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration}"
+            
+            logging.debug("Deploying the load driver")
+            result_deploy_faban = os.system(command_deploy_faban)
+            result_deploy_faban(result_deploy_faban)
 
-                #terminalCmd = "cd ./to_execute/"+testID
-                # os.system(terminalCmd)
-                terminalCmd = "docker stack deploy --compose-file=docker-compose.yml " + \
-                    testFolder + "/" + testID
-                print("To execute: " + terminalCmd)
-                os.system(terminalCmd)
+        #     RUN_ID = ""
+        #     readFromFile = ReadFromFile(RUN_ID_FILE)
+        #     for line in readFromFile.readLines():
+        #         RUN_ID = readFromFile.readLines()
 
-                print("Waiting for the system to be ready")
-                # TODO: Uncomment/uncomment not to wait for too long
-                time.sleep(120)
-                #terminalCmd = "sleep 120"
-                # os.system(terminalCmd)
+        #     print("RUN_ID=" + RUN_ID)
 
-                terminalCmd = "export " + testFolder + "/" + testID
-                print("To execute: " + terminalCmd)
-                os.system(terminalCmd)
+        #     # Cleanup
+        #     commonMethods.removeFileRelativePath(
+        #         self.rootDirectory + "/" + RUN_ID_FILE)
 
-                test_name = testID
-                driver = "to_execute/" + testID + "/" + testID + ".jar"
-                driver_conf = "to_execute/" + testID + "/run.xml"
-                deployment_descriptor = "to_execute/" + testID + "/docker-compose.yml"
+        #     print("Run ID: " + RUN_ID)
 
-                print("Deploying the load driver")
-                # Deploy and start the test
-                RUN_ID_FILE = "RUN_ID.txt"
-                terminalCmd = "java -jar " + FABAN_CLIENT + " " + FABAN_MASTER + " deploy " + test_name + \
-                    " " + driver + " " + driver_conf + \
-                    " | (read RUN_ID ; echo $RUN_ID > " + RUN_ID_FILE + ")"
-                os.system(terminalCmd)
+        #     # Wait for the test to be done.
+        #     STATUS = ""
 
-                RUN_ID = ""
-                readFromFile = ReadFromFile(RUN_ID_FILE)
-                for line in readFromFile.readLines():
-                    RUN_ID = readFromFile.readLines()
+        #     while ((STATUS != "COMPLETED") and (STATUS != "FAILED")):
+        #         STATUS_FILE = "STATUS.txt"
 
-                print("RUN_ID=" + RUN_ID)
+        #         # Get test status
+        #         # java -jar ./faban/benchflow-faban-client/target/benchflow-faban-client.jar $FABAN_MASTER status $RUN_ID | (read STATUS ; echo $STATUS > STATUS.txt)
+        #         terminalCmd = "java -jar " + testExecutorDestination + "/faban/benchflow-faban-client/target/benchflow-faban-client.jar " + \
+        #             FABAN_MASTER + " status " + RUN_ID + \
+        #             " | (read STATUS ; echo $STATUS > " + STATUS_FILE + ")"
+        #         print("To execute: " + terminalCmd)
+        #         os.system(terminalCmd)
 
-                # Cleanup
-                commonMethods.removeFileRelativePath(
-                    self.rootDirectory + "/" + RUN_ID_FILE)
+        #         readFromFile = ReadFromFile(STATUS_FILE)
+        #         for line in readFromFile.readLines():
+        #             STATUS = readFromFile.readLines()
 
-                print("Run ID: " + RUN_ID)
+        #         # TODO: Comment out
+        #         #STATUS = "COMPLETED"
+        #         print("Current STATUS: " + STATUS)
 
-                # Wait for the test to be done.
-                STATUS = ""
+        #         # Only used for testing with Mirai
+        #         # TODO: Not sure how these should work.
+        #         # if (STATUS != "STARTED"):
+        #         # duration=$SECONDS
+        #         # echo "$(($duration / 60)) minutes and $(($duration % 60)) seconds elapsed."
+        #         # if [ $MIRAI_STARTED -eq 0 ]
+        #         # if [ $SECONDS -gt 180 ]
+        #         # MIRAI_STARTED=1
+        #         # pass
 
-                while ((STATUS != "COMPLETED") and (STATUS != "FAILED")):
-                    STATUS_FILE = "STATUS.txt"
+        #         # cleanup
+        #         commonMethods.removeFileRelativePath(
+        #             self.rootDirectory + "/" + STATUS_FILE)
+        #         # TODO: Uncomment
+        #         time.sleep(120)
 
-                    # Get test status
-                    # java -jar ./faban/benchflow-faban-client/target/benchflow-faban-client.jar $FABAN_MASTER status $RUN_ID | (read STATUS ; echo $STATUS > STATUS.txt)
-                    terminalCmd = "java -jar " + testExecutorDestination + "/faban/benchflow-faban-client/target/benchflow-faban-client.jar " + \
-                        FABAN_MASTER + " status " + RUN_ID + \
-                        " | (read STATUS ; echo $STATUS > " + STATUS_FILE + ")"
-                    print("To execute: " + terminalCmd)
-                    os.system(terminalCmd)
+        #     # Stop the resource data collection and store the data
+        #     # echo "Data collection: "
+        #     # curl http://$SUT_IP:$STAT_COLLECTOR_PORT/stop
+        #     # echo ""
 
-                    readFromFile = ReadFromFile(STATUS_FILE)
-                    for line in readFromFile.readLines():
-                        STATUS = readFromFile.readLines()
+        #     # Execute commands after a test.
+        #     for postExec in pptamConfigurationData.getPostExecExternalCommands():
+        #         print("")
+        #         print("------------------------------------")
+        #         print("    --- Execute external command ---")
+        #         os.system(postExec)
+        #         print("------------------------------------")
+        #         print("")
 
-                    # TODO: Comment out
-                    #STATUS = "COMPLETED"
-                    print("Current STATUS: " + STATUS)
+        #     print("Undeploying the system under test")
+        #     # undeploy the system under test
 
-                    # Only used for testing with Mirai
-                    # TODO: Not sure how these should work.
-                    # if (STATUS != "STARTED"):
-                    # duration=$SECONDS
-                    # echo "$(($duration / 60)) minutes and $(($duration % 60)) seconds elapsed."
-                    # if [ $MIRAI_STARTED -eq 0 ]
-                    # if [ $SECONDS -gt 180 ]
-                    # MIRAI_STARTED=1
-                    # pass
+        #     #terminalCmd = "cd "+self.rootDirectory+"/to_execute/"+testID
+        #     # os.system(terminalCmd)
+        #     # cd ./to_execute/$TEST_ID/
 
-                    # cleanup
-                    commonMethods.removeFileRelativePath(
-                        self.rootDirectory + "/" + STATUS_FILE)
-                    # TODO: Uncomment
-                    time.sleep(120)
+        #     # undeploy the system under test
+        #     terminalCmd = "docker stack rm " + testFolder + "/" + testID + "/" + testID
+        #     print("To execute: " + terminalCmd)
+        #     os.system(terminalCmd)
 
-                # Stop the resource data collection and store the data
-                # echo "Data collection: "
-                # curl http://$SUT_IP:$STAT_COLLECTOR_PORT/stop
-                # echo ""
+        #     # be sure everything is clean
+        #     terminalCmd = "docker stack rm $(docker stack ls --format \"{{.Name}}\") || true"
+        #     print("To execute: " + terminalCmd)
+        #     os.system(terminalCmd)
+        #     terminalCmd = "docker rm -f -v $(docker ps -a -q) || true"
+        #     os.system(terminalCmd)
 
-                # Execute commands after a test.
-                for postExec in pptamConfigurationData.getPostExecExternalCommands():
-                    print("")
-                    print("------------------------------------")
-                    print("    --- Execute external command ---")
-                    os.system(postExec)
-                    print("------------------------------------")
-                    print("")
+        #     # saving test results
+        #     print("Saving test results")
+        #     os.mkdir(executedTests + "/" + testID)
+        #     os.mkdir(executedTests + "/" + testID + "/faban")
 
-                print("Undeploying the system under test")
-                # undeploy the system under test
+        #     terminalCmd = "java -jar " + testExecutorDestination + "/faban/benchflow-faban-client/target/benchflow-faban-client.jar " + \
+        #         FABAN_MASTER + " info " + RUN_ID + " > " + executedTests + "/" + testID + "/faban/runInfo.txt"
+        #     print("To execute: " + terminalCmd)
+        #     os.system(terminalCmd)
 
-                #terminalCmd = "cd "+self.rootDirectory+"/to_execute/"+testID
-                # os.system(terminalCmd)
-                # cd ./to_execute/$TEST_ID/
+        #     fileOriginAbsPath = testExecutorDestination + \
+        #         "/faban/output/" + RUN_ID + "summary.xml"
+        #     folderTargetAbsPath = executedTests + "/" + testID + "/faban/"
+        #     if path.isdir(folderTargetAbsPath) == False:
+        #         os.mkdir(folderTargetAbsPath)
+        #     commonMethods.copyFile(fileOriginAbsPath, folderTargetAbsPath)
 
-                # undeploy the system under test
-                terminalCmd = "docker stack rm " + testFolder + "/" + testID + "/" + testID
-                print("To execute: " + terminalCmd)
-                os.system(terminalCmd)
+        #     fileOriginAbsPath = testExecutorDestination + \
+        #         "/faban/output/" + RUN_ID + "summary.xml"
+        #     folderTargetAbsPath = executedTests + "/" + testID + "/faban/"
+        #     if path.isdir(folderTargetAbsPath) == False:
+        #         os.mkdir(folderTargetAbsPath)
+        #     commonMethods.copyFileRel(
+        #         fileOriginAbsPath, folderTargetAbsPath)
 
-                # be sure everything is clean
-                terminalCmd = "docker stack rm $(docker stack ls --format \"{{.Name}}\") || true"
-                print("To execute: " + terminalCmd)
-                os.system(terminalCmd)
-                terminalCmd = "docker rm -f -v $(docker ps -a -q) || true"
-                os.system(terminalCmd)
+        #     fileOriginAbsPath = testExecutorDestination + "/faban/output/" + RUN_ID + "log.xml"
+        #     folderTargetAbsPath = executedTests + "/" + testID + "/faban/"
+        #     if path.isdir(folderTargetAbsPath) == False:
+        #         os.mkdir(folderTargetAbsPath)
+        #     commonMethods.copyFileRel(
+        #         fileOriginAbsPath, folderTargetAbsPath)
+        #     # mkdir -p ./executed/$TEST_ID/stats
+        #     # curl http://$SUT_IP:$STAT_COLLECTOR_PORT/data > executed/$TEST_ID/stats/cpu.txt
+        #     # cp ./services/stats/cpu.txt ./executed/$TEST_ID/stats/cpu.txt
+        #     folderOriginAbsPath = testExecutorDestination + "/to_execute/" + testID + "/"
+        #     folderTargetAbsPath = executedTests + "/" + testID + "/definition"
+        #     if path.isdir(folderTargetAbsPath) == False:
+        #         os.mkdir(folderTargetAbsPath)
+        #     commonMethods.moveFromFolder2Folder(
+        #         folderOriginAbsPath, folderTargetAbsPath)
 
-                # saving test results
-                print("Saving test results")
-                os.mkdir(executedTests + "/" + testID)
-                os.mkdir(executedTests + "/" + testID + "/faban")
-
-                terminalCmd = "java -jar " + testExecutorDestination + "/faban/benchflow-faban-client/target/benchflow-faban-client.jar " + \
-                    FABAN_MASTER + " info " + RUN_ID + " > " + executedTests + "/" + testID + "/faban/runInfo.txt"
-                print("To execute: " + terminalCmd)
-                os.system(terminalCmd)
-
-                fileOriginAbsPath = testExecutorDestination + \
-                    "/faban/output/" + RUN_ID + "summary.xml"
-                folderTargetAbsPath = executedTests + "/" + testID + "/faban/"
-                if path.isdir(folderTargetAbsPath) == False:
-                    os.mkdir(folderTargetAbsPath)
-                commonMethods.copyFile(fileOriginAbsPath, folderTargetAbsPath)
-
-                fileOriginAbsPath = testExecutorDestination + \
-                    "/faban/output/" + RUN_ID + "summary.xml"
-                folderTargetAbsPath = executedTests + "/" + testID + "/faban/"
-                if path.isdir(folderTargetAbsPath) == False:
-                    os.mkdir(folderTargetAbsPath)
-                commonMethods.copyFileRel(
-                    fileOriginAbsPath, folderTargetAbsPath)
-
-                fileOriginAbsPath = testExecutorDestination + "/faban/output/" + RUN_ID + "log.xml"
-                folderTargetAbsPath = executedTests + "/" + testID + "/faban/"
-                if path.isdir(folderTargetAbsPath) == False:
-                    os.mkdir(folderTargetAbsPath)
-                commonMethods.copyFileRel(
-                    fileOriginAbsPath, folderTargetAbsPath)
-                # mkdir -p ./executed/$TEST_ID/stats
-                # curl http://$SUT_IP:$STAT_COLLECTOR_PORT/data > executed/$TEST_ID/stats/cpu.txt
-                # cp ./services/stats/cpu.txt ./executed/$TEST_ID/stats/cpu.txt
-                folderOriginAbsPath = testExecutorDestination + "/to_execute/" + testID + "/"
-                folderTargetAbsPath = executedTests + "/" + testID + "/definition"
-                if path.isdir(folderTargetAbsPath) == False:
-                    os.mkdir(folderTargetAbsPath)
-                commonMethods.moveFromFolder2Folder(
-                    folderOriginAbsPath, folderTargetAbsPath)
+            os.chdir(current_folder)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")

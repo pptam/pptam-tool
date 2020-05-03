@@ -34,7 +34,7 @@ def create_test(configuration_file_path, configuration_entries_to_overwrite):
         parts = argument.split('=')
         configuration[parts[0]] = parts[1]
 
-    output = configuration["where_to_write_the_tests_after_generating_them"]
+    output = configuration["test_case_creation_folder"]
     if not path.isdir(output):
         logging.debug(f"Creating {output}, since it does not exist.")
         os.makedirs(output)

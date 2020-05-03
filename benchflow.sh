@@ -1,53 +1,5 @@
 
-function execute_tests()
-{
 
-  FABAN_IP=$(getProperty "faban.ip")
-  FABAN_MASTER="http://$FABAN_IP:9980/";
-
-  FABAN_CLIENT="./faban/benchflow-faban-client/target/benchflow-faban-client.jar"
-
-  SUT_IP=$(getProperty "sut.ip")
-  #STAT_COLLECTOR_PORT=$(getProperty "stat.collector.port")
-
-  for D in `find ./to_execute/* -type d`; do
-      if [ -d "${D}" ]; then
-          arrD=(${D//\// })
-          TEST_ID=${arrD[2]} 
-          echo "Starting test: $TEST_ID"
-
-          echo "Deploying the system under test"
-
-          # deploy the system under test
-          cwd=$(pwd)
-          cd ./to_execute/$TEST_ID/
-          docker stack deploy --compose-file=docker-compose.yml $TEST_ID
-          # wait for the system under test to be ready
-          echo "Waiting for the system to be ready"
-          sleep 120
-          export TEST_ID
-          # BUGGY, docker service logs hangs sometimes, we have to find a better solution instead
-          #CARTS_LOGS=$(docker service logs ${TEST_ID}_carts --tail all)
-          cd "$cwd"
-
-          #if [[ $CARTS_LOGS != *"initialization completed in"* ]]; then
-          #  echo "The system under test did not start correclty"
-          #  # undeploy the system under test
-          #  cwd=$(pwd)
-          #  cd ./to_execute/$TEST_ID/
-          #  docker stack rm $TEST_ID
-          #  cd "$cwd"
-          #  continue
-          #fi
-
-          # IF the system successfully deployed, then start the test
-
-          test_name=$TEST_ID
-          driver="to_execute/$TEST_ID/$TEST_ID.jar"
-          driver_conf="to_execute/$TEST_ID/run.xml"
-          deployment_descriptor="to_execute/$TEST_ID/docker-compose.yml"
-
-          echo "Deploying the load driver"
 
           # Deploy and start the test
           java -jar $FABAN_CLIENT $FABAN_MASTER deploy $test_name $driver $driver_conf | (read RUN_ID ; echo $RUN_ID > RUN_ID.txt)

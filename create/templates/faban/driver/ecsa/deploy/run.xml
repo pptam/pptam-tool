@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <webBenchmark${TEST_NAME}>
     <jvmConfig xmlns="http://faban.sunsource.net/ns/fabanharness">
-        <javaHome>${JAVA_HOME_FABAN}</javaHome>
+        <javaHome>${FABAN_JAVA_HOME}</javaHome>
         <jvmOptions>-Xmx1g -Xms256m -XX:+DisableExplicitGC</jvmOptions>
     </jvmConfig>
     <!-- The definition binds the config file with the benchmark class -->
