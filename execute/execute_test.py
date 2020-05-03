@@ -88,7 +88,7 @@ def execute_test(configuration_file_path):
 
                 print(std_out_deploy_faban)
 
-                os.remove(f"{f.name}.tmp")
+                
 
 
 
@@ -104,6 +104,8 @@ def execute_test(configuration_file_path):
                 result_undeploy_stack = os.system(command_undeploy_stack)
                 if result_undeploy_stack != 0:
                     logging.fatal(f"Could not undeploy the system under test for test {test_id}.")
+
+                os.remove(f"{f.name}.tmp")
                 quit()
 
         #     RUN_ID = ""
@@ -237,7 +239,7 @@ def execute_test(configuration_file_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("--configuration", metavar="path_to_configuration_file", help="Configuration file", default="configuration.json")    
-    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)    
+    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=1)    
     args = parser.parse_args()
  
     logging.basicConfig(format='%(message)s', level=args.logging * 10)   
