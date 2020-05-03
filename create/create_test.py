@@ -56,7 +56,9 @@ def create_test(configuration_file_path, configuration_entries_to_overwrite):
     
     replacements = []
     for entry in configuration:
-	    replacements.append({"search_for": "${" + entry.upper() + "}", "replace_with": configuration[entry]})
+        replacements.append({"search_for": "${" + entry.upper() + "}", "replace_with": configuration[entry]})
+        replacements.append({"search_for": "${" + entry.lower() + "}", "replace_with": configuration[entry]})
+    
     replacements.append({"search_for": "${TEST_NAME}", "replace_with": test_id})
 
     logging.debug(f"Replacing values.")

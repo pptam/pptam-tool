@@ -9,7 +9,10 @@ import logging
 parser = argparse.ArgumentParser(description="Converts ini files to json.")
 parser.add_argument("--input", metavar="ini_file", help="The file path of the ini file to read.", default="configuration.ini")
 parser.add_argument("--output", metavar="json_file", help="The file path of the json file to write.", default="configuration.json")
+parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)    
 args = parser.parse_args()
+
+logging.basicConfig(format='%(message)s', level=args.logging * 10)   
 
 with open(args.input, "r") as f:
     configuration = ConfigParser()

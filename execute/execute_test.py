@@ -4,8 +4,20 @@ import os
 import time
 import argparse
 import logging
+from os import path
+import json
 
-def execute_test(input, output):
+def execute_test(configuration_file_path):
+    if not path.exists(configuration_file_path):
+        logging.fatal(f"Cannot find the configuration file {configuration_file_path}.")
+        quit()
+
+    with open(configuration_file_path, "r") as f:
+        configuration = json.load(f)["Configuration"]
+
+
+
+
 
 
         # Check the folder for the future executed tests.
@@ -214,10 +226,9 @@ def execute_test(input, output):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
-    parser.add_argument("--input", help="The folder with tests to execute", default="./to_execute")
-    parser.add_argument("--output", help="The folder to store results", default="./executed")
+    parser.add_argument("--configuration", metavar="path_to_configuration_file", help="Configuration file", default="configuration.json")    
+    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)    
     args = parser.parse_args()
  
-    logging.basicConfig(level=logging.WARNING)
-
-    execute_test(args.input, args.output)
+    logging.basicConfig(format='%(message)s', level=args.logging * 10)   
+    execute_test(args.configuration)

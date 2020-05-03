@@ -1,6 +1,6 @@
 {
   "Configuration": {
-    "faban_ip": "192.168.2.1",
+    "faban_ip": "10.7.20.68",
     "java_home_faban": "/usr/lib/jvm/java-8-openjdk-amd64",
     "faban_output_dir": "/tmp/",
     "sut_ip": "10.7.20.69",
@@ -8,7 +8,7 @@
     "sut_hostname": "socks2",
     "pre_exec_external_command": "",
     "post_exec_external_command": "",
-    "test_case_prefix": "abc_",
+    "test_case_prefix": "test",
     "where_to_write_the_tests_after_generating_them": "./to_execute",
     "carts_cpus_limits": "0.25",
     "carts_cpus_reservations": "0.25",
