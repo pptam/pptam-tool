@@ -8,6 +8,7 @@ from os import path
 import json
 import sys
 from time import sleep
+import subprocess
 
 def wait(seconds):
     while seconds > 0:
@@ -77,15 +78,19 @@ def execute_test(configuration_file_path):
             os.chdir(current_folder)
             wait(seconds_to_wait_for_deployment)
 
-            driver = f"to_execute/{test_id}/{test_id}.jar"
-            driver_configuration = f"to_execute/{test_id}/run.xml"
-            deployment_descriptor = f"to_execute/{test_id}/docker-compose.yml"
+            driver = f"{input}/{test_id}/{test_id}.jar"
+            driver_configuration = f"{input}/{test_id}/run.xml"
+            deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
 
             command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration}"
             
             logging.debug("Deploying the load driver")
-            result_deploy_faban = os.system(command_deploy_faban)
+
+            process_deploy_faban = subprocess.Popen(command_deploy_faban.split(" "), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            stdout, stderr = process_deploy_faban.communicate()
+            result_deploy_faban = stdout
             print(result_deploy_faban)
+            
 
         #     RUN_ID = ""
         #     readFromFile = ReadFromFile(RUN_ID_FILE)
