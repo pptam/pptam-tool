@@ -22,7 +22,7 @@ def replace_value_in_file(file, search_for, replace_with):
     with open(file, "w") as f:
         f.write(content)
 
-def generate_test(configuration_file_path, configuration_entries_to_overwrite):
+def create_test(configuration_file_path, configuration_entries_to_overwrite):
     if not path.exists(configuration_file_path):
         logging.fatal(f"Cannot find the configuration file {configuration_file_path}.")
         quit()
@@ -88,11 +88,11 @@ def generate_test(configuration_file_path, configuration_entries_to_overwrite):
     logging.info(f"Done.")    
     
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Generates test cases.")
+    parser = argparse.ArgumentParser(description="Creates test cases.")
     parser.add_argument("--configuration", help="Configuration file", default="configuration.json")    
     parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)    
     parser.add_argument("--overwrite", help="Configuration values, which overwrite the values in the configuration file. Format: name1=value1 name2=value2 ...", metavar="key=value", nargs="+", default=[])    
     args = parser.parse_args()
  
     logging.basicConfig(format='%(message)s', level=args.logging * 10)   
-    generate_test(args.configuration, args.overwrite)
+    create_test(args.configuration, args.overwrite)
