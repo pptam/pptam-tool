@@ -11,7 +11,7 @@ from time import sleep
 
 def wait(seconds):
     while seconds > 0:
-        sys.stdout.write(str(seconds) + '     \r')
+        sys.stdout.write(f"Waiting for {seconds} + '...     \r")
         seconds -= 1
         sleep(1)
 

@@ -9,7 +9,7 @@
     "test_case_creation_folder": "./to_execute",
     "test_case_to_execute_folder": "../create/to_execute",
     "test_case_executed_folder": "./executed",
-    "test_case_waiting_for_deployment_in_seconds": "120",
+    "test_case_waiting_for_deployment_in_seconds": "10",
     "test_case_ramp_up_in_seconds": "",
     "pre_exec_external_command": "",
     "post_exec_external_command": "",
