@@ -46,9 +46,9 @@ def execute_test(configuration_file_path):
 
     seconds_to_wait_for_deployment = int(configuration["test_case_waiting_for_deployment_in_seconds"])
     time_to_complete_one_test = seconds_to_wait_for_deployment + (((int(configuration["test_case_ramp_up_in_seconds"]) + int(configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
-    time_to_complete_all_tests = len([name for name in os.listdir(f"{input}/") if os.path.isdir(f"{input}/{name}")]) * time_to_complete_one_test
+    time_to_complete_all_tests = (len([name for name in os.listdir(f"{input}/") if os.path.isdir(f"{input}/{name}")]) * time_to_complete_one_test // 60) + 1
     logging.info(f"Estimated duration of ONE test: {time_to_complete_one_test} seconds.")
-    logging.info(f"Estimated duration of ALL tests: {time_to_complete_all_tests} seconds.")
+    logging.info(f"Estimated duration of ALL tests: {time_to_complete_all_tests} minutes.")
 
     output = path.abspath(configuration["test_case_executed_folder"])
     logging.debug(f"Storing results in {output}.")
@@ -140,17 +140,17 @@ def execute_test(configuration_file_path):
 
             if (status == "COMPLETED"):
                 logging.info(f"Saving test results into {test_output_path}.")
-                shutil.move(f"./faban/output/{run_id}", f"{test_output_path}/faban")
+                shutil.copytree(f"./faban/output/{run_id}", f"{test_output_path}/faban")
                 shutil.move(f"{input}/{test_id}", f"{test_output_path}/definition")
 
                 command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {test_output_path}/faban/runInfo.txt"
                 run_external_applicaton(command_info_faban)
 
 
-def wait(seconds_to_wait_for_deployment, time_to_complete_one_test, information, time_already_elapsed):
+def wait(seconds_to_wait, maximum, information, time_already_elapsed):
     count = 0
-    while count < seconds_to_wait_for_deployment:
-        progress(time_already_elapsed + count, time_to_complete_one_test, str(count))
+    while count < seconds_to_wait:
+        progress(min(maximum, time_already_elapsed + count), maximum, information)
         count += 1
         sleep(1)
 
