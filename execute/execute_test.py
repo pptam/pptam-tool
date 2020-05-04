@@ -76,6 +76,8 @@ def execute_test(configuration_file_path):
                 if path.isdir(test_output_path):
                     logging.info(f"Removing path {test_output_path} since it already exists.")
                     shutil.rmtree(path, ignore_errors=False, onerror=RuntimeError)
+                else:
+                    os.makedirs(test_output_path)
 
                 deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
                 command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
@@ -142,7 +144,6 @@ def execute_test(configuration_file_path):
                 wait(seconds_to_wait_for_undeployment, time_to_complete_one_test, "Waiting for undeployment.      ", time_elapsed)
                 progress(time_to_complete_one_test, time_to_complete_one_test, "Done.                    \n")
 
-                os.makedirs(test_output_path)
                 shutil.copytree(f"./faban/output/{run_id}", f"{test_output_path}/faban")
                 shutil.move(f"{input}/{test_id}", f"{test_output_path}/definition")
                 shutil.copyfile(configuration_file_path, f"{test_output_path}/configuration.json")
@@ -151,7 +152,6 @@ def execute_test(configuration_file_path):
                 run_external_applicaton(command_info_faban)
 
                 logging.info(f"Test {test_id} with {run_id} completed. Test results can be found in {test_output_path}.")
-
             else:
                 progress(time_to_complete_one_test, time_to_complete_one_test, "Failed.                  \n")
                 logging.fatal(f"Test {test_id} with {run_id} failed.")
