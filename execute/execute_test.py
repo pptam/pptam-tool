@@ -17,7 +17,8 @@ def progress(count, total, suffix=''):
     filled_len = int(round(bar_len * count / float(total)))
     percents = round(100.0 * count / float(total), 1)
     bar = "=" * filled_len + "-" * (bar_len - filled_len)
-    print("[%s] %s%s ...%s\r" % (bar, percents, '%', suffix), flush=True)
+    sys.stdout.write("[%s] %s%s ...%s\r" % (bar, percents, '%', suffix))
+    sys.stdout.flush()
 
 
 def wait(seconds, suffix):
@@ -84,7 +85,7 @@ def execute_test(configuration_file_path):
                 run_external_applicaton(
                     command_deploy_stack, "Deploying the system under test.")
 
-                wait(seconds_to_wait_for_deployment, "Waiting for deployment")
+                wait(seconds_to_wait_for_deployment, "Waiting for deployment.")
 
                 driver = f"{input}/{test_id}/{test_id}.jar"
                 driver_configuration = f"{input}/{test_id}/run.xml"
@@ -101,7 +102,7 @@ def execute_test(configuration_file_path):
                 logging.debug(f"Obtained {run_id} as run ID.")
                 os.remove(temporary_file)
 
-                logging.info("Waiting for the test to be completed")
+                logging.info("Waiting for the test to be completed.")
                 status = ""
                 external_tool_was_started = False
 
@@ -124,8 +125,11 @@ def execute_test(configuration_file_path):
                             command_to_execute_at_a_test, "Running external application with the test.")
 
                     if ((status != "COMPLETED") and (status != "FAILED")):
-                        wait(60, "Waiting for Faban to complete")
+                        sleep(60)
                         time_elapsed = time_elapsed + 60
+
+                    progress(time_elapsed, time_to_complete_one_test,
+                             "Waiting for Faban to complete test.")
 
                 if (len(command_to_execute_after_a_test) > 0):
                     run_external_applicaton(
