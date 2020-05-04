@@ -113,9 +113,7 @@ def execute_test(configuration_file_path):
                         std_out_status_faban = f.readline().rstrip()
                     status = std_out_status_faban
                     os.remove(temporary_file)
-
-                    progress(time_elapsed, time_to_complete_one_test,
-                             f"Current Faban status: {status}.")
+                    logging.debug(f"Current Faban status: {status}.")
 
                     if (status == "STARTED" and external_tool_was_started == False and len(command_to_execute_before_a_test) > 0):
                         external_tool_was_started = True
@@ -123,7 +121,12 @@ def execute_test(configuration_file_path):
                             command_to_execute_at_a_test)
 
                     if ((status != "COMPLETED") and (status != "FAILED")):
-                        sleep(60)
+                        count = 0
+                        while count < 60:
+                            progress(time_elapsed + count, time_to_complete_one_test,
+                                     "Waiting for Faban to complete test.")
+                            count += 1
+                            sleep(1)
                         time_elapsed = time_elapsed + 60
 
                 if (len(command_to_execute_after_a_test) > 0):
