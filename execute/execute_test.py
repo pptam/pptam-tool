@@ -34,14 +34,14 @@ def run_external_applicaton(command, fail_if_result_not_zero=True):
     result = os.system(command)
     if fail_if_result_not_zero and result != 0:
         logging.fatal(f"Could not execute {command}.")
-        quit()
+        raise RuntimeError
 
 
 def execute_test(configuration_file_path):
     if not path.exists(configuration_file_path):
         logging.fatal(
             f"Cannot find the configuration file {configuration_file_path}.")
-        quit()
+        raise RuntimeError
 
     with open(configuration_file_path, "r") as f:
         configuration = json.load(f)["Configuration"]
@@ -49,7 +49,7 @@ def execute_test(configuration_file_path):
     input = path.abspath(configuration["test_case_to_execute_folder"])
     if not path.isdir(input):
         logging.fatal(f"Cannot find the test case folder {input}.")
-        quit()
+        raise RuntimeError
     else:
         logging.debug(f"Executing test cases from {input}.")
 
@@ -84,7 +84,7 @@ def execute_test(configuration_file_path):
                 if path.isdir(test_output_path):
                     logging.fatal(
                         f"Output path {test_output_path} already exists.")
-                    quit()
+                    raise RuntimeError
                 else:
                     os.makedirs(test_output_path)
 
