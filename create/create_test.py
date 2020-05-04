@@ -49,7 +49,7 @@ def create_test(configuration_file_path, configuration_entries_to_overwrite):
     now = datetime.now()
     test_id = configuration["test_case_prefix"] + "-" + \
         now.strftime("%Y%m%d%H%M%S") + "-" + str(uuid.uuid4())[:8]
-    logging.info(f"Generating a test with the id {test_id} in {path_to_temp}.")
+    logging.debug(f"Generating a test with the id {test_id} in {path_to_temp}.")
 
     if path.isdir(path_to_temp):
         shutil.rmtree(path_to_temp)
@@ -72,7 +72,7 @@ def create_test(configuration_file_path, configuration_entries_to_overwrite):
     replace_values_in_file(path.join(path_to_temp, "src", "ecsa", "driver", "WebDriver.java"), replacements)
     replace_values_in_file(path.join(path_to_temp, "deploy", "docker-compose.yml"), replacements)
 
-    logging.info("Compiling the Faban driver")
+    logging.debug("Compiling the Faban driver")
     current_folder = os.getcwd()
     os.chdir(path_to_temp)
     command = "ant deploy.jar -q -S"

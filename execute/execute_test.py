@@ -45,7 +45,8 @@ def execute_test(configuration_file_path):
         logging.debug(f"Executing test cases from {input}.")
 
     seconds_to_wait_for_deployment = int(configuration["test_case_waiting_for_deployment_in_seconds"])
-    time_to_complete_one_test = seconds_to_wait_for_deployment + (((int(configuration["test_case_ramp_up_in_seconds"]) + int(configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
+    seconds_to_wait_for_undeployment = int(configuration["test_case_waiting_for_undeployment_in_seconds"])
+    time_to_complete_one_test = seconds_to_wait_for_deployment + seconds_to_wait_for_undeployment + (((int(configuration["test_case_ramp_up_in_seconds"]) + int(configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
     time_to_complete_all_tests = (len([name for name in os.listdir(f"{input}/") if os.path.isdir(f"{input}/{name}")]) * time_to_complete_one_test // 60) + 1
     logging.info(f"Estimated duration of ONE test: {time_to_complete_one_test} seconds.")
     logging.info(f"Estimated duration of ALL tests: {time_to_complete_all_tests} minutes.")
@@ -126,7 +127,6 @@ def execute_test(configuration_file_path):
                         wait(wait_until, time_to_complete_one_test, "Waiting for Faban to finish.", time_elapsed)
                         time_elapsed += wait_until
 
-                progress(time_to_complete_one_test, time_to_complete_one_test, "Done.                        \n")
                 if (len(command_to_execute_after_a_test) > 0):
                     run_external_applicaton(command_to_execute_after_a_test)
             finally:
@@ -137,6 +137,11 @@ def execute_test(configuration_file_path):
                     os.remove(temporary_file)
 
             if (status == "COMPLETED"):
+                logging.debug(f"Waiting for {seconds_to_wait_for_undeployment} seconds.")
+                time_elapsed = 0
+                wait(seconds_to_wait_for_undeployment, time_to_complete_one_test, "Waiting for undeployment.      ", time_elapsed)
+                progress(time_to_complete_one_test, time_to_complete_one_test, "Done.                    \n")
+
                 os.makedirs(test_output_path)
                 shutil.copytree(f"./faban/output/{run_id}", f"{test_output_path}/faban")
                 shutil.move(f"{input}/{test_id}", f"{test_output_path}/definition")
@@ -146,7 +151,9 @@ def execute_test(configuration_file_path):
                 run_external_applicaton(command_info_faban)
 
                 logging.info(f"Test {test_id} with {run_id} completed. Test results can be found in {test_output_path}.")
+
             else:
+                progress(time_to_complete_one_test, time_to_complete_one_test, "Failed.                  \n")
                 logging.fatal(f"Test {test_id} with {run_id} failed.")
 
 
