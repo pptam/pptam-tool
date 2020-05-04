@@ -27,6 +27,7 @@ def wait(seconds, suffix):
         progress(count, seconds, suffix)
         count += 1
         sleep(1)
+    progress(seconds, seconds, suffix + "\n")
 
 
 def run_external_applicaton(command, fail_if_result_not_zero=True):
@@ -108,7 +109,6 @@ def execute_test(configuration_file_path):
                 logging.debug(f"Obtained {run_id} as run ID.")
                 os.remove(temporary_file)
 
-                logging.info("Waiting for the test to be completed.")
                 status = ""
                 external_tool_was_started = False
 
@@ -142,6 +142,8 @@ def execute_test(configuration_file_path):
                             count += 1
                             sleep(1)
                         time_elapsed = time_elapsed + count_until
+                        progress(time_to_complete_one_test, time_to_complete_one_test,
+                                 "Done.\n")
 
                 if (len(command_to_execute_after_a_test) > 0):
                     run_external_applicaton(
@@ -159,14 +161,10 @@ def execute_test(configuration_file_path):
                 command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {f.name}_status.tmp"
                 os.makedirs(f"{test_output_path}/faban")
                 os.makedirs(f"{test_output_path}/definition")
-                shutil.copyfile(path.abspath(
-                    f"./faban/output/{run_id}/summary.xml"), f"{test_output_path}/faban/summary.xml")
-                shutil.copyfile(path.abspath(
-                    f"./faban/output/{run_id}/detail.xan"), f"{test_output_path}/faban/detail.xan")
-                shutil.copyfile(path.abspath(
-                    f"./faban/output/{run_id}/log.xml"), f"{test_output_path}/faban/log.xml")
-                shutil.move(f"{run_id}/{test_id}",
-                            f"{test_output_path}/definition/{test_id}")
+                shutil.move(f"./faban/output/{run_id}",
+                            f"{test_output_path}/faban/")
+                shutil.move(f"{input}/{test_id}",
+                            f"{test_output_path}/definition/")
 
 
 if __name__ == "__main__":
