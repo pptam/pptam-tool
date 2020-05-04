@@ -783,5 +783,5 @@ services:
           
 networks:
   my-network:
-    # driver: overlay
-    driver: bridge
+    driver: overlay
+    # driver: bridge
