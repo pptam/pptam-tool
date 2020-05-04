@@ -6,5 +6,6 @@ cd ./faban/master/bin/
 SUDO=''
 if (( $EUID != 0 )); then
     SUDO='sudo'
+    echo Running run_raban.sh with sudo...
 fi
 $SUDO ./startup.sh
