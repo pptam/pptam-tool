@@ -5,9 +5,7 @@ services:
   #    ports:
   #      - 5672:5672
   #      - 15672:15672
-  #    networks:
-  #      - my-network
-
+  #  #
   # kafka:
   #   container_name: kafka
   #   image: spotify/kafka:latest
@@ -21,15 +19,11 @@ services:
   #    image: openzipkin/zipkin
   #    ports:
   #      - 9411:9411
-  #    networks:
-  #      - my-network
-
+  #  #
   redis:
     image: redis
     ports:
       - 6379:6379
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -41,8 +35,6 @@ services:
     restart: always
     ports:
       - 80:8080
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -54,8 +46,6 @@ services:
     restart: always
     ports:
       - 12340:12340
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -63,8 +53,6 @@ services:
 
   ts-auth-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -76,8 +64,6 @@ services:
     restart: always
     ports:
       - 12342:12342
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -85,8 +71,6 @@ services:
           
   ts-user-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -98,8 +82,6 @@ services:
     restart: always
     ports:
       - 15678:15678
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -107,8 +89,6 @@ services:
           
   ts-account-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -120,8 +100,6 @@ services:
     restart: always
     ports:
       - 11178:11178
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -129,8 +107,6 @@ services:
           
   ts-route-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -142,8 +118,6 @@ services:
     restart: always
     ports:
       - 12347:12347
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -151,8 +125,6 @@ services:
           
   ts-contacts-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -164,8 +136,6 @@ services:
     restart: always
     ports:
       - 12031:12031
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -173,8 +143,6 @@ services:
           
   ts-order-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -186,8 +154,6 @@ services:
     restart: always
     ports:
       - 12032:12032
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -195,8 +161,6 @@ services:
           
   ts-order-other-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -208,8 +172,6 @@ services:
     restart: always
     ports:
       - 15679:15679
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -217,8 +179,6 @@ services:
           
   ts-config-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -230,8 +190,6 @@ services:
     restart: always
     ports:
       - 12345:12345
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -239,8 +197,6 @@ services:
           
   ts-station-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -252,8 +208,6 @@ services:
     restart: always
     ports:
       - 14567:14567
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -261,8 +215,6 @@ services:
           
   ts-train-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -274,8 +226,6 @@ services:
     restart: always
     ports:
       - 12346:12346
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -283,8 +233,6 @@ services:
           
   ts-travel-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -296,8 +244,6 @@ services:
     restart: always
     ports:
       - 16346:16346
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -305,8 +251,6 @@ services:
           
   ts-travel2-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -318,8 +262,6 @@ services:
     restart: always
     ports:
       - 14568:14568
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -331,8 +273,6 @@ services:
     restart: always
     ports:
       - 14569:14569
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -344,8 +284,6 @@ services:
     restart: always
     ports:
       - 15680:15680
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -357,8 +295,6 @@ services:
     restart: always
     ports:
       - 15681:15681
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -370,8 +306,6 @@ services:
     restart: always
     ports:
       - 16579:16579
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -379,8 +313,6 @@ services:
           
   ts-price-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -392,8 +324,6 @@ services:
     restart: always
     ports:
       - 17853:17853
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -405,8 +335,6 @@ services:
     restart: always
     ports:
       - 11188:11188
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -414,8 +342,6 @@ services:
           
   ts-security-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -427,8 +353,6 @@ services:
     restart: always
     ports:
       - 18673:18673
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -436,8 +360,6 @@ services:
           
   ts-inside-payment-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -449,8 +371,6 @@ services:
     restart: always
     ports:
       - 12386:12386
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -462,8 +382,6 @@ services:
     restart: always
     ports:
       - 19001:19001
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -471,8 +389,6 @@ services:
           
   ts-payment-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -484,8 +400,6 @@ services:
     restart: always
     ports:
       - 18886:18886
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -493,8 +407,6 @@ services:
           
   ts-rebook-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -506,8 +418,6 @@ services:
     restart: always
     ports:
       - 18885:18885
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -519,8 +429,6 @@ services:
     restart: always
     ports:
       - 18888:18888
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -528,8 +436,6 @@ services:
           
   ts-assurance-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -541,8 +447,6 @@ services:
     restart: always
     ports:
       - 18898:18898
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -554,8 +458,6 @@ services:
     restart: always
     ports:
       - 14322:14322
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -567,8 +469,6 @@ services:
     restart: always
     ports:
       - 16108:16108
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -576,8 +476,6 @@ services:
           
   ts-ticket-office-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -589,8 +487,6 @@ services:
     restart: always
     ports:
       - 12862:12862
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -598,8 +494,6 @@ services:
           
   ts-news-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -611,8 +505,6 @@ services:
       - "3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -628,8 +520,6 @@ services:
       - ts-voucher-mysql
     volumes:
       - /var/lib/mysql
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -641,8 +531,6 @@ services:
     restart: always
     ports:
       - 18855:18855
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -650,8 +538,6 @@ services:
           
   ts-food-map-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -663,8 +549,6 @@ services:
     restart: always
     ports:
       - 14578:14578
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -676,8 +560,6 @@ services:
     restart: always
     ports:
       - 18856:18856
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -689,8 +571,6 @@ services:
     restart: always
     ports:
       - 16111:16111
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -698,8 +578,6 @@ services:
           
   ts-consign-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -711,8 +589,6 @@ services:
     restart: always
     ports:
       - 16110:16110
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -720,8 +596,6 @@ services:
           
   ts-consign-price-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -729,8 +603,6 @@ services:
           
   ts-food-mongo:
     image: mongo
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -742,8 +614,6 @@ services:
     restart: always
     ports:
       - 18767:18767
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -755,8 +625,6 @@ services:
     restart: always
     ports:
       - 16112:16112
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -772,8 +640,6 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -789,8 +655,6 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -806,8 +670,6 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
@@ -821,14 +683,9 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-    networks:
-      - my-network
     deploy:
       placement:
         constraints:
           - node.hostname == socks2
           
-networks:
-  my-network:
-    # driver: overlay
-    driver: bridge
+
