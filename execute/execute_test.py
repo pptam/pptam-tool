@@ -147,11 +147,11 @@ def execute_test(configuration_file_path):
 
                 command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {f.name}_status.tmp"
                 shutil.copyfile(path.abspath(
-                    f"./faban/output/{run_id}/summary.xml"), test_output_path)
+                    f"./faban/output/{run_id}/summary.xml"), f"{test_output_path}/summary.xml")
                 shutil.copyfile(path.abspath(
-                    f"./faban/output/{run_id}/detail.xan"), test_output_path)
+                    f"./faban/output/{run_id}/detail.xan"), f"{test_output_path}/detail.xan")
                 shutil.copyfile(path.abspath(
-                    f"./faban/output/{run_id}/log.xml"), test_output_path)
+                    f"./faban/output/{run_id}/log.xml"), f"{test_output_path}/log.xml")
                 shutil.move(f.path, f"{output}/{test_id}/definition")
 
 
