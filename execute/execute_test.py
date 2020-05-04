@@ -46,7 +46,7 @@ def execute_test(configuration_file_path):
 
     seconds_to_wait_for_deployment = int(configuration["test_case_waiting_for_deployment_in_seconds"])
     time_to_complete_one_test = seconds_to_wait_for_deployment + (((int(configuration["test_case_ramp_up_in_seconds"]) + int(configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
-    time_to_complete_all_tests = len([name for name in os.listdir(f"{input}/") if os.path.isdir(name)]) * time_to_complete_one_test
+    time_to_complete_all_tests = len([name for name in os.listdir(f"{input}/") if os.path.isdir(f"{input}/{name}")]) * time_to_complete_one_test
     logging.info(f"Estimated duration of ONE test: {time_to_complete_one_test} seconds.")
     logging.info(f"Estimated duration of ALL tests: {time_to_complete_all_tests} seconds.")
 
