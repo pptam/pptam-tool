@@ -17,7 +17,7 @@ def progress(count, total, suffix=''):
     filled_len = int(round(bar_len * count / float(total)))
     percents = round(100.0 * count / float(total), 1)
     bar = "=" * filled_len + "-" * (bar_len - filled_len)
-    sys.stdout.write("[%s] %s%s ...%s\r" % (bar, percents, '%', suffix))
+    sys.stdout.write("[%s] %s%s %s\r" % (bar, percents, '%', suffix))
     sys.stdout.flush()
 
 
@@ -130,13 +130,18 @@ def execute_test(configuration_file_path):
                             command_to_execute_at_a_test)
 
                     if ((status != "COMPLETED") and (status != "FAILED")):
+                        if time_elapsed < time_to_complete_one_test:
+                            count_until = 60
+                        else:
+                            count_until = 10
+
                         count = 0
-                        while count < 60:
-                            progress(time_elapsed + count, time_to_complete_one_test,
-                                     "Waiting for Faban to complete test.")
+                        while count < count_until:
+                            progress(min(time_to_complete_one_test, time_elapsed + count), time_to_complete_one_test,
+                                     "Waiting for Faban to complete the test.")
                             count += 1
                             sleep(1)
-                        time_elapsed = time_elapsed + 60
+                        time_elapsed = time_elapsed + count_until
 
                 if (len(command_to_execute_after_a_test) > 0):
                     run_external_applicaton(
@@ -160,7 +165,8 @@ def execute_test(configuration_file_path):
                     f"./faban/output/{run_id}/detail.xan"), f"{test_output_path}/faban/detail.xan")
                 shutil.copyfile(path.abspath(
                     f"./faban/output/{run_id}/log.xml"), f"{test_output_path}/faban/log.xml")
-                shutil.move(f.path, f"{test_output_path}/definition")
+                shutil.move(f"{run_id}/{test_id}",
+                            f"{test_output_path}/definition/{test_id}")
 
 
 if __name__ == "__main__":
@@ -168,7 +174,7 @@ if __name__ == "__main__":
     parser.add_argument("--configuration", metavar="path_to_configuration_file",
                         help="Configuration file", default="configuration.json")
     parser.add_argument("--logging", help="Logging level",
-                        type=int, choices=range(1, 6), default=1)
+                        type=int, choices=range(1, 6), default=2)
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
