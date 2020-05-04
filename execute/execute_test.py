@@ -34,7 +34,7 @@ def run_external_applicaton(command, fail_if_result_not_zero=True):
     result = os.system(command)
     if fail_if_result_not_zero and result != 0:
         logging.fatal(f"Could not execute {command}.")
-        raise RuntimeError
+        quit()
 
 
 def execute_test(configuration_file_path):
@@ -79,6 +79,15 @@ def execute_test(configuration_file_path):
                     run_external_applicaton(command_to_execute_before_a_test)
 
                 test_id = f.name
+
+                test_output_path = f"{output}/{test_id}"
+                if path.isdir(test_output_path):
+                    logging.fatal(
+                        f"Output path {test_output_path} already exists.")
+                    quit()
+                else:
+                    os.makedirs(test_output_path)
+
                 temporary_file = f"{test_id}.tmp"
                 command_deploy_stack = f"docker stack deploy --compose-file={f.path}/docker-compose.yml {test_id}"
 
@@ -142,17 +151,14 @@ def execute_test(configuration_file_path):
 
             if (status == "COMPLETED"):
                 logging.info("Saving test results")
-                test_output_path = f"{output}/{test_id}/faban/"
-                os.makedirs(test_output_path)
-
                 command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {f.name}_status.tmp"
                 shutil.copyfile(path.abspath(
-                    f"./faban/output/{run_id}/summary.xml"), f"{test_output_path}/summary.xml")
+                    f"./faban/output/{run_id}/summary.xml"), f"{test_output_path}/faban/summary.xml")
                 shutil.copyfile(path.abspath(
-                    f"./faban/output/{run_id}/detail.xan"), f"{test_output_path}/detail.xan")
+                    f"./faban/output/{run_id}/detail.xan"), f"{test_output_path}/faban/detail.xan")
                 shutil.copyfile(path.abspath(
-                    f"./faban/output/{run_id}/log.xml"), f"{test_output_path}/log.xml")
-                shutil.move(f.path, f"{output}/{test_id}/definition")
+                    f"./faban/output/{run_id}/log.xml"), f"{test_output_path}/faban/log.xml")
+                shutil.move(f.path, f"{test_output_path}/definition")
 
 
 if __name__ == "__main__":
