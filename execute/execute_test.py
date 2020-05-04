@@ -21,15 +21,6 @@ def progress(count, total, suffix=''):
     sys.stdout.flush()
 
 
-def wait(seconds, suffix):
-    count = 0
-    while count < seconds:
-        progress(count, seconds, suffix)
-        count += 1
-        sleep(1)
-    progress(seconds, seconds, suffix + "\n")
-
-
 def run_external_applicaton(command, fail_if_result_not_zero=True):
     logging.debug(f"Executing {command}.")
     result = os.system(command)
@@ -53,7 +44,8 @@ def execute_test(configuration_file_path):
     else:
         logging.debug(f"Executing test cases from {input}.")
 
-    time_to_complete_one_test = (((int(configuration["test_case_ramp_up_in_seconds"]) + int(configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
+    seconds_to_wait_for_deployment = int(configuration["test_case_waiting_for_deployment_in_seconds"])
+    time_to_complete_one_test = seconds_to_wait_for_deployment + (((int(configuration["test_case_ramp_up_in_seconds"]) + int(configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
     time_to_complete_all_tests = len([name for name in os.listdir(input) if os.path.isdir(name)]) * time_to_complete_one_test
     logging.info(f"Estimated duration of ONE test: {time_to_complete_one_test} seconds.")
     logging.info(f"Estimated duration of ALL tests: {time_to_complete_all_tests} seconds.")
@@ -67,7 +59,6 @@ def execute_test(configuration_file_path):
     command_to_execute_before_a_test = configuration["pre_exec_external_command"]
     command_to_execute_after_a_test = configuration["post_exec_external_command"]
     command_to_execute_at_a_test = configuration["on_exec_external_command"]
-    seconds_to_wait_for_deployment = int(configuration["test_case_waiting_for_deployment_in_seconds"])
 
     for f in os.scandir(input):
         if (path.isdir(f)):
@@ -91,7 +82,9 @@ def execute_test(configuration_file_path):
 
                 run_external_applicaton(command_deploy_stack)
 
-                wait(seconds_to_wait_for_deployment, "Waiting for deployment.")
+                time_elapsed = 0
+                wait(seconds_to_wait_for_deployment, time_to_complete_one_test, "Waiting for deployment.", time_elapsed)
+                time_elapsed = seconds_to_wait_for_deployment
 
                 driver = f"{input}/{test_id}/{test_id}.jar"
                 driver_configuration = f"{input}/{test_id}/run.xml"
@@ -108,7 +101,6 @@ def execute_test(configuration_file_path):
                 status = ""
                 external_tool_was_started = False
 
-                time_elapsed = 0
                 while ((status != "COMPLETED") and (status != "FAILED")):
                     command_status_faban = f"java -jar {faban_client} {faban_master} status {run_id} > {temporary_file}"
 
@@ -126,18 +118,14 @@ def execute_test(configuration_file_path):
 
                     if ((status != "COMPLETED") and (status != "FAILED")):
                         if time_elapsed < time_to_complete_one_test:
-                            count_until = 60
+                            wait_until = 60
                         else:
-                            count_until = 10
+                            wait_until = 10
 
-                        count = 0
-                        while count < count_until:
-                            progress(min(time_to_complete_one_test, time_elapsed + count), time_to_complete_one_test, "Waiting for Faban to complete the test.")
-                            count += 1
-                            sleep(1)
-                        time_elapsed = time_elapsed + count_until
+                        wait(wait_until, time_to_complete_one_test, "Waiting for deployment.", time_elapsed)
+                        time_elapsed += wait_until
 
-                progress(time_to_complete_one_test, time_to_complete_one_test, "cd \n")
+                progress(time_to_complete_one_test, time_to_complete_one_test, "\n")
                 if (len(command_to_execute_after_a_test) > 0):
                     run_external_applicaton(command_to_execute_after_a_test)
             finally:
@@ -149,11 +137,19 @@ def execute_test(configuration_file_path):
 
             if (status == "COMPLETED"):
                 logging.info(f"Saving test results into {test_output_path}.")
-                command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id}"
-                run_external_applicaton(command_info_faban)
-
                 shutil.move(f"./faban/output/{run_id}", f"{test_output_path}/faban")
                 shutil.move(f"{input}/{test_id}", f"{test_output_path}/definition")
+
+                command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {test_output_path}/faban/runInfo.txt"
+                run_external_applicaton(command_info_faban)
+
+
+def wait(seconds_to_wait_for_deployment, time_to_complete_one_test, information, time_already_elapsed):
+    count = 0
+    while count < seconds_to_wait_for_deployment:
+        progress(time_already_elapsed + count, time_to_complete_one_test, information)
+        count += 1
+        sleep(1)
 
 
 if __name__ == "__main__":
