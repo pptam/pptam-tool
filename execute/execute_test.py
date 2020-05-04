@@ -22,7 +22,8 @@ def progress(count, total, suffix=''):
 
 
 def run_external_applicaton(command, fail_if_result_not_zero=True):
-    logging.debug(f"Executing {command}.")
+    current_folder = os.getcwd()
+    logging.debug(f"Executing {command} in {current_folder}.")
     result = os.system(command)
     if fail_if_result_not_zero and result != 0:
         logging.fatal(f"Could not execute {command}.")
@@ -76,8 +77,6 @@ def execute_test(configuration_file_path):
                 if path.isdir(test_output_path):
                     logging.info(f"Removing path {test_output_path} since it already exists.")
                     shutil.rmtree(path, ignore_errors=False, onerror=RuntimeError)
-                else:
-                    os.makedirs(test_output_path)
 
                 deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
                 command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
@@ -144,6 +143,7 @@ def execute_test(configuration_file_path):
                 wait(seconds_to_wait_for_undeployment, time_to_complete_one_test, "Waiting for undeployment.      ", time_elapsed)
                 progress(time_to_complete_one_test, time_to_complete_one_test, "Done.                    \n")
 
+                os.makedirs(test_output_path)
                 shutil.copytree(f"./faban/output/{run_id}", f"{test_output_path}/faban")
                 shutil.move(f"{input}/{test_id}", f"{test_output_path}/definition")
                 shutil.copyfile(configuration_file_path, f"{test_output_path}/configuration.json")
@@ -154,7 +154,7 @@ def execute_test(configuration_file_path):
                 logging.info(f"Test {test_id} with {run_id} completed. Test results can be found in {test_output_path}.")
             else:
                 progress(time_to_complete_one_test, time_to_complete_one_test, "Failed.                  \n")
-                logging.fatal(f"Test {test_id} with {run_id} failed.")
+                logging.fatal(f"Test {test_id} with run id {run_id} failed.")
 
 
 def wait(seconds_to_wait, maximum, information, time_already_elapsed):
@@ -168,7 +168,7 @@ def wait(seconds_to_wait, maximum, information, time_already_elapsed):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("--configuration", metavar="path_to_configuration_file", help="Configuration file", default="configuration.json")
-    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)
+    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=1)
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
