@@ -168,7 +168,7 @@ def wait(seconds_to_wait, maximum, information, time_already_elapsed):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("--configuration", metavar="path_to_configuration_file", help="Configuration file", default="configuration.json")
-    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=1)
+    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
