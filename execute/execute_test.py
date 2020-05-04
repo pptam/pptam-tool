@@ -68,7 +68,7 @@ def execute_test(configuration_file_path):
         configuration["test_case_waiting_for_deployment_in_seconds"])
 
     time_to_complete_one_test = int(configuration["test_case_ramp_up_in_seconds"]) + int(
-        configuration["test_case_ramp_up_in_seconds"]) + int(configuration["test_case_ramp_up_in_seconds"])
+        configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])
 
     for f in os.scandir(input):
         if (path.isdir(f)):
@@ -80,6 +80,7 @@ def execute_test(configuration_file_path):
                         command_to_execute_before_a_test, "Running external application before the test.")
 
                 test_id = f.name
+                temporary_file = f"{test_id}.tmp"
                 command_deploy_stack = f"docker stack deploy --compose-file={f.path}/docker-compose.yml {test_id}"
 
                 run_external_applicaton(
@@ -90,7 +91,6 @@ def execute_test(configuration_file_path):
                 driver = f"{input}/{test_id}/{test_id}.jar"
                 driver_configuration = f"{input}/{test_id}/run.xml"
                 deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
-                temporary_file = f"{test_id}_run_id.tmp"
                 command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration} > {temporary_file}"
 
                 run_external_applicaton(
@@ -116,8 +116,10 @@ def execute_test(configuration_file_path):
                     with open(temporary_file, "r") as f:
                         std_out_status_faban = f.readline().rstrip()
                     status = std_out_status_faban
-                    logging.debug(f"Obtained {status} as status.")
                     os.remove(temporary_file)
+
+                    progress(time_elapsed, time_to_complete_one_test,
+                             f"Current Faban status: {status}.")
 
                     if (status == "STARTED" and external_tool_was_started == False and len(command_to_execute_before_a_test) > 0):
                         external_tool_was_started = True
@@ -127,9 +129,6 @@ def execute_test(configuration_file_path):
                     if ((status != "COMPLETED") and (status != "FAILED")):
                         sleep(60)
                         time_elapsed = time_elapsed + 60
-
-                    progress(time_elapsed, time_to_complete_one_test,
-                             "Waiting for Faban to complete test.")
 
                 if (len(command_to_execute_after_a_test) > 0):
                     run_external_applicaton(
