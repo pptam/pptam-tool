@@ -69,7 +69,7 @@ def execute_test(configuration_file_path):
     time_to_complete_one_test = (((int(configuration["test_case_ramp_up_in_seconds"]) + int(
         configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
     logging.info(f"{time_to_complete_one_test} seconds to complete this test.")
-
+    quit()
     for f in os.scandir(input):
         if (path.isdir(f)):
             try:
@@ -152,6 +152,8 @@ def execute_test(configuration_file_path):
             if (status == "COMPLETED"):
                 logging.info("Saving test results")
                 command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {f.name}_status.tmp"
+                os.makedirs(f"{test_output_path}/faban")
+                os.makedirs(f"{test_output_path}/definition")
                 shutil.copyfile(path.abspath(
                     f"./faban/output/{run_id}/summary.xml"), f"{test_output_path}/faban/summary.xml")
                 shutil.copyfile(path.abspath(
