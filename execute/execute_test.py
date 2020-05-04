@@ -147,7 +147,7 @@ def execute_test(configuration_file_path):
 def wait(seconds_to_wait_for_deployment, time_to_complete_one_test, information, time_already_elapsed):
     count = 0
     while count < seconds_to_wait_for_deployment:
-        progress(time_already_elapsed + count, time_to_complete_one_test, information)
+        progress(time_already_elapsed + count, time_to_complete_one_test, str(count))
         count += 1
         sleep(1)
 
@@ -155,7 +155,7 @@ def wait(seconds_to_wait_for_deployment, time_to_complete_one_test, information,
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("--configuration", metavar="path_to_configuration_file", help="Configuration file", default="configuration.json")
-    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)
+    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=1)
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
