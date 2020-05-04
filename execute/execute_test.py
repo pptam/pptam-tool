@@ -75,8 +75,6 @@ def execute_test(configuration_file_path):
                 if path.isdir(test_output_path):
                     logging.info(f"Removing path {test_output_path} since it already exists.")
                     shutil.rmtree(path, ignore_errors=False, onerror=RuntimeError)
-                else:
-                    os.makedirs(test_output_path)
 
                 deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
                 command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
@@ -125,10 +123,10 @@ def execute_test(configuration_file_path):
                             wait_until = 10
 
                         logging.debug(f"Waiting for {wait_until} seconds.")
-                        wait(wait_until, time_to_complete_one_test, "Waiting for deployment.", time_elapsed)
+                        wait(wait_until, time_to_complete_one_test, "Waiting for Faban to finish.", time_elapsed)
                         time_elapsed += wait_until
 
-                progress(time_to_complete_one_test, time_to_complete_one_test, "\n")
+                progress(time_to_complete_one_test, time_to_complete_one_test, "Done.                        \n")
                 if (len(command_to_execute_after_a_test) > 0):
                     run_external_applicaton(command_to_execute_after_a_test)
             finally:
@@ -139,13 +137,17 @@ def execute_test(configuration_file_path):
                     os.remove(temporary_file)
 
             if (status == "COMPLETED"):
-                logging.info(f"Saving test results into {test_output_path}.")
+                os.makedirs(test_output_path)
                 shutil.copytree(f"./faban/output/{run_id}", f"{test_output_path}/faban")
                 shutil.move(f"{input}/{test_id}", f"{test_output_path}/definition")
                 shutil.copyfile(configuration_file_path, f"{test_output_path}/configuration.json")
 
                 command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {test_output_path}/faban/runInfo.txt"
                 run_external_applicaton(command_info_faban)
+
+                logging.info(f"Test {test_id} with {run_id} completed. Test results can be found in {test_output_path}.")
+            else:
+                logging.fatal(f"Test {test_id} with {run_id} failed.")
 
 
 def wait(seconds_to_wait, maximum, information, time_already_elapsed):
