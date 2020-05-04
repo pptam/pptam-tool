@@ -142,6 +142,7 @@ def execute_test(configuration_file_path):
                 logging.info(f"Saving test results into {test_output_path}.")
                 shutil.copytree(f"./faban/output/{run_id}", f"{test_output_path}/faban")
                 shutil.move(f"{input}/{test_id}", f"{test_output_path}/definition")
+                shutil.copyfile(configuration_file_path, f"{test_output_path}/configuration.json")
 
                 command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {test_output_path}/faban/runInfo.txt"
                 run_external_applicaton(command_info_faban)
