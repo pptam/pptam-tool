@@ -56,7 +56,6 @@ def execute_test(configuration_file_path):
     time_to_complete_one_test = (((int(configuration["test_case_ramp_up_in_seconds"]) + int(
         configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
     logging.info(f"{time_to_complete_one_test} seconds to complete this test.")
-    quit()
 
     output = path.abspath(configuration["test_case_executed_folder"])
     logging.debug(f"Storing results in {output}.")
