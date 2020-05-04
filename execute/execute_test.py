@@ -40,8 +40,7 @@ def run_external_applicaton(command, fail_if_result_not_zero=True):
 
 def execute_test(configuration_file_path):
     if not path.exists(configuration_file_path):
-        logging.fatal(
-            f"Cannot find the configuration file {configuration_file_path}.")
+        logging.fatal(f"Cannot find the configuration file {configuration_file_path}.")
         raise RuntimeError
 
     with open(configuration_file_path, "r") as f:
@@ -54,22 +53,21 @@ def execute_test(configuration_file_path):
     else:
         logging.debug(f"Executing test cases from {input}.")
 
-    time_to_complete_one_test = (((int(configuration["test_case_ramp_up_in_seconds"]) + int(
-        configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
-    logging.info(f"{time_to_complete_one_test} seconds to complete this test.")
+    time_to_complete_one_test = (((int(configuration["test_case_ramp_up_in_seconds"]) + int(configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
+    time_to_complete_all_tests = len(os.scandir(input)) * time_to_complete_one_test
+    logging.info(f"Estimated duration of ONE test: {time_to_complete_one_test} seconds.")
+    logging.info(f"Estimated duration of ALL tests: {time_to_complete_all_tests} seconds.")
 
     output = path.abspath(configuration["test_case_executed_folder"])
     logging.debug(f"Storing results in {output}.")
 
     faban_master = f"http://{configuration['faban_ip']}:9980/"
-    faban_client = path.abspath(
-        "./faban/benchflow-faban-client/target/benchflow-faban-client.jar")
+    faban_client = path.abspath("./faban/benchflow-faban-client/target/benchflow-faban-client.jar")
 
     command_to_execute_before_a_test = configuration["pre_exec_external_command"]
     command_to_execute_after_a_test = configuration["post_exec_external_command"]
     command_to_execute_at_a_test = configuration["on_exec_external_command"]
-    seconds_to_wait_for_deployment = int(
-        configuration["test_case_waiting_for_deployment_in_seconds"])
+    seconds_to_wait_for_deployment = int(configuration["test_case_waiting_for_deployment_in_seconds"])
 
     for f in os.scandir(input):
         if (path.isdir(f)):
@@ -80,17 +78,16 @@ def execute_test(configuration_file_path):
                     run_external_applicaton(command_to_execute_before_a_test)
 
                 test_id = f.name
-
                 test_output_path = f"{output}/{test_id}"
                 if path.isdir(test_output_path):
-                    logging.fatal(
-                        f"Output path {test_output_path} already exists.")
-                    raise RuntimeError
+                    logging.info(f"Removing path {test_output_path} since it already exists.")
+                    shutil.rmtree(path, ignore_errors=False)
                 else:
                     os.makedirs(test_output_path)
 
                 temporary_file = f"{test_id}.tmp"
-                command_deploy_stack = f"docker stack deploy --compose-file={f.path}/docker-compose.yml {test_id}"
+                deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
+                command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
 
                 run_external_applicaton(command_deploy_stack)
 
@@ -98,7 +95,6 @@ def execute_test(configuration_file_path):
 
                 driver = f"{input}/{test_id}/{test_id}.jar"
                 driver_configuration = f"{input}/{test_id}/run.xml"
-                deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
                 command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration} > {temporary_file}"
 
                 run_external_applicaton(command_deploy_faban)
@@ -126,8 +122,7 @@ def execute_test(configuration_file_path):
 
                     if (status == "STARTED" and external_tool_was_started == False and len(command_to_execute_before_a_test) > 0):
                         external_tool_was_started = True
-                        run_external_applicaton(
-                            command_to_execute_at_a_test)
+                        run_external_applicaton(command_to_execute_at_a_test)
 
                     if ((status != "COMPLETED") and (status != "FAILED")):
                         if time_elapsed < time_to_complete_one_test:
@@ -137,42 +132,34 @@ def execute_test(configuration_file_path):
 
                         count = 0
                         while count < count_until:
-                            progress(min(time_to_complete_one_test, time_elapsed + count), time_to_complete_one_test,
-                                     "Waiting for Faban to complete the test.")
+                            progress(min(time_to_complete_one_test, time_elapsed + count), time_to_complete_one_test, "Waiting for Faban to complete the test.")
                             count += 1
                             sleep(1)
                         time_elapsed = time_elapsed + count_until
-                        progress(time_to_complete_one_test, time_to_complete_one_test,
-                                 "Done.\n")
 
+                progress(time_to_complete_one_test, time_to_complete_one_test, "cd \n")
                 if (len(command_to_execute_after_a_test) > 0):
-                    run_external_applicaton(
-                        command_to_execute_after_a_test)
+                    run_external_applicaton(command_to_execute_after_a_test)
             finally:
                 command_undeploy_stack = f"docker stack rm {test_id}"
-                run_external_applicaton(
-                    command_undeploy_stack, False)
+                run_external_applicaton(command_undeploy_stack, False)
 
                 if path.isfile(temporary_file):
                     os.remove(temporary_file)
 
             if (status == "COMPLETED"):
-                logging.info("Saving test results")
-                command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {f.name}_status.tmp"
-                os.makedirs(f"{test_output_path}/faban")
-                os.makedirs(f"{test_output_path}/definition")
-                shutil.move(f"./faban/output/{run_id}",
-                            f"{test_output_path}/faban/")
-                shutil.move(f"{input}/{test_id}",
-                            f"{test_output_path}/definition/")
+                logging.info(f"Saving test results into {test_output_path}.")
+                command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id}"
+                run_external_applicaton(command_info_faban)
+
+                shutil.move(f"./faban/output/{run_id}", f"{test_output_path}/faban")
+                shutil.move(f"{input}/{test_id}", f"{test_output_path}/definition")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
-    parser.add_argument("--configuration", metavar="path_to_configuration_file",
-                        help="Configuration file", default="configuration.json")
-    parser.add_argument("--logging", help="Logging level",
-                        type=int, choices=range(1, 6), default=2)
+    parser.add_argument("--configuration", metavar="path_to_configuration_file", help="Configuration file", default="configuration.json")
+    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)

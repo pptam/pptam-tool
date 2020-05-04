@@ -17,7 +17,3 @@ authors = [
 license = ""
 readme = "README.md"
 python = "^3.7"
-
-[tool.autopep8]
-select = E225,E226
-max_line_length = 79

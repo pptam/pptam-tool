@@ -2,5 +2,14 @@
   "git.ignoreLimitWarning": true,
   "files.exclude": {
     "archive": true
-  }
+  },
+  "python.linting.enabled": true,
+  "python.linting.pylintPath": "pylint",
+  "editor.formatOnSave": true,
+  "python.formatting.provider": "yapf",
+  "python.linting.pylintEnabled": true,
+  "python.formatting.yapfArgs": [
+    "--style",
+    "{based_on_style: google, column_limit: 10000}"
+  ]
 }
