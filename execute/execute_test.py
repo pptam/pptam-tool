@@ -69,14 +69,15 @@ def execute_test(configuration_file_path):
                     run_external_applicaton(command_to_execute_before_a_test)
 
                 test_id = f.name
+                temporary_file = f"{test_id}.tmp"
+
                 test_output_path = f"{output}/{test_id}"
                 if path.isdir(test_output_path):
                     logging.info(f"Removing path {test_output_path} since it already exists.")
-                    shutil.rmtree(path, ignore_errors=False)
+                    shutil.rmtree(path, ignore_errors=False, onerror=RuntimeError)
                 else:
                     os.makedirs(test_output_path)
 
-                temporary_file = f"{test_id}.tmp"
                 deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
                 command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
 
