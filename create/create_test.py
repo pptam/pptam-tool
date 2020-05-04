@@ -3,26 +3,12 @@
 import os
 import shutil
 import json
-import sys
-import shutil
 import argparse
 import logging
 import uuid
 from datetime import datetime
 from os import path
-
-
-def replace_values_in_file(file, replacements):
-    for replacement in replacements:
-        replace_value_in_file(file, replacement["search_for"], replacement["replace_with"])
-
-
-def replace_value_in_file(file, search_for, replace_with):
-    with open(file, "r") as f:
-        content = f.read()
-        content = content.replace(search_for, replace_with)
-    with open(file, "w") as f:
-        f.write(content)
+from create.tools import replace_values_in_file
 
 
 def create_test(configuration_file_path, configuration_entries_to_overwrite):

@@ -33,7 +33,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
 
   ts-ui-dashboard:
     build: ts-ui-dashboard
@@ -46,7 +46,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
 
   ts-auth-service:
     build: ts-auth-service
@@ -59,7 +59,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
 
   ts-auth-mongo:
     image: mongo
@@ -68,7 +68,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
 
   ts-user-service:
     build: ts-user-service
@@ -81,7 +81,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-user-mongo:
     image: mongo
@@ -90,7 +90,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-verification-code-service:
     build: ts-verification-code-service
@@ -103,7 +103,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-account-mongo:
     image: mongo
@@ -112,7 +112,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-route-service:
     build: ts-route-service
@@ -125,7 +125,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-route-mongo:
     image: mongo
@@ -134,7 +134,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-contacts-service:
     build: ts-contacts-service
@@ -147,7 +147,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-contacts-mongo:
     image: mongo
@@ -156,7 +156,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-order-service:
     build: ts-order-service
@@ -169,7 +169,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-order-mongo:
     image: mongo
@@ -178,7 +178,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-order-other-service:
     build: ts-order-other-service
@@ -191,7 +191,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-order-other-mongo:
     image: mongo
@@ -200,7 +200,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-config-service:
     build: ts-config-service
@@ -213,7 +213,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-config-mongo:
     image: mongo
@@ -222,7 +222,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-station-service:
     build: ts-station-service
@@ -235,7 +235,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-station-mongo:
     image: mongo
@@ -244,7 +244,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-train-service:
     build: ts-train-service
@@ -257,7 +257,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-train-mongo:
     image: mongo
@@ -266,7 +266,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-travel-service:
     build: ts-travel-service
@@ -279,7 +279,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-travel-mongo:
     image: mongo
@@ -288,7 +288,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-travel2-service:
     build: ts-travel2-service
@@ -301,7 +301,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-travel2-mongo:
     image: mongo
@@ -310,7 +310,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-preserve-service:
     build: ts-preserve-service
@@ -323,7 +323,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-preserve-other-service:
     build: ts-preserve-other-service
@@ -336,7 +336,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-basic-service:
     build: ts-basic-service
@@ -349,7 +349,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-ticketinfo-service:
     build: ts-ticketinfo-service
@@ -362,7 +362,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-price-service:
     build: ts-price-service
@@ -375,7 +375,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-price-mongo:
     image: mongo
@@ -384,7 +384,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-notification-service:
     build: ts-notification-service
@@ -397,7 +397,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-security-service:
     build: ts-security-service
@@ -410,7 +410,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-security-mongo:
     image: mongo
@@ -419,7 +419,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-inside-payment-service:
     build: ts-inside-payment-service
@@ -432,7 +432,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-inside-payment-mongo:
     image: mongo
@@ -441,7 +441,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-execute-service:
     build: ts-execute-service
@@ -454,7 +454,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-payment-service:
     build: ts-payment-service
@@ -467,7 +467,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-payment-mongo:
     image: mongo
@@ -476,7 +476,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-rebook-service:
     build: ts-rebook-service
@@ -489,7 +489,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-rebook-mongo:
     image: mongo
@@ -498,7 +498,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-cancel-service:
     build: ts-cancel-service
@@ -511,7 +511,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-assurance-service:
     build: ts-assurance-service
@@ -524,7 +524,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-assurance-mongo:
     image: mongo
@@ -533,7 +533,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-seat-service:
     build: ts-seat-service
@@ -546,7 +546,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-travel-plan-service:
     build: ts-travel-plan-service
@@ -559,7 +559,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-ticket-office-service:
     build: ts-ticket-office-service
@@ -572,7 +572,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-ticket-office-mongo:
     image: mongo
@@ -581,7 +581,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-news-service:
     build: ts-news-service
@@ -594,7 +594,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-news-mongo:
     image: mongo
@@ -603,7 +603,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-voucher-mysql:
     image: mysql
@@ -616,7 +616,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-voucher-service:
     build: ts-voucher-service
@@ -633,7 +633,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-food-map-service:
     build: ts-food-map-service
@@ -646,7 +646,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-food-map-mongo:
     image: mongo
@@ -655,7 +655,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-route-plan-service:
     build: ts-route-plan-service
@@ -668,7 +668,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-food-service:
     build: ts-food-service
@@ -681,7 +681,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-consign-service:
     build: ts-consign-service
@@ -694,7 +694,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-consign-mongo:
     image: mongo
@@ -703,7 +703,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-consign-price-service:
     build: ts-consign-price-service
@@ -716,7 +716,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-consign-price-mongo:
     image: mongo
@@ -725,7 +725,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-food-mongo:
     image: mongo
@@ -734,7 +734,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-admin-basic-info-service:
     build: ts-admin-basic-info-service
@@ -747,7 +747,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-admin-order-service:
     build: ts-admin-order-service
@@ -760,7 +760,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-admin-route-service:
     build: ts-admin-route-service
@@ -777,7 +777,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-admin-travel-service:
     build: ts-admin-travel-service
@@ -794,7 +794,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   ts-admin-user-service:
     build: ts-admin-user-service
@@ -811,7 +811,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
   jaeger:
     image: jaegertracing/all-in-one:1.15
@@ -826,7 +826,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${SUT_HOSTNAME}
+          - node.hostname == socks2
           
 networks:
   my-network:

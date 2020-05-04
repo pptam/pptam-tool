@@ -11,5 +11,6 @@
   "python.formatting.yapfArgs": [
     "--style",
     "{based_on_style: google, column_limit: 10000}"
-  ]
+  ],
+  "python.analysis.disabled": ["unresolved-import"]
 }
