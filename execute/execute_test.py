@@ -10,6 +10,7 @@ import sys
 from time import sleep
 import subprocess
 import shutil
+import math
 
 
 def progress(count, total, suffix=''):
@@ -84,8 +85,7 @@ def execute_test(configuration_file_path):
                 run_external_applicaton(command_deploy_stack)
 
                 logging.debug(f"Waiting for {seconds_to_wait_for_deployment} seconds.")
-                time_elapsed = 0
-                wait(seconds_to_wait_for_deployment, time_to_complete_one_test, "Waiting for deployment.", time_elapsed)
+                wait(seconds_to_wait_for_deployment, time_to_complete_one_test, "Waiting for deployment.", 0)
                 time_elapsed = seconds_to_wait_for_deployment
 
                 driver = f"{input}/{test_id}/{test_id}.jar"
@@ -125,7 +125,7 @@ def execute_test(configuration_file_path):
                             wait_until = 10
 
                         logging.debug(f"Waiting for {wait_until} seconds.")
-                        wait(wait_until, time_to_complete_one_test, "Waiting for Faban to finish.", time_elapsed)
+                        wait(wait_until, time_to_complete_one_test, "Waiting for Faban to finish.", time_elapsed, time_to_complete_one_test - seconds_to_wait_for_undeployment)
                         time_elapsed += wait_until
 
                 if (len(command_to_execute_after_a_test) > 0):
@@ -139,7 +139,6 @@ def execute_test(configuration_file_path):
 
             if (status == "COMPLETED"):
                 logging.debug(f"Waiting for {seconds_to_wait_for_undeployment} seconds.")
-                time_elapsed = 0
                 wait(seconds_to_wait_for_undeployment, time_to_complete_one_test, "Waiting for undeployment.      ", time_elapsed)
                 progress(time_to_complete_one_test, time_to_complete_one_test, "Done.                    \n")
 
@@ -157,10 +156,10 @@ def execute_test(configuration_file_path):
                 logging.fatal(f"Test {test_id} with run id {run_id} failed.")
 
 
-def wait(seconds_to_wait, maximum, information, time_already_elapsed):
+def wait(seconds_to_wait, maximum, information, time_already_elapsed, progress_maximum=math.inf):
     count = 0
     while count < seconds_to_wait:
-        progress(min(maximum, time_already_elapsed + count), maximum, information)
+        progress(min(maximum, progress_maximum, time_already_elapsed + count), maximum, information)
         count += 1
         sleep(1)
 
