@@ -46,7 +46,7 @@ def execute_test(configuration_file_path):
 
     seconds_to_wait_for_deployment = int(configuration["test_case_waiting_for_deployment_in_seconds"])
     time_to_complete_one_test = seconds_to_wait_for_deployment + (((int(configuration["test_case_ramp_up_in_seconds"]) + int(configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
-    time_to_complete_all_tests = len([name for name in os.listdir(input) if os.path.isdir(name)]) * time_to_complete_one_test
+    time_to_complete_all_tests = len([name for name in os.listdir(f"{input}/") if os.path.isdir(name)]) * time_to_complete_one_test
     logging.info(f"Estimated duration of ONE test: {time_to_complete_one_test} seconds.")
     logging.info(f"Estimated duration of ALL tests: {time_to_complete_all_tests} seconds.")
 
@@ -83,6 +83,7 @@ def execute_test(configuration_file_path):
 
                 run_external_applicaton(command_deploy_stack)
 
+                logging.debug(f"Waiting for {seconds_to_wait_for_deployment} seconds.")
                 time_elapsed = 0
                 wait(seconds_to_wait_for_deployment, time_to_complete_one_test, "Waiting for deployment.", time_elapsed)
                 time_elapsed = seconds_to_wait_for_deployment
@@ -123,6 +124,7 @@ def execute_test(configuration_file_path):
                         else:
                             wait_until = 10
 
+                        logging.debug(f"Waiting for {wait_until} seconds.")
                         wait(wait_until, time_to_complete_one_test, "Waiting for deployment.", time_elapsed)
                         time_elapsed += wait_until
 
@@ -156,7 +158,7 @@ def wait(seconds_to_wait_for_deployment, time_to_complete_one_test, information,
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("--configuration", metavar="path_to_configuration_file", help="Configuration file", default="configuration.json")
-    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=1)
+    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
