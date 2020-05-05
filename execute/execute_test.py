@@ -9,7 +9,6 @@ import json
 from time import sleep
 import subprocess
 import shutil
-import math
 from execute.tools import progress, run_external_applicaton, wait
 
 
@@ -44,6 +43,8 @@ def execute_test(configuration_file_path):
     command_to_execute_before_a_test = configuration["pre_exec_external_command"]
     command_to_execute_after_a_test = configuration["post_exec_external_command"]
     command_to_execute_at_a_test = configuration["on_exec_external_command"]
+    sut_ip = configuration["sut_ip"]
+    sut_port = configuration["sut_port"]
 
     for f in os.scandir(input):
         if (path.isdir(f)):
@@ -51,7 +52,7 @@ def execute_test(configuration_file_path):
                 logging.info(f"Executing test case {f.name}.")
 
                 if (len(command_to_execute_before_a_test) > 0):
-                    run_external_applicaton(command_to_execute_before_a_test)
+                    run_external_applicaton(f"{command_to_execute_before_a_test} {sut_ip} {sut_port}")
 
                 test_id = f.name
                 temporary_file = f"{test_id}.tmp"
@@ -98,7 +99,7 @@ def execute_test(configuration_file_path):
 
                     if (status == "STARTED" and external_tool_was_started == False and len(command_to_execute_before_a_test) > 0):
                         external_tool_was_started = True
-                        run_external_applicaton(command_to_execute_at_a_test)
+                        run_external_applicaton(f"{command_to_execute_at_a_test} {sut_ip} {sut_port}")
 
                     if ((status != "COMPLETED") and (status != "FAILED")):
                         if time_elapsed < time_to_complete_one_test:
@@ -111,7 +112,7 @@ def execute_test(configuration_file_path):
                         time_elapsed += wait_until
 
                 if (len(command_to_execute_after_a_test) > 0):
-                    run_external_applicaton(command_to_execute_after_a_test)
+                    run_external_applicaton(f"{command_to_execute_after_a_test} {sut_ip} {sut_port}")
             finally:
                 command_undeploy_stack = f"docker stack rm {test_id}"
                 run_external_applicaton(command_undeploy_stack, False)

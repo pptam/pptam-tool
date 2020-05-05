@@ -3,6 +3,7 @@ import sys
 import logging
 import os
 from time import sleep
+import math
 
 
 def progress(count, total, suffix=''):
