@@ -8,7 +8,7 @@ import logging
 import uuid
 from datetime import datetime
 from os import path
-from create.tools import replace_values_in_file
+from tools import replace_values_in_file
 
 
 def create_test(configuration_file_path, configuration_entries_to_overwrite):
