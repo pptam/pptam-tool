@@ -9,7 +9,7 @@ import json
 from time import sleep
 import subprocess
 import shutil
-from execute.tools import progress, run_external_applicaton, wait
+from tools import progress, run_external_applicaton, wait
 
 
 def execute_test(configuration_file_path):
