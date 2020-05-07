@@ -137,3 +137,4 @@ cython_debug/
 # Application specific paths to ignore
 /create/drivers
 /create/to_execute
+/installation/.join-token-worker

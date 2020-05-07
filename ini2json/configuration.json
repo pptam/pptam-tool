@@ -23,7 +23,6 @@
     "carts_cpus_reservations": "0.25",
     "carts_ram_limits": "500M",
     "carts_ram_reservations": "500M",
-    "carts_replicas": "1",
-    "new_parameter": "abc"
+    "carts_replicas": "1"
   }
 }
