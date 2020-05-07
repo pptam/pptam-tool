@@ -1,0 +1,27 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/bionic64"
+
+  config.vagrant.plugins = "vagrant-vbguest"
+  config.vm.provision "shell", path: "scripts/install_docker.sh"
+
+  config.vm.define "driver", primary: true do |driver|
+    driver.vm.network "private_network", ip: "192.168.50.100"
+    driver.vm.hostname = "driver"
+    driver.vm.network :forwarded_port, guest: 9980, host: 9980
+    driver.vm.network :forwarded_port, guest: 8888, host: 8888
+
+    driver.vm.provision "shell", path: "scripts/driver.sh" do |s|
+      s.args = ["192.168.50.100"]
+    end
+  end
+
+  config.vm.define "testbed" do |testbed|
+    testbed.vm.network "private_network", ip: "192.168.50.101"
+    testbed.vm.hostname = "testbed"
+    testbed.vm.network :forwarded_port, guest: 22, host: 2223, id: 'ssh'
+
+    testbed.vm.provision "shell", path: "scripts/testbed.sh" do |s|
+      s.args = ["192.168.50.101", "192.168.50.100:2377"]
+    end
+  end
+end
