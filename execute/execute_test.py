@@ -31,8 +31,8 @@ def execute_test(configuration_file_path):
     seconds_to_wait_for_undeployment = int(configuration["test_case_waiting_for_undeployment_in_seconds"])
     time_to_complete_one_test = seconds_to_wait_for_deployment + seconds_to_wait_for_undeployment + (((int(configuration["test_case_ramp_up_in_seconds"]) + int(configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
     time_to_complete_all_tests = (len([name for name in os.listdir(f"{input}/") if os.path.isdir(f"{input}/{name}")]) * time_to_complete_one_test // 60) + 1
-    logging.info(f"Estimated duration of ONE test: {time_to_complete_one_test} seconds.")
-    logging.info(f"Estimated duration of ALL tests: {time_to_complete_all_tests} minutes.")
+    logging.info(f"Estimated duration of ONE test: approx. {time_to_complete_one_test} seconds.")
+    logging.info(f"Estimated duration of ALL tests: approx. {time_to_complete_all_tests} minutes.")
 
     output = path.abspath(configuration["test_case_executed_folder"])
     logging.debug(f"Storing results in {output}.")

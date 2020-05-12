@@ -8,5 +8,5 @@ if (( $EUID != 0 )); then
     SUDO='sudo'
     echo Running run_raban.sh with sudo...
 fi
-$SUDO kill $(ps aux | grep 'faban/master/bin' | awk '{print $2}')
+$SUDO kill $(ps aux | grep 'execute/faban' | awk '{print $2}')
 $SUDO ./startup.sh

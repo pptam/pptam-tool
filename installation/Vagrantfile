@@ -9,6 +9,11 @@ Vagrant.configure("2") do |config|
     driver.vm.hostname = "driver"
     driver.vm.network :forwarded_port, guest: 9980, host: 9980
     driver.vm.network :forwarded_port, guest: 8888, host: 8888
+    
+    driver.vm.provider "virtualbox" do |v|
+      v.memory = 2048
+      v.cpus = 1
+    end
 
     driver.vm.provision "shell", path: "scripts/install_driver.sh" do |s|
       s.args = ["192.168.50.100"]
@@ -18,6 +23,11 @@ Vagrant.configure("2") do |config|
   config.vm.define "testbed" do |testbed|
     testbed.vm.network "private_network", ip: "192.168.50.101"
     testbed.vm.hostname = "testbed"
+
+    testbed.vm.provider "virtualbox" do |v|
+      v.memory = 2048
+      v.cpus = 1
+    end
 
     testbed.vm.provision "shell", path: "scripts/install_testbed.sh" do |s|
       s.args = ["192.168.50.101", "192.168.50.100:2377"]
