@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python
 import docker
 
 client = docker.DockerClient(base_url='10.7.20.69:2375')
