@@ -133,7 +133,7 @@ def execute_test(configuration_file_path):
                 command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {test_output_path}/faban/runInfo.txt"
                 run_external_applicaton(command_info_faban)
 
-                logging.info(f"Test {test_id} with {run_id} completed. Test results can be found in {test_output_path}.")
+                logging.info(f"Test {test_id} completed. Test results can be found in {test_output_path}.")
             else:
                 progress(time_to_complete_one_test, time_to_complete_one_test, "Failed.                  \n")
                 logging.fatal(f"Test {test_id} with run id {run_id} failed.")
