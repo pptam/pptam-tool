@@ -2,4 +2,4 @@
 set -e
 
 vagrant halt
-vagrant destroy -y
+vagrant destroy -f

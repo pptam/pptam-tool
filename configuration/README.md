@@ -1,8 +1,8 @@
-# ini2json.py
+# Configuration
 
 ## Goal
 
-This script converts a configuration file written using the ini format into json.
+The script ini2json converts a configuration file written using the ini format into json.
 
 ## Requirements
 

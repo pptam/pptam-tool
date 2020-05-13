@@ -23,14 +23,14 @@ sudo update-alternatives --set python /usr/bin/python3.6
 
 # Installion of Jupyter Notebook
 cd /home/vagrant
-echo Downloading Miniconda...
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -nv -O /tmp/miniconda.sh
 bash /tmp/miniconda.sh -b -p /home/vagrant/miniconda
-conda config --set auto_activate_base false
 
 echo export PATH=/home/vagrant/miniconda/bin:$PATH >> /home/vagrant/.bashrc
 source /home/vagrant/.bashrc
 
+eval "$(/home/vagrant/miniconda/bin/conda shell.bash hook)"
+conda init
 conda install -c r r-essentials -y
 conda install -c anaconda jupyter -y
 

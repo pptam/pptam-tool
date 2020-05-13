@@ -15,9 +15,9 @@ sudo rm -rf pptam-tool
 git clone https://github.com/pptam/pptam-tool.git
 
 # Copy configuration for this specific vagrant setup
-\cp /vagrant/configuration/configuration.ini ~/pptam-tool/ini2json/configuration.ini
-cd ~/pptam-tool/ini2json
-./ini2json.sh 
+\cp /vagrant/configuration/configuration.ini ~/pptam-tool/configuration/configuration.ini
+cd ~/pptam-tool/configuration
+./configuration.sh 
 
 cd ~/pptam-tool
 echo Done.

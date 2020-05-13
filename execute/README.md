@@ -26,4 +26,4 @@ optional arguments:
                         Logging level
 ```
 
-The script is typically called without parameters, expecting `configuration.json` in the same folder. Otherwise, you have to call it passing the path to the configuration file, e.g., `./execute_test.py --configuration ../ini2json/configuration.json`.
+The script is typically called without parameters, expecting `configuration.json` in the same folder. Otherwise, you have to call it passing the path to the configuration file, e.g., `./execute_test.py --configuration ../configuration/configuration.json`.
