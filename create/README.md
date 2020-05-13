@@ -31,4 +31,4 @@ optional arguments:
                         name2=value2 ...
 ```
 
-The script is typically called without parameters, expecting `configuration.json` in the same folder. Otherwise, you have to call it passing the path to the configuration file, e.g., `./create_test.py --configuration ../ini2json/configuration.json`.
+The script is typically called without parameters, expecting `configuration.json` in the same folder. Otherwise, you have to call it passing the path to the configuration file, e.g., `./create_test.py --configuration ../configuration/configuration.json`.

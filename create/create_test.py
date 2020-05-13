@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python
 
 import os
 import shutil
@@ -8,7 +8,7 @@ import logging
 import uuid
 from datetime import datetime
 from os import path
-from create.tools import replace_values_in_file
+from lib import *
 
 
 def create_test(configuration_file_path, configuration_entries_to_overwrite):
