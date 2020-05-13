@@ -17,5 +17,9 @@ echo "To use PPTAM, one has to define which software has to be studied. The so c
 echo
 read -p "Press enter to continue"
 echo
-echo "Before we start, we should have a look into the configuration. The configuration files are in the folder configuration because the configuration can be defined in an ini file, which is then converted to json so that it can be used by the other tools." | fold -w 80 -s 
+echo "Before we start, we need to install PPTAM. To do this, we run the following commands:" | fold -w 80 -s 
+echo "cd /vagrant/scripts/"
+echo "./get_pptam_development.sh"
+echo
+echo "The second " | fold -w 80 -s 
 
