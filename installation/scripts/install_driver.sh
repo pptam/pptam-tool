@@ -1,11 +1,15 @@
 #!/bin/bash 
-
-echo INSTALLING DRIVER
-echo ==================================================================
-
 set -e
 
-# Docker swarm installation
+# http://patorjk.com/software/taag/#p=display&c=echo&f=Standard&t=Driver%20setup
+echo "  ____       _                           _               ";
+echo " |  _ \ _ __(_)_   _____ _ __   ___  ___| |_ _   _ _ __  ";
+echo " | | | | '__| \ \ / / _ \ '__| / __|/ _ \ __| | | | '_ \ ";
+echo " | |_| | |  | |\ V /  __/ |    \__ \  __/ |_| |_| | |_) |";
+echo " |____/|_|  |_| \_/ \___|_|    |___/\___|\__|\__,_| .__/ ";
+echo "                                                  |_|    ";
+
+# Docker swarm installation and writing join token into file
 docker swarm init --advertise-addr $1 --listen-addr $1
 docker swarm join-token -q worker > /vagrant/.join-token-worker
 
@@ -18,24 +22,24 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
 sudo update-alternatives --set python /usr/bin/python3.6
 
 # Installion of Jupyter Notebook
-cd ~
-wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh -O ~/Anaconda3-2020.02-Linux-x86_64.sh
-bash ~/Anaconda3-2020.02-Linux-x86_64.sh -b -p $HOME/anaconda
-
-echo export PATH=/home/vagrant/anaconda/bin:$PATH >> ~/.bashrc
-source ~/.bashrc
-
-eval "$(/home/vagrant/anaconda/bin/conda shell.bash hook)"
-conda init
+# cd ~
+# wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh -O ~/Anaconda3-2020.02-Linux-x86_64.sh
+# bash ~/Anaconda3-2020.02-Linux-x86_64.sh -b -p $HOME/anaconda
+# echo export PATH=/home/vagrant/anaconda/bin:$PATH >> ~/.bashrc
+# source ~/.bashrc
+# eval "$(/home/vagrant/anaconda/bin/conda shell.bash hook)"
+# conda init
 
 # jupyter notebook --generate-config
 # jupyter notebook password (Define your jupyter password, or type ENTER twice for an empty password)
+# cp -r /vagrant/configuration/jupyter ~/.jupyter
 
+# mkdir ~/notebooks
+# cd ~/notebooks
+# conda create -n pptam python anaconda r-essentials
+# conda activate pptam
+# jupyter notebook
 
-# 2. Update the following values in/home/user/.jupyter/jupyter_notebook_config.py:
-#    - c.NotebookApp.allow_remote_access = True
-#    - c.NotebookApp.ip = '*'
-#    - c.NotebookApp.open_browser = False
 # 3. Then, execute:
 #    - conda install -c r r-essentials (answer y)
 #    - conda deactivate
