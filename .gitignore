@@ -138,3 +138,4 @@ cython_debug/
 /create/drivers
 /create/to_execute
 /installation/.join-token-worker
+/installation/.vagrant/machines
