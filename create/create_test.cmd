@@ -1,3 +1,4 @@
+@echo off
 cd ../ini2json
 call python ini2json.py 
 cd ../create
