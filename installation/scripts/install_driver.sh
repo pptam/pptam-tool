@@ -35,5 +35,8 @@ conda install -c r r-essentials -y
 conda install -c anaconda jupyter -y
 
 cp -r /vagrant/configuration/jupyter /home/vagrant/.jupyter
-# jupyter notebook --generate-config
-# jupyter notebook password 
+
+# Update to the last version of Git
+sudo add-apt-repository ppa:git-core/ppa -y
+sudo apt-get update
+sudo apt-get install git -y

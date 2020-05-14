@@ -108,7 +108,7 @@ def execute_test(configuration_file_path):
                             wait_until = 10
 
                         logging.debug(f"Waiting for {wait_until} seconds.")
-                        wait(wait_until, time_to_complete_one_test, "Waiting for Faban to finish.", time_elapsed, time_to_complete_one_test - seconds_to_wait_for_undeployment)
+                        wait(wait_until, time_to_complete_one_test, "Waiting for test to finish.", time_elapsed, time_to_complete_one_test - seconds_to_wait_for_undeployment)
                         time_elapsed += wait_until
 
                 if (len(command_to_execute_after_a_test) > 0):
@@ -122,8 +122,8 @@ def execute_test(configuration_file_path):
 
             if (status == "COMPLETED"):
                 logging.debug(f"Waiting for {seconds_to_wait_for_undeployment} seconds.")
-                wait(seconds_to_wait_for_undeployment, time_to_complete_one_test, "Waiting for undeployment.      ", time_elapsed)
-                progress(time_to_complete_one_test, time_to_complete_one_test, "Done.                    \n")
+                wait(seconds_to_wait_for_undeployment, time_to_complete_one_test, "Waiting for undeployment.  ", time_elapsed)
+                progress(time_to_complete_one_test, time_to_complete_one_test, "Done.                      \n")
 
                 os.makedirs(test_output_path)
                 shutil.copytree(f"./faban/output/{run_id}", f"{test_output_path}/faban")
@@ -135,7 +135,7 @@ def execute_test(configuration_file_path):
 
                 logging.info(f"Test {test_id} completed. Test results can be found in {test_output_path}.")
             else:
-                progress(time_to_complete_one_test, time_to_complete_one_test, "Failed.                  \n")
+                progress(time_to_complete_one_test, time_to_complete_one_test, "Failed.                    \n")
                 logging.fatal(f"Test {test_id} with run id {run_id} failed.")
 
 

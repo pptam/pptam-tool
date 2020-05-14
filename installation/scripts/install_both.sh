@@ -10,11 +10,13 @@ echo "  \____|\___|_| |_|\___|_|  |_|\___| |___/\___|\__|\__,_| .__/ ";
 echo "                                                        |_|    ";
 
 # Installing docker 
-apt-get update
-apt-get upgrade -y
+sudo apt-get update
+sudo apt-get upgrade -y
 curl -sSL https://get.docker.com/ | sh
+
+# Add the user that will carry out the tests to the docker group
 usermod -aG docker vagrant
 
 # Adding both machines to the hosts file so that they can be found by name 
-echo 192.168.50.100 driver >> /etc/hosts
-echo 192.168.50.101 testbed >> /etc/hosts
+sudo echo 192.168.50.100 driver >> /etc/hosts
+sudo echo 192.168.50.101 testbed >> /etc/hosts
