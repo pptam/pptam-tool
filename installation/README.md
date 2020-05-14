@@ -23,4 +23,4 @@ Please carry out the following steps:
    1. Download this project using `git clone https://github.com/pptam/pptam-tool.git` within your preferred folder.
    2. Within the `installation` subfolder of the cloned project, execute `vagrant up`.
 
-You can see the video of this step [here](documentation/1-setup machines.mp4).
+You can see the video of this step [here](./documentation/1-setup_machines.mp4).
