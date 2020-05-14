@@ -4,7 +4,7 @@ Welcome to PPTAM, a set of tools for Production and Performance Testing Based Ap
 
 To see how to **install** PPTAM, see [here](installation/README.md).
 
-To see how to **use** PPTAM, see [here](documentation/user/README.md).
+To see how to **use** PPTAM, see [here](documentation/use/README.md).
 
 If you are looking for the archived version published together with the following pubblications, see [here](archive/README.md).
 
