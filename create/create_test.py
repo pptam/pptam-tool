@@ -78,6 +78,45 @@ def create_test(configuration_file_path, configuration_entries_to_overwrite):
     shutil.copyfile(path.join(path_to_temp, "deploy", "docker-compose.yml"), path.join(path_to_output, "docker-compose.yml"))
     shutil.move(path_to_temp, path.join(path_to_drivers, test_id))
     logging.info(f"Done.")
+    
+    return test_id
+    
+def generateTestCampaign(test_id, folder, testCampaignConfWithMetricConfGenerated):
+    testCampaignConfWithMetricConfGeneratedPath = path.join(folder, testCampaignConfWithMetricConfGenerated)
+
+    # If file does not exist, add the new metric at the top of the file, and populate it with all the existing tests to execute.
+    if not os.path.isfile(testCampaignConfWithMetricConfGeneratedPath):
+        with open(path.join(testCampaignConfWithMetricConfGeneratedPath), "w") as fTest:
+            # Write metric header.
+            #print("Write metric header.")
+            with open(path.join(folder, "measurementMetricTemplate.json"), "r") as f:
+                measurementMetricTemplate = json.load(f)["MeasurementMetric"]
+                for key in measurementMetricTemplate.keys():
+                    fTest.write(key+"="+measurementMetricTemplate[key])
+                    fTest.write("\n")
+                fTest.write("\n")
+            # Write other tests.
+            for testId in os.scandir(path.join("./to_execute")):
+                    if (path.isdir(testId)):
+                        fTest.write("test_id="+str(testId.name))
+                        with open(path.join(folder, "testCampaignTemplate.json"), "r") as f:
+                            testCampaignTemplate = json.load(f)["TestCampaign"]
+                            for key in testCampaignTemplate.keys():
+                                fTest.write("\n")
+                                fTest.write(key+"="+testCampaignTemplate[key])
+                            fTest.write("\n")
+                            fTest.write("\n")
+    else:
+        #print("Path does exist.")
+        # Otherwise, add the new test to the bottom.
+        with open(path.join(folder, testCampaignConfWithMetricConfGenerated), "a") as fTest:
+            fTest.write("\n")
+            fTest.write("test_id="+test_id)
+            with open(path.join(folder, "testCampaignTemplate.json"), "r") as f:
+                testCampaignTemplate = json.load(f)["TestCampaign"]
+                for key in testCampaignTemplate.keys():
+                    fTest.write("\n")
+                    fTest.write(key+"="+testCampaignTemplate[key])
 
 
 if __name__ == "__main__":
@@ -88,4 +127,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
-    create_test(args.configuration, args.overwrite)
+    test_id = create_test(args.configuration, args.overwrite)
+    # Generate test campaign configuration files.
+    folder = path.abspath("../configuration/")
+    print("folder="+folder)
+    testCampaignConfWithMetricConfGenerated = "testCampaignConfWithMetricConfGenerated.ini"
+    generateTestCampaign(test_id, folder, testCampaignConfWithMetricConfGenerated)

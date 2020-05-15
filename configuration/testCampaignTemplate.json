@@ -1,0 +1,7 @@
+{
+  "TestCampaign": {
+    "test_enabled": "TRUE",
+    "number_of_executions": "1",
+    "measurement_metric_id": "MEASUREMENT_METRIC_0"
+  }
+}
