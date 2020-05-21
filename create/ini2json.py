@@ -7,6 +7,7 @@ from configparser import ConfigParser
 import logging
 
 def covertIni2Json(iniFile, jsonOutput):
+    print("covertIni2Json: I("+iniFile+") -> O("+jsonOutput)
     parser = argparse.ArgumentParser(description="Converts ini files to json.")
     parser.add_argument("--input", metavar="ini_file", help="The file path of the ini file to read.", default=iniFile)
     parser.add_argument("--output", metavar="json_file", help="The file path of the json file to write.", default=jsonOutput)
@@ -35,17 +36,21 @@ def covertIni2Json(iniFile, jsonOutput):
     
     logging.info(f"Configuration was written to the file {args.output}.")
 
-# Configuration of PPTAM
-configurationTxt = "configuration.ini"
-configurationJson = "configuration.json"
-covertIni2Json(configurationTxt, configurationJson)
-
-# Test campaign template
-testCampaignTemplateTxt = "testCampaignTemplate.ini"
-testCampaignTemplateJson = "testCampaignTemplate.json"
-covertIni2Json(testCampaignTemplateTxt, testCampaignTemplateJson)
-
-# Metric measurement template
-measurementMetricTemplateTxt = "measurementMetricTemplate.ini"
-measurementMetricTemplateJson = "measurementMetricTemplate.json"
-covertIni2Json(measurementMetricTemplateTxt, measurementMetricTemplateJson)
+if __name__ == "__main__":
+    # Configuration of PPTAM
+    configurationTxt = "../configuration/configuration.ini"
+    configurationJson = "../configuration/configuration.json"
+    covertIni2Json(configurationTxt, configurationJson)
+    
+    # Test campaign template
+    testCampaignTemplateTxt = "../configuration/testCampaignTemplate.ini"
+    testCampaignTemplateJson = "../configuration/testCampaignTemplate.json"
+    covertIni2Json(testCampaignTemplateTxt, testCampaignTemplateJson)
+    
+    # Metric measurement template
+    measurementMetricTemplateTxt = "../configuration/measurementMetricTemplate.ini"
+    measurementMetricTemplateJson = "../configuration/measurementMetricTemplate.json"
+    covertIni2Json(measurementMetricTemplateTxt, measurementMetricTemplateJson)
+    
+#    testCampaignConfWithMetricConfGenerated = "../configuration/testCampaignConfWithMetricConfGenerated.ini"
+#    covertIni2Json(testCampaignConfWithMetricConfGenerated, "../configuration/testCampaignConfWithMetricConfGenerated.json")
