@@ -5,9 +5,13 @@ import sys
 import argparse
 from configparser import ConfigParser
 import logging
+from datetime import datetime
+import uuid
+from os import path
+
 
 def covertIni2Json(iniFile, jsonOutput):
-    print("covertIni2Json: I("+iniFile+") -> O("+jsonOutput)
+   # print("covertIni2Json: I("+iniFile+") -> O("+jsonOutput)
     parser = argparse.ArgumentParser(description="Converts ini files to json.")
     parser.add_argument("--input", metavar="ini_file", help="The file path of the ini file to read.", default=iniFile)
     parser.add_argument("--output", metavar="json_file", help="The file path of the json file to write.", default=jsonOutput)
@@ -52,5 +56,19 @@ if __name__ == "__main__":
     measurementMetricTemplateJson = "../configuration/measurementMetricTemplate.json"
     covertIni2Json(measurementMetricTemplateTxt, measurementMetricTemplateJson)
     
+    
+    
+    
+    deploymentTxt = "../configuration/thirdParty/deployment.ini"
+    deploymentJson = "../configuration/thirdParty/deployment.json"
+    covertIni2Json(deploymentTxt, deploymentJson)
+    
+    executionAndMeasurementTxt = "../configuration/thirdParty/executionAndMeasurement.ini"
+    executionAndMeasurementJson = "../configuration/thirdParty/executionAndMeasurement.json"
+    covertIni2Json(executionAndMeasurementTxt, executionAndMeasurementJson)
+    
+    sutTxt = "../configuration/thirdParty/sut.ini"
+    sutJson = "../configuration/thirdParty/sut.json"
+    covertIni2Json(sutTxt, sutJson)    
 #    testCampaignConfWithMetricConfGenerated = "../configuration/testCampaignConfWithMetricConfGenerated.ini"
 #    covertIni2Json(testCampaignConfWithMetricConfGenerated, "../configuration/testCampaignConfWithMetricConfGenerated.json")

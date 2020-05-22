@@ -11,6 +11,12 @@ import subprocess
 import shutil
 from lib import *
 
+from executeTestInterfaceHandler import deploymentHandler
+from executeTestInterfaceHandler import executionAndMeasurementHandler
+from executeTestInterfaceHandler import executionMonitoringHandler
+from executeTestInterfaceHandler import executionOutputHandler
+from executeTestInterfaceHandler import executionCleanupHandler
+
 def getMeasurementMetric(measurementMetricID):
     pass
 
@@ -28,6 +34,28 @@ def execute_test(configuration_file_path, testCampaignConfWithMetricConfGenerate
         raise RuntimeError
     else:
         logging.debug(f"Executing test cases from {input}.")
+        
+        
+    # Get files that contain place holders that need to be replaced.
+    deploymentOpt = configuration["deployment"] 
+    executionAndMeasurementOpt = configuration["execution_and_measurement"]
+    sutOpt = configuration["sut"]
+    
+    # Handle deployment place holders.
+    deploymentConf = None
+    with open("../configuration/thirdParty/deployment.json", "r") as f:
+        deploymentConf = json.load(f)[deploymentOpt]
+        
+    # Handle execution and measurement place holders.
+    executionAndMeasurementConf = None
+    with open("../configuration/thirdParty/executionAndMeasurement.json", "r") as f:
+        executionAndMeasurementConf = json.load(f)[executionAndMeasurementOpt]
+    
+    # Handle system under test place holders.
+    sutConf = None
+    with open("../configuration/thirdParty/sut.json", "r") as f:
+        sutConf = json.load(f)[sutOpt]
+   
 
     seconds_to_wait_for_deployment = int(configuration["test_case_waiting_for_deployment_in_seconds"])
     seconds_to_wait_for_undeployment = int(configuration["test_case_waiting_for_undeployment_in_seconds"])
@@ -39,14 +67,11 @@ def execute_test(configuration_file_path, testCampaignConfWithMetricConfGenerate
     output = path.abspath(configuration["test_case_executed_folder"])
     logging.debug(f"Storing results in {output}.")
 
-    faban_master = f"http://{configuration['faban_ip']}:9980/"
-    faban_client = path.abspath("./faban/benchflow-faban-client/target/benchflow-faban-client.jar")
-
     command_to_execute_before_a_test = configuration["pre_exec_external_command"]
     command_to_execute_after_a_test = configuration["post_exec_external_command"]
     command_to_execute_at_a_test = configuration["on_exec_external_command"]
-    sut_ip = configuration["sut_ip"]
-    sut_port = configuration["sut_port"]
+    #sut_ip = configuration["sut_ip"]
+    #sut_port = configuration["sut_port"]
 
     #for f in os.scandir(input):
         #if (path.isdir(f)):
@@ -64,7 +89,8 @@ def execute_test(configuration_file_path, testCampaignConfWithMetricConfGenerate
                             logging.info(f"Executing test case {f.name}.")
             
                             if (len(command_to_execute_before_a_test) > 0):
-                                run_external_applicaton(f"{command_to_execute_before_a_test} {sut_ip} {sut_port}")
+                                #run_external_applicaton(f"{command_to_execute_before_a_test} {sut_ip} {sut_port}")
+                                run_external_applicaton(f"{command_to_execute_before_a_test}")
             
                             # test_id = f.name
                             test_id = testCampaignConfWithMetricConfGenerated[category]["test_id"]
@@ -75,44 +101,40 @@ def execute_test(configuration_file_path, testCampaignConfWithMetricConfGenerate
                                 logging.info(f"Removing path {test_output_path} since it already exists.")
                                 shutil.rmtree(path, ignore_errors=False, onerror=RuntimeError)
             
-                            deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
-                            command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
-            
-                            run_external_applicaton(command_deploy_stack)
-            
+                            ##################################################################################################
+                            ## Handle specific execution commands ############################################################
+                            ##################################################################################################
+                            deploymentHandler(input, test_id, deploymentOpt, deploymentConf)
+                            ##################################################################################################
+
                             logging.debug(f"Waiting for {seconds_to_wait_for_deployment} seconds.")
                             wait(seconds_to_wait_for_deployment, time_to_complete_one_test, "Waiting for deployment.", 0)
                             time_elapsed = seconds_to_wait_for_deployment
-            
-                            driver = f"{input}/{test_id}/{test_id}.jar"
-                            driver_configuration = f"{input}/{test_id}/run.xml"
-                            command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration} > {temporary_file}"
-            
-                            run_external_applicaton(command_deploy_faban)
-            
-                            with open(temporary_file, "r") as f:
-                                std_out_deploy_faban = f.readline().rstrip()
-                            run_id = std_out_deploy_faban
+                            
+                            ##################################################################################################
+                            ## Handle specific execution commands ############################################################
+                            ##################################################################################################
+                            run_id = executionAndMeasurementHandler(test_id, executionAndMeasurementOpt, executionAndMeasurementConf)
+                            ##################################################################################################                          
+
                             logging.debug(f"Obtained {run_id} as run ID.")
-                            os.remove(temporary_file)
             
                             status = ""
                             external_tool_was_started = False
             
                             while ((status != "COMPLETED") and (status != "FAILED")):
-                                command_status_faban = f"java -jar {faban_client} {faban_master} status {run_id} > {temporary_file}"
-            
-                                run_external_applicaton(command_status_faban)
-            
-                                with open(temporary_file, "r") as f:
-                                    std_out_status_faban = f.readline().rstrip()
-                                status = std_out_status_faban
-                                os.remove(temporary_file)
-                                logging.debug(f"Current Faban status: {status}.")
+                                ##################################################################################################
+                                ## Handle specific monitoring commands ###########################################################
+                                ##################################################################################################
+                                status = executionMonitoringHandler(test_id, run_id, executionAndMeasurementOpt, executionAndMeasurementConf)
+                                ##################################################################################################
+                              
+                                logging.debug(f"Current test execution status: {status}.")
             
                                 if (status == "STARTED" and external_tool_was_started == False and len(command_to_execute_before_a_test) > 0):
                                     external_tool_was_started = True
-                                    run_external_applicaton(f"{command_to_execute_at_a_test} {sut_ip} {sut_port}")
+                                    #run_external_applicaton(f"{command_to_execute_at_a_test} {sut_ip} {sut_port}")
+                                    run_external_applicaton(f"{command_to_execute_at_a_test}")
             
                                 if ((status != "COMPLETED") and (status != "FAILED")):
                                     if time_elapsed < time_to_complete_one_test:
@@ -125,11 +147,15 @@ def execute_test(configuration_file_path, testCampaignConfWithMetricConfGenerate
                                     time_elapsed += wait_until
             
                             if (len(command_to_execute_after_a_test) > 0):
-                                run_external_applicaton(f"{command_to_execute_after_a_test} {sut_ip} {sut_port}")
+                                #run_external_applicaton(f"{command_to_execute_after_a_test} {sut_ip} {sut_port}")
+                                run_external_applicaton(f"{command_to_execute_after_a_test}")
                         finally:
-                            command_undeploy_stack = f"docker stack rm {test_id}"
-                            run_external_applicaton(command_undeploy_stack, False)
-            
+                            ##################################################################################################
+                            ## Handle specific execution output commands #####################################################
+                            ##################################################################################################
+                            executionCleanupHandler(test_id, deploymentOpt, deploymentConf)
+                            ##################################################################################################
+                                        
                             if path.isfile(temporary_file):
                                 os.remove(temporary_file)
             
@@ -137,15 +163,13 @@ def execute_test(configuration_file_path, testCampaignConfWithMetricConfGenerate
                             logging.debug(f"Waiting for {seconds_to_wait_for_undeployment} seconds.")
                             wait(seconds_to_wait_for_undeployment, time_to_complete_one_test, "Waiting for undeployment.  ", time_elapsed)
                             progress(time_to_complete_one_test, time_to_complete_one_test, "Done.                      \n")
-            
-                            os.makedirs(test_output_path)
-                            shutil.copytree(f"./faban/output/{run_id}", f"{test_output_path}/faban")
-                            shutil.move(f"{input}/{test_id}", f"{test_output_path}/definition")
-                            shutil.copyfile(configuration_file_path, f"{test_output_path}/configuration.json")
-            
-                            command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {test_output_path}/faban/runInfo.txt"
-                            run_external_applicaton(command_info_faban)
-            
+                            
+                            ##################################################################################################
+                            ## Handle specific execution output commands #####################################################
+                            ##################################################################################################
+                            executionOutputHandler(test_id, run_id, test_output_path, executionAndMeasurementOpt, executionAndMeasurementConf)
+                            ##################################################################################################
+
                             logging.info(f"Test {test_id} completed. Test results can be found in {test_output_path}.")
                         else:
                             progress(time_to_complete_one_test, time_to_complete_one_test, "Failed.                    \n")

@@ -1,0 +1,20 @@
+{
+  "FABAN": {
+    "test_name": "",
+    "file_to_change": [
+      "templates/faban/driver/ecsa/deploy/run.xml,",
+      "templates/faban/driver/ecsa/build.properties,",
+      "templates\\faban\\driver\\ecsa\\build.xml,",
+      "templates/faban/driver/ecsa/src/ecsa/driver/WebDriver.java"
+    ],
+    "num_users": "50",
+    "sut_ip": "10.7.20.69",
+    "sut_port": "80",
+    "faban_java_home": "/usr/lib/jvm/java-8-openjdk-amd64",
+    "faban_ip": "10.7.20.68",
+    "faban_output_dir": "/tmp/",
+    "test_case_ramp_up_in_seconds": "10",
+    "test_case_steady_state_in_seconds": "60",
+    "test_case_ramp_down_in_seconds": "0"
+  }
+}
