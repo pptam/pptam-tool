@@ -1,0 +1,12 @@
+{
+  "SOCKS2": {
+    "file_to_change": "templates/deployment_descriptor/template/docker-compose.yml",
+    "carts_cpus_limits": "0.25",
+    "carts_cpus_reservations": "0.25",
+    "carts_ram_limits": "500M",
+    "carts_ram_reservations": "500M",
+    "carts_replicas": "1",
+    "sut_hostname": "socks2"
+  },
+  "TRAIN_TICKET": {}
+}

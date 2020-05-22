@@ -1,5 +1,25 @@
 {
-  "MeasurementMetric": {
+  "FABAN": {
+    "metric_measurement_id": "METRIC_MEASUREMENT_0",
+    "metric_measurement_param_1": "",
+    "metric_measurement_param_2": ""
+  },
+  "JMeter": {
+    "metric_measurement_id": "METRIC_MEASUREMENT_0",
+    "metric_measurement_param_1": "",
+    "metric_measurement_param_2": ""
+  },
+  "PerfCake": {
+    "metric_measurement_id": "METRIC_MEASUREMENT_0",
+    "metric_measurement_param_1": "",
+    "metric_measurement_param_2": ""
+  },
+  "Grinder": {
+    "metric_measurement_id": "METRIC_MEASUREMENT_0",
+    "metric_measurement_param_1": "",
+    "metric_measurement_param_2": ""
+  },
+  "Gatling": {
     "metric_measurement_id": "METRIC_MEASUREMENT_0",
     "metric_measurement_param_1": "",
     "metric_measurement_param_2": ""

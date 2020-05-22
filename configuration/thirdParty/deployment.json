@@ -1,0 +1,5 @@
+{
+  "DOCKER": {
+    "file_to_change": "templates/deployment_descriptor/template/docker-compose.yml"
+  }
+}
