@@ -89,17 +89,16 @@ with open("../configuration/thirdParty/sut.json", "r") as f:
 # Have default values.
 testPlanDict = {}
 
-testInstance = {}
-
 while(NUMBER_OF_TESTS>0):
     NUMBER_OF_TESTS = NUMBER_OF_TESTS-1
-    testInstance.clear()
+
     # Generate random test ID.
     now = datetime.now()
     test_id = configuration["test_case_prefix"] + "-" + \
         now.strftime("%Y%m%d%H%M%S") + "-" + str(uuid.uuid4())[:8]
-    #print("Test "+test_id+" - start plan.")
+    print("Test "+test_id+" - start plan.")
     
+    testInstance = {}
     testInstance["TEST_ID"] = test_id
     
     # Deployment place holders.
@@ -131,8 +130,8 @@ while(NUMBER_OF_TESTS>0):
         else:
             testInstance[paramKey] = sutConf[paramKey]
     
+    #print(testInstance)
     testPlanDict[test_id] = testInstance
-    print("Test "+test_id+" - test plan created.")
 
 # If the previous plan already exists.
 if os.path.isfile(testPlanFile): 
