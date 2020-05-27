@@ -121,6 +121,10 @@ def create_test(configuration_file_path, configuration_entries_to_overwrite):
         sutConf = json.load(f)[sutOpt]
         # Replace all files with place holders.
         copyAndReplacePlaceHoldersinFiles(path_to_temp_id, sutConf, test_id) 
+    
+    # Get the test plan. Update the test files. Create tests. 
+    #with open("../configuration/thirdParty/deployment.json", "r") as f:
+        #deploymentConf = json.load(f)[deploymentOpt]
     ##################################################################################################
         
         
