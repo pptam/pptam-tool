@@ -2,6 +2,9 @@ from os import path
 import logging
 import os
 import shutil
+
+import distutils.dir_util
+
 from distutils.dir_util import copy_tree
 
 ##########################################################################################
@@ -17,6 +20,11 @@ def deploymentHandler(test_id, deploymentOpt, deploymentConf):
 def executionAndMeasurementHandler(test_id, executionAndMeasurementOpt, executionAndMeasurementConf):
     if(executionAndMeasurementOpt=="FABAN"):
         executionAndMeasurementHandlerFaban(test_id, executionAndMeasurementConf)
+
+# Based on execution and measurement type, calls a corresponding handler.        
+def executionAndMeasurementProduceOutputHandler(path_to_temp, path_to_output, path_to_drivers, test_id, executionAndMeasurementOpt, executionAndMeasurementConf):
+    if(executionAndMeasurementOpt=="FABAN"):
+        executionAndMeasurementProduceOutputHandlerFaban(path_to_temp, path_to_output, path_to_drivers, test_id, executionAndMeasurementConf)
 
 # Based on SUT type, calls a corresponding handler.
 def sutHandler(test_id, sutOpt, sutConf):
@@ -36,11 +44,16 @@ def executionAndMeasurementHandlerFaban(test_id, executionAndMeasurementConf):
 
     logging.debug(f"Generating a test with the id {test_id} in {path_to_temp}.")
 
-    logging.debug(f"Creating new driver, based on the templates in {path_to_templates}.")
+    logging.debug(f"Creating new driver, based on the templates in {path_to_templates}.")  
     #shutil.copytree(path.join(path_to_templates, "faban", "driver", "ecsa"), path_to_temp)
+
+    # Seems to be a bug in distutils. If you copy folder, then remove it, then copy again it will fail, because it caches all the created dirs. To workaround you can clear _path_created before copy
+    # https://stackoverflow.com/questions/9160227/dir-util-copy-tree-fails-after-shutil-rmtree/28055993
+    distutils.dir_util._path_created = {}
+    
     copy_tree(path.join(path_to_templates, "faban", "driver", "ecsa"), path_to_temp)
     shutil.copyfile(path.join(path_to_templates, "deployment_descriptor", "template", "docker-compose.yml"), path.join(path_to_temp, "deploy", "docker-compose.yml"))
-
+    
     #replacements = []
     #for entry in configuration:
     #    replacements.append({"search_for": "${" + entry.upper() + "}", "replace_with": configuration[entry]})
@@ -83,3 +96,8 @@ def sutHandlerSocks2(test_id, sutConf):
     
 def sutHandlerTrainTicket(test_id, sutConf):
         pass
+
+def executionAndMeasurementProduceOutputHandlerFaban(path_to_temp, path_to_output, path_to_drivers, test_id, executionAndMeasurementConf):
+    shutil.copyfile(path.join(path_to_temp, "build", f"{test_id}.jar"), path.join(path_to_output, f"{test_id}.jar"))
+    shutil.copyfile(path.join(path_to_temp, "config", "run.xml"), path.join(path_to_output, "run.xml"))
+    shutil.copyfile(path.join(path_to_temp, "deploy", "docker-compose.yml"), path.join(path_to_output, "docker-compose.yml"))

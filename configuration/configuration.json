@@ -1,0 +1,19 @@
+{
+  "Configuration": {
+    "deployment": "DOCKER",
+    "execution_and_measurement": "FABAN",
+    "sut": "SOCKS2",
+    "pre_exec_external_command": "",
+    "post_exec_external_command": "",
+    "on_exec_external_command": "",
+    "test_case_prefix": "change_me",
+    "test_case_creation_folder": "./to_execute",
+    "test_case_to_execute_folder": "../create/to_execute",
+    "test_case_executed_folder": "./executed",
+    "test_case_waiting_for_deployment_in_seconds": "10",
+    "test_case_waiting_for_undeployment_in_seconds": "10",
+    "test_case_ramp_up_in_seconds": "10",
+    "test_case_steady_state_in_seconds": "60",
+    "test_case_ramp_down_in_seconds": "0"
+  }
+}
