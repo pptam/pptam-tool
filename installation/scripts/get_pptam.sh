@@ -20,4 +20,6 @@ cd ~/pptam-tool/configuration
 ./ini2json.sh 
 
 cd ~/pptam-tool
+
+git checkout cleanup
 echo Done.
