@@ -1,3 +1,3 @@
-from .tools import progress, run_external_applicaton, wait
+from .tools import progress, run_external_applicaton, wait, replace_values_in_file
 
-__all__ = ['progress', 'run_external_applicaton', 'wait']
+__all__ = ['progress', 'run_external_applicaton', 'wait', 'replace_values_in_file']

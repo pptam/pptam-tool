@@ -9,42 +9,105 @@ import json
 from time import sleep
 import subprocess
 import shutil
+import configparser
+import uuid
+from datetime import datetime
 from lib import *
 
 
-def execute_test(configuration_file_path):
-    if not path.exists(configuration_file_path):
-        logging.fatal(f"Cannot find the configuration file {configuration_file_path}.")
-        raise RuntimeError
+def prepare_execution(design_path):
+    configuration = configparser.ConfigParser()
+    configuration.read(path.join(design_path, "configuration.ini"))
 
-    with open(configuration_file_path, "r") as f:
-        configuration = json.load(f)["Configuration"]
+    output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
+    if not path.isdir(output):
+        logging.debug(f"Creating {output}, since it does not exist.")
+        os.makedirs(output)
 
-    input = path.abspath(configuration["test_case_to_execute_folder"])
+    path_to_benchmark = path.abspath("./benchmark")
+    path_to_drivers = path.abspath("./drivers")
+    path_to_temp = path.join(path_to_drivers, "tmp")
+
+    now = datetime.now()
+    test_id = configuration["DEFAULT"]["test_case_prefix"] + "-" + \
+        now.strftime("%Y%m%d%H%M%S") + "-" + str(uuid.uuid4())[:8]
+    logging.debug(f"Generating a test with the id {test_id} in {path_to_temp}.")
+
+    if path.isdir(path_to_temp):
+        shutil.rmtree(path_to_temp)
+
+    logging.debug(f"Creating new job, based on the templates in {path_to_benchmark}.")
+    shutil.copytree(path_to_benchmark, path_to_temp)
+    shutil.copyfile(path.join(design_path, configuration["DEFAULT"]["deployment_descriptor"]), path.join(path_to_temp, "deploy", "docker-compose.yml"))
+    shutil.copyfile(path.join(design_path, configuration["DEFAULT"]["faban_driver"]), path.join(path_to_temp, "src", "ecsa", "driver", "WebDriver.java"))
+    shutil.copyfile(path.join(design_path, configuration["DEFAULT"]["faban_benchmark"]), path.join(path_to_temp, "src", "ecsa", "harness", "WebBenchmark.java"))
+
+    replacements = []
+    for entry in configuration["DEFAULT"].keys():
+        replacements.append({"search_for": "${" + entry.upper() + "}", "replace_with": configuration["DEFAULT"][entry]})
+        replacements.append({"search_for": "${" + entry.lower() + "}", "replace_with": configuration["DEFAULT"][entry]})
+
+    replacements.append({"search_for": "${TEST_NAME}", "replace_with": test_id})
+
+    logging.debug(f"Replacing values.")
+    replace_values_in_file(path.join(path_to_temp, "build.properties"), replacements)
+    replace_values_in_file(path.join(path_to_temp, "deploy", "run.xml"), replacements)
+    shutil.copyfile(path.join(path_to_temp, "deploy", "run.xml"), path.join(path_to_temp, "config", "run.xml"))
+    replace_values_in_file(path.join(path_to_temp, "src", "ecsa", "driver", "WebDriver.java"), replacements)
+    replace_values_in_file(path.join(path_to_temp, "src", "ecsa", "harness", "WebBenchmark.java"), replacements)
+    replace_values_in_file(path.join(path_to_temp, "deploy", "docker-compose.yml"), replacements)
+
+    logging.debug("Compiling the Faban benchmark")
+    current_folder = os.getcwd()
+    os.chdir(path_to_temp)
+    command = "ant deploy.jar -q -S"
+    result = os.system(command)
+    os.chdir(current_folder)
+
+    if result != 0:
+        logging.fatal(f"Could not compile job in {path_to_temp}.")
+        quit()
+
+    path_to_output = path.join(path.abspath(output), test_id)
+    logging.info(f"Writing the job into {path_to_output}.")
+
+    os.makedirs(path_to_output)
+    shutil.copyfile(path.join(path_to_temp, "build", f"{test_id}.jar"), path.join(path_to_output, f"{test_id}.jar"))
+    shutil.copyfile(path.join(path_to_temp, "config", "run.xml"), path.join(path_to_output, "run.xml"))
+    shutil.copyfile(path.join(path_to_temp, "deploy", "docker-compose.yml"), path.join(path_to_output, "docker-compose.yml"))
+    shutil.move(path_to_temp, path.join(path_to_drivers, test_id))
+    logging.info(f"Done.")
+
+
+def execute_test(design_path):
+    configuration = configparser.ConfigParser()
+    configuration.read(path.join(design_path, "configuration.ini"))
+
+    input = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
     if not path.isdir(input):
         logging.fatal(f"Cannot find the test case folder {input}.")
         raise RuntimeError
     else:
         logging.debug(f"Executing test cases from {input}.")
 
-    seconds_to_wait_for_deployment = int(configuration["test_case_waiting_for_deployment_in_seconds"])
-    seconds_to_wait_for_undeployment = int(configuration["test_case_waiting_for_undeployment_in_seconds"])
+    seconds_to_wait_for_deployment = int(configuration["DEFAULT"]["test_case_waiting_for_deployment_in_seconds"])
+    seconds_to_wait_for_undeployment = int(configuration["DEFAULT"]["test_case_waiting_for_undeployment_in_seconds"])
     time_to_complete_one_test = seconds_to_wait_for_deployment + seconds_to_wait_for_undeployment + (((int(configuration["test_case_ramp_up_in_seconds"]) + int(configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
     time_to_complete_all_tests = (len([name for name in os.listdir(f"{input}/") if os.path.isdir(f"{input}/{name}")]) * time_to_complete_one_test // 60) + 1
     logging.info(f"Estimated duration of ONE test: approx. {time_to_complete_one_test} seconds.")
     logging.info(f"Estimated duration of ALL tests: approx. {time_to_complete_all_tests} minutes.")
 
-    output = path.abspath(configuration["test_case_executed_folder"])
+    output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_executed_folder"]))
     logging.debug(f"Storing results in {output}.")
 
-    faban_master = f"http://{configuration['faban_ip']}:9980/"
+    faban_master = f"http://{configuration['DEFAULT']['faban_ip']}:9980/"
     faban_client = path.abspath("./faban/benchflow-faban-client/target/benchflow-faban-client.jar")
 
-    command_to_execute_before_a_test = configuration["pre_exec_external_command"]
-    command_to_execute_after_a_test = configuration["post_exec_external_command"]
-    command_to_execute_at_a_test = configuration["on_exec_external_command"]
-    sut_ip = configuration["sut_ip"]
-    sut_port = configuration["sut_port"]
+    command_to_execute_before_a_test = configuration["DEFAULT"]["pre_exec_external_command"]
+    command_to_execute_after_a_test = configuration["DEFAULT"]["post_exec_external_command"]
+    command_to_execute_at_a_test = configuration["DEFAULT"]["on_exec_external_command"]
+    sut_ip = configuration["DEFAULT"]["sut_ip"]
+    sut_port = configuration["DEFAULT"]["sut_port"]
 
     for f in os.scandir(input):
         if (path.isdir(f)):
@@ -141,9 +204,25 @@ def execute_test(configuration_file_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
-    parser.add_argument("--configuration", metavar="path_to_configuration_file", help="Configuration file", default="configuration.json")
+    parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder", default="../design")
     parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
-    execute_test(args.configuration)
+
+    design_path = args.design
+    if not path.exists(design_path):
+        logging.fatal(f"Cannot find the design folder {design_path}.")
+        quit()
+
+    configuration = configparser.ConfigParser()
+    configuration.read(path.join(design_path, "configuration.ini"))
+
+    # output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
+    # if path.isdir(output) and len(os.listdir(output)) > 0:
+    #     logging.info(f"Found exiting jobs in {output}, continue execution.")
+    # else:
+    #     logging.info(f"Generating jobs.")
+    #     prepare_execution(design_path)
+
+    prepare_execution(design_path)
