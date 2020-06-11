@@ -12,13 +12,10 @@ import shutil
 import configparser
 import uuid
 from datetime import datetime
-from lib import *
+from lib import progress, run_external_applicaton, wait, replace_values_in_file
 
 
-def prepare_execution(design_path):
-    configuration = configparser.ConfigParser()
-    configuration.read(path.join(design_path, "configuration.ini"))
-
+def add_faban_job(configuration, section, repetition):
     output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
     if not path.isdir(output):
         logging.debug(f"Creating {output}, since it does not exist.")
@@ -29,8 +26,8 @@ def prepare_execution(design_path):
     path_to_temp = path.join(path_to_drivers, "tmp")
 
     now = datetime.now()
-    test_id = configuration["DEFAULT"]["test_case_prefix"] + "-" + \
-        now.strftime("%Y%m%d%H%M%S") + "-" + str(uuid.uuid4())[:8]
+    test_id = configuration[section]["test_case_prefix"].lower() + "-" + \
+        now.strftime("%Y%m%d%H%M%S") + "-" + section.lower() + "-" + str(repetition+1)
     logging.debug(f"Generating a test with the id {test_id} in {path_to_temp}.")
 
     if path.isdir(path_to_temp):
@@ -38,14 +35,14 @@ def prepare_execution(design_path):
 
     logging.debug(f"Creating new job, based on the templates in {path_to_benchmark}.")
     shutil.copytree(path_to_benchmark, path_to_temp)
-    shutil.copyfile(path.join(design_path, configuration["DEFAULT"]["deployment_descriptor"]), path.join(path_to_temp, "deploy", "docker-compose.yml"))
-    shutil.copyfile(path.join(design_path, configuration["DEFAULT"]["faban_driver"]), path.join(path_to_temp, "src", "ecsa", "driver", "WebDriver.java"))
-    shutil.copyfile(path.join(design_path, configuration["DEFAULT"]["faban_benchmark"]), path.join(path_to_temp, "src", "ecsa", "harness", "WebBenchmark.java"))
+    shutil.copyfile(path.join(design_path, configuration[section]["deployment_descriptor"]), path.join(path_to_temp, "deploy", "docker-compose.yml"))
+    shutil.copyfile(path.join(design_path, configuration[section]["faban_driver"]), path.join(path_to_temp, "src", "ecsa", "driver", "WebDriver.java"))
+    shutil.copyfile(path.join(design_path, configuration[section]["faban_benchmark"]), path.join(path_to_temp, "src", "ecsa", "harness", "WebBenchmark.java"))
 
     replacements = []
-    for entry in configuration["DEFAULT"].keys():
-        replacements.append({"search_for": "${" + entry.upper() + "}", "replace_with": configuration["DEFAULT"][entry]})
-        replacements.append({"search_for": "${" + entry.lower() + "}", "replace_with": configuration["DEFAULT"][entry]})
+    for entry in configuration[section].keys():
+        replacements.append({"search_for": "${" + entry.upper() + "}", "replace_with": configuration[section][entry]})
+        replacements.append({"search_for": "${" + entry.lower() + "}", "replace_with": configuration[section][entry]})
 
     replacements.append({"search_for": "${TEST_NAME}", "replace_with": test_id})
 
@@ -75,13 +72,32 @@ def prepare_execution(design_path):
     shutil.copyfile(path.join(path_to_temp, "build", f"{test_id}.jar"), path.join(path_to_output, f"{test_id}.jar"))
     shutil.copyfile(path.join(path_to_temp, "config", "run.xml"), path.join(path_to_output, "run.xml"))
     shutil.copyfile(path.join(path_to_temp, "deploy", "docker-compose.yml"), path.join(path_to_output, "docker-compose.yml"))
+
+    with open(path.join(path_to_output, "configuration.txt"), "w") as f:
+        for option in configuration.options(section):
+            f.write(f"{option}={configuration[section][option]}\n")
+
     shutil.move(path_to_temp, path.join(path_to_drivers, test_id))
+
+
+def prepare_execution(design_path):
+    configuration = configparser.ConfigParser()
+    configuration.read([path.join(design_path, "test_case.ini"), path.join(design_path, "test_plan.ini")])
+
+    for section in configuration.sections():
+        if section.lower().startswith("test"):
+            enabled = (configuration[section]["enabled"] == "1")
+            if enabled:
+                repeat = int(configuration[section]["repeat"])
+                for repetition in range(repeat):
+                    add_faban_job(configuration, section, repetition)
+
     logging.info(f"Done.")
 
 
 def execute_test(design_path):
     configuration = configparser.ConfigParser()
-    configuration.read(path.join(design_path, "configuration.ini"))
+    configuration.read(path.join(design_path, "test_case.ini"))
 
     input = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
     if not path.isdir(input):
@@ -191,7 +207,6 @@ def execute_test(design_path):
                 os.makedirs(test_output_path)
                 shutil.copytree(f"./faban/output/{run_id}", f"{test_output_path}/faban")
                 shutil.move(f"{input}/{test_id}", f"{test_output_path}/definition")
-                shutil.copyfile(configuration_file_path, f"{test_output_path}/configuration.json")
 
                 command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {test_output_path}/faban/runInfo.txt"
                 run_external_applicaton(command_info_faban)
@@ -206,6 +221,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder", default="../design")
     parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)
+    parser.add_argument("--cleanup", help="Deletes all temporary data", action="store_true")
+
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
@@ -216,13 +233,16 @@ if __name__ == "__main__":
         quit()
 
     configuration = configparser.ConfigParser()
-    configuration.read(path.join(design_path, "configuration.ini"))
+    configuration.read(path.join(design_path, "test_case.ini"))
 
-    # output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
-    # if path.isdir(output) and len(os.listdir(output)) > 0:
-    #     logging.info(f"Found exiting jobs in {output}, continue execution.")
-    # else:
-    #     logging.info(f"Generating jobs.")
-    #     prepare_execution(design_path)
+    if args.cleanup:
+        output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
+        if path.isdir(output):
+            shutil.rmtree(output)
 
-    prepare_execution(design_path)
+    output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
+    if path.isdir(output) and len(os.listdir(output)) > 0:
+        logging.info(f"Found exiting jobs in {output}, continue execution.")
+    else:
+        logging.info(f"Generating jobs.")
+        prepare_execution(design_path)
