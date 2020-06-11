@@ -36,8 +36,8 @@ def add_faban_job(configuration, section, repetition):
     logging.debug(f"Creating new job, based on the templates in {path_to_benchmark}.")
     shutil.copytree(path_to_benchmark, path_to_temp)
     shutil.copyfile(path.join(design_path, configuration[section]["deployment_descriptor"]), path.join(path_to_temp, "deploy", "docker-compose.yml"))
-    shutil.copyfile(path.join(design_path, configuration[section]["faban_driver"]), path.join(path_to_temp, "src", "ecsa", "driver", "WebDriver.java"))
-    shutil.copyfile(path.join(design_path, configuration[section]["faban_benchmark"]), path.join(path_to_temp, "src", "ecsa", "harness", "WebBenchmark.java"))
+    shutil.copyfile(path.join(design_path, configuration[section]["faban_driver"]), path.join(path_to_temp, "src", "pptam", "driver", "WebDriver.java"))
+    shutil.copyfile(path.join(design_path, configuration[section]["faban_benchmark"]), path.join(path_to_temp, "src", "pptam", "harness", "WebBenchmark.java"))
 
     replacements = []
     for entry in configuration[section].keys():
@@ -50,8 +50,8 @@ def add_faban_job(configuration, section, repetition):
     replace_values_in_file(path.join(path_to_temp, "build.properties"), replacements)
     replace_values_in_file(path.join(path_to_temp, "deploy", "run.xml"), replacements)
     shutil.copyfile(path.join(path_to_temp, "deploy", "run.xml"), path.join(path_to_temp, "config", "run.xml"))
-    replace_values_in_file(path.join(path_to_temp, "src", "ecsa", "driver", "WebDriver.java"), replacements)
-    replace_values_in_file(path.join(path_to_temp, "src", "ecsa", "harness", "WebBenchmark.java"), replacements)
+    replace_values_in_file(path.join(path_to_temp, "src", "pptam", "driver", "WebDriver.java"), replacements)
+    replace_values_in_file(path.join(path_to_temp, "src", "pptam", "harness", "WebBenchmark.java"), replacements)
     replace_values_in_file(path.join(path_to_temp, "deploy", "docker-compose.yml"), replacements)
 
     logging.debug("Compiling the Faban benchmark")

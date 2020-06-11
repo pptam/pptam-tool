@@ -21,7 +21,7 @@
  *
  * Copyright 2005-2009 Sun Microsystems Inc. All Rights Reserved
  */
-package ecsa.harness;
+package pptam.harness;
 
 import com.sun.faban.harness.Configure;
 import com.sun.faban.harness.DefaultFabanBenchmark2;
@@ -29,11 +29,11 @@ import com.sun.faban.harness.DefaultFabanBenchmark2;
 import java.util.logging.Logger;
 
 /**
- * Harness hook for the sample web benchmark. This class is not needed
- * for benchmarks implemented using the Faban Driver Framework if the
- * default behavior is sufficient. We just show the hooks you can
- * customize in this class. If the default behavior is desired, you can
- * leave out the benchmark-class element in benchmark.xml.
+ * Harness hook for the sample web benchmark. This class is not needed for
+ * benchmarks implemented using the Faban Driver Framework if the default
+ * behavior is sufficient. We just show the hooks you can customize in this
+ * class. If the default behavior is desired, you can leave out the
+ * benchmark-class element in benchmark.xml.
  *
  * @author Akara Sucharitakul
  */
@@ -42,9 +42,9 @@ public class WebBenchmark extends DefaultFabanBenchmark2 {
     static Logger logger = Logger.getLogger(WebBenchmark.class.getName());
 
     /**
-     * This method is called to configure the specific benchmark run
-     * Tasks done in this method include reading user parameters,
-     * logging them and initializing various local variables.
+     * This method is called to configure the specific benchmark run Tasks done in
+     * this method include reading user parameters, logging them and initializing
+     * various local variables.
      *
      * @throws Exception If configuration was not successful
      */

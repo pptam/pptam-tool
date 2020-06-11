@@ -13,7 +13,7 @@ The software under test needs to be deployed on the testbed machine. For this pu
 
 If you need to define parameters within the `docker-compose.yml` file, these parameters can be called `${PARAMETER_NAME}` and defined within `/configuration/configuration.txt`. They will be replaced when tests are defined.
 
-The tests carried out by [Faban](http://faban.org) have to be defined in `/create/templates/faban/driver/ecsa/src/ecsa/driver/WebDriver.java`. Refer to [Faban](http://faban.org) to see how to define a web driver. Also within `WebDriver.java`, all parameters present in `/configuration/configuration.txt` in the form `${PARAMETER_NAME}` will be replaced.
+The tests carried out by [Faban](http://faban.org) have to be defined in `/create/templates/faban/driver/pptam/src/pptam/driver/WebDriver.java`. Refer to [Faban](http://faban.org) to see how to define a web driver. Also within `WebDriver.java`, all parameters present in `/configuration/configuration.txt` in the form `${PARAMETER_NAME}` will be replaced.
 
 ## Define the tests to carry out
 

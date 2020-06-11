@@ -6,11 +6,11 @@
     </jvmConfig>
     <!-- The definition binds the config file with the benchmark class -->
     <!-- We declare the driver as the default namespace 'cause it is most common here -->
-    <fa:runConfig definition="ecsa.driver.WebDriver"
+    <fa:runConfig definition="pptam.driver.WebDriver"
                   xmlns:fa="http://faban.sunsource.net/ns/faban"
                   xmlns:fh="http://faban.sunsource.net/ns/fabanharness"
                   xmlns="http://faban.sunsource.net/ns/fabandriver">
-        <fh:description>ECSA Benchmark</fh:description>
+        <fh:description>PPTAM Benchmark</fh:description>
         <!-- The hostConfig section is used by the harness to control hosts -->
         <fa:hostConfig>
             <fa:host>${FABAN_IP}</fa:host>
