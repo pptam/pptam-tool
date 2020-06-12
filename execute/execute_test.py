@@ -13,6 +13,7 @@ import configparser
 import uuid
 from datetime import datetime
 from lib import progress, run_external_applicaton, wait, replace_values_in_file
+import psutil
 
 
 def add_faban_job(configuration, section, repetition):
@@ -82,7 +83,7 @@ def add_faban_job(configuration, section, repetition):
 
 def prepare_execution(design_path):
     configuration = configparser.ConfigParser()
-    configuration.read([path.join(design_path, "test_case.ini"), path.join(design_path, "test_plan.ini")])
+    configuration.read([path.join(design_path, "configuration.ini"), path.join(design_path, "test_plan.ini")])
 
     for section in configuration.sections():
         if section.lower().startswith("test"):
@@ -95,9 +96,24 @@ def prepare_execution(design_path):
     logging.info(f"Done.")
 
 
+def run_faban_if_it_is_not_running_yet(faban_client, faban_master):
+    is_running = False
+    for p in psutil.process_iter(attrs=['pid', 'name']):
+        if "faban" in (p.info['name']).lower():
+            is_running = True
+
+    if not is_running:
+        logging.warn(f"Starting Faban since it is not running.")
+        current_folder = os.getcwd()
+        os.chdir("./faban/master/bin")
+        result = os.system("./startup.sh")
+        print(result)
+        os.chdir(current_folder)
+
+
 def execute_test(design_path):
     configuration = configparser.ConfigParser()
-    configuration.read(path.join(design_path, "test_case.ini"))
+    configuration.read(path.join(design_path, "configuration.ini"))
 
     input = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
     if not path.isdir(input):
@@ -108,7 +124,7 @@ def execute_test(design_path):
 
     seconds_to_wait_for_deployment = int(configuration["DEFAULT"]["test_case_waiting_for_deployment_in_seconds"])
     seconds_to_wait_for_undeployment = int(configuration["DEFAULT"]["test_case_waiting_for_undeployment_in_seconds"])
-    time_to_complete_one_test = seconds_to_wait_for_deployment + seconds_to_wait_for_undeployment + (((int(configuration["test_case_ramp_up_in_seconds"]) + int(configuration["test_case_steady_state_in_seconds"]) + int(configuration["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
+    time_to_complete_one_test = seconds_to_wait_for_deployment + seconds_to_wait_for_undeployment + (((int(configuration["DEFAULT"]["test_case_ramp_up_in_seconds"]) + int(configuration["DEFAULT"]["test_case_steady_state_in_seconds"]) + int(configuration["DEFAULT"]["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
     time_to_complete_all_tests = (len([name for name in os.listdir(f"{input}/") if os.path.isdir(f"{input}/{name}")]) * time_to_complete_one_test // 60) + 1
     logging.info(f"Estimated duration of ONE test: approx. {time_to_complete_one_test} seconds.")
     logging.info(f"Estimated duration of ALL tests: approx. {time_to_complete_all_tests} minutes.")
@@ -116,8 +132,9 @@ def execute_test(design_path):
     output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_executed_folder"]))
     logging.debug(f"Storing results in {output}.")
 
-    faban_master = f"http://{configuration['DEFAULT']['faban_ip']}:9980/"
     faban_client = path.abspath("./faban/benchflow-faban-client/target/benchflow-faban-client.jar")
+    faban_master = f"http://{configuration['DEFAULT']['faban_ip']}:9980/"
+    run_faban_if_it_is_not_running_yet(faban_client, faban_master)
 
     command_to_execute_before_a_test = configuration["DEFAULT"]["pre_exec_external_command"]
     command_to_execute_after_a_test = configuration["DEFAULT"]["post_exec_external_command"]
@@ -233,7 +250,7 @@ if __name__ == "__main__":
         quit()
 
     configuration = configparser.ConfigParser()
-    configuration.read(path.join(design_path, "test_case.ini"))
+    configuration.read(path.join(design_path, "configuration.ini"))
 
     if args.cleanup:
         output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
@@ -243,6 +260,7 @@ if __name__ == "__main__":
     output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
     if path.isdir(output) and len(os.listdir(output)) > 0:
         logging.info(f"Found exiting jobs in {output}, continue execution.")
+        execute_test(design_path)
     else:
         logging.info(f"Generating jobs.")
         prepare_execution(design_path)

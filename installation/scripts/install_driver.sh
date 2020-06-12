@@ -31,8 +31,7 @@ source /home/vagrant/.bashrc
 
 eval "$(/home/vagrant/miniconda/bin/conda shell.bash hook)"
 conda init
-conda install -c r r-essentials -y
-conda install -c anaconda jupyter -y
+conda install -c r r-essentials anaconda jupyter psutil -y
 
 cp -r /vagrant/configuration/jupyter /home/vagrant/.jupyter
 
