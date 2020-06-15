@@ -137,5 +137,10 @@ cython_debug/
 # Application specific paths to ignore
 /execute/drivers
 /execute/to_execute
+/execute/executed
+/execute/faban/benchmarks
+/execute/faban/config/profiles
+/execute/faban/logs
+/execute/faban/output
 /installation/.join-token-worker
 /installation/.vagrant/machines
