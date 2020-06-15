@@ -262,7 +262,8 @@ if __name__ == "__main__":
     output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
     if path.isdir(output) and len(os.listdir(output)) > 0:
         logging.info(f"Found exiting jobs in {output}, continue execution.")
-        execute_test(design_path)
     else:
         logging.info(f"Generating jobs.")
         prepare_execution(design_path)
+
+    execute_test(design_path)
