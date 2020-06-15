@@ -31,10 +31,18 @@ import java.util.Map;
 // # Orders visitor: View Home -> Login -> View orders
 // - [ home, getCatalogue, getCart, login, home, getCatalogue, getCart,
 // viewOrdersPage, getOrders, getCart, getCustomer, getItem ]
-@FlatSequenceMix(mix = { 40, 30,
-        30 }, sequences = { @OperationSequence({ "home", "getCatalogue", "getCart", "home", "getCatalogue", "getCart",
-                "catalogue", "catalogueSize", "tags", "cataloguePage", "getCart", "getCustomer", "showDetails",
-                "getItem", "getCustomer", "getCart", "getRelated" }) }, deviation = 5)
+@FlatSequenceMix(mix = { 40, 30, 30 }, sequences = {
+        @OperationSequence({ "home", "getCatalogue", "getCart", "home", "getCatalogue", "getCart", "catalogue",
+                "catalogueSize", "tags", "cataloguePage", "getCart", "getCustomer", "showDetails", "getItem",
+                "getCustomer", "getCart", "getRelated" }),
+        @OperationSequence({ "home", "getCatalogue", "getCart", "login", "home", "getCatalogue", "getCart", "home",
+                "getCatalogue", "getCart", "catalogue", "catalogueSize", "tags", "cataloguePage", "getCart",
+                "getCustomer", "showDetails", "getItem", "getCustomer", "getCart", "getRelated", "addToCart",
+                "showDetails", "getItem", "getCustomer", "getCart", "getRelated", "basket", "getCart", "getCard",
+                "getAddress", "getCatalogue", "getItem", "getCart", "getCustomer", "getItem", "createOrder",
+                "viewOrdersPage", "getOrders", "getCart", "getCustomer", "getItem" }),
+        @OperationSequence({ "home", "getCatalogue", "getCart", "login", "home", "getCatalogue", "getCart",
+                "viewOrdersPage", "getOrders", "getCart", "getCustomer", "getItem" }) }, deviation = 5)
 // @NegativeExponential (
 // cycleType = CycleType.THINKTIME,
 // cycleDeviation = 5
