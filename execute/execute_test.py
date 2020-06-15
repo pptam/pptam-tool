@@ -37,8 +37,8 @@ def add_faban_job(configuration, section, repetition):
     logging.debug(f"Creating new job, based on the templates in {path_to_benchmark}.")
     shutil.copytree(path_to_benchmark, path_to_temp)
     shutil.copyfile(path.join(design_path, configuration[section]["deployment_descriptor"]), path.join(path_to_temp, "deploy", "docker-compose.yml"))
-    shutil.copyfile(path.join(design_path, configuration[section]["faban_driver"]), path.join(path_to_temp, "src", "pptam", "driver", "WebDriver.java"))
-    shutil.copyfile(path.join(design_path, configuration[section]["faban_benchmark"]), path.join(path_to_temp, "src", "pptam", "harness", "WebBenchmark.java"))
+    shutil.copyfile(path.join(design_path, configuration[section]["faban_driver"]), path.join(path_to_temp, "src", "pptam", "driver", configuration[section]["faban_driver"]))
+    shutil.copyfile(path.join(design_path, configuration[section]["faban_benchmark"]), path.join(path_to_temp, "src", "pptam", "harness", configuration[section]["faban_benchmark"]))
 
     replacements = []
     for entry in configuration[section].keys():
@@ -121,6 +121,8 @@ def execute_test(design_path):
         raise RuntimeError
     else:
         logging.debug(f"Executing test cases from {input}.")
+
+    exit()
 
     seconds_to_wait_for_deployment = int(configuration["DEFAULT"]["test_case_waiting_for_deployment_in_seconds"])
     seconds_to_wait_for_undeployment = int(configuration["DEFAULT"]["test_case_waiting_for_undeployment_in_seconds"])
