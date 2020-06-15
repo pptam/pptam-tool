@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../xslt/summary_report.xsl"?>
+<benchResults>
+    <benchSummary name="PPTAM-socks_shop-20200615224759-test1-1" version="0.2">
+        <runId>socks_shop-20200615224759-test1-1.4S</runId>
+        <startTime>Mon Jun 15 23:04:59 CEST 2020</startTime>
+        <endTime>Mon Jun 15 23:06:09 CEST 2020</endTime>
+        <metric unit="ops/sec">0.000</metric>
+        <passed>true</passed>
+    </benchSummary>
+    <driverSummary name="WebDriver">
+        <metric unit="ops/sec">0.000</metric>
+        <startTime>Mon Jun 15 23:04:59 CEST 2020</startTime>
+        <endTime>Mon Jun 15 23:06:09 CEST 2020</endTime>
+        <totalOps unit="operations">0</totalOps>
+        <users>10</users>
+        <rtXtps>9.4318</rtXtps>
+        <passed>true</passed>
+        <mix allowedDeviation="0.0500">
+            <operation name="createOrder">
+                <successes>0</successes>
+                <failures>0</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0071</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="basket">
+                <successes>0</successes>
+                <failures>0</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0071</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="getCatalogue">
+                <successes>0</successes>
+                <failures>23</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.1256</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="getItem">
+                <successes>0</successes>
+                <failures>11</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0842</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="getCart">
+                <successes>0</successes>
+                <failures>45</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.2334</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="login">
+                <successes>0</successes>
+                <failures>3</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0321</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="getOrders">
+                <successes>0</successes>
+                <failures>1</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0321</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="catalogue">
+                <successes>0</successes>
+                <failures>11</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0307</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="home">
+                <successes>0</successes>
+                <failures>18</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.1185</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="tags">
+                <successes>0</successes>
+                <failures>9</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0307</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="getCustomer">
+                <successes>0</successes>
+                <failures>20</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.1078</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="viewOrdersPage">
+                <successes>0</successes>
+                <failures>1</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0321</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="cataloguePage">
+                <successes>0</successes>
+                <failures>9</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0307</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="getRelated">
+                <successes>0</successes>
+                <failures>9</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0378</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="addToCart">
+                <successes>0</successes>
+                <failures>4</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0071</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="catalogueSize">
+                <successes>0</successes>
+                <failures>11</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0307</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="getAddress">
+                <successes>0</successes>
+                <failures>0</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0071</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="getCard">
+                <successes>0</successes>
+                <failures>0</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0071</requiredMix>
+                <passed>true</passed>
+            </operation>
+            <operation name="showDetails">
+                <successes>0</successes>
+                <failures>11</failures>
+                <mix>NaN</mix>
+                <requiredMix>0.0378</requiredMix>
+                <passed>true</passed>
+            </operation>
+        </mix>
+        <responseTimes unit="seconds">
+            <operation name="createOrder" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="basket" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="getCatalogue" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="getItem" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="getCart" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="login" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="getOrders" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="catalogue" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="home" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="tags" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="getCustomer" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="viewOrdersPage" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="cataloguePage" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="getRelated" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="addToCart" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="catalogueSize" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="getAddress" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="getCard" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+            <operation name="showDetails" r90th="20.000">
+                <avg/>
+                <max/>
+                <sd/>
+                <p90th/>
+                <passed/>
+                <p99th/>
+            </operation>
+        </responseTimes>
+        <delayTimes>
+            <operation name="createOrder" type="thinkTime">
+                <targetedAvg/>
+                <actualAvg/>
+                <min/>
+                <max/>
+                <passed/>
+            </operation>
+            <operation name="basket" type="thinkTime">
+                <targetedAvg/>
+                <actualAvg/>
+                <min/>
+                <max/>
+                <passed/>
+            </operation>
+            <operation name="getCatalogue" type="thinkTime">
+                <targetedAvg>1.354</targetedAvg>
+                <actualAvg>1.353</actualAvg>
+                <min>0.124</min>
+                <max>3.554</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="getItem" type="thinkTime">
+                <targetedAvg>0.925</targetedAvg>
+                <actualAvg>0.924</actualAvg>
+                <min>0.076</min>
+                <max>2.928</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="getCart" type="thinkTime">
+                <targetedAvg>1.058</targetedAvg>
+                <actualAvg>1.057</actualAvg>
+                <min>0.009</min>
+                <max>4.999</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="login" type="thinkTime">
+                <targetedAvg>2.777</targetedAvg>
+                <actualAvg>2.776</actualAvg>
+                <min>1.186</min>
+                <max>3.632</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="getOrders" type="thinkTime">
+                <targetedAvg>1.759</targetedAvg>
+                <actualAvg>1.757</actualAvg>
+                <min>1.757</min>
+                <max>1.757</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="catalogue" type="thinkTime">
+                <targetedAvg>0.671</targetedAvg>
+                <actualAvg>0.672</actualAvg>
+                <min>0.030</min>
+                <max>1.914</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="home" type="thinkTime">
+                <targetedAvg>0.884</targetedAvg>
+                <actualAvg>0.883</actualAvg>
+                <min>0.012</min>
+                <max>2.821</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="tags" type="thinkTime">
+                <targetedAvg>0.466</targetedAvg>
+                <actualAvg>0.465</actualAvg>
+                <min>0.004</min>
+                <max>1.295</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="getCustomer" type="thinkTime">
+                <targetedAvg>1.093</targetedAvg>
+                <actualAvg>1.092</actualAvg>
+                <min>0.014</min>
+                <max>3.351</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="viewOrdersPage" type="thinkTime">
+                <targetedAvg>0.141</targetedAvg>
+                <actualAvg>0.139</actualAvg>
+                <min>0.139</min>
+                <max>0.139</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="cataloguePage" type="thinkTime">
+                <targetedAvg>0.854</targetedAvg>
+                <actualAvg>0.853</actualAvg>
+                <min>0.032</min>
+                <max>2.792</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="getRelated" type="thinkTime">
+                <targetedAvg>1.338</targetedAvg>
+                <actualAvg>1.337</actualAvg>
+                <min>0.177</min>
+                <max>3.873</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="addToCart" type="thinkTime">
+                <targetedAvg>1.118</targetedAvg>
+                <actualAvg>1.120</actualAvg>
+                <min>0.013</min>
+                <max>2.478</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="catalogueSize" type="thinkTime">
+                <targetedAvg>1.639</targetedAvg>
+                <actualAvg>1.637</actualAvg>
+                <min>0.120</min>
+                <max>4.361</max>
+                <passed>true</passed>
+            </operation>
+            <operation name="getAddress" type="thinkTime">
+                <targetedAvg/>
+                <actualAvg/>
+                <min/>
+                <max/>
+                <passed/>
+            </operation>
+            <operation name="getCard" type="thinkTime">
+                <targetedAvg/>
+                <actualAvg/>
+                <min/>
+                <max/>
+                <passed/>
+            </operation>
+            <operation name="showDetails" type="thinkTime">
+                <targetedAvg>0.617</targetedAvg>
+                <actualAvg>0.616</actualAvg>
+                <min>0.013</min>
+                <max>2.367</max>
+                <passed>true</passed>
+            </operation>
+        </delayTimes>
+    </driverSummary>
+</benchResults>

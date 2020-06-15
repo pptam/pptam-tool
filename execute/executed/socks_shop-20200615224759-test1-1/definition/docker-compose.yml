@@ -1,0 +1,125 @@
+version: "3"
+
+services:
+  front-end:
+    image: weaveworksdemos/front-end:0.3.12
+    ports:
+      - "80:8079"
+    environment:
+      - reschedule=on-node-failure
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == socks2
+  catalogue:
+    image: weaveworksdemos/catalogue:0.3.5
+    environment:
+      - reschedule=on-node-failure
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == socks2
+  catalogue-db:
+    image: weaveworksdemos/catalogue-db:0.3.0
+    environment:
+      - reschedule=on-node-failure
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=socksdb
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == socks2
+  carts:
+    image: weaveworksdemos/cart:0.4.1
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == socks2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 500M
+        reservations:
+          cpus: "0.25"
+          memory: 500M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+      - reschedule=on-node-failure
+      - JAVA_OPTS=-Xms64m -Xmx128m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom -Dspring.zipkin.enabled=false
+  cart-db:
+    image: mongo:3.4
+    environment:
+      - reschedule=on-node-failure
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == socks2
+  orders:
+    image: weaveworksdemos/orders:0.4.7
+    environment:
+      - reschedule=on-node-failure
+      - JAVA_OPTS=-Xms64m -Xmx128m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom -Dspring.zipkin.enabled=false
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == socks2
+  orders-db:
+    image: mongo:3.4
+    environment:
+      - reschedule=on-node-failure
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == socks2
+  shipping:
+    image: weaveworksdemos/shipping:0.4.8
+    environment:
+      - reschedule=on-node-failure
+      - JAVA_OPTS=-Xms64m -Xmx128m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom -Dspring.zipkin.enabled=false
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == socks2
+  rabbitmq:
+    image: rabbitmq:3.6.8
+    environment:
+      - reschedule=on-node-failure
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == socks2
+  payment:
+    image: weaveworksdemos/payment:0.4.3
+    environment:
+      - reschedule=on-node-failure
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == socks2
+  user:
+    image: weaveworksdemos/user:0.4.4
+    environment:
+      - MONGO_HOST=user-db:27017
+      - reschedule=on-node-failure
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == socks2
+  user-db:
+    image: weaveworksdemos/user-db:0.4.0
+    environment:
+      - reschedule=on-node-failure
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == socks2

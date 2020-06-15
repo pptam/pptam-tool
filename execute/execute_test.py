@@ -36,7 +36,13 @@ def add_faban_job(configuration, section, repetition):
 
     logging.debug(f"Creating new job, based on the templates in {path_to_benchmark}.")
     shutil.copytree(path_to_benchmark, path_to_temp)
-    shutil.copyfile(path.join(design_path, configuration[section]["deployment_descriptor"]), path.join(path_to_temp, "deploy", "docker-compose.yml"))
+    if not os.path.exists(path.join(path_to_temp, "deploy")): 
+      os.makedirs(path.join(path_to_temp, "deploy"))
+    if not os.path.exists(path.join(path_to_temp, "src", "pptam", "driver")): 
+      os.makedirs(path.join(path_to_temp, "src", "pptam", "driver"))
+    if not os.path.exists(path.join(path_to_temp, "src", "pptam", "harness")): 
+      os.makedirs(path.join(path_to_temp, "src", "pptam", "harness"))
+    shutil.copyfile(path.join(design_path, configuration[section]["deployment_descriptor"]), path.join(path_to_temp, "deploy", configuration[section]["deployment_descriptor"]))
     shutil.copyfile(path.join(design_path, configuration[section]["faban_driver"]), path.join(path_to_temp, "src", "pptam", "driver", configuration[section]["faban_driver"]))
     shutil.copyfile(path.join(design_path, configuration[section]["faban_benchmark"]), path.join(path_to_temp, "src", "pptam", "harness", configuration[section]["faban_benchmark"]))
 
@@ -51,9 +57,9 @@ def add_faban_job(configuration, section, repetition):
     replace_values_in_file(path.join(path_to_temp, "build.properties"), replacements)
     replace_values_in_file(path.join(path_to_temp, "deploy", "run.xml"), replacements)
     shutil.copyfile(path.join(path_to_temp, "deploy", "run.xml"), path.join(path_to_temp, "config", "run.xml"))
-    replace_values_in_file(path.join(path_to_temp, "src", "pptam", "driver", "WebDriver.java"), replacements)
-    replace_values_in_file(path.join(path_to_temp, "src", "pptam", "harness", "WebBenchmark.java"), replacements)
-    replace_values_in_file(path.join(path_to_temp, "deploy", "docker-compose.yml"), replacements)
+    replace_values_in_file(path.join(path_to_temp, "src", "pptam", "driver", configuration[section]["faban_driver"]), replacements)
+    replace_values_in_file(path.join(path_to_temp, "src", "pptam", "harness", configuration[section]["faban_benchmark"]), replacements)
+    replace_values_in_file(path.join(path_to_temp, "deploy", configuration[section]["deployment_descriptor"]), replacements)
 
     logging.debug("Compiling the Faban benchmark")
     current_folder = os.getcwd()
@@ -98,12 +104,12 @@ def prepare_execution(design_path):
 
 def run_faban_if_it_is_not_running_yet(faban_client, faban_master):
     is_running = False
-    for p in psutil.process_iter(attrs=['pid', 'name']):
-        if "faban" in (p.info['name']).lower():
-            is_running = True
+    for p in psutil.process_iter():
+      if "faban" in " ".join(p.cmdline()).lower():
+        is_running = True
 
     if not is_running:
-        logging.warn(f"Starting Faban since it is not running.")
+        logging.warning(f"Starting Faban since it is not running.")
         current_folder = os.getcwd()
         os.chdir("./faban/master/bin")
         result = os.system("./startup.sh")
@@ -121,8 +127,6 @@ def execute_test(design_path):
         raise RuntimeError
     else:
         logging.debug(f"Executing test cases from {input}.")
-
-    exit()
 
     seconds_to_wait_for_deployment = int(configuration["DEFAULT"]["test_case_waiting_for_deployment_in_seconds"])
     seconds_to_wait_for_undeployment = int(configuration["DEFAULT"]["test_case_waiting_for_undeployment_in_seconds"])
@@ -241,6 +245,7 @@ if __name__ == "__main__":
     parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder", default="../design")
     parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)
     parser.add_argument("--cleanup", help="Deletes all temporary data", action="store_true")
+    parser.add_argument("--prepare", help="Prepares tests but does not execute them", action="store_true")
 
     args = parser.parse_args()
 
@@ -254,16 +259,17 @@ if __name__ == "__main__":
     configuration = configparser.ConfigParser()
     configuration.read(path.join(design_path, "configuration.ini"))
 
-    if args.cleanup:
-        output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
+    output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
+    if args.cleanup or args.prepare:
+        logging.warning(f"Cleaning up jobs in {output}.")
         if path.isdir(output):
             shutil.rmtree(output)
-
-    output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
+    
     if path.isdir(output) and len(os.listdir(output)) > 0:
-        logging.info(f"Found exiting jobs in {output}, continue execution.")
+      logging.info(f"Found exiting jobs in {output}, continue execution.")
     else:
-        logging.info(f"Generating jobs.")
-        prepare_execution(design_path)
+      logging.info(f"Generating jobs.")
+      prepare_execution(design_path)
 
-    execute_test(design_path)
+    if not args.prepare:
+      execute_test(design_path)

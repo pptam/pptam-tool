@@ -1,0 +1,1 @@
+RunInfo{description='PPTAM Benchmark', result=PASSED, scale=10, metric='10.250', status=COMPLETED, dateTime=Mon Jun 15 23:28:19 CEST 2020, submitter=' ', tags=' '}

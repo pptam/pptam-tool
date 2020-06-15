@@ -1,0 +1,1 @@
+$LOAD_PATH << File.dirname(__FILE__) + '/rack-1.0.0'; require 'rack'
