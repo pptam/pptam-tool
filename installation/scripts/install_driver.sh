@@ -14,12 +14,12 @@ docker swarm init --advertise-addr $1 --listen-addr $1
 docker swarm join-token -q worker > /vagrant/.join-token-worker
 
 # Java installation
-apt install -y openjdk-8-jdk ant python3.7
+apt install -y openjdk-8-jdk ant python3.7 python3.7-dev
 echo JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/" >> /etc/environment
 
 # Making sure python works
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
-sudo update-alternatives --set python /usr/bin/python3.6
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1
+sudo update-alternatives --set python /usr/bin/python3.7
 
 # Installion of Jupyter Notebook
 cd /home/vagrant
