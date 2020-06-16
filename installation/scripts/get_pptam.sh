@@ -15,5 +15,4 @@ sudo rm -rf pptam-tool
 git clone https://github.com/pptam/pptam-tool.git
 
 cd ~/pptam-tool
-git checkout cleanup
 echo Done.
