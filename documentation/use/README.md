@@ -23,8 +23,6 @@ The tests carried out by [Faban](http://faban.org) have to be defined in `/creat
    - `cd create`
    - `./create_test.sh`.
 
-   You can see the video of this step [here](./attachments/create_test.mp4).
-
 3. A test case is created and added to the folder `/create/to_execute`.
 
 ## Execute the tests
@@ -35,7 +33,7 @@ The tests carried out by [Faban](http://faban.org) have to be defined in `/creat
    - `./run_faban.sh`
    - `./execute_test.sh`
 
-   You can see the video of this step [here](./attachments/execute_test.mp4). During the test, Faban should be reachable at `http://(name of the driver machine):9980` as shown [here](./attachments/faban.png).
+During the test, Faban should be reachable at `http://(name of the driver machine):9980` as shown [here](./attachments/faban.png).
 
 2. The command runs the testing framework Faban and executes all tests prepared in `/execute/to_execute`. Once the tests are executed, they are moved into `/execute/executed`.
 

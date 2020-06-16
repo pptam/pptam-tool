@@ -36,12 +36,12 @@ def add_faban_job(configuration, section, repetition):
 
     logging.debug(f"Creating new job, based on the templates in {path_to_benchmark}.")
     shutil.copytree(path_to_benchmark, path_to_temp)
-    if not os.path.exists(path.join(path_to_temp, "deploy")): 
-      os.makedirs(path.join(path_to_temp, "deploy"))
-    if not os.path.exists(path.join(path_to_temp, "src", "pptam", "driver")): 
-      os.makedirs(path.join(path_to_temp, "src", "pptam", "driver"))
-    if not os.path.exists(path.join(path_to_temp, "src", "pptam", "harness")): 
-      os.makedirs(path.join(path_to_temp, "src", "pptam", "harness"))
+    if not os.path.exists(path.join(path_to_temp, "deploy")):
+        os.makedirs(path.join(path_to_temp, "deploy"))
+    if not os.path.exists(path.join(path_to_temp, "src", "pptam", "driver")):
+        os.makedirs(path.join(path_to_temp, "src", "pptam", "driver"))
+    if not os.path.exists(path.join(path_to_temp, "src", "pptam", "harness")):
+        os.makedirs(path.join(path_to_temp, "src", "pptam", "harness"))
     shutil.copyfile(path.join(design_path, configuration[section]["deployment_descriptor"]), path.join(path_to_temp, "deploy", configuration[section]["deployment_descriptor"]))
     shutil.copyfile(path.join(design_path, configuration[section]["faban_driver"]), path.join(path_to_temp, "src", "pptam", "driver", configuration[section]["faban_driver"]))
     shutil.copyfile(path.join(design_path, configuration[section]["faban_benchmark"]), path.join(path_to_temp, "src", "pptam", "harness", configuration[section]["faban_benchmark"]))
@@ -105,15 +105,14 @@ def prepare_execution(design_path):
 def run_faban_if_it_is_not_running_yet(faban_client, faban_master):
     is_running = False
     for p in psutil.process_iter():
-      if "faban" in " ".join(p.cmdline()).lower():
-        is_running = True
+        if "faban" in " ".join(p.cmdline()).lower():
+            is_running = True
 
     if not is_running:
         logging.warning(f"Starting Faban since it is not running.")
         current_folder = os.getcwd()
         os.chdir("./faban/master/bin")
         result = os.system("./startup.sh")
-        print(result)
         os.chdir(current_folder)
 
 
@@ -264,12 +263,12 @@ if __name__ == "__main__":
         logging.warning(f"Cleaning up jobs in {output}.")
         if path.isdir(output):
             shutil.rmtree(output)
-    
+
     if path.isdir(output) and len(os.listdir(output)) > 0:
-      logging.info(f"Found exiting jobs in {output}, continue execution.")
+        logging.info(f"Found exiting jobs in {output}, continue execution.")
     else:
-      logging.info(f"Generating jobs.")
-      prepare_execution(design_path)
+        logging.info(f"Generating jobs.")
+        prepare_execution(design_path)
 
     if not args.prepare:
-      execute_test(design_path)
+        execute_test(design_path)
