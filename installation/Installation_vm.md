@@ -8,8 +8,8 @@ Please carry out the following steps:
 
     1.  `git clone https://github.com/pptam/pptam-tool.git`
     2.  `cd ./pptam-tool/installation`
-    3.  `vagrant up`. You can see the video of this step [here](./attachments/setup_machines.mp4).
-    4.  Once installation is finished, you can use the following commands **within the installation folder**:
+    3.  `vagrant up`
+    4.  Once installation is finished, these are the available commands **within the installation folder**:
 
         - `vagrant ssh driver` to ssh into the driver;
         - `vagrant ssh testbed` to ssh into the testbed;
@@ -17,8 +17,8 @@ Please carry out the following steps:
         - `vagrant up` to turn both machines on; and
         - `vagrant destroy` to delete the machines.
 
-    5.  Continue, carrying out the following commands:
+    5.  Now, carrying out the following commands:
 
         - `vagrant ssh driver`
         - `cd /vagrant/scripts/`
-        - `./get_pptam_development.sh` You can see the video of this step [here](./attachments/install_pptam.mp4).
+        - `./get_pptam.sh`

@@ -30,3 +30,16 @@ def wait(seconds_to_wait, maximum, information, time_already_elapsed, progress_m
         progress(min(maximum, progress_maximum, time_already_elapsed + count), maximum, information)
         count += 1
         sleep(1)
+
+
+def replace_values_in_file(file, replacements):
+    for replacement in replacements:
+        replace_value_in_file(file, replacement["search_for"], replacement["replace_with"])
+
+
+def replace_value_in_file(file, search_for, replace_with):
+    with open(file, "r") as f:
+        content = f.read()
+        content = content.replace(search_for, replace_with)
+    with open(file, "w") as f:
+        f.write(content)
