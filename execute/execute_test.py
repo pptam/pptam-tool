@@ -11,24 +11,7 @@ import datetime
 import requests
 import threading
 
-from lib import progress, run_external_applicaton, wait, replace_values_in_file
-
-
-def get_load_testing_state():
-    session = requests.Session()
-    session.headers.update({"Accept": "application/json"})
-    session.headers.update({"Content-Type": "application/json"})
-    try:
-        response = session.get("http://localhost:8089/stats/requests")
-        response_as_json = json.loads(response.content)
-        return response_as_json["state"]
-    except:
-        return "stopped"
-
-
-def run_locust(host, users, hatch_rate, run_time):
-    # Consider using https://github.com/locustio/locust/issues/222
-    run_external_applicaton(f"locust --host {host} --users {users} --hatch-rate {hatch_rate} --run-time {run_time}s --headless")
+from lib import run_external_applicaton, replace_values_in_file
 
 
 def perform_test(configuration, section, repetition):
@@ -39,16 +22,25 @@ def perform_test(configuration, section, repetition):
     now = datetime.datetime.now()
     test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower() + "-" + str(repetition + 1)
     test_id = now.strftime("%Y%m%d%H%M%S") + "-" + test_id_without_timestamp
-    if any(x.endswith(test_id_without_timestamp) for x in os.listdir(os.path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))):
+
+    all_outputs = os.path.abspath(os.path.join("./executed"))
+    if not os.path.isdir(all_outputs):
+        logging.debug(f"Creating {all_outputs}, since it does not exist.")
+        os.makedirs(all_outputs)
+    if any(x.endswith(test_id_without_timestamp) for x in os.listdir(all_outputs)):
         logging.warning(f"Skipping test {test_id_without_timestamp}, since it already exists.")
         return
 
-    output = os.path.abspath(os.path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]), test_id)
+    output = os.path.join(all_outputs, test_id)
     os.makedirs(output)
 
-    logging.debug(f"Generating a test with the id {test_id} in {output}.")
-    shutil.copyfile(os.path.join(design_path, "docker-compose.yml"), os.path.join(output, "docker-compose.yml"))
-    shutil.copyfile(os.path.join(design_path, "locustfile.py"), os.path.join(output, "locustfile.py"))
+    deployment_descriptor = f"{output}/docker-compose.yml"
+    driver = f"{output}/locustfile.py"
+
+    logging.debug(f"Creating a folder name {test_id} in {output}.")
+    if os.path.exists(os.path.join(design_path, "docker-compose.yml")):
+        shutil.copyfile(os.path.join(design_path, "docker-compose.yml"), deployment_descriptor)
+    shutil.copyfile(os.path.join(design_path, "locustfile.py"), driver)
 
     replacements = []
     for entry in configuration[section].keys():
@@ -58,8 +50,9 @@ def perform_test(configuration, section, repetition):
     replacements.append({"search_for": "${TEST_NAME}", "replace_with": test_id})
 
     logging.debug(f"Replacing values.")
-    replace_values_in_file(os.path.join(output, "docker-compose.yml"), replacements)
-    replace_values_in_file(os.path.join(output, "locustfile.py"), replacements)
+    if os.path.exists(deployment_descriptor):
+        replace_values_in_file(deployment_descriptor, replacements)
+    replace_values_in_file(driver, replacements)
 
     with open(os.path.join(output, "configuration.txt"), "w") as f:
         for option in configuration.options(section):
@@ -70,81 +63,44 @@ def perform_test(configuration, section, repetition):
     if (len(command_to_execute_before_a_test) > 0):
         run_external_applicaton(f"{command_to_execute_before_a_test}")
 
-    test_output_path = f"{output}/{test_id}"
-    deployment_descriptor = f"{test_output_path}/docker-compose.yml"
-    command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
     seconds_to_wait_for_deployment = int(configuration["DEFAULT"]["test_case_waiting_for_deployment_in_seconds"])
     seconds_to_wait_for_undeployment = int(configuration["DEFAULT"]["test_case_waiting_for_undeployment_in_seconds"])
-    time_to_complete_one_test = seconds_to_wait_for_deployment + seconds_to_wait_for_undeployment + (((int(configuration["DEFAULT"]["test_case_ramp_up_in_seconds"]) + int(configuration["DEFAULT"]["test_case_steady_state_in_seconds"]) + int(configuration["DEFAULT"]["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
 
     try:
-        run_external_applicaton(command_deploy_stack)
+        if os.path.exists(deployment_descriptor):
+            command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
+            run_external_applicaton(command_deploy_stack)
+            logging.info(f"Waiting for {seconds_to_wait_for_deployment} seconds to allow the application to deploy.")
+            time.sleep(seconds_to_wait_for_deployment)
 
-        logging.debug(f"Waiting for {seconds_to_wait_for_deployment} seconds.")
-        wait(seconds_to_wait_for_deployment, time_to_complete_one_test, "Waiting for deployment.", 0)
-        time_elapsed = seconds_to_wait_for_deployment
-
-        host = configuration["DEFAULT"]["sut_url"]
+        host = configuration["DEFAULT"]["locust_host_url"]
         load = configuration["DEFAULT"]["load"]
-        hatch_rate = configuration["DEFAULT"]["hatch_rate"]
+        hatch_rate = configuration["DEFAULT"]["hatch_rate_per_second"]
         run_time = configuration["DEFAULT"]["run_time_in_seconds"]
-        load_testing = threading.Thread(target=run_locust, args=(host, load, hatch_rate, run_time))
-        load_testing.start()
+        log_file = os.path.splitext(driver)[0] + ".log"
+        out_file = os.path.splitext(driver)[0] + ".out"
+        csv_prefix = os.path.join(os.path.dirname(driver), "result")
+        logging.info(f"Running the load test for {test_id}.")
+        run_external_applicaton(f'locust --locustfile {driver} --host {host} --users {load} --hatch-rate {hatch_rate} --run-time {run_time}s --headless --only-summary --csv {csv_prefix} --csv-full-history --logfile "{log_file}" >> {out_file} 2> {out_file}', False)
 
-        time.sleep(1)
-        while True:
-            state = get_load_testing_state()
-
-            if state != "stopped" and external_tool_was_started == False and len(command_to_execute_at_a_test) > 0:
-                external_tool_was_started = True
-                run_external_applicaton(f"{command_to_execute_at_a_test}")
-
-            if state != "stopped":
-                if time_elapsed < time_to_complete_one_test:
-                    wait_until = 60
-                else:
-                    wait_until = 10
-
-                logging.debug(f"Waiting for {wait_until} seconds.")
-                wait(wait_until, time_to_complete_one_test, f"Waiting for test to finish ({state}).", time_elapsed, time_to_complete_one_test - seconds_to_wait_for_undeployment)
-                time_elapsed += wait_until
-
-            if state == "stopped":
-                break
+        if len(command_to_execute_at_a_test) > 0:
+            run_external_applicaton(f"{command_to_execute_at_a_test}")
 
         if (len(command_to_execute_after_a_test) > 0):
             run_external_applicaton(f"{command_to_execute_after_a_test}")
     finally:
-        command_undeploy_stack = f"docker stack rm {test_id}"
-        run_external_applicaton(command_undeploy_stack, False)
+        if os.path.exists(deployment_descriptor):
+            command_undeploy_stack = f"docker stack rm {test_id}"
+            run_external_applicaton(command_undeploy_stack, False)
+            logging.info(f"Waiting for {seconds_to_wait_for_undeployment} seconds to allow the application to undeploy.")
+            time.sleep(seconds_to_wait_for_undeployment)
 
-    logging.debug(f"Waiting for {seconds_to_wait_for_undeployment} seconds.")
-    wait(seconds_to_wait_for_undeployment, time_to_complete_one_test, "Waiting for undeployment.            ", time_elapsed)
-    progress(time_to_complete_one_test, time_to_complete_one_test, "Done.                                \n")
-
-    logging.info(f"Test {test_id} completed. Test results can be found in {test_output_path}.")
+    logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
 
 def execute_test(design_path):
     configuration = configparser.ConfigParser()
-    configuration.read(os.path.join(design_path, "configuration.ini"))
-
-    input = os.path.abspath(os.path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
-    if not os.path.isdir(input):
-        logging.fatal(f"Cannot find the test case folder {input}.")
-        raise RuntimeError
-    else:
-        logging.debug(f"Executing test cases from {input}.")
-
-    seconds_to_wait_for_deployment = int(configuration["DEFAULT"]["test_case_waiting_for_deployment_in_seconds"])
-    seconds_to_wait_for_undeployment = int(configuration["DEFAULT"]["test_case_waiting_for_undeployment_in_seconds"])
-    time_to_complete_one_test = seconds_to_wait_for_deployment + seconds_to_wait_for_undeployment + (((int(configuration["DEFAULT"]["test_case_ramp_up_in_seconds"]) + int(configuration["DEFAULT"]["test_case_steady_state_in_seconds"]) + int(configuration["DEFAULT"]["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
-    time_to_complete_all_tests = (len([name for name in os.listdir(f"{input}/") if os.path.isdir(f"{input}/{name}")]) * time_to_complete_one_test // 60) + 1
-    logging.info(f"Estimated duration of ONE test: approx. {time_to_complete_one_test} seconds.")
-    logging.info(f"Estimated duration of ALL tests: approx. {time_to_complete_all_tests} minutes.")
-
-    output = os.path.abspath(os.path.join("./", configuration["DEFAULT"]["test_case_executed_folder"]))
-    logging.debug(f"Storing results in {output}.")
+    configuration.read([os.path.join(design_path, "configuration.ini"), os.path.join(design_path, "test_plan.ini")])
 
     for section in configuration.sections():
         if section.lower().startswith("test"):
@@ -153,6 +109,8 @@ def execute_test(design_path):
                 repeat = int(configuration[section]["repeat"])
                 for repetition in range(repeat):
                     perform_test(configuration, section, repetition)
+
+    logging.info(f"Done.")
 
 
 if __name__ == "__main__":
