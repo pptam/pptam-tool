@@ -112,7 +112,7 @@ def run_faban_if_it_is_not_running_yet(faban_client, faban_master):
         logging.warning(f"Starting Faban since it is not running.")
         current_folder = os.getcwd()
         os.chdir("./faban/master/bin")
-        result = os.system("./startup.sh")
+        os.system("./startup.sh")
         os.chdir(current_folder)
 
 

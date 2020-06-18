@@ -14,5 +14,6 @@ cd ~
 sudo rm -rf pptam-tool
 git clone https://github.com/pptam/pptam-tool.git
 
-cd ~/pptam-tool
+cd ~
+cd pptam-tool
 echo Done.

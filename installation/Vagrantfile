@@ -1,7 +1,10 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
 
-  required_plugins = %w(vagrant-vbguest)
+  required_plugins = %w(
+    vagrant-vbguest
+    vagrant-disksize
+  )
 
   plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
   if not plugins_to_install.empty?
@@ -23,7 +26,7 @@ Vagrant.configure("2") do |config|
     driver.vm.network :forwarded_port, guest: 8888, host: 8888
     
     driver.vm.provider "virtualbox" do |v|
-      v.memory = 5120
+      v.memory = 2048
       v.cpus = 1
     end
 
@@ -36,8 +39,10 @@ Vagrant.configure("2") do |config|
     testbed.vm.network "private_network", ip: "192.168.50.101"
     testbed.vm.hostname = "testbed"
 
+    config.disksize.size = '25GB'
+
     testbed.vm.provider "virtualbox" do |v|
-      v.memory = 2048
+      v.memory = 8192
       v.cpus = 1
     end
 
