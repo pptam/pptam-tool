@@ -11,7 +11,7 @@ class TrainTicketUser(HttpUser):
 
     @task
     def see_offers(self):
-        print("on_start")
+        print("see_offers")
         self.client.get("/en", verify=False)
         self.client.get("/en/offers/all", verify=False)
         self.client.get("/en/offer/26", verify=False)
