@@ -2,7 +2,7 @@
 import sys
 import logging
 import os
-from time import sleep
+import time
 import math
 
 
@@ -29,7 +29,7 @@ def wait(seconds_to_wait, maximum, information, time_already_elapsed, progress_m
     while count < seconds_to_wait:
         progress(min(maximum, progress_maximum, time_already_elapsed + count), maximum, information)
         count += 1
-        sleep(1)
+        time.sleep(1)
 
 
 def replace_values_in_file(file, replacements):
