@@ -25,7 +25,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
 
@@ -37,7 +37,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -49,7 +49,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -58,7 +58,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -70,7 +70,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -79,7 +79,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -91,7 +91,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -100,7 +100,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -112,7 +112,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -121,7 +121,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -133,7 +133,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -142,7 +142,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -154,7 +154,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -163,7 +163,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -175,7 +175,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -184,7 +184,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -196,7 +196,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -205,7 +205,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -217,7 +217,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -226,7 +226,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -238,7 +238,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -247,7 +247,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -259,7 +259,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -268,7 +268,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -280,7 +280,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -289,7 +289,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -301,7 +301,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -313,7 +313,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -325,7 +325,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -337,7 +337,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -349,7 +349,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -358,7 +358,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -370,7 +370,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -382,7 +382,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -391,7 +391,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -403,7 +403,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -412,7 +412,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -424,7 +424,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -436,7 +436,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -445,7 +445,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -457,7 +457,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -466,7 +466,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -478,7 +478,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -490,7 +490,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -499,7 +499,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -511,7 +511,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -523,7 +523,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -535,7 +535,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -544,7 +544,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -556,7 +556,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -565,7 +565,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -578,7 +578,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -594,7 +594,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -606,7 +606,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -615,7 +615,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -627,7 +627,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -639,7 +639,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -651,7 +651,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -660,7 +660,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -672,7 +672,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -681,7 +681,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -690,7 +690,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -702,7 +702,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -714,7 +714,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -730,7 +730,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -746,7 +746,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -762,7 +762,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
@@ -777,7 +777,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == testbed
+          - node.hostname == socks3
     networks:
       - my-network
           
