@@ -294,7 +294,7 @@ services:
       - my-network
           
   ts-preserve-service:
-    image: codewisdom/ts-preserve-service:0.0.3
+    image: my-ts-preserve-service:latest
     restart: always
     ports:
       - 14568:14568
@@ -306,7 +306,7 @@ services:
       - my-network
           
   ts-preserve-other-service:
-    image: codewisdom/ts-preserve-other-service:0.0.3
+    image: my-ts-preserve-other-service:latest
     restart: always
     ports:
       - 14569:14569
