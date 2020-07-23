@@ -17,6 +17,9 @@ class UserRoundTripNoLogin(HttpUser):
 
     @task
     def index(self):
+
+    	self.get('/index.html')
+    	
         departure_date = datetime.today().strftime('%Y-%m-%d')
         days = randint(1, 10)
         return_date = datetime.today() + timedelta(days=days)
