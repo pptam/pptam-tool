@@ -18,7 +18,7 @@ class UserRoundTripNoLogin(HttpUser):
     @task
     def index(self):
 
-    	self.get('/index.html')
+        self.client.get('/index.html')
     	
         departure_date = datetime.today().strftime('%Y-%m-%d')
         days = randint(1, 10)
@@ -32,9 +32,9 @@ class UserRoundTripNoLogin(HttpUser):
             "departureTime": departure_date
             }
         body_return = {
-        "startingPlace": "Su Zhou",
-        "endPlace": "Shang Hai",
-        "departureTime": return_date
+        	"startingPlace": "Su Zhou",
+        	"endPlace": "Shang Hai",
+        	"departureTime": return_date
         }
 
         with self.client.post(
