@@ -1,6 +1,7 @@
 from locust import HttpUser, task, between
 from datetime import datetime, timedelta, date
 from random import randint
+import random
 import json
 import uuid
 
@@ -254,20 +255,43 @@ class UserConsignTicket(HttpUser):
         response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns", json={"accountId": self.user_id,"handleDate":"2020-07-27","from":"Shang Hai","to":"Su Zhou","orderId":self.order_id,"consignee": self.order_id,"phone":"123","weight":"1","id":"","isWithin":"false"}, headers=head)
         print(response_as_json_consign.text)
 
-'''
-class AdminChangeTimeTable(HttpUser):
+
+class AdminUpdateStayTime(HttpUser):
 
     wait_time= between(10,20)
 
     @task
     def index(self):
 
+        print("admin_update_stay_time")
         response1 = self.client.post(url="/api/v1/users/login", json={"username": "admin", "password": "222222"})
         response_as_json1 = json.loads(response1.content)["data"]
         token = response_as_json1["token"]
-        self.bearer = "Bearer " + token
+        beareradmin = "Bearer " + token
         userrID = response_as_json1["userId"]
-'''
+
+        head = {"Accept": "application/json", "Content-Type":"application/json","Authorization": beareradmin}
+
+        print("response_allStations")
+        response_allStations = self.client.get(url="/api/v1/stationservice/stations", headers = head)
+
+
+        response_as_json_allStations = json.loads(response_allStations.content)["data"]
+
+        print(response_as_json_allStations)
+
+        
+
+        station = random.choice(response_as_json_allStations)
+
+        station_id = station["id"]
+        station_name = station["name"]
+
+
+        response_as_json_updateStayTime = self.client.put(url="/api/v1/stationservice/stations", json={"id":station_id,"name":"station_name","stayTime":random.randint(10,100)}, headers = head)
+
+        print(response_as_json_updateStayTime.text)
+        
         
 
         
