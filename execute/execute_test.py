@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3.8
 
 import os
 import time
@@ -10,11 +10,27 @@ import configparser
 import datetime
 import requests
 import threading
+from influxdb_client import InfluxDBClient, Point
+from influxdb_client.client.write_api import SYNCHRONOUS
+import csv
 
 from lib import run_external_applicaton, replace_values_in_file
 
 
-def perform_test(configuration, section, repetition):
+def perform_test(configuration, section, repetition, overwrite_existing_results):
+    logging.debug(f"Checking if InfluxDB is up...")
+    try:
+        response = requests.get(url=configuration[section]["influxdb_url"] + "/health")
+        data = response.json()
+        if data["status"] != "pass":
+            logging.fatal(f"InfluxDB health check was not successful.")
+            raise SystemExit()
+
+        logging.debug(f"Checking if InfluxDB is up...")
+    except requests.exceptions.RequestException:  # This is the correct syntax
+        logging.fatal(f"InfluxDB is down, please start it before executing tests.")
+        raise SystemExit()
+
     command_to_execute_before_a_test = configuration["DEFAULT"]["pre_exec_external_command"]
     command_to_execute_after_a_test = configuration["DEFAULT"]["post_exec_external_command"]
     command_to_execute_at_a_test = configuration["DEFAULT"]["on_exec_external_command"]
@@ -28,8 +44,13 @@ def perform_test(configuration, section, repetition):
         logging.debug(f"Creating {all_outputs}, since it does not exist.")
         os.makedirs(all_outputs)
     if any(x.endswith(test_id_without_timestamp) for x in os.listdir(all_outputs)):
-        logging.warning(f"Skipping test {test_id_without_timestamp}, since it already exists.")
-        return
+        if overwrite_existing_results:
+            name_of_existing_folder = next(x for x in os.listdir(all_outputs) if x.endswith(test_id_without_timestamp))
+            logging.warning(f"Deleting {name_of_existing_folder}, since it already exists and the --override flag is set.")
+            shutil.rmtree(os.path.join(all_outputs, name_of_existing_folder))
+        else:
+            logging.warning(f"Skipping test {test_id_without_timestamp}, since it already exists. Use --overwrite in case.")
+            return
 
     output = os.path.join(all_outputs, test_id)
     os.makedirs(output)
@@ -97,8 +118,72 @@ def perform_test(configuration, section, repetition):
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
+    token = configuration[section]["influxdb_token"]
+    org = configuration[section]["influxdb_organization"]
+    bucket = configuration[section]["influxdb_bucket"]
+    client = InfluxDBClient(url=configuration[section]["influxdb_url"], token=token)
+    write_api = client.write_api(write_options=SYNCHRONOUS)
 
-def execute_test(design_path):
+    with open(os.path.join(output, "result_stats.csv"), "r") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            data = {"tags": {}, "fields": {}}
+            data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
+            data["fields"]["request_count"] = int(row["Request Count"])
+            data["fields"]["failure_count"] = int(row["Failure Count"])
+            data["fields"]["median_response_time"] = float(row["Median Response Time"])
+            data["fields"]["average_response_time"] = float(row["Average Response Time"])
+            data["fields"]["min_response_time"] = float(row["Min Response Time"])
+            data["fields"]["max_response_time"] = float(row["Max Response Time"])
+            data["fields"]["average_content_size"] = float(row["Average Content Size"])
+            data["fields"]["requests_per_second"] = float(row["Requests/s"])
+            data["fields"]["failures_per_second"] = float(row["Failures/s"])
+            for i in ["50%", "66%", "75%", "80%", "90%", "95%", "98%", "99%", "99.9%", "99.99%", "100%"]:
+                if row[i] != "N/A":
+                    data["fields"]["percentile_" + i[:-1]] = float(row[i])
+
+            if row["Name"] != "Aggregated":
+                data["measurement"] = "response_time"
+                data["tags"]["type"] = row["Type"]
+                data["tags"]["name"] = row["Name"]
+            else:
+                data["measurement"] = "response_time_aggregated"
+
+            record = Point.from_dict(data)
+            write_api.write(bucket, org, record)
+
+    with open(os.path.join(output, "result_stats_history.csv"), "r") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            data = {"tags": {}, "fields": {}}
+            data["time"] = int(row["Timestamp"])
+            data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
+            data["tags"]["user_count"] = int(row["User Count"])
+            data["fields"]["total_request_count"] = int(row["Total Request Count"])
+            data["fields"]["total_failure_count"] = int(row["Total Failure Count"])
+            data["fields"]["total_median_response_time"] = float(row["Total Median Response Time"])
+            data["fields"]["total_average_response_time"] = float(row["Total Average Response Time"])
+            data["fields"]["total_min_response_time"] = float(row["Total Min Response Time"])
+            data["fields"]["total_max_response_time"] = float(row["Total Max Response Time"])
+            data["fields"]["total_average_content_size"] = float(row["Total Average Content Size"])
+            data["fields"]["requests_per_second"] = float(row["Requests/s"])
+            data["fields"]["failures_per_second"] = float(row["Failures/s"])
+            for i in ["50%", "66%", "75%", "80%", "90%", "95%", "98%", "99%", "99.9%", "99.99%", "100%"]:
+                if row[i] != "N/A":
+                    data["fields"]["percentile_" + i[:-1]] = float(row[i])
+
+            if row["Name"] != "Aggregated":
+                data["measurement"] = "response_time_history"
+                data["tags"]["type"] = row["Type"]
+                data["tags"]["name"] = row["Name"]
+            else:
+                data["measurement"] = "response_time_history_aggregated"
+
+            record = Point.from_dict(data)
+            write_api.write(bucket, org, record)
+
+
+def execute_test(design_path, overwrite_existing_results):
     configuration = configparser.ConfigParser()
     configuration.read([os.path.join(design_path, "configuration.ini"), os.path.join(design_path, "test_plan.ini")])
 
@@ -108,23 +193,24 @@ def execute_test(design_path):
             if enabled:
                 repeat = int(configuration[section]["repeat"])
                 for repetition in range(repeat):
-                    perform_test(configuration, section, repetition)
+                    perform_test(configuration, section, repetition, overwrite_existing_results)
 
     logging.info(f"Done.")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
-    parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder", default="../design")
+    parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder")
     parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)
+    parser.add_argument("--overwrite", help="Overwrite existing test cases", action='store_true', default=False)
 
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
 
     design_path = args.design
-    if not os.path.exists(design_path):
-        logging.fatal(f"Cannot find the design folder {design_path}.")
+    if design_path == None or (not os.path.exists(design_path)):
+        logging.fatal(f"Cannot find the design folder. Please indicate one with the parameter --design")
         quit()
 
-    execute_test(design_path)
+    execute_test(design_path, args.overwrite)

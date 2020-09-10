@@ -8,9 +8,6 @@ import uuid
 
 
 def authentication(self):
-
-
-
         response1 = self.client.post(url="/api/v1/users/login", json={"username": "admin", "password": "222222"})
         response_as_json1 = json.loads(response1.content)["data"]
         token = response_as_json1["token"]
