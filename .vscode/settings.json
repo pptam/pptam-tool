@@ -12,5 +12,8 @@
     "--style",
     "{based_on_style: google, column_limit: 10000}"
   ],
-  "python.analysis.disabled": ["unresolved-import"]
+  "python.analysis.disabled": [
+    "unresolved-import"
+  ],
+  "python.pythonPath": "/Users/ajanes/opt/anaconda3/envs/pptam/bin/python"
 }
