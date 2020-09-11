@@ -11,12 +11,10 @@ class TrainTicketUser(HttpUser):
 
     @task
     def see_offers(self):
-        print("see_offers")
         self.client.get("/en", verify=False)
         self.client.get("/en/offers/all", verify=False)
         self.client.get("/en/offer/26", verify=False)
         self.client.get("/en/offer/2", verify=False)
         self.client.get("/en/offer/3", verify=False)
 
-    def on_start(self):
-        print("on_start")
+

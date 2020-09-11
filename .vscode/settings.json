@@ -15,5 +15,5 @@
   "python.analysis.disabled": [
     "unresolved-import"
   ],
-  "python.pythonPath": "/Users/ajanes/opt/anaconda3/envs/pptam/bin/python"
+  "python.pythonPath": "/usr/bin/python3"
 }

@@ -2,6 +2,7 @@ name: pptam
 dependencies:
   - python=3.8
   - pip
+  - pylint
   - pip:
       - requests
       - locust
