@@ -118,7 +118,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
-    with open(os.path.join(output, "locust.out"), "r") as f:
+    with open(os.path.join(output, "locustfile.out"), "r") as f:
         print(f.read())
 
     token = configuration[section]["influxdb_token"]
@@ -164,7 +164,6 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
             data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
             data["tags"]["type"] = row["Type"]
             data["tags"]["name"] = row["Name"]
-            data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
             data["fields"]["currently_running_users"] = int(row["User Count"])
             data["fields"]["total_request_count"] = int(row["Total Request Count"])
             data["fields"]["total_failure_count"] = int(row["Total Failure Count"])
