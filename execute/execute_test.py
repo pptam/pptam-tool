@@ -118,6 +118,9 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
+    with open(os.path.join(output, "locust.out"), "r") as f:
+        print(f.read())
+
     token = configuration[section]["influxdb_token"]
     org = configuration[section]["influxdb_organization"]
     bucket = configuration[section]["influxdb_bucket"]
@@ -144,7 +147,6 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
                 if row[i] != "N/A":
                     data["fields"]["percentile_" + i[:-1]] = float(row[i])
 
-            if row["Name"] != "Aggregated":
                 data["measurement"] = "response_time"
                 data["tags"]["type"] = row["Type"]
                 data["tags"]["name"] = row["Name"]
@@ -177,12 +179,25 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
                 if row[i] != "N/A":
                     data["fields"]["percentile_" + i[:-1]] = float(row[i])
 
-            if row["Name"] != "Aggregated":
                 data["measurement"] = "response_time_history"
                 data["tags"]["type"] = row["Type"]
                 data["tags"]["name"] = row["Name"]
             else:
                 data["measurement"] = "response_time_history_aggregated"
+
+            record = Point.from_dict(data)
+            write_api.write(bucket, org, record)
+
+    with open(os.path.join(output, "result_failures.csv"), "r") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            data = {"tags": {}, "fields": {}}
+            data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
+            data["tags"]["method"] = row["Method"]
+            data["tags"]["name"] = row["Name"]
+            data["tags"]["Error"] = row["Error"]
+            data["fields"]["occurrences"] = int(row["Occurrences"])
+            data["measurement"] = "failures"
 
             record = Point.from_dict(data)
             write_api.write(bucket, org, record)
