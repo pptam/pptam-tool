@@ -31,6 +31,7 @@ Vagrant.configure("2") do |config|
       v.cpus = 1
     end
 
+    driver.vm.provision :shell, inline: "echo fs.file-max = 65535 >> /etc/sysctl.conf && sysctl -p"
     driver.vm.provision "shell", path: "scripts/install_driver.sh" do |s|
       s.args = ["192.168.50.100"]
     end
@@ -51,6 +52,7 @@ Vagrant.configure("2") do |config|
       v.cpus = 1
     end
 
+    testbed.vm.provision :shell, inline: "echo fs.file-max = 65535 >> /etc/sysctl.conf && sysctl -p"
     testbed.vm.provision "shell", path: "scripts/install_testbed.sh" do |s|
       s.args = ["192.168.50.101", "192.168.50.100:2377"]
     end

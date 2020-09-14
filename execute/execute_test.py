@@ -118,9 +118,6 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
-    with open(os.path.join(output, "locustfile.out"), "r") as f:
-        print(f.read())
-
     token = configuration[section]["influxdb_token"]
     org = configuration[section]["influxdb_organization"]
     bucket = configuration[section]["influxdb_bucket"]
@@ -128,8 +125,10 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     write_api = client.write_api(write_options=SYNCHRONOUS)
 
     with open(os.path.join(output, "result_stats.csv"), "r") as f:
+        print("1")
         reader = csv.DictReader(f)
         for row in reader:
+            print("2")
             data = {"tags": {}, "fields": {}}
             data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
             data["tags"]["type"] = row["Type"]
@@ -157,8 +156,10 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
             write_api.write(bucket, org, record)
 
     with open(os.path.join(output, "result_stats_history.csv"), "r") as f:
+        print("3")
         reader = csv.DictReader(f)
         for row in reader:
+            print("4")
             data = {"tags": {}, "fields": {}}
             data["time"] = int(row["Timestamp"])
             data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
@@ -188,8 +189,10 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
             write_api.write(bucket, org, record)
 
     with open(os.path.join(output, "result_failures.csv"), "r") as f:
+        print("5")
         reader = csv.DictReader(f)
         for row in reader:
+            print("6")
             data = {"tags": {}, "fields": {}}
             data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
             data["tags"]["method"] = row["Method"]
