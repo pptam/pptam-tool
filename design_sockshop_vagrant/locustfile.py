@@ -93,6 +93,8 @@ def perform_operation(self, name):
 
 
 class UserNoLogin(HttpUser):
+    weight = 40
+    wait_time = constant(1)
 
     @task
     def perform_task(self):
@@ -103,6 +105,8 @@ class UserNoLogin(HttpUser):
 
 
 class UserLoginAndShop(HttpUser):
+    weight = 30
+    wait_time = constant(1)
 
     @task
     def perform_task(self):
@@ -113,6 +117,8 @@ class UserLoginAndShop(HttpUser):
 
 
 class UserLoginAndCheckCart(HttpUser):
+    weight = 30
+    wait_time = constant(1)
 
     @task
     def perform_task(self):
