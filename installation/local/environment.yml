@@ -1,8 +1,13 @@
 name: pptam
+channels:
+  - conda-forge
+  - r
 dependencies:
   - python=3.8
   - pip
-  - pylint
+  - r-essentials
+  - anaconda
+  - jupyter
   - pip:
       - requests
       - locust

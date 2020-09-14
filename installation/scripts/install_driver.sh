@@ -31,7 +31,10 @@ source /home/vagrant/.bashrc
 
 eval "$(/home/vagrant/miniconda/bin/conda shell.bash hook)"
 conda init
-conda install -c r r-essentials anaconda jupyter requests locust psutil influxdb-client -y
+conda install -c r r-essentials -y
+conda install -c conda-forge notebook -y
+conda install -c anaconda python=3.8 pip -y
+pip install requests locust psutil influxdb-client
 
 cp -r /vagrant/configuration/jupyter /home/vagrant/.jupyter
 
