@@ -13,7 +13,7 @@ def get_home(self):
     self.client.get("/index.html", verify=False)
 
 
-def login(self):
+def get_login(self):
     head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": "Basic dXNlcjpwYXNzd29yZA=="}
     self.client.get(url="/login", headers=head, verify=False)
 
@@ -82,12 +82,12 @@ def get_card(self):
     self.client.get("/card", verify=False)
 
 
-def get_adress(self):
+def get_address(self):
     self.client.get("/address", verify=False)
 
 
 def perform_operation(self, name):
-    all_operations = {"home": "get_home", "login": "get_login", "getCatalogue": "get_catalog_variant_1", "catalogueSize": "get_catalog_variant_2", "cataloguePage": "get_catalog_variant_3", "catalogue": "get_category", "getItem": "get_item", "getRelated": "get_related", "showDetails": "get_details", "tags": "get_tags", "getCart": "get_cart", "addToCart": "add_to_cart", "basket": "get_basket", "createOrder": "get_orders", "getOrders": "get_orders", "viewOrdersPage": "get_all_orders", "getCustomer": "get_customer", "getCard": "get_card", "getAddress": "get_address"}
+    all_operations = {"home": get_home, "login": get_login, "getCatalogue": get_catalog_variant_1, "catalogueSize": get_catalog_variant_2, "cataloguePage": get_catalog_variant_3, "catalogue": get_category, "getItem": get_item, "getRelated": get_related, "showDetails": get_details, "tags": get_tags, "getCart": get_cart, "addToCart": add_to_cart, "basket": get_basket, "createOrder": get_orders, "getOrders": get_orders, "viewOrdersPage": get_all_orders, "getCustomer": get_customer, "getCard": get_card, "getAddress": get_address}
     operation = all_operations.get(name)
     operation(self)
 

@@ -13,11 +13,8 @@ echo "                                                  |_|    ";
 docker swarm init --advertise-addr $1 --listen-addr $1
 docker swarm join-token -q worker > /vagrant/.join-token-worker
 
-# Java installation
-apt install -y openjdk-8-jdk ant python3.8 python3.8-dev
-echo JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/" >> /etc/environment
-
-# Making sure python works
+# Python installation
+apt install -y python3.8 python3.8-dev
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
 sudo update-alternatives --set python /usr/bin/python3.8
 
@@ -38,7 +35,16 @@ pip install requests locust psutil influxdb-client
 
 cp -r /vagrant/configuration/jupyter /home/vagrant/.jupyter
 
-# Update to the last version of Git
+# Update to the last version of Git and configure it
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo apt-get update
 sudo apt-get install git -y
+
+# Install InfluxDB
+cd /home/vagrant
+wget https://dl.influxdata.com/influxdb/releases/influxdb_2.0.0-beta.16_linux_amd64.tar.gz
+tar xvfz influxdb_2.0.0-beta.16_linux_amd64.tar.gz
+mv influxdb_2.0.0-beta.16_linux_amd64 influxdb
+./influxdb/influxd &
+sleep 10
+./influxdb/influx setup --bucket pptam --force --host http://localhost:9999 --name pptam --org pptam --password 12345678 --retention 0 --token pptam --username pptam

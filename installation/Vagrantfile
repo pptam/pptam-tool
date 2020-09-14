@@ -23,8 +23,8 @@ Vagrant.configure("2") do |config|
   config.vm.define "driver", primary: true do |driver|
     driver.vm.network "private_network", ip: "192.168.50.100"
     driver.vm.hostname = "driver"
-    driver.vm.network :forwarded_port, guest: 9980, host: 9980
     driver.vm.network :forwarded_port, guest: 8888, host: 8888
+    driver.vm.network :forwarded_port, guest: 9999, host: 9999
     
     driver.vm.provider "virtualbox" do |v|
       v.memory = 2048
@@ -36,15 +36,13 @@ Vagrant.configure("2") do |config|
     end
 
     driver.vm.provision :reload
-
-    driver.vm.provision "shell", path: "scripts/configure_driver.sh" do |s|
-      s.args = ["192.168.50.100"]
-    end
   end
 
   config.vm.define "testbed" do |testbed|
     testbed.vm.network "private_network", ip: "192.168.50.101"
     testbed.vm.hostname = "testbed"
+    testbed.vm.network :forwarded_port, guest: 80, host: 8000
+    testbed.vm.network :forwarded_port, guest: 8080, host: 8080
 
     config.disksize.size = '25GB'
 
