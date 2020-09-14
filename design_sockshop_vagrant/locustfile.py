@@ -10,80 +10,80 @@ import requests
 
 
 def get_home(self):
-    self.client.get("/index.html", verify=False)
+    self.client.get("/index.html", verify=False, name="get_index")
 
 
 def get_login(self):
     head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": "Basic dXNlcjpwYXNzd29yZA=="}
-    self.client.get(url="/login", headers=head, verify=False)
+    self.client.get(url="/login", headers=head, verify=False, name="login")
 
 
 def get_catalog_variant_1(self):
-    self.client.get("/catalogue?size=5", verify=False)
+    self.client.get("/catalogue?size=5", verify=False, name="get_catalogue1")
 
 
 def get_catalog_variant_2(self):
-    self.client.get("/catalogue/size", verify=False)
+    self.client.get("/catalogue/size", verify=False, name="get_catalogue2")
 
 
 def get_catalog_variant_3(self):
-    self.client.get("/catalogue?page=1&size=6", verify=False)
+    self.client.get("/catalogue?page=1&size=6", verify=False, name="get_catalogue3")
 
 
 def get_category(self):
     head = {"Content-Type": "html"}
-    self.client.get(url="/category.html", headers=head, verify=False)
+    self.client.get(url="/category.html", headers=head, verify=False, name="get_category")
 
 
 def get_item(self):
-    self.client.get("/catalogue/3395a43e-2d88-40de-b95f-e00e1502085b", verify=False)
+    self.client.get("/catalogue/3395a43e-2d88-40de-b95f-e00e1502085b", verify=False, name="get_item")
 
 
 def get_related(self):
-    self.client.get("/catalogue?sort=id&size=3&tags=brown", verify=False)
+    self.client.get("/catalogue?sort=id&size=3&tags=brown", verify=False, name="get_related")
 
 
 def get_details(self):
     head = {"Content-Type": "html"}
-    self.client.get(url="/detail.html?id=3395a43e-2d88-40de-b95f-e00e1502085b", headers=head, verify=False)
+    self.client.get(url="/detail.html?id=3395a43e-2d88-40de-b95f-e00e1502085b", headers=head, verify=False, name="get_detail")
 
 
 def get_tags(self):
-    self.client.get("/tags", verify=False)
+    self.client.get("/tags", verify=False, name="get_tags")
 
 
 def get_cart(self):
-    self.client.get("/cart", verify=False)
+    self.client.get("/cart", verify=False, name="get_cart")
 
 
 def add_to_cart(self):
     head = {"Content-Type": "application/json"}
-    self.client.post(url="/cart", headers=head, json={"id": "3395a43e-2d88-40de-b95f-e00e1502085b"})
+    self.client.post(url="/cart", headers=head, json={"id": "3395a43e-2d88-40de-b95f-e00e1502085b"}, name="add_item_to_cart")
 
 
 def get_basket(self):
     head = {"Content-Type": "application/json"}
-    self.client.get(url="/basket.html", headers=head, verify=False)
+    self.client.get(url="/basket.html", headers=head, verify=False, name="get_basket")
 
 
 def get_orders(self):
-    self.client.get("/orders", verify=False)
+    self.client.get("/orders", verify=False, name="get_orders")
 
 
 def get_all_orders(self):
-    self.client.get("/customer-orders.html", verify=False)
+    self.client.get("/customer-orders.html", verify=False, name="get_customer_orders")
 
 
 def get_customer(self):
-    self.client.get("/customers/fz5cpW831_cB4MMSsuphqSgPw7XHYHa0", verify=False)
+    self.client.get("/customers/fz5cpW831_cB4MMSsuphqSgPw7XHYHa0", verify=False, name="get_customer")
 
 
 def get_card(self):
-    self.client.get("/card", verify=False)
+    self.client.get("/card", verify=False, name="get_card")
 
 
 def get_address(self):
-    self.client.get("/address", verify=False)
+    self.client.get("/address", verify=False, name="get_address")
 
 
 def perform_operation(self, name):

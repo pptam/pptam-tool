@@ -102,7 +102,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         out_file = os.path.splitext(driver)[0] + ".out"
         csv_prefix = os.path.join(os.path.dirname(driver), "result")
         logging.info(f"Running the load test for {test_id}.")
-        run_external_applicaton(f'locust --locustfile {driver} --host {host} --users {load} --spawn-rate {spawn_rate} --run-time {run_time}s --headless --print-stats --csv {csv_prefix} --csv-full-history --logfile "{log_file}" >> {out_file} 2> {out_file}', False)
+        run_external_applicaton(f'locust --locustfile {driver} --host {host} --users {load} --spawn-rate {spawn_rate} --run-time {run_time}s --headless --only-summary --csv {csv_prefix} --csv-full-history --logfile "{log_file}" >> {out_file} 2> {out_file}', False)
 
         if len(command_to_execute_at_a_test) > 0:
             run_external_applicaton(f"{command_to_execute_at_a_test}")
@@ -129,6 +129,8 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         for row in reader:
             data = {"tags": {}, "fields": {}}
             data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
+            data["tags"]["type"] = row["Type"]
+            data["tags"]["name"] = row["Name"]
             data["fields"]["request_count"] = int(row["Request Count"])
             data["fields"]["failure_count"] = int(row["Failure Count"])
             data["fields"]["median_response_time"] = float(row["Median Response Time"])
@@ -158,7 +160,10 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
             data = {"tags": {}, "fields": {}}
             data["time"] = int(row["Timestamp"])
             data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
-            data["tags"]["user_count"] = int(row["User Count"])
+            data["tags"]["type"] = row["Type"]
+            data["tags"]["name"] = row["Name"]
+            data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
+            data["fields"]["currently_running_users"] = int(row["User Count"])
             data["fields"]["total_request_count"] = int(row["Total Request Count"])
             data["fields"]["total_failure_count"] = int(row["Total Failure Count"])
             data["fields"]["total_median_response_time"] = float(row["Total Median Response Time"])
