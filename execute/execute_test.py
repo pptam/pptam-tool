@@ -179,13 +179,20 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
 
             print(row["Name"], end=", ")
             if row["Name"] != "Aggregated":
+                print("a", end=", ")
                 data["measurement"] = "response_time_history"
+                print("b", end=", ")
                 data["tags"]["type"] = row["Type"]
+                print("c", end=", ")
                 data["tags"]["name"] = row["Name"]
+                print("d", end=", ")
             else:
+                print("e", end=", ")
                 data["measurement"] = "response_time_history_aggregated"
 
+            print("f", end=", ")
             record = Point.from_dict(data)
+            print("g", end=", ")
             write_api.write(bucket, org, record)
 
     with open(os.path.join(output, "result_failures.csv"), "r") as f3:
