@@ -40,11 +40,4 @@ sudo add-apt-repository ppa:git-core/ppa -y
 sudo apt-get update
 sudo apt-get install git -y
 
-# Install InfluxDB
-cd /home/vagrant
-wget https://dl.influxdata.com/influxdb/releases/influxdb_2.0.0-beta.16_linux_amd64.tar.gz
-tar xvfz influxdb_2.0.0-beta.16_linux_amd64.tar.gz
-mv influxdb_2.0.0-beta.16_linux_amd64 influxdb
-./influxdb/influxd &
-sleep 10
-./influxdb/influx setup --bucket pptam --force --host http://localhost:9999 --name pptam --org pptam --password 12345678 --retention 0 --token pptam --username pptam
+
