@@ -38,15 +38,14 @@ def flatten_hierarchy(y):
 
 def get_docker_stats(client, bucket, org, write_api, test_case_name):
     for container in client.containers.list():
-        stats = flatten_hierarchy(container.stats(stream=False))
+        stats = container.stats(stream=False)
 
         data = {"tags": {}, "fields": {}}
         data["measurement"] = "docker_stats"
         data["time"] = stats["read"]
         data["tags"]["test_case_name"] = test_case_name
         data["tags"]["container_name"] = container.name
-        for key in stats:
-            data["fields"][key] = stats[key]
+        print(stats)
 
         record = Point.from_dict(data)
         print(record.to_line_protocol())
