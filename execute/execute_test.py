@@ -39,6 +39,7 @@ def flatten_json(y):
 
 def get_docker_stats_for_container(container):
     stats = container.stats(stream=False)
+    print(stats)
     data = json.loads(stats)
     print(flatten_json(data))
 
