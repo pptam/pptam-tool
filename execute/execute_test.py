@@ -128,7 +128,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         reader = csv.DictReader(f1)
         for row in reader:
             data = {"tags": {}, "fields": {}}
-            data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
+            data["tags"]["test_case_name"] = test_id_without_timestamp
             data["tags"]["type"] = row["Type"]
             data["tags"]["name"] = row["Name"]
             data["fields"]["request_count"] = int(row["Request Count"])
@@ -159,7 +159,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         for row in reader:
             data = {"tags": {}, "fields": {}}
             data["time"] = datetime.datetime.fromtimestamp(int(row["Timestamp"]))
-            data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
+            data["tags"]["test_case_name"] = test_id_without_timestamp
             data["tags"]["type"] = row["Type"]
             data["tags"]["name"] = row["Name"]
             data["fields"]["currently_running_users"] = int(row["User Count"])
@@ -190,7 +190,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         reader = csv.DictReader(f3)
         for row in reader:
             data = {"tags": {}, "fields": {}}
-            data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
+            data["tags"]["test_case_name"] = test_id_without_timestamp
             data["tags"]["type"] = row["Method"]
             data["tags"]["name"] = row["Name"]
             data["fields"]["error"] = row["Error"]
