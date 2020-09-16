@@ -93,7 +93,8 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     seconds_to_wait_for_deployment = int(configuration["DEFAULT"]["test_case_waiting_for_deployment_in_seconds"])
     seconds_to_wait_for_undeployment = int(configuration["DEFAULT"]["test_case_waiting_for_undeployment_in_seconds"])
 
-    docker_client = docker.from_env()
+    sut_hostname = configuration["DEFAULT"]["docker_sut_hostname"]
+    docker_client = docker.DockerClient(base_url="{sut_hostname}:2375")
 
     try:
         if os.path.exists(deployment_descriptor):
@@ -112,7 +113,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         log_file = os.path.splitext(driver)[0] + ".log"
         out_file = os.path.splitext(driver)[0] + ".out"
         csv_prefix = os.path.join(os.path.dirname(driver), "result")
-        logging.info(f"Running the load test for {test_id}.")
+        logging.info(f"Running the load test for {test_id}, with {load} users, running for {run_time} seconds.")
         run_external_applicaton(f'locust --locustfile {driver} --host {host} --users {load} --spawn-rate {spawn_rate} --run-time {run_time}s --headless --only-summary --csv {csv_prefix} --csv-full-history --logfile "{log_file}" >> {out_file} 2> {out_file}', False)
 
         if len(command_to_execute_at_a_test) > 0:
