@@ -157,7 +157,6 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     with open(os.path.join(output, "result_stats_history.csv"), "r") as f2:
         reader = csv.DictReader(f2)
         for row in reader:
-            print("1:", end=" ")
             data = {"tags": {}, "fields": {}}
             data["time"] = int(row["Timestamp"])
             data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
@@ -177,22 +176,14 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
                 if row[i] != "N/A":
                     data["fields"]["percentile_" + i[:-1]] = float(row[i])
 
-            print(row["Name"], end=", ")
             if row["Name"] != "Aggregated":
-                print("a", end=", ")
                 data["measurement"] = "response_time_history"
-                print("b", end=", ")
                 data["tags"]["type"] = row["Type"]
-                print("c", end=", ")
                 data["tags"]["name"] = row["Name"]
-                print("d", end=", ")
             else:
-                print("e", end=", ")
                 data["measurement"] = "response_time_history_aggregated"
 
-            print("f", end=", ")
             record = Point.from_dict(data)
-            print("g", end=", ")
             write_api.write(bucket, org, record)
 
     with open(os.path.join(output, "result_failures.csv"), "r") as f3:
@@ -207,6 +198,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
             data["measurement"] = "failures"
 
             record = Point.from_dict(data)
+            print(record.to_line_protocol())
             write_api.write(bucket, org, record)
 
 
