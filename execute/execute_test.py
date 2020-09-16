@@ -158,7 +158,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         reader = csv.DictReader(f2)
         for row in reader:
             data = {"tags": {}, "fields": {}}
-            data["time"] = datetime.fromtimestamp(int(row["Timestamp"]))
+            data["time"] = datetime.datetime.fromtimestamp(int(row["Timestamp"]))
             data["tags"]["text_case_prefix"] = configuration[section]["test_case_prefix"].lower()
             data["tags"]["type"] = row["Type"]
             data["tags"]["name"] = row["Name"]
