@@ -94,7 +94,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     seconds_to_wait_for_undeployment = int(configuration["DEFAULT"]["test_case_waiting_for_undeployment_in_seconds"])
 
     sut_hostname = configuration["DEFAULT"]["docker_sut_hostname"]
-    docker_client = docker.DockerClient(base_url="{sut_hostname}:2375")
+    docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
 
     try:
         if os.path.exists(deployment_descriptor):
