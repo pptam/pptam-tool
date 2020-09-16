@@ -18,10 +18,9 @@ import csv
 from lib import run_external_applicaton, replace_values_in_file
 
 
-def get_docker_stats(docker_client):
-    print("start")
-    time.sleep(2)
-    print("stop")
+def get_docker_stats(client):
+    for container in client.containers.list():
+        print(container.stats(stream=False))
 
 
 def perform_test(configuration, section, repetition, overwrite_existing_results):
