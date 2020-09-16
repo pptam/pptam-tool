@@ -44,13 +44,12 @@ def get_docker_stats(client, bucket, org, write_api, test_case_name):
         data["measurement"] = "docker_stats"
         data["time"] = stats["read"]
         data["tags"]["test_case_name"] = test_case_name
-        data["tags"]["container_name"] = container.name
+        data["tags"]["container"] = container.image
         data["fields"]["cpu_usage"] = stats["cpu_stats"]["cpu_usage"]["total_usage"]
         data["fields"]["memory_usage"] = stats["memory_stats"]["usage"]
         data["fields"]["memory_max_usage"] = stats["memory_stats"]["max_usage"]
 
         record = Point.from_dict(data)
-        print(record.to_line_protocol())
         write_api.write(bucket, org, record)
 
     #time.sleep(60)
