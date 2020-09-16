@@ -4,7 +4,6 @@ import os
 import time
 import argparse
 import logging
-import time
 import shutil
 import configparser
 import datetime
@@ -18,9 +17,17 @@ import csv
 from lib import run_external_applicaton, replace_values_in_file
 
 
+def get_docker_stats_for_container(container):
+    stats = container.stats(stream=False)
+    print("Got stats!")
+
+
 def get_docker_stats(client):
     for container in client.containers.list():
-        print(container.stats(stream=False))
+        get_container_stats = threading.Thread(target=get_docker_stats_for_container, args=(container,), daemon=False)
+        get_container_stats.start()
+    time.sleep(60)
+    get_docker_stats(client)
 
 
 def perform_test(configuration, section, repetition, overwrite_existing_results):
