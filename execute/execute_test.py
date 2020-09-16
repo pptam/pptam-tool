@@ -53,7 +53,7 @@ def get_docker_stats(client, bucket, org, write_api, test_case_name):
         print(record.to_line_protocol())
         write_api.write(bucket, org, record)
 
-    time.sleep(60)
+    #time.sleep(60)
     get_docker_stats(client, bucket, org, write_api, test_case_name)
 
 
