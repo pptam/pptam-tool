@@ -10,11 +10,18 @@ import configparser
 import datetime
 import requests
 import threading
+import docker
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 import csv
 
 from lib import run_external_applicaton, replace_values_in_file
+
+
+def get_docker_stats(docker_client):
+    print("start")
+    time.sleep(2)
+    print("stop")
 
 
 def perform_test(configuration, section, repetition, overwrite_existing_results):
@@ -87,12 +94,17 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     seconds_to_wait_for_deployment = int(configuration["DEFAULT"]["test_case_waiting_for_deployment_in_seconds"])
     seconds_to_wait_for_undeployment = int(configuration["DEFAULT"]["test_case_waiting_for_undeployment_in_seconds"])
 
+    docker_client = docker.from_env()
+
     try:
         if os.path.exists(deployment_descriptor):
             command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
             run_external_applicaton(command_deploy_stack)
             logging.info(f"Waiting for {seconds_to_wait_for_deployment} seconds to allow the application to deploy.")
             time.sleep(seconds_to_wait_for_deployment)
+
+        run_docker_stats_in_background = threading.Thread(target=get_docker_stats, args=(docker_client,), daemon=True)
+        run_docker_stats_in_background.start()
 
         host = configuration["DEFAULT"]["locust_host_url"]
         load = configuration["DEFAULT"]["load"]
