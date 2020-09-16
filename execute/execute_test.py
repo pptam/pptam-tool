@@ -17,17 +17,17 @@ import csv
 from lib import run_external_applicaton, replace_values_in_file
 
 
-def flatten_json(y):
+def flatten_hierarchy(y):
     out = {}
 
     def flatten(x, name=''):
         if type(x) is dict:
             for a in x:
-                flatten(x[a], name + a + '_')
+                flatten(x[a], name + a + '.')
         elif type(x) is list:
             i = 0
             for a in x:
-                flatten(a, name + str(i) + '_')
+                flatten(a, name + str(i) + '.')
                 i += 1
         else:
             out[name[:-1]] = x
@@ -36,16 +36,24 @@ def flatten_json(y):
     return out
 
 
-def get_docker_stats_for_container(container):
-    stats = container.stats(stream=False)
-    print(flatten_json(stats))
-
-
-def get_docker_stats(client):
+def get_docker_stats(client, bucket, org, write_api, test_case_name):
     for container in client.containers.list():
-        get_docker_stats_for_container(container)
+        stats = flatten_hierarchy(container.stats(stream=False))
+
+        data = {"tags": {}, "fields": {}}
+        data["measurement"] = "docker_stats"
+        data["time"] = stats["read"]
+        data["tags"]["test_case_name"] = test_case_name
+        data["tags"]["container_name"] = container.name
+        for key in stats:
+            data["fields"][key] = stats[key]
+
+        record = Point.from_dict(data)
+        print(record.to_line_protocol())
+        write_api.write(bucket, org, record)
+
     time.sleep(60)
-    get_docker_stats(client)
+    get_docker_stats(client, bucket, org, write_api, test_case_name)
 
 
 def perform_test(configuration, section, repetition, overwrite_existing_results):
@@ -121,6 +129,12 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     sut_hostname = configuration["DEFAULT"]["docker_sut_hostname"]
     docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
 
+    token = configuration[section]["influxdb_token"]
+    org = configuration[section]["influxdb_organization"]
+    bucket = configuration[section]["influxdb_bucket"]
+    client = InfluxDBClient(url=configuration[section]["influxdb_url"], token=token)
+    write_api = client.write_api(write_options=SYNCHRONOUS)
+
     try:
         if os.path.exists(deployment_descriptor):
             command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
@@ -128,7 +142,13 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
             logging.info(f"Waiting for {seconds_to_wait_for_deployment} seconds to allow the application to deploy.")
             time.sleep(seconds_to_wait_for_deployment)
 
-        run_docker_stats_in_background = threading.Thread(target=get_docker_stats, args=(docker_client,), daemon=True)
+        run_docker_stats_in_background = threading.Thread(target=get_docker_stats, args=(
+            docker_client,
+            bucket,
+            org,
+            write_api,
+            test_id_without_timestamp,
+        ), daemon=True)
         run_docker_stats_in_background.start()
 
         host = configuration["DEFAULT"]["locust_host_url"]
@@ -154,12 +174,6 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
             time.sleep(seconds_to_wait_for_undeployment)
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
-
-    token = configuration[section]["influxdb_token"]
-    org = configuration[section]["influxdb_organization"]
-    bucket = configuration[section]["influxdb_bucket"]
-    client = InfluxDBClient(url=configuration[section]["influxdb_url"], token=token)
-    write_api = client.write_api(write_options=SYNCHRONOUS)
 
     with open(os.path.join(output, "result_stats.csv"), "r") as f1:
         reader = csv.DictReader(f1)
