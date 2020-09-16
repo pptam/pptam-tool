@@ -13,7 +13,6 @@ import docker
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 import csv
-import json
 
 from lib import run_external_applicaton, replace_values_in_file
 
@@ -39,9 +38,7 @@ def flatten_json(y):
 
 def get_docker_stats_for_container(container):
     stats = container.stats(stream=False)
-    print(stats)
-    data = json.loads(stats)
-    print(flatten_json(data))
+    print(flatten_json(stats))
 
 
 def get_docker_stats(client):
