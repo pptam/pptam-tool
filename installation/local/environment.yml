@@ -13,3 +13,4 @@ dependencies:
       - locust
       - psutil
       - influxdb-client
+      - docker
