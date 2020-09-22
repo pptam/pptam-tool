@@ -116,7 +116,7 @@ def admin_login(self, expected):
     self.user_name = str(uuid.uuid4())
     response2 = self.client.post(url="/api/v1/adminuserservice/users", 
                                 headers={"Authorization": self.bearer, "Accept": "application/json", "Content-Type": "application/json"}, 
-                                json={"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": user_name, "userName": user_name})
+                                json={"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": self.user_name, "userName": self.user_name})
     response_as_json2 = json.loads(response2.content)["data"]
 
 
@@ -142,6 +142,7 @@ def client_login(self, expected):
 ### purchase ticket
 
 def booking_page(self,_expected):
+    departure_date = "2020-09-27"
     head = {"Accept": "application/json", "Content-Type":"application/json","Authorization": self.bearer}
     self.client.get(
             url="/client_ticket_book.html?tripId=D1345&from=Shang%20Hai&to=Su%20Zhou&seatType=2&seat_price=50.0&date="+ departure_date,
@@ -153,6 +154,7 @@ def assurances(self, _expected):
     self.client.get(url="/api/v1/assuranceservice/assurances/types",headers=head)
 
 def foodservice(self, _expected):
+    departure_date = "2020-09-27"
     head = {"Accept": "application/json", "Content-Type":"application/json","Authorization": self.bearer}   
     self.client.get(url="/api/v1/foodservice/foods/"+ departure_date  + "/Shang%20Hai/Su%20Zhou/D1345", headers=head)
 
