@@ -320,3 +320,109 @@ class UserConsignTicket(HttpUser):
 
         for task in task_sequence:
             perform_task(self, task)
+
+
+class UserCancelNoRefund(HttpUser):
+    wait_time = constant(1)
+
+    @task
+    def perform_task(self):
+        matrix = np.array([[],[]])
+        all_functions = [
+            "home_expected",
+            "admin_login_expected",
+            "admin_login_unexpected",
+            "client_login_expected",
+            "client_login_unexpected",
+            "booking_page_expected",
+            "search_departure_expected",
+            "search_departure_unexpected",
+            "booking_page_expected",
+            "assurances_expected",
+            "foodservice_expected",
+            "contacts_expected",
+            "reserve_expected",
+            "reserve_unexpected",
+            "order_page_expected",
+            "payment_expected",
+            "payment_unexpected",
+            "cancel_with_no_refund_expected",
+            "cancel_with_no_refund_unexpected"
+        ]
+        task_sequence = sequence_generator(self, matrix, all_functions)
+        logging.debug(
+            f"Generated task sequence: {task_sequence}.")
+
+        for task in task_sequence:
+            perform_task(self, task)
+
+
+class UserRefundVoucher(HttpUser):
+    wait_time = constant(1)
+
+    @task
+    def perform_task(self):
+        matrix = np.array([[],[]])
+        all_functions = [
+            "home_expected",
+            "admin_login_expected",
+            "admin_login_unexpected",
+            "client_login_expected",
+            "client_login_unexpected",
+            "booking_page_expected",
+            "search_departure_expected",
+            "search_departure_unexpected",
+            "booking_page_expected",
+            "assurances_expected",
+            "foodservice_expected",
+            "contacts_expected",
+            "reserve_expected",
+            "reserve_unexpected",
+            "order_page_expected",
+            "payment_expected",
+            "payment_unexpected",
+            "voucher_expected",
+            "voucher_unexpected"
+        ]
+        task_sequence = sequence_generator(self, matrix, all_functions)
+        logging.debug(
+            f"Generated task sequence: {task_sequence}.")
+
+        for task in task_sequence:
+            perform_task(self, task)
+
+
+class UserBooking(HttpUser):
+
+
+    wait_time = constant(1)
+
+    @task
+    def perform_task(self):
+        matrix = np.array([[],[]])
+        all_functions = [
+            "home_expected",
+            "admin_login_expected",
+            "admin_login_unexpected",
+            "client_login_expected",
+            "client_login_unexpected",
+            "booking_page_expected",
+            "search_departure_expected",
+            "search_departure_unexpected",
+            "booking_page_expected",
+            "assurances_expected",
+            "foodservice_expected",
+            "contacts_expected",
+            "reserve_expected",
+            "reserve_unexpected",
+            "order_page_expected",
+            "payment_expected",
+            "payment_unexpected",
+        ]
+
+        task_sequence = sequence_generator(self, matrix, all_functions)
+        logging.debug(
+            f"Generated task sequence: {task_sequence}.")
+
+        for task in task_sequence:
+            perform_task(self, task)
