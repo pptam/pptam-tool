@@ -274,10 +274,14 @@ class UserNoLogin(HttpUser):
     @task
     def perfom_task(self):
 
-        matrix = np.array([[0, 0.8, 0.2, 0, 0], [0, 0, 0, 0.8, 0.2], [
-                          0, 0.9, 0.1, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0.9, 0.1]])
+        #matrix = np.array([[0, 0.8, 0.2, 0, 0], [0, 0, 0, 0.8, 0.2], [
+        #                  0, 0.9, 0.1, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0.9, 0.1]])
+
         all_functions = ["home_expected", "search_departure_expected",
                          "search_departure_unexpected", "search_return_expected", "search_return_unexpected"]
+        matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
+        print(matrix)
+        
         task_sequence = sequence_generator(matrix, all_functions)
         logging.debug(
             f"Generated task sequence: {task_sequence}.")
@@ -291,7 +295,7 @@ class UserConsignTicket(HttpUser):
 
     @task
     def perform_task(self):
-        matrix = np.array([[], []])
+        #matrix = np.array([[], []])
         all_functions = [
             "home_expected",
             "admin_login_expected",
@@ -314,6 +318,10 @@ class UserConsignTicket(HttpUser):
             "confirm_consign_expected",
             "confirm_consign_unexpected"
         ]
+        matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
+        print(matrix)
+
+        
         task_sequence = sequence_generator(self, matrix, all_functions)
         logging.debug(
             f"Generated task sequence: {task_sequence}.")
@@ -327,7 +335,8 @@ class UserCancelNoRefund(HttpUser):
 
     @task
     def perform_task(self):
-        matrix = np.array([[],[]])
+        #matrix = np.array([[],[]])
+
         all_functions = [
             "home_expected",
             "admin_login_expected",
@@ -349,6 +358,9 @@ class UserCancelNoRefund(HttpUser):
             "cancel_with_no_refund_expected",
             "cancel_with_no_refund_unexpected"
         ]
+        matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
+        print(matrix)
+        
         task_sequence = sequence_generator(self, matrix, all_functions)
         logging.debug(
             f"Generated task sequence: {task_sequence}.")
@@ -362,7 +374,6 @@ class UserRefundVoucher(HttpUser):
 
     @task
     def perform_task(self):
-        matrix = np.array([[],[]])
         all_functions = [
             "home_expected",
             "admin_login_expected",
@@ -384,6 +395,10 @@ class UserRefundVoucher(HttpUser):
             "voucher_expected",
             "voucher_unexpected"
         ]
+        matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
+        print(matrix)
+        #matrix = np.array([[],[]])
+        
         task_sequence = sequence_generator(self, matrix, all_functions)
         logging.debug(
             f"Generated task sequence: {task_sequence}.")
@@ -399,7 +414,7 @@ class UserBooking(HttpUser):
 
     @task
     def perform_task(self):
-        matrix = np.array([[],[]])
+        #matrix = np.array([[],[]])
         all_functions = [
             "home_expected",
             "admin_login_expected",
@@ -419,6 +434,9 @@ class UserBooking(HttpUser):
             "payment_expected",
             "payment_unexpected",
         ]
+        matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
+        print(matrix)
+        
 
         task_sequence = sequence_generator(self, matrix, all_functions)
         logging.debug(
