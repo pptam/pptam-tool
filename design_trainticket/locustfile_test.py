@@ -283,12 +283,23 @@ class UserNoLogin(HttpUser):
     @task
     def perfom_task(self):
 
-        matrix = np.array([[0, 0.8, 0.2, 0.2, 0], [0, 0, 0, 0.8, 0.2], [
-                          0, 0.9, 0.1, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0.9, 0.1]])
+       
 
         all_functions = ["home_expected", "search_departure_expected",
                          "search_departure_unexpected", "search_return_expected", "search_return_unexpected"]
-        #matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
+
+        matrix = np.zeros((len(all_functions),len(all_functions)))
+
+        matrix[all_functions.index("home_expected"), all_functions.index("search_departure_expected")] = 0.8
+        matrix[all_functions.index("home_expected"), all_functions.index("search_departure_unexpected")] = 0.2
+        matrix[all_functions.index("search_departure_expected"), all_functions.index("search_return_expected")] = 0.8
+        matrix[all_functions.index("search_departure_expected"), all_functions.index("search_return_unexpected")] = 0.2
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_expected")] = 0.9
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_unexpected")] = 0.1
+        matrix[all_functions.index("search_return_expected"), all_functions.index("search_return_expected")] = 1
+        matrix[all_functions.index("search_return_unexpected"), all_functions.index("search_return_expected")] = 0.9
+        matrix[all_functions.index("search_return_unexpected"), all_functions.index("search_return_unexpected")] = 0.1
+
 
 
         
@@ -305,10 +316,8 @@ class UserConsignTicket(HttpUser):
 
     @task
     def perform_task(self):
-        #matrix = np.array([[], []])
         all_functions = [
             "home_expected",
-            "admin_login_expected",
             "client_login_expected",
             "client_login_unexpected",
             "search_departure_expected",
@@ -326,8 +335,7 @@ class UserConsignTicket(HttpUser):
             "confirm_consign_expected",
             "confirm_consign_unexpected"
         ]
-        matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
-        print(matrix)
+        matrix = np.zeros((len(all_functions),len(all_functions)))
 
         
         task_sequence = sequence_generator(self, matrix, all_functions)
@@ -343,14 +351,11 @@ class UserCancelNoRefund(HttpUser):
 
     @task
     def perform_task(self):
-        #matrix = np.array([[],[]])
 
         all_functions = [
             "home_expected",
-            "admin_login_expected",
             "client_login_expected",
             "client_login_unexpected",
-            "booking_page_expected",
             "search_departure_expected",
             "search_departure_unexpected",
             "booking_page_expected",
@@ -365,8 +370,7 @@ class UserCancelNoRefund(HttpUser):
             "cancel_with_no_refund_expected",
             "cancel_with_no_refund_unexpected"
         ]
-        matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
-        print(matrix)
+        matrix = np.zeros((len(all_functions),len(all_functions)))
         
         task_sequence = sequence_generator(self, matrix, all_functions)
         logging.debug(
@@ -383,10 +387,8 @@ class UserRefundVoucher(HttpUser):
     def perform_task(self):
         all_functions = [
             "home_expected",
-            "admin_login_expected",
             "client_login_expected",
             "client_login_unexpected",
-            "booking_page_expected",
             "search_departure_expected",
             "search_departure_unexpected",
             "booking_page_expected",
@@ -401,9 +403,7 @@ class UserRefundVoucher(HttpUser):
             "voucher_expected",
             "voucher_unexpected"
         ]
-        matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
-        print(matrix)
-        #matrix = np.array([[],[]])
+        matrix = np.zeros((len(all_functions),len(all_functions)))
         
         task_sequence = sequence_generator(self, matrix, all_functions)
         logging.debug(
@@ -437,7 +437,6 @@ class UserBooking(HttpUser):
             "payment_unexpected",
         ]
         matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
-        print(matrix)
 
         matrix[all_functions.index("home_expected"),all_functions.index("client_login_expected")] = 0.9
         matrix[all_functions.index("home_expected"),all_functions.index("client_login_unexpected")] = 0.1
