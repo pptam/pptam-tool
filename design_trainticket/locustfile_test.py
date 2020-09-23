@@ -411,7 +411,7 @@ class UserRefundVoucher(HttpUser):
 
         for task in task_sequence:
             perform_task(self, task)
-
+'''
 
 class UserBooking(HttpUser):
 
@@ -449,10 +449,32 @@ class UserBooking(HttpUser):
 
         matrix[all_functions.index("search_departure_unexpected"),all_functions.index("search_departure_expected")] = 0.95
         matrix[all_functions.index("search_departure_unexpected"),all_functions.index("search_departure_unexpected")] = 0.05
-    
-    
 
+        matrix[all_functions.index("search_departure_expected"), all_functions.index("booking_page_expected")] = 1
 
+        matrix[all_functions.index("booking_page_expected"), all_functions.index("assurances_expected")] = 1
+
+        matrix[all_functions.index("assurances_expected"), all_functions.index("food_service_expected")] = 1
+
+        matrix[all_functions.index("food_service_expected"), all_functions.index("contacts_expected")] = 1
+
+        matrix[all_functions.index("contacts_expected"), all_functions.index("reserve_expected")] = 0.8
+
+        matrix[all_functions.index("contacts_expected"), all_functions.index("reserve_unexpected")] = 0.2
+
+        matrix[all_functions.index("reserve_unexpected"), all_functions.index("reserve_expected")] = 0.95
+        matrix[all_functions.index("reserve_unexpected"), all_functions.index("reserve_unexpcted")] = 0.05
+
+        matrix[all_functions.index("reserve_expected"), all_functions.index("order_page_expected")] = 1
+
+        matrix[all_functions.index("order_page_expected"), all_functions.index("payment_expected")] = 0.8
+        matrix[all_functions.index("order_page_expected"), all_functions.index("payment_unexpected")] = 0.2
+
+        matrix[all_functions.index("payment_expected"), all_functions.index("payment_expected")] = 1
+
+        matrix[all_functions.index("payment_unexpected"), all_functions.index("payment_expected")] = 0.95
+
+        matrix[all_functions.index("payment_unexpected"), all_functions.index("payment_unexpected")] = 0.05
         
 
         task_sequence = sequence_generator(self, matrix, all_functions)
@@ -461,4 +483,3 @@ class UserBooking(HttpUser):
 
         for task in task_sequence:
             perform_task(self, task)
-'''
