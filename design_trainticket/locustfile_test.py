@@ -9,7 +9,15 @@ import logging
 import sys
 
 
+def matrix_checker(matrix):
+    sum = np.sum(matrix, axis=1).tolist()
+
+    return sum[1:] == sum[:-1]
+
 def sequence_generator(matrix, all_functions):
+
+    if(not(matrix_checker(matrix))):
+        raise Exception("Matrix is not correct")
 
     current_node = 0
     i = 0
@@ -18,8 +26,9 @@ def sequence_generator(matrix, all_functions):
     array.append(all_functions[0])
 
     while(i < 10):
-        if(1 in matrix[current_node]):
-            break
+        #works(?)
+        if(1 in matrix[current_node] and matrix[current_node].tolist().index(1) == current_node):
+            break 
         selection = random.choices(
             population=all_functions, weights=matrix[current_node])[0]
         array.append(selection)
@@ -72,17 +81,10 @@ class Requests():
     def loginpage(self, _expected):
         self.client.get('/client_login.html', name="loginpage")
 
-    def admin_login(self, expected):
-        if(expected):
-            response1 = self.client.post(url="/api/v1/users/login",
+    def create_user(self, _expected):
+        response1 = self.client.post(url="/api/v1/users/login",
                                          json={"username": "admin",
                                                "password": "222222"},
-                                         name="admin_login"
-                                         )
-        else:
-            response1 = self.client.post(url="/api/v1/users/login",
-                                         json={"username": "admin",
-                                               "password": "WRONGPASSWORD"},
                                          name="admin_login"
                                          )
         response_as_json1 = json.loads(response1.content)["data"]
@@ -99,6 +101,7 @@ class Requests():
         response_as_json2 = json.loads(response2.content)["data"]
 
     def client_login(self, expected):
+        create_user(self)
         if(expected):
             response = self.client.post(url="/api/v1/users/login",
                                         json={
@@ -280,12 +283,14 @@ class UserNoLogin(HttpUser):
     @task
     def perfom_task(self):
 
-        matrix = np.array([[0, 0.8, 0.2, 0, 0], [0, 0, 0, 0.8, 0.2], [
+        matrix = np.array([[0, 0.8, 0.2, 0.2, 0], [0, 0, 0, 0.8, 0.2], [
                           0, 0.9, 0.1, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0.9, 0.1]])
 
         all_functions = ["home_expected", "search_departure_expected",
                          "search_departure_unexpected", "search_return_expected", "search_return_unexpected"]
         #matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
+
+
         
         task_sequence = sequence_generator(matrix, all_functions)
         logging.debug(
@@ -304,10 +309,8 @@ class UserConsignTicket(HttpUser):
         all_functions = [
             "home_expected",
             "admin_login_expected",
-            "admin_login_unexpected",
             "client_login_expected",
             "client_login_unexpected",
-            "booking_page_expected",
             "search_departure_expected",
             "search_departure_unexpected",
             "booking_page_expected",
@@ -345,7 +348,6 @@ class UserCancelNoRefund(HttpUser):
         all_functions = [
             "home_expected",
             "admin_login_expected",
-            "admin_login_unexpected",
             "client_login_expected",
             "client_login_unexpected",
             "booking_page_expected",
@@ -382,7 +384,6 @@ class UserRefundVoucher(HttpUser):
         all_functions = [
             "home_expected",
             "admin_login_expected",
-            "admin_login_unexpected",
             "client_login_expected",
             "client_login_unexpected",
             "booking_page_expected",
@@ -419,14 +420,10 @@ class UserBooking(HttpUser):
 
     @task
     def perform_task(self):
-        #matrix = np.array([[],[]])
         all_functions = [
             "home_expected",
-            "admin_login_expected",
-            "admin_login_unexpected",
             "client_login_expected",
             "client_login_unexpected",
-            "booking_page_expected",
             "search_departure_expected",
             "search_departure_unexpected",
             "booking_page_expected",
@@ -441,6 +438,22 @@ class UserBooking(HttpUser):
         ]
         matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
         print(matrix)
+
+        matrix[all_functions.index("home_expected"),all_functions.index("client_login_expected")] = 0.9
+        matrix[all_functions.index("home_expected"),all_functions.index("client_login_unexpected")] = 0.1
+
+        matrix[all_functions.index("client_login_unexpected"),all_functions.index("client_login_unexpected")] = 0.02
+        matrix[all_functions.index("client_login_unexpected"),all_functions.index("client_login_expected")] = 0.98
+
+        matrix[all_functions.index("client_login_expected"),all_functions.index("search_departure_expected")] = 0.8
+        matrix[all_functions.index("client_login_expected"),all_functions.index("search_departure_unexpected")] = 0.2
+
+        matrix[all_functions.index("search_departure_unexpected"),all_functions.index("search_departure_expected")] = 0.95
+        matrix[all_functions.index("search_departure_unexpected"),all_functions.index("search_departure_unexpected")] = 0.05
+    
+    
+
+
         
 
         task_sequence = sequence_generator(self, matrix, all_functions)
