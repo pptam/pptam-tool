@@ -33,7 +33,7 @@ def sequence_generator(matrix, all_functions):
 class Requests():
 
     def home(self, _expected):
-        self.client.get('/index.html')
+        self.client.get('/index.html', name="home")
 
     def search_ticket(self, departure_date, from_station, to_station):
         head = {"Accept": "application/json",
@@ -48,7 +48,8 @@ class Requests():
                 url="/api/v1/travelservice/trips/left",
                 headers=head,
                 json=body_start,
-                catch_response=True) as response:
+                catch_response=True,
+                name="search_ticket") as response:
             logging.debug(
                 f"Response of searching a departure ticket: {response.status_code}.")
 
@@ -69,18 +70,20 @@ class Requests():
     # user authentication
 
     def loginpage(self, _expected):
-        self.client.get('/client_login.html')
+        self.client.get('/client_login.html', name="loginpage")
 
     def admin_login(self, expected):
         if(expected):
             response1 = self.client.post(url="/api/v1/users/login",
                                          json={"username": "admin",
-                                               "password": "222222"}
+                                               "password": "222222"},
+                                         name="admin_login"
                                          )
         else:
             response1 = self.client.post(url="/api/v1/users/login",
                                          json={"username": "admin",
-                                               "password": "WRONGPASSWORD"}
+                                               "password": "WRONGPASSWORD"},
+                                         name="admin_login"
                                          )
         response_as_json1 = json.loads(response1.content)["data"]
         token = response_as_json1["token"]
@@ -91,7 +94,8 @@ class Requests():
         response2 = self.client.post(url="/api/v1/adminuserservice/users",
                                      headers={
                                          "Authorization": self.bearer, "Accept": "application/json", "Content-Type": "application/json"},
-                                     json={"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": self.user_name, "userName": self.user_name})
+                                     json={"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": self.user_name, "userName": self.user_name},
+                                     name="create_new_user")
         response_as_json2 = json.loads(response2.content)["data"]
 
     def client_login(self, expected):
@@ -100,14 +104,14 @@ class Requests():
                                         json={
                                             "username": self.user_name,
                                             "password": self.user_name
-                                        })
+                                        }, name="client_login")
         else:
             response = self.client.post(url="/api/v1/users/login",
                                         json={
                                             "username": self.user_name,
                                             # wrong password
                                             "password": "WRONGPASSWORD"
-                                        })
+                                        }, name="client_login")
         response_as_json = json.loads(response.content)["data"]
         token = response_as_json["token"]
         self.bearer = "Bearer " + token
@@ -121,33 +125,34 @@ class Requests():
                 "Content-Type": "application/json", "Authorization": self.bearer}
         self.client.get(
             url="/client_ticket_book.html?tripId=D1345&from=Shang%20Hai&to=Su%20Zhou&seatType=2&seat_price=50.0&date=" + departure_date,
-            headers=head
+            headers=head,
+            name="booking_page"
         )
 
     def assurances(self, _expected):
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
         self.client.get(
-            url="/api/v1/assuranceservice/assurances/types", headers=head)
+            url="/api/v1/assuranceservice/assurances/types", headers=head, name="assurances")
 
     def foodservice(self, _expected):
         departure_date = "2020-09-27"
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
         self.client.get(url="/api/v1/foodservice/foods/" +
-                        departure_date + "/Shang%20Hai/Su%20Zhou/D1345", headers=head)
+                        departure_date + "/Shang%20Hai/Su%20Zhou/D1345", headers=head, name="foodservice" )
 
     def contacts(self, _expected):
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
         response_contacts = self.client.get(
-            url="/api/v1/contactservice/contacts/account/" + self.user_id, headers=head)
+            url="/api/v1/contactservice/contacts/account/" + self.user_id, headers=head, name="contacts")
         response_as_json_contacts = json.loads(
             response_contacts.content)["data"]
 
         if len(response_as_json_contacts) == 0:
             response_contacts = self.client.post(url="/api/v1/contactservice/contacts", headers=head, json={
-                "name": self.user_id, "accountId": self.user_id, "documentType": "1", "documentNumber": self.user_id, "phoneNumber": "123456"})
+                "name": self.user_id, "accountId": self.user_id, "documentType": "1", "documentNumber": self.user_id, "phoneNumber": "123456"}, name="set_new_contact")
 
             response_as_json_contacts = json.loads(
                 response_contacts.content)["data"]
@@ -196,7 +201,8 @@ class Requests():
                 url="/api/v1/preserveservice/preserve",
                 headers=head,
                 json=body_for_reservation,
-                catch_response=True
+                catch_response=True,
+                name="reserve"
         ) as response:
             if(response.status_code != 200):
                 logging.debug(
@@ -205,7 +211,7 @@ class Requests():
     def order_page(self, _expected):
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
-        response_order_refresh = self.client.post(url="/api/v1/orderservice/order/refresh", headers=head, json={
+        response_order_refresh = self.client.post(url="/api/v1/orderservice/order/refresh", name="order_page", headers=head, json={
             "loginId": self.user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"})
         response_as_json_order_id = json.loads(
             response_order_refresh.content)["data"][0]["id"]
@@ -216,10 +222,10 @@ class Requests():
                 "Content-Type": "application/json", "Authorization": self.bearer}
         if(expected):
             self.client.post(url="/api/v1/inside_pay_service/inside_payment",
-                             headers=head, json={"orderId": self.order_id, "tripId": "D1345"})
+                             headers=head, json={"orderId": self.order_id, "tripId": "D1345"}, name="payment")
         else:
             self.client.post(url="/api/v1/inside_pay_service/inside_payment",
-                             headers=head, json={"orderId": "WRONGORDERID", "tripId": "D1345"})
+                             headers=head, json={"orderId": "WRONGORDERID", "tripId": "D1345"}, name="payment")
 
     # cancelNoRefund
 
@@ -228,10 +234,10 @@ class Requests():
                 "Content-Type": "application/json", "Authorization": self.bearer}
         if(expected):
             self.client.get(url="/api/v1/cancelservice/cancel/refound/" +
-                            self.order_id + "/" + self.user_id, headers=head)
+                            self.order_id + "/" + self.user_id, headers=head, name="cancel_with_no_refund")
         else:
             self.client.get(url="/api/v1/cancelservice/cancel/refound/" +
-                            self.order_id + "/" + "WRONGUSERID", headers=head)
+                            self.order_id + "/" + "WRONGUSERID", headers=head, name="cancel_with_no_refund")
 
     # user refund with voucher
 
@@ -240,25 +246,25 @@ class Requests():
                 "Content-Type": "application/json", "Authorization": self.bearer}
         if(expected):
             self.client.post(url="/getVoucher", headers=head,
-                             json={"orderId": self.order_id, "type": 1})
+                             json={"orderId": self.order_id, "type": 1}, name="voucher")
         else:
             self.client.post(url="/getVoucher", headers=head,
-                             json={"orderId": "WRONGID", "type": 1})
+                             json={"orderId": "WRONGID", "type": 1}, name="voucher")
 
     # consign ticket
 
     def consign_page(self, _expected):
         self.client.get(
-            url="/api/v1/consignservice/consigns/order/" + self.order_id)
+            url="/api/v1/consignservice/consigns/order/" + self.order_id, name="consign_page")
 
     def confirm_consign(self, expected):
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
         if(expected):
-            response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns", json={"accountId": self.user_id, "handleDate": "2020-07-27", "from": "Shang Hai",
+            response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns", name="confirm_consign", json={"accountId": self.user_id, "handleDate": "2020-07-27", "from": "Shang Hai",
                                                                                                     "to": "Su Zhou", "orderId": self.order_id, "consignee": self.order_id, "phone": "123", "weight": "1", "id": "", "isWithin": "false"}, headers=head)
         else:
-            response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns", json={"accountId": self.user_id, "handleDate": "2020-07-27", "from": "Shang Hai",
+            response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns",  name="confirm_consign", json={"accountId": self.user_id, "handleDate": "2020-07-27", "from": "Shang Hai",
                                                                                                     "to": "Su Zhou", "orderId": self.order_id, "consignee": "WRONGORDERID", "phone": "WRONGPHONENUMBER", "weight": "1", "id": "", "isWithin": "false"}, headers=head)
 
     def perform_task(self, name):
@@ -274,22 +280,21 @@ class UserNoLogin(HttpUser):
     @task
     def perfom_task(self):
 
-        #matrix = np.array([[0, 0.8, 0.2, 0, 0], [0, 0, 0, 0.8, 0.2], [
-        #                  0, 0.9, 0.1, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0.9, 0.1]])
+        matrix = np.array([[0, 0.8, 0.2, 0, 0], [0, 0, 0, 0.8, 0.2], [
+                          0, 0.9, 0.1, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0.9, 0.1]])
 
         all_functions = ["home_expected", "search_departure_expected",
                          "search_departure_unexpected", "search_return_expected", "search_return_unexpected"]
-        matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
-        print(matrix)
+        #matrix = np.zeros((len(all_functions),len(all_functions)), dtype=int)
         
         task_sequence = sequence_generator(matrix, all_functions)
         logging.debug(
             f"Generated task sequence: {task_sequence}.")
-
+        print(task_sequence)
         for task in task_sequence:
             Requests.perform_task(self, task)
 
-
+'''
 class UserConsignTicket(HttpUser):
     wait_time = constant(1)
 
@@ -444,3 +449,4 @@ class UserBooking(HttpUser):
 
         for task in task_sequence:
             perform_task(self, task)
+'''
