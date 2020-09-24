@@ -4,10 +4,14 @@ from random import randint
 import random
 import json
 import uuid
-
+import numpy as np
+import random
 
 
 def authentication(self):
+
+        matrix = np.array([[0.2,0.8], [0.05,0.95]])
+
         response1 = self.client.post(url="/api/v1/users/login", json={"username": "admin", "password": "222222"})
         response_as_json1 = json.loads(response1.content)["data"]
         token = response_as_json1["token"]
@@ -25,11 +29,33 @@ def authentication(self):
 
         self.client.get('/client_login.html')
 
-        response = self.client.post(url="/api/v1/users/login",
+        
+        if(random.random() > matrix[0,0]):
+           response = self.client.post(url="/api/v1/users/login",
                                     json={
                                         "username": user_name,
                                         "password": user_name
                                     })
+        else:
+            response = self.client.post(url="/api/v1/users/login",
+                                    json={
+                                        "username": user_name,
+                                        "password": "test"
+                                    })
+            if(random.random() > matrix[1,0]):
+               response = self.client.post(url="/api/v1/users/login",
+                                    json={
+                                        "username": user_name,
+                                        "password": user_name
+                                    })
+
+            else:
+               response = self.client.post(url="/api/v1/users/login",
+                                    json={
+                                        "username": user_name,
+                                        "password": "test"
+                                    })
+
 
         response_as_json = json.loads(response.content)["data"]
         token = response_as_json["token"]
@@ -42,7 +68,7 @@ def purchaseTicket(self):
 
         self.client.get('/index.html')
         
-        departure_date = '2020-07-27'
+        departure_date = '2020-09-18'
 
         head = {"Accept": "application/json", "Content-Type":"application/json","Authorization": self.bearer}
         body_start = {
@@ -83,8 +109,11 @@ def purchaseTicket(self):
 
             response_as_json_contacts = json.loads(response_contacts.content)["data"]
             self.contactid = response_as_json_contacts["id"]
+            print('test')
+            print(self.contactid)
         else:
             self.contactid = response_as_json_contacts[0]["id"]
+            print(self.contactid)
         
 
         
@@ -116,6 +145,7 @@ def purchaseTicket(self):
 
         response_order_refresh = self.client.post(url="/api/v1/orderservice/order/refresh", headers=head, json={"loginId": self.user_id,"enableStateQuery":"false","enableTravelDateQuery":"false","enableBoughtDateQuery":"false","travelDateStart":"null","travelDateEnd":"null","boughtDateStart":"null","boughtDateEnd":"null"})
         
+        print(json.loads(response_order_refresh.content))  
         response_as_json_order_id = json.loads(response_order_refresh.content)["data"][0]["id"]
         self.order_id = response_as_json_order_id
 
