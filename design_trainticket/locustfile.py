@@ -256,9 +256,9 @@ class Requests():
 
     # consign ticket
 
-    # def get_consigns(self, _expected):
-    #     self.client.get(
-    #         url="/api/v1/consignservice/consigns/order/" + self.order_id, name=sys._getframe().f_code.co_name)
+    def get_consigns(self, _expected):
+         self.client.get(
+             url="/api/v1/consignservice/consigns/order/" + self.order_id, name=sys._getframe().f_code.co_name)
 
     def confirm_consign(self, expected):
         head = {"Accept": "application/json",
@@ -378,7 +378,6 @@ class UserBooking(HttpUser):
             Requests.perform_task(self, task)
 
 
-'''
 class UserConsignTicket(HttpUser):
     wait_time = constant(1)
 
@@ -399,11 +398,57 @@ class UserConsignTicket(HttpUser):
             "select_order_expected",
             "pay_expected",
             "pay_unexpected",
-            "consign_expected",
+            "get_consigns_expected",
             "confirm_consign_expected",
             "confirm_consign_unexpected"
         ]
-        matrix = np.zeros((len(all_functions),len(all_functions)))
+        matrix = np.zeros((len(all_functions), len(all_functions)))
+
+        matrix[all_functions.index("home_expected"), all_functions.index("login_expected")] = 0.9
+        matrix[all_functions.index("home_expected"), all_functions.index("login_unexpected")] = 0.1
+
+        matrix[all_functions.index("login_unexpected"), all_functions.index("login_unexpected")] = 0.02
+        matrix[all_functions.index("login_unexpected"), all_functions.index("login_expected")] = 0.98
+
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_expected")] = 0.8
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_unexpected")] = 0.2
+
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_expected")] = 0.95
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_unexpected")] = 0.05
+
+        matrix[all_functions.index("search_departure_expected"), all_functions.index("start_booking_expected")] = 1
+
+        matrix[all_functions.index("start_booking_expected"), all_functions.index("get_assurance_types_expected")] = 1
+
+        matrix[all_functions.index("get_assurance_types_expected"), all_functions.index("get_foods_expected")] = 1
+
+        matrix[all_functions.index("get_foods_expected"), all_functions.index("select_contact_expected")] = 1
+
+        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_expected")] = 0.8
+
+        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_unexpected")] = 0.2
+
+        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_expected")] = 0.95
+        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_unexpected")] = 0.05
+
+        matrix[all_functions.index("finish_booking_expected"), all_functions.index("select_order_expected")] = 1
+
+        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_expected")] = 0.8
+        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_unexpected")] = 0.2
+
+        matrix[all_functions.index("pay_expected"), all_functions.index("get_consigns_expected")] = 1
+
+        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_expected")] = 0.95
+
+        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_unexpected")] = 0.05
+
+        matrix[all_functions.index('get_consigns_expected'), all_functions.index('confirm_consign_expected')] = 0.9
+        matrix[all_functions.index('get_consigns_expected'), all_functions.index('confirm_consign_unexpected')] = 0.1
+
+        matrix[all_functions.index('confirm_consign_unexpected'), all_functions.index('confirm_consign_expected')] = 0.95
+        matrix[all_functions.index('confirm_consign_unexpected'), all_functions.index('confirm_consign_unexpected')] = 0.05
+
+        matrix[all_functions.index('confirm_consign_expected'), all_functions.index('confirm_consign_expected')] = 1
 
         
         task_sequence = sequence_generator(matrix, all_functions)
@@ -412,7 +457,6 @@ class UserConsignTicket(HttpUser):
         print(task_sequence)
         for task in task_sequence:
             Requests.perform_task(self, task)
-
 
 class UserCancelNoRefund(HttpUser):
     wait_time = constant(1)
@@ -438,7 +482,52 @@ class UserCancelNoRefund(HttpUser):
             "cancel_with_no_refund_expected",
             "cancel_with_no_refund_unexpected"
         ]
+
         matrix = np.zeros((len(all_functions),len(all_functions)))
+
+        matrix[all_functions.index("home_expected"), all_functions.index("login_expected")] = 0.9
+        matrix[all_functions.index("home_expected"), all_functions.index("login_unexpected")] = 0.1
+
+        matrix[all_functions.index("login_unexpected"), all_functions.index("login_unexpected")] = 0.02
+        matrix[all_functions.index("login_unexpected"), all_functions.index("login_expected")] = 0.98
+
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_expected")] = 0.8
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_unexpected")] = 0.2
+
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_expected")] = 0.95
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_unexpected")] = 0.05
+
+        matrix[all_functions.index("search_departure_expected"), all_functions.index("start_booking_expected")] = 1
+
+        matrix[all_functions.index("start_booking_expected"), all_functions.index("get_assurance_types_expected")] = 1
+
+        matrix[all_functions.index("get_assurance_types_expected"), all_functions.index("get_foods_expected")] = 1
+
+        matrix[all_functions.index("get_foods_expected"), all_functions.index("select_contact_expected")] = 1
+
+        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_expected")] = 0.8
+
+        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_unexpected")] = 0.2
+
+        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_expected")] = 0.95
+        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_unexpected")] = 0.05
+
+        matrix[all_functions.index("finish_booking_expected"), all_functions.index("select_order_expected")] = 1
+
+        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_expected")] = 0.8
+        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_unexpected")] = 0.2
+
+        matrix[all_functions.index("pay_expected"), all_functions.index("cancel_with_no_refund_expected")] = 0.8
+        matrix[all_functions.index("pay_expected"), all_functions.index("cancel_with_no_refund_unexpected")] = 0.2
+
+        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_expected")] = 0.95
+        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_unexpected")] = 0.05
+
+        matrix[all_functions.index("cancel_with_no_refund_expected"), all_functions.index("cancel_with_no_refund_expected")] = 1
+
+        matrix[all_functions.index("cancel_with_no_refund_unexpected"), all_functions.index("cancel_with_no_refund_expected")] = 0.95
+        matrix[all_functions.index("cancel_with_no_refund_unexpected"), all_functions.index("cancel_with_no_refund_unexpected")] = 0.05
+
         
         task_sequence = sequence_generator(matrix, all_functions)
         logging.debug(
@@ -446,6 +535,7 @@ class UserCancelNoRefund(HttpUser):
         print(task_sequence)
         for task in task_sequence:
             Requests.perform_task(self, task)
+
 
 
 class UserRefundVoucher(HttpUser):
@@ -471,7 +561,54 @@ class UserRefundVoucher(HttpUser):
             "get_voucher_expected",
             "get_voucher_unexpected"
         ]
+
+
         matrix = np.zeros((len(all_functions),len(all_functions)))
+
+
+        matrix[all_functions.index("home_expected"), all_functions.index("login_expected")] = 0.9
+        matrix[all_functions.index("home_expected"), all_functions.index("login_unexpected")] = 0.1
+
+        matrix[all_functions.index("login_unexpected"), all_functions.index("login_unexpected")] = 0.02
+        matrix[all_functions.index("login_unexpected"), all_functions.index("login_expected")] = 0.98
+
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_expected")] = 0.8
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_unexpected")] = 0.2
+
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_expected")] = 0.95
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_unexpected")] = 0.05
+
+        matrix[all_functions.index("search_departure_expected"), all_functions.index("start_booking_expected")] = 1
+
+        matrix[all_functions.index("start_booking_expected"), all_functions.index("get_assurance_types_expected")] = 1
+
+        matrix[all_functions.index("get_assurance_types_expected"), all_functions.index("get_foods_expected")] = 1
+
+        matrix[all_functions.index("get_foods_expected"), all_functions.index("select_contact_expected")] = 1
+
+        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_expected")] = 0.8
+
+        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_unexpected")] = 0.2
+
+        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_expected")] = 0.95
+        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_unexpected")] = 0.05
+
+        matrix[all_functions.index("finish_booking_expected"), all_functions.index("select_order_expected")] = 1
+
+        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_expected")] = 0.8
+        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_unexpected")] = 0.2
+
+        matrix[all_functions.index("pay_expected"), all_functions.index("get_voucher_expected")] = 0.8
+        matrix[all_functions.index("pay_expected"), all_functions.index("get_voucher_unexpected")] = 0.2
+
+        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_expected")] = 0.95
+        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_unexpected")] = 0.05
+
+        matrix[all_functions.index("get_voucher_expected"), all_functions.index("get_voucher_expected")] = 1
+
+        matrix[all_functions.index("get_voucher_unexpected"), all_functions.index("get_voucher_expected")] = 0.95
+        matrix[all_functions.index("get_voucher_unexpected"), all_functions.index("get_voucher_unexpected")] = 0.05
+
         
         task_sequence = sequence_generator(matrix, all_functions)
         logging.debug(
@@ -480,4 +617,4 @@ class UserRefundVoucher(HttpUser):
         for task in task_sequence:
             Requests.perform_task(self, task)
 
-'''
+
