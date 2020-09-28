@@ -37,23 +37,23 @@ def flatten_hierarchy(y):
 
 
 def get_docker_stats(client, bucket, org, write_api, test_case_name):
-    for container in client.containers.list():
-        stats = container.stats(stream=False)
+    while True:
+        for container in client.containers.list():
+            stats = container.stats(stream=False)
 
-        data = {"tags": {}, "fields": {}}
-        data["measurement"] = "docker_stats"
-        data["time"] = stats["read"]
-        data["tags"]["test_case_name"] = test_case_name
-        data["tags"]["container"] = container.name
-        data["fields"]["cpu_usage"] = stats["cpu_stats"]["cpu_usage"]["total_usage"]
-        data["fields"]["memory_usage"] = stats["memory_stats"]["usage"]
-        data["fields"]["memory_max_usage"] = stats["memory_stats"]["max_usage"]
+            data = {"tags": {}, "fields": {}}
+            data["measurement"] = "docker_stats"
+            data["time"] = stats["read"]
+            data["tags"]["test_case_name"] = test_case_name
+            data["tags"]["container"] = container.name
+            data["fields"]["cpu_usage"] = stats["cpu_stats"]["cpu_usage"]["total_usage"]
+            data["fields"]["memory_usage"] = stats["memory_stats"]["usage"]
+            data["fields"]["memory_max_usage"] = stats["memory_stats"]["max_usage"]
 
-        record = Point.from_dict(data)
-        write_api.write(bucket, org, record)
+            record = Point.from_dict(data)
+            write_api.write(bucket, org, record)
 
-    #time.sleep(60)
-    get_docker_stats(client, bucket, org, write_api, test_case_name)
+        time.sleep(60)  # Configure
 
 
 def perform_test(configuration, section, repetition, overwrite_existing_results):
@@ -159,7 +159,8 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         out_file = os.path.splitext(driver)[0] + ".out"
         csv_prefix = os.path.join(os.path.dirname(driver), "result")
         logging.info(f"Running the load test for {test_id}, with {load} users, running for {run_time} seconds.")
-        run_external_applicaton(f'locust --locustfile {driver} --host {host} --users {load} --spawn-rate {spawn_rate} --run-time {run_time}s --headless --only-summary --csv {csv_prefix} --csv-full-history --logfile "{log_file}" >> {out_file} 2> {out_file}', False)
+        run_external_applicaton(
+            f'locust --locustfile {driver} --host {host} --users {load} --spawn-rate {spawn_rate} --run-time {run_time}s --headless --only-summary --csv {csv_prefix} --csv-full-history --logfile "{log_file}" >> {out_file} 2> {out_file}', False)
 
         if len(command_to_execute_at_a_test) > 0:
             run_external_applicaton(f"{command_to_execute_at_a_test}")

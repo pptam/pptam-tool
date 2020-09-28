@@ -27,7 +27,6 @@ def sequence_generator(matrix, all_functions):
     array.append(all_functions[0])
 
     while(i < 10):
-        # works(?)
         if(1 in matrix[current_node] and matrix[current_node].tolist().index(1) == current_node):
             break
         selection = random.choices(
@@ -96,11 +95,13 @@ class Requests():
                                      name=sys._getframe().f_code.co_name)
         response_as_json2 = json.loads(response2.content)["data"]
 
-    # def get_client_login(self, _expected):
-    #     self.client.get('/client_login.html', name=sys._getframe().f_code.co_name)
+    def _navigate_to_client_login(self):
+        self.client.get('/client_login.html', name=sys._getframe().f_code.co_name)
 
     def login(self, expected):
         Requests._create_user(self, expected)
+
+        _navigate_to_client_login(self)
         if(expected):
             response = self.client.post(url="/api/v1/users/login",
                                         json={
