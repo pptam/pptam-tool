@@ -84,17 +84,17 @@ class Requests():
 
     def search_departure(self, expected):
         if(expected):
-            Requests.search_ticket(self, "2020-10-06", "Shang Hai", "Su Zhou")
+            Requests.search_ticket(self, date.today().strftime("%Y-%m-%d"), "Shang Hai", "Su Zhou")
         else:
             Requests.search_ticket(
-                self, "2020-10-06", "DOES NOT EXIST", "Su Zhou")
+                self, date.today().strftime("%Y-%m-%d"), "DOES NOT EXIST", "Su Zhou")
 
     def search_return(self, expected):
         if(expected):
-            Requests.search_ticket(self, "2020-10-06", "Su Zhou", "Shang Hai")
+            Requests.search_ticket(self, date.today().strftime("%Y-%m-%d"), "Su Zhou", "Shang Hai")
         else:
             Requests.search_ticket(
-                self, "2020-10-06", "DOES NOT EXIST", "Shang Hai")
+                self, date.today().strftime("%Y-%m-%d"), "DOES NOT EXIST", "Shang Hai")
 
     def _create_user(self, _expected):
         start_time = time.time()
