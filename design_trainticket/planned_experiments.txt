@@ -1,0 +1,16 @@
+1 minuto di ramp up
+30 minuti
+
+50 utenti
+
+tutti i tipi di utenti - weight uguale
+- output:
+  - response time
+  - cpu utilization
+  - memory utilization
+  - jaeger output
+  - distribuzione dei response code 
+
+
+- esperimento 1: input validi
+- esperimento 2: input validi e non validi

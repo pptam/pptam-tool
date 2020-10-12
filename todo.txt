@@ -1,0 +1,5 @@
+Finire locustfile
+- definiamo la matrice standard
+Integrare Jaeger
+Loggare input e output per ogni chiamata
+

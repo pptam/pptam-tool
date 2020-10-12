@@ -144,3 +144,5 @@ cython_debug/
 /execute/faban/output
 /installation/.join-token-worker
 /installation/.vagrant/machines
+/db/influxdb*
+/ui/grafana*

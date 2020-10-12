@@ -6,7 +6,7 @@ This script executes test cases based on the tests defined using `create_test`.
 
 ## Requirements
 
-- Python 3.7
+- Python 3.8
 
 ## How to run
 

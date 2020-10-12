@@ -1,50 +1,106 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3.8
 
 import os
 import time
 import argparse
 import logging
-from os import path
-import json
-from time import sleep
-import subprocess
 import shutil
 import configparser
-import uuid
-from datetime import datetime
-from lib import progress, run_external_applicaton, wait, replace_values_in_file
-import psutil
+import datetime
+import requests
+import threading
+import docker
+from influxdb_client import InfluxDBClient, Point
+from influxdb_client.client.write_api import SYNCHRONOUS
+import csv
+
+from lib import run_external_applicaton, replace_values_in_file
 
 
-def add_faban_job(configuration, section, repetition):
-    output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
-    if not path.isdir(output):
-        logging.debug(f"Creating {output}, since it does not exist.")
-        os.makedirs(output)
+def flatten_hierarchy(y):
+    out = {}
 
-    path_to_benchmark = path.abspath("./benchmark")
-    path_to_drivers = path.abspath("./drivers")
-    path_to_temp = path.join(path_to_drivers, "tmp")
+    def flatten(x, name=''):
+        if type(x) is dict:
+            for a in x:
+                flatten(x[a], name + a + '.')
+        elif type(x) is list:
+            i = 0
+            for a in x:
+                flatten(a, name + str(i) + '.')
+                i += 1
+        else:
+            out[name[:-1]] = x
 
-    now = datetime.now()
-    test_id = configuration[section]["test_case_prefix"].lower() + "-" + \
-        now.strftime("%Y%m%d%H%M%S") + "-" + section.lower() + "-" + str(repetition+1)
-    logging.debug(f"Generating a test with the id {test_id} in {path_to_temp}.")
+    flatten(y)
+    return out
 
-    if path.isdir(path_to_temp):
-        shutil.rmtree(path_to_temp)
 
-    logging.debug(f"Creating new job, based on the templates in {path_to_benchmark}.")
-    shutil.copytree(path_to_benchmark, path_to_temp)
-    if not os.path.exists(path.join(path_to_temp, "deploy")):
-        os.makedirs(path.join(path_to_temp, "deploy"))
-    if not os.path.exists(path.join(path_to_temp, "src", "pptam", "driver")):
-        os.makedirs(path.join(path_to_temp, "src", "pptam", "driver"))
-    if not os.path.exists(path.join(path_to_temp, "src", "pptam", "harness")):
-        os.makedirs(path.join(path_to_temp, "src", "pptam", "harness"))
-    shutil.copyfile(path.join(design_path, configuration[section]["deployment_descriptor"]), path.join(path_to_temp, "deploy", configuration[section]["deployment_descriptor"]))
-    shutil.copyfile(path.join(design_path, configuration[section]["faban_driver"]), path.join(path_to_temp, "src", "pptam", "driver", configuration[section]["faban_driver"]))
-    shutil.copyfile(path.join(design_path, configuration[section]["faban_benchmark"]), path.join(path_to_temp, "src", "pptam", "harness", configuration[section]["faban_benchmark"]))
+def get_docker_stats(client, bucket, org, write_api, test_case_name):
+    while True:
+        for container in client.containers.list():
+            stats = container.stats(stream=False)
+
+            data = {"tags": {}, "fields": {}}
+            data["measurement"] = "docker_stats"
+            data["time"] = stats["read"]
+            data["tags"]["test_case_name"] = test_case_name
+            data["tags"]["container"] = container.name
+            data["fields"]["cpu_usage"] = stats["cpu_stats"]["cpu_usage"]["total_usage"]
+            data["fields"]["memory_usage"] = stats["memory_stats"]["usage"]
+            data["fields"]["memory_max_usage"] = stats["memory_stats"]["max_usage"]
+
+            record = Point.from_dict(data)
+            write_api.write(bucket, org, record)
+
+        time.sleep(60)  # Configure
+
+
+def perform_test(configuration, section, repetition, overwrite_existing_results):
+    logging.debug(f"Checking if InfluxDB is up...")
+    try:
+        response = requests.get(url=configuration[section]["influxdb_url"] + "/health")
+        data = response.json()
+        if data["status"] != "pass":
+            logging.fatal(f"InfluxDB health check was not successful.")
+            raise SystemExit()
+
+        logging.debug(f"Checking if InfluxDB is up...")
+    except requests.exceptions.RequestException:  # This is the correct syntax
+        logging.fatal(f"InfluxDB is down, please start it before executing tests.")
+        raise SystemExit()
+
+    command_to_execute_before_a_test = configuration["DEFAULT"]["pre_exec_external_command"]
+    command_to_execute_after_a_test = configuration["DEFAULT"]["post_exec_external_command"]
+    command_to_execute_at_a_test = configuration["DEFAULT"]["on_exec_external_command"]
+
+    now = datetime.datetime.now()
+    test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower() + "-" + str(repetition + 1)
+    test_id = now.strftime("%Y%m%d%H%M%S") + "-" + test_id_without_timestamp
+
+    all_outputs = os.path.abspath(os.path.join("./executed"))
+    if not os.path.isdir(all_outputs):
+        logging.debug(f"Creating {all_outputs}, since it does not exist.")
+        os.makedirs(all_outputs)
+    if any(x.endswith(test_id_without_timestamp) for x in os.listdir(all_outputs)):
+        if overwrite_existing_results:
+            name_of_existing_folder = next(x for x in os.listdir(all_outputs) if x.endswith(test_id_without_timestamp))
+            logging.warning(f"Deleting {name_of_existing_folder}, since it already exists and the --override flag is set.")
+            shutil.rmtree(os.path.join(all_outputs, name_of_existing_folder))
+        else:
+            logging.warning(f"Skipping test {test_id_without_timestamp}, since it already exists. Use --overwrite in case.")
+            return
+
+    output = os.path.join(all_outputs, test_id)
+    os.makedirs(output)
+
+    deployment_descriptor = f"{output}/docker-compose.yml"
+    driver = f"{output}/locustfile.py"
+
+    logging.debug(f"Creating a folder name {test_id} in {output}.")
+    if os.path.exists(os.path.join(design_path, "docker-compose.yml")):
+        shutil.copyfile(os.path.join(design_path, "docker-compose.yml"), deployment_descriptor)
+    shutil.copyfile(os.path.join(design_path, "locustfile.py"), driver)
 
     replacements = []
     for entry in configuration[section].keys():
@@ -54,42 +110,152 @@ def add_faban_job(configuration, section, repetition):
     replacements.append({"search_for": "${TEST_NAME}", "replace_with": test_id})
 
     logging.debug(f"Replacing values.")
-    replace_values_in_file(path.join(path_to_temp, "build.properties"), replacements)
-    replace_values_in_file(path.join(path_to_temp, "deploy", "run.xml"), replacements)
-    shutil.copyfile(path.join(path_to_temp, "deploy", "run.xml"), path.join(path_to_temp, "config", "run.xml"))
-    replace_values_in_file(path.join(path_to_temp, "src", "pptam", "driver", configuration[section]["faban_driver"]), replacements)
-    replace_values_in_file(path.join(path_to_temp, "src", "pptam", "harness", configuration[section]["faban_benchmark"]), replacements)
-    replace_values_in_file(path.join(path_to_temp, "deploy", configuration[section]["deployment_descriptor"]), replacements)
+    if os.path.exists(deployment_descriptor):
+        replace_values_in_file(deployment_descriptor, replacements)
+    replace_values_in_file(driver, replacements)
 
-    logging.debug("Compiling the Faban benchmark")
-    current_folder = os.getcwd()
-    os.chdir(path_to_temp)
-    command = "ant deploy.jar -q -S"
-    result = os.system(command)
-    os.chdir(current_folder)
-
-    if result != 0:
-        logging.fatal(f"Could not compile job in {path_to_temp}.")
-        quit()
-
-    path_to_output = path.join(path.abspath(output), test_id)
-    logging.info(f"Writing the job into {path_to_output}.")
-
-    os.makedirs(path_to_output)
-    shutil.copyfile(path.join(path_to_temp, "build", f"{test_id}.jar"), path.join(path_to_output, f"{test_id}.jar"))
-    shutil.copyfile(path.join(path_to_temp, "config", "run.xml"), path.join(path_to_output, "run.xml"))
-    shutil.copyfile(path.join(path_to_temp, "deploy", "docker-compose.yml"), path.join(path_to_output, "docker-compose.yml"))
-
-    with open(path.join(path_to_output, "configuration.txt"), "w") as f:
+    with open(os.path.join(output, "configuration.txt"), "w") as f:
         for option in configuration.options(section):
             f.write(f"{option}={configuration[section][option]}\n")
 
-    shutil.move(path_to_temp, path.join(path_to_drivers, test_id))
+    logging.info(f"Executing test case {test_id}.")
+
+    if (len(command_to_execute_before_a_test) > 0):
+        run_external_applicaton(f"{command_to_execute_before_a_test}")
+
+    seconds_to_wait_for_deployment = int(configuration["DEFAULT"]["test_case_waiting_for_deployment_in_seconds"])
+    seconds_to_wait_for_undeployment = int(configuration["DEFAULT"]["test_case_waiting_for_undeployment_in_seconds"])
+
+    sut_hostname = configuration["DEFAULT"]["docker_sut_hostname"]
+    docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
+
+    token = configuration[section]["influxdb_token"]
+    org = configuration[section]["influxdb_organization"]
+    bucket = configuration[section]["influxdb_bucket"]
+    client = InfluxDBClient(url=configuration[section]["influxdb_url"], token=token)
+    write_api = client.write_api(write_options=SYNCHRONOUS)
+
+    try:
+        if os.path.exists(deployment_descriptor):
+            command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
+            run_external_applicaton(command_deploy_stack)
+            logging.info(f"Waiting for {seconds_to_wait_for_deployment} seconds to allow the application to deploy.")
+            time.sleep(seconds_to_wait_for_deployment)
+
+        run_docker_stats_in_background = threading.Thread(target=get_docker_stats, args=(
+            docker_client,
+            bucket,
+            org,
+            write_api,
+            test_id_without_timestamp,
+        ), daemon=True)
+        run_docker_stats_in_background.start()
+
+        host = configuration["DEFAULT"]["locust_host_url"]
+        load = configuration["DEFAULT"]["load"]
+        spawn_rate = configuration["DEFAULT"]["spawn_rate_per_second"]
+        run_time = configuration["DEFAULT"]["run_time_in_seconds"]
+        log_file = os.path.splitext(driver)[0] + ".log"
+        out_file = os.path.splitext(driver)[0] + ".out"
+        csv_prefix = os.path.join(os.path.dirname(driver), "result")
+        logging.info(f"Running the load test for {test_id}, with {load} users, running for {run_time} seconds.")
+        run_external_applicaton(
+            f'locust --locustfile {driver} --host {host} --users {load} --spawn-rate {spawn_rate} --run-time {run_time}s --headless --only-summary --csv {csv_prefix} --csv-full-history --logfile "{log_file}" >> {out_file} 2> {out_file}', False)
+
+        if len(command_to_execute_at_a_test) > 0:
+            run_external_applicaton(f"{command_to_execute_at_a_test}")
+
+        if (len(command_to_execute_after_a_test) > 0):
+            run_external_applicaton(f"{command_to_execute_after_a_test}")
+    finally:
+        if os.path.exists(deployment_descriptor):
+            command_undeploy_stack = f"docker stack rm {test_id}"
+            run_external_applicaton(command_undeploy_stack, False)
+            logging.info(f"Waiting for {seconds_to_wait_for_undeployment} seconds to allow the application to undeploy.")
+            time.sleep(seconds_to_wait_for_undeployment)
+
+    logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
+
+    with open(os.path.join(output, "result_stats.csv"), "r") as f1:
+        reader = csv.DictReader(f1)
+        for row in reader:
+            data = {"tags": {}, "fields": {}}
+            data["tags"]["test_case_name"] = test_id_without_timestamp
+            data["tags"]["type"] = row["Type"]
+            data["tags"]["name"] = row["Name"]
+            data["fields"]["request_count"] = int(row["Request Count"])
+            data["fields"]["failure_count"] = int(row["Failure Count"])
+            data["fields"]["median_response_time"] = float(row["Median Response Time"])
+            data["fields"]["average_response_time"] = float(row["Average Response Time"])
+            data["fields"]["min_response_time"] = float(row["Min Response Time"])
+            data["fields"]["max_response_time"] = float(row["Max Response Time"])
+            data["fields"]["average_content_size"] = float(row["Average Content Size"])
+            data["fields"]["requests_per_second"] = float(row["Requests/s"])
+            data["fields"]["failures_per_second"] = float(row["Failures/s"])
+            for i in ["50%", "66%", "75%", "80%", "90%", "95%", "98%", "99%", "99.9%", "99.99%", "100%"]:
+                if row[i] != "N/A":
+                    data["fields"]["percentile_" + i[:-1]] = float(row[i])
+
+            if row["Name"] != "Aggregated":
+                data["measurement"] = "response_time"
+                data["tags"]["type"] = row["Type"]
+                data["tags"]["name"] = row["Name"]
+            else:
+                data["measurement"] = "response_time_aggregated"
+
+            record = Point.from_dict(data)
+            write_api.write(bucket, org, record)
+
+    with open(os.path.join(output, "result_stats_history.csv"), "r") as f2:
+        reader = csv.DictReader(f2)
+        for row in reader:
+            data = {"tags": {}, "fields": {}}
+            data["time"] = datetime.datetime.fromtimestamp(int(row["Timestamp"]))
+            data["tags"]["test_case_name"] = test_id_without_timestamp
+            data["tags"]["type"] = row["Type"]
+            data["tags"]["name"] = row["Name"]
+            data["fields"]["currently_running_users"] = int(row["User Count"])
+            data["fields"]["total_request_count"] = int(row["Total Request Count"])
+            data["fields"]["total_failure_count"] = int(row["Total Failure Count"])
+            data["fields"]["total_median_response_time"] = float(row["Total Median Response Time"])
+            data["fields"]["total_average_response_time"] = float(row["Total Average Response Time"])
+            data["fields"]["total_min_response_time"] = float(row["Total Min Response Time"])
+            data["fields"]["total_max_response_time"] = float(row["Total Max Response Time"])
+            data["fields"]["total_average_content_size"] = float(row["Total Average Content Size"])
+            data["fields"]["requests_per_second"] = float(row["Requests/s"])
+            data["fields"]["failures_per_second"] = float(row["Failures/s"])
+            for i in ["50%", "66%", "75%", "80%", "90%", "95%", "98%", "99%", "99.9%", "99.99%", "100%"]:
+                if row[i] != "N/A":
+                    data["fields"]["percentile_" + i[:-1]] = float(row[i])
+
+            if row["Name"] != "Aggregated":
+                data["measurement"] = "response_time_history"
+                data["tags"]["type"] = row["Type"]
+                data["tags"]["name"] = row["Name"]
+            else:
+                data["measurement"] = "response_time_history_aggregated"
+
+            record = Point.from_dict(data)
+            write_api.write(bucket, org, record)
+
+    with open(os.path.join(output, "result_failures.csv"), "r") as f3:
+        reader = csv.DictReader(f3)
+        for row in reader:
+            data = {"tags": {}, "fields": {}}
+            data["tags"]["test_case_name"] = test_id_without_timestamp
+            data["tags"]["type"] = row["Method"]
+            data["tags"]["name"] = row["Name"]
+            data["fields"]["error"] = row["Error"]
+            data["fields"]["occurrences"] = int(row["Occurrences"])
+            data["measurement"] = "failures"
+
+            record = Point.from_dict(data)
+            write_api.write(bucket, org, record)
 
 
-def prepare_execution(design_path):
+def execute_test(design_path, overwrite_existing_results):
     configuration = configparser.ConfigParser()
-    configuration.read([path.join(design_path, "configuration.ini"), path.join(design_path, "test_plan.ini")])
+    configuration.read([os.path.join(design_path, "configuration.ini"), os.path.join(design_path, "test_plan.ini")])
 
     for section in configuration.sections():
         if section.lower().startswith("test"):
@@ -97,178 +263,24 @@ def prepare_execution(design_path):
             if enabled:
                 repeat = int(configuration[section]["repeat"])
                 for repetition in range(repeat):
-                    add_faban_job(configuration, section, repetition)
+                    perform_test(configuration, section, repetition, overwrite_existing_results)
 
     logging.info(f"Done.")
 
 
-def run_faban_if_it_is_not_running_yet(faban_client, faban_master):
-    is_running = False
-    for p in psutil.process_iter():
-        if "faban" in " ".join(p.cmdline()).lower():
-            is_running = True
-
-    if not is_running:
-        logging.warning(f"Starting Faban since it is not running.")
-        current_folder = os.getcwd()
-        os.chdir("./faban/master/bin")
-        os.system("./startup.sh")
-        os.chdir(current_folder)
-
-
-def execute_test(design_path):
-    configuration = configparser.ConfigParser()
-    configuration.read(path.join(design_path, "configuration.ini"))
-
-    input = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
-    if not path.isdir(input):
-        logging.fatal(f"Cannot find the test case folder {input}.")
-        raise RuntimeError
-    else:
-        logging.debug(f"Executing test cases from {input}.")
-
-    seconds_to_wait_for_deployment = int(configuration["DEFAULT"]["test_case_waiting_for_deployment_in_seconds"])
-    seconds_to_wait_for_undeployment = int(configuration["DEFAULT"]["test_case_waiting_for_undeployment_in_seconds"])
-    time_to_complete_one_test = seconds_to_wait_for_deployment + seconds_to_wait_for_undeployment + (((int(configuration["DEFAULT"]["test_case_ramp_up_in_seconds"]) + int(configuration["DEFAULT"]["test_case_steady_state_in_seconds"]) + int(configuration["DEFAULT"]["test_case_ramp_down_in_seconds"])) // 60) + 1) * 60
-    time_to_complete_all_tests = (len([name for name in os.listdir(f"{input}/") if os.path.isdir(f"{input}/{name}")]) * time_to_complete_one_test // 60) + 1
-    logging.info(f"Estimated duration of ONE test: approx. {time_to_complete_one_test} seconds.")
-    logging.info(f"Estimated duration of ALL tests: approx. {time_to_complete_all_tests} minutes.")
-
-    output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_executed_folder"]))
-    logging.debug(f"Storing results in {output}.")
-
-    faban_client = path.abspath("./faban/benchflow-faban-client/target/benchflow-faban-client.jar")
-    faban_master = f"http://{configuration['DEFAULT']['faban_ip']}:9980/"
-    run_faban_if_it_is_not_running_yet(faban_client, faban_master)
-
-    command_to_execute_before_a_test = configuration["DEFAULT"]["pre_exec_external_command"]
-    command_to_execute_after_a_test = configuration["DEFAULT"]["post_exec_external_command"]
-    command_to_execute_at_a_test = configuration["DEFAULT"]["on_exec_external_command"]
-    sut_ip = configuration["DEFAULT"]["sut_ip"]
-    sut_port = configuration["DEFAULT"]["sut_port"]
-
-    for f in os.scandir(input):
-        if (path.isdir(f)):
-            try:
-                logging.info(f"Executing test case {f.name}.")
-
-                if (len(command_to_execute_before_a_test) > 0):
-                    run_external_applicaton(f"{command_to_execute_before_a_test} {sut_ip} {sut_port}")
-
-                test_id = f.name
-                temporary_file = f"{test_id}.tmp"
-
-                test_output_path = f"{output}/{test_id}"
-                if path.isdir(test_output_path):
-                    logging.info(f"Removing path {test_output_path} since it already exists.")
-                    shutil.rmtree(path, ignore_errors=False, onerror=RuntimeError)
-
-                deployment_descriptor = f"{input}/{test_id}/docker-compose.yml"
-                command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
-
-                run_external_applicaton(command_deploy_stack)
-
-                logging.debug(f"Waiting for {seconds_to_wait_for_deployment} seconds.")
-                wait(seconds_to_wait_for_deployment, time_to_complete_one_test, "Waiting for deployment.", 0)
-                time_elapsed = seconds_to_wait_for_deployment
-
-                driver = f"{input}/{test_id}/{test_id}.jar"
-                driver_configuration = f"{input}/{test_id}/run.xml"
-                command_deploy_faban = f"java -jar {faban_client} {faban_master} deploy {test_id} {driver} {driver_configuration} > {temporary_file}"
-
-                run_external_applicaton(command_deploy_faban)
-
-                with open(temporary_file, "r") as f:
-                    std_out_deploy_faban = f.readline().rstrip()
-                run_id = std_out_deploy_faban
-                logging.debug(f"Obtained {run_id} as run ID.")
-                os.remove(temporary_file)
-
-                status = ""
-                external_tool_was_started = False
-
-                while ((status != "COMPLETED") and (status != "FAILED")):
-                    command_status_faban = f"java -jar {faban_client} {faban_master} status {run_id} > {temporary_file}"
-
-                    run_external_applicaton(command_status_faban)
-
-                    with open(temporary_file, "r") as f:
-                        std_out_status_faban = f.readline().rstrip()
-                    status = std_out_status_faban
-                    os.remove(temporary_file)
-                    logging.debug(f"Current Faban status: {status}.")
-
-                    if (status == "STARTED" and external_tool_was_started == False and len(command_to_execute_before_a_test) > 0):
-                        external_tool_was_started = True
-                        run_external_applicaton(f"{command_to_execute_at_a_test} {sut_ip} {sut_port}")
-
-                    if ((status != "COMPLETED") and (status != "FAILED")):
-                        if time_elapsed < time_to_complete_one_test:
-                            wait_until = 60
-                        else:
-                            wait_until = 10
-
-                        logging.debug(f"Waiting for {wait_until} seconds.")
-                        wait(wait_until, time_to_complete_one_test, "Waiting for test to finish.", time_elapsed, time_to_complete_one_test - seconds_to_wait_for_undeployment)
-                        time_elapsed += wait_until
-
-                if (len(command_to_execute_after_a_test) > 0):
-                    run_external_applicaton(f"{command_to_execute_after_a_test} {sut_ip} {sut_port}")
-            finally:
-                command_undeploy_stack = f"docker stack rm {test_id}"
-                run_external_applicaton(command_undeploy_stack, False)
-
-                if path.isfile(temporary_file):
-                    os.remove(temporary_file)
-
-            if (status == "COMPLETED"):
-                logging.debug(f"Waiting for {seconds_to_wait_for_undeployment} seconds.")
-                wait(seconds_to_wait_for_undeployment, time_to_complete_one_test, "Waiting for undeployment.  ", time_elapsed)
-                progress(time_to_complete_one_test, time_to_complete_one_test, "Done.                      \n")
-
-                os.makedirs(test_output_path)
-                shutil.copytree(f"./faban/output/{run_id}", f"{test_output_path}/faban")
-                shutil.move(f"{input}/{test_id}", f"{test_output_path}/definition")
-
-                command_info_faban = f"java -jar {faban_client} {faban_master} info {run_id} > {test_output_path}/faban/runInfo.txt"
-                run_external_applicaton(command_info_faban)
-
-                logging.info(f"Test {test_id} completed. Test results can be found in {test_output_path}.")
-            else:
-                progress(time_to_complete_one_test, time_to_complete_one_test, "Failed.                    \n")
-                logging.fatal(f"Test {test_id} with run id {run_id} failed.")
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
-    parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder", default="../design")
+    parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder")
     parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)
-    parser.add_argument("--cleanup", help="Deletes all temporary data", action="store_true")
-    parser.add_argument("--prepare", help="Prepares tests but does not execute them", action="store_true")
+    parser.add_argument("--overwrite", help="Overwrite existing test cases", action='store_true', default=False)
 
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
 
     design_path = args.design
-    if not path.exists(design_path):
-        logging.fatal(f"Cannot find the design folder {design_path}.")
+    if design_path == None or (not os.path.exists(design_path)):
+        logging.fatal(f"Cannot find the design folder. Please indicate one with the parameter --design")
         quit()
 
-    configuration = configparser.ConfigParser()
-    configuration.read(path.join(design_path, "configuration.ini"))
-
-    output = path.abspath(path.join("./", configuration["DEFAULT"]["test_case_creation_folder"]))
-    if args.cleanup or args.prepare:
-        logging.warning(f"Cleaning up jobs in {output}.")
-        if path.isdir(output):
-            shutil.rmtree(output)
-
-    if path.isdir(output) and len(os.listdir(output)) > 0:
-        logging.info(f"Found exiting jobs in {output}, continue execution.")
-    else:
-        logging.info(f"Generating jobs.")
-        prepare_execution(design_path)
-
-    if not args.prepare:
-        execute_test(design_path)
+    execute_test(design_path, args.overwrite)

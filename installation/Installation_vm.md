@@ -16,8 +16,9 @@ Please carry out the following steps:
         - `vagrant halt` to turn both machines off;
         - `vagrant up` to turn both machines on; and
         - `vagrant destroy` to delete the machines.
+        - `vagrant reload` to reboot the machines.
 
-    5.  Now, carrying out the following commands:
+    5.  Now, execute the following commands:
 
         - `vagrant ssh driver`
         - `cd /vagrant/scripts/`

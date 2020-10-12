@@ -13,13 +13,10 @@ echo "                                                  |_|    ";
 docker swarm init --advertise-addr $1 --listen-addr $1
 docker swarm join-token -q worker > /vagrant/.join-token-worker
 
-# Java installation
-apt install -y openjdk-8-jdk ant python3.7 python3.7-dev
-echo JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/" >> /etc/environment
-
-# Making sure python works
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1
-sudo update-alternatives --set python /usr/bin/python3.7
+# Python installation
+apt install -y python3.8 python3.8-dev
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
+sudo update-alternatives --set python /usr/bin/python3.8
 
 # Installion of Jupyter Notebook
 cd /home/vagrant
@@ -31,11 +28,16 @@ source /home/vagrant/.bashrc
 
 eval "$(/home/vagrant/miniconda/bin/conda shell.bash hook)"
 conda init
-conda install -c r r-essentials anaconda jupyter psutil -y
+conda install -c r r-essentials -y
+conda install -c conda-forge notebook -y
+conda install -c anaconda python=3.8 pip -y
+pip install requests locust psutil influxdb-client docker
 
 cp -r /vagrant/configuration/jupyter /home/vagrant/.jupyter
 
-# Update to the last version of Git
+# Update to the last version of Git and configure it
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo apt-get update
 sudo apt-get install git -y
+
+
