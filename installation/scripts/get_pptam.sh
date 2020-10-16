@@ -28,7 +28,7 @@ sudo apt-get install grafana -y
 
 # Cloning PPTAM from github
 sudo rm -rf pptam-tool
-git clone https://github.com/pptam/pptam-tool.git
+git clone --depth 1 https://github.com/pptam/pptam-tool.git
 
 cd pptam-tool
 echo Done.
