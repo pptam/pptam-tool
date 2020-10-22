@@ -9,7 +9,9 @@ import logging
 import sys
 import time
 import os
+import string
 
+MAX_REQUESTS = 10
 
 def matrix_checker(matrix):
     sum = np.sum(matrix, axis=1).tolist()
@@ -28,7 +30,7 @@ def sequence_generator(matrix, all_functions):
     array = []
     array.append(all_functions[0])
 
-    while(i < 10):
+    while(i < MAX_REQUESTS):
         if(1 in matrix[current_node] and matrix[current_node].tolist().index(1) == current_node):
             break
         selection = random.choices(
@@ -51,6 +53,26 @@ def do_log(logDict:dict):
 
     with open('log.json', 'w') as outfile:
         json.dump(data, outfile)
+
+def random_string_generator():
+    len = randint(8,16)
+    prob=randint(0,100)
+    if(prob<25):
+        random_string = ''.join([random.choice(string.ascii_letters) for n in range(len)])
+    elif(prob<50):
+        random_string = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(len)])
+    elif(prob<75):
+        random_string = ''.join([random.choice(string.ascii_letters + string.digits + string.punctuation ) for n in range(len)])
+    else:
+        random_string = ''
+    return random_string
+
+def random_date_generator():
+    temp = randint(0,4)
+    random_y = 2000 + temp*10 + randint(0,9)
+    random_m = randint(1,12)
+    random_d = randint(1,31) #assumendo che la data possa essere non sensata (e.g. 30 Febbraio)
+    return str(random_y)+'-'+str(random_m)+'-'+str(random_d)
 
 
 class Requests():
@@ -84,17 +106,17 @@ class Requests():
 
     def search_departure(self, expected):
         if(expected):
-            Requests.search_ticket(self, date.today().strftime("%Y-%m-%d"), "Shang Hai", "Su Zhou")
+            Requests.search_ticket(self, date.today().strftime(random_date_generator()), "Shang Hai", "Su Zhou")
         else:
             Requests.search_ticket(
-                self, date.today().strftime("%Y-%m-%d"), "DOES NOT EXIST", "Su Zhou")
+                self, date.today().strftime(random_date_generator()), random_string_generator(), "Su Zhou")
 
     def search_return(self, expected):
         if(expected):
-            Requests.search_ticket(self, date.today().strftime("%Y-%m-%d"), "Su Zhou", "Shang Hai")
+            Requests.search_ticket(self, date.today().strftime(random_date_generator()), "Su Zhou", "Shang Hai")
         else:
             Requests.search_ticket(
-                self, date.today().strftime("%Y-%m-%d"), "DOES NOT EXIST", "Shang Hai")
+                self, date.today().strftime(random_date_generator()), random_string_generator(), "Shang Hai")
 
     def _create_user(self, _expected):
         start_time = time.time()
@@ -104,7 +126,7 @@ class Requests():
                                          name="admin_login"
                                      ) as response1:
                                     do_log({'timestamp': int(time.time()), 'name': sys._getframe().f_code.co_name, 'level': 'debug', 'status_code': response1.status_code, 'response_time': time.time() - start_time, 'response': json.loads((response1.content).decode('utf-8'))})
-                
+
                                     response_as_json1 = json.loads(response1.content)["data"]
                                     token = response_as_json1["token"]
                                     self.bearer = "Bearer " + token
@@ -143,7 +165,7 @@ class Requests():
                                         json={
                                             "username": self.user_name,
                                             # wrong password
-                                            "password": "WRONGPASSWORD"
+                                            "password": random_string_generator()
                                         }, name=sys._getframe().f_code.co_name)
             do_log({'timestamp': int(time.time()), 'name': sys._getframe().f_code.co_name, 'level': 'debug', 'status_code': response.status_code,  'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
@@ -231,7 +253,7 @@ class Requests():
             body_for_reservation = {
                 "accountId": self.user_id,
                 "contactsId": self.contactid,
-                "tripId": "WRONG_TRIP_ID",
+                "tripId": random_string_generator(),
                 "seatType": "2",
                 "date": departure_date,
                 "from": "Shang Hai",
@@ -260,7 +282,7 @@ class Requests():
         start_time = time.time();
         response_order_refresh = self.client.post(url="/api/v1/orderservice/order/refresh", name=sys._getframe().f_code.co_name, headers=head, json={
             "loginId": self.user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"})
-        
+
         do_log({'timestamp': int(time.time()), 'name': sys._getframe().f_code.co_name, 'level': 'debug', 'status_code': response_order_refresh.status_code, 'response_time': time.time() - start_time,  'response': json.loads((response_order_refresh.content).decode('utf-8'))})
 
         response_as_json_order_id = json.loads(
@@ -278,7 +300,7 @@ class Requests():
 
         else:
             with self.client.post(url="/api/v1/inside_pay_service/inside_payment",
-                             headers=head, json={"orderId": "WRONGORDERID", "tripId": "D1345"}, name=sys._getframe().f_code.co_name) as response:
+                             headers=head, json={"orderId": random_string_generator(), "tripId": "D1345"}, name=sys._getframe().f_code.co_name) as response:
                              do_log({'timestamp': int(time.time()), 'name': sys._getframe().f_code.co_name, 'level': 'debug', 'status_code': response.status_code, 'response_time': time.time() - start_time,  'response': json.loads((response.content).decode('utf-8'))})
 
 
@@ -295,7 +317,7 @@ class Requests():
 
         else:
             with self.client.get(url="/api/v1/cancelservice/cancel/refound/" +
-                            self.order_id + "/" + "WRONGUSERID", headers=head, name=sys._getframe().f_code.co_name):
+                            self.order_id + "/" + random_string_generator(), headers=head, name=sys._getframe().f_code.co_name):
                             do_log({'timestamp': int(time.time()), 'name': sys._getframe().f_code.co_name, 'level': 'debug', 'status_code': response.status_code,  'response_time': time.time() - start_time,'response': json.loads((response.content).decode('utf-8'))})
 
 
@@ -312,7 +334,7 @@ class Requests():
 
         else:
             with self.client.post(url="/getVoucher", headers=head,
-                             json={"orderId": "WRONGID", "type": 1}, name=sys._getframe().f_code.co_name) as response:
+                             json={"orderId": random_string_generator(), "type": 1}, name=sys._getframe().f_code.co_name) as response:
                              do_log({'timestamp': int(time.time()), 'name': sys._getframe().f_code.co_name, 'level': 'debug', 'status_code': response.status_code, 'response_time': time.time() - start_time,'response': json.loads((response.content).decode('utf-8'))})
 
 
@@ -336,7 +358,7 @@ class Requests():
 
         else:
             response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns",  name=sys._getframe().f_code.co_name, json={"accountId": self.user_id, "handleDate": "2020-07-27", "from": "Shang Hai",
-                                                                                                                                          "to": "Su Zhou", "orderId": self.order_id, "consignee": "WRONGORDERID", "phone": "WRONGPHONENUMBER", "weight": "1", "id": "", "isWithin": "false"}, headers=head)
+                                                                                                                                          "to": "Su Zhou", "orderId": self.order_id, "consignee": random_string_generator(), "phone": random_string_generator(), "weight": "1", "id": "", "isWithin": "false"}, headers=head)
             do_log({'timestamp': int(time.time()), 'name': sys._getframe().f_code.co_name, 'level': 'debug', 'status_code': response_as_json_consign.status_code,  'response_time': time.time() - start_time,'response': json.loads((response_as_json_consign.content).decode('utf-8'))})
 
     def perform_task(self, name):
@@ -360,16 +382,19 @@ class UserNoLogin(HttpUser):
 
         matrix[all_functions.index("home_expected"), all_functions.index("search_departure_expected")] = 0.8
         matrix[all_functions.index("home_expected"), all_functions.index("search_departure_unexpected")] = 0.2
+
         matrix[all_functions.index("search_departure_expected"), all_functions.index("search_return_expected")] = 0.8
         matrix[all_functions.index("search_departure_expected"), all_functions.index("search_return_unexpected")] = 0.2
+
         matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_expected")] = 0.9
         matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_unexpected")] = 0.1
+
         matrix[all_functions.index("search_return_expected"), all_functions.index("search_return_expected")] = 1
         matrix[all_functions.index("search_return_unexpected"), all_functions.index("search_return_expected")] = 0.9
         matrix[all_functions.index("search_return_unexpected"), all_functions.index("search_return_unexpected")] = 0.1
 
         task_sequence = sequence_generator(matrix, all_functions)
-        
+
         print(task_sequence)
         for task in task_sequence:
             Requests.perform_task(self, task)
@@ -406,8 +431,8 @@ class UserBooking(HttpUser):
         matrix[all_functions.index("login_unexpected"), all_functions.index("login_unexpected")] = 0.02
         matrix[all_functions.index("login_unexpected"), all_functions.index("login_expected")] = 0.98
 
-        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_expected")] = 0.8
-        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_unexpected")] = 0.2
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_expected")] = 0.9 #0.8
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_unexpected")] = 0.1 #0.2
 
         matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_expected")] = 0.95
         matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_unexpected")] = 0.05
@@ -439,7 +464,7 @@ class UserBooking(HttpUser):
         matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_unexpected")] = 0.05
 
         task_sequence = sequence_generator(matrix, all_functions)
-       
+
         print(task_sequence)
         for task in task_sequence:
             Requests.perform_task(self, task)
@@ -471,17 +496,17 @@ class UserConsignTicket(HttpUser):
         ]
         matrix = np.zeros((len(all_functions), len(all_functions)))
 
-        matrix[all_functions.index("home_expected"), all_functions.index("login_expected")] = 0.9
-        matrix[all_functions.index("home_expected"), all_functions.index("login_unexpected")] = 0.1
+        matrix[all_functions.index("home_expected"), all_functions.index("login_expected")] = 0.8 #0.9
+        matrix[all_functions.index("home_expected"), all_functions.index("login_unexpected")] = 0.2 #0.1
 
-        matrix[all_functions.index("login_unexpected"), all_functions.index("login_unexpected")] = 0.02
-        matrix[all_functions.index("login_unexpected"), all_functions.index("login_expected")] = 0.98
+        matrix[all_functions.index("login_unexpected"), all_functions.index("login_unexpected")] = 0.15 #0.02
+        matrix[all_functions.index("login_unexpected"), all_functions.index("login_expected")] = 0.85 #0.98
 
-        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_expected")] = 0.8
-        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_unexpected")] = 0.2
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_expected")] = 0.7 #0.8
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_unexpected")] = 0.3 #0.2
 
-        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_expected")] = 0.95
-        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_unexpected")] = 0.05
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_expected")] = 0.85 #0.95
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_unexpected")] = 0.15 #0.05
 
         matrix[all_functions.index("search_departure_expected"), all_functions.index("start_booking_expected")] = 1
 
@@ -491,35 +516,34 @@ class UserConsignTicket(HttpUser):
 
         matrix[all_functions.index("get_foods_expected"), all_functions.index("select_contact_expected")] = 1
 
-        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_expected")] = 0.8
+        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_expected")] = 0.75 #0.8
 
-        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_unexpected")] = 0.2
+        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_unexpected")] = 0.25 #0.2
 
-        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_expected")] = 0.95
-        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_unexpected")] = 0.05
+        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_expected")] = 0.9 #0.95
+        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_unexpected")] = 0.1 #0.05
 
         matrix[all_functions.index("finish_booking_expected"), all_functions.index("select_order_expected")] = 1
 
-        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_expected")] = 0.8
-        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_unexpected")] = 0.2
+        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_expected")] = 0.7 #0.8
+        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_unexpected")] = 0.3 #0.2
 
         matrix[all_functions.index("pay_expected"), all_functions.index("get_consigns_expected")] = 1
 
-        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_expected")] = 0.95
+        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_expected")] = 0.85 #0.95
+        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_unexpected")] = 0.15 #0.05
 
-        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_unexpected")] = 0.05
+        matrix[all_functions.index('get_consigns_expected'), all_functions.index('confirm_consign_expected')] = 0.8 #0.9
+        matrix[all_functions.index('get_consigns_expected'), all_functions.index('confirm_consign_unexpected')] = 0.2 #0.1
 
-        matrix[all_functions.index('get_consigns_expected'), all_functions.index('confirm_consign_expected')] = 0.9
-        matrix[all_functions.index('get_consigns_expected'), all_functions.index('confirm_consign_unexpected')] = 0.1
-
-        matrix[all_functions.index('confirm_consign_unexpected'), all_functions.index('confirm_consign_expected')] = 0.95
-        matrix[all_functions.index('confirm_consign_unexpected'), all_functions.index('confirm_consign_unexpected')] = 0.05
+        matrix[all_functions.index('confirm_consign_unexpected'), all_functions.index('confirm_consign_expected')] = 0.9 #0.95
+        matrix[all_functions.index('confirm_consign_unexpected'), all_functions.index('confirm_consign_unexpected')] = 0.1 #0.05
 
         matrix[all_functions.index('confirm_consign_expected'), all_functions.index('confirm_consign_expected')] = 1
 
-        
+
         task_sequence = sequence_generator(matrix, all_functions)
-        
+
         print(task_sequence)
         for task in task_sequence:
             Requests.perform_task(self, task)
@@ -551,17 +575,17 @@ class UserCancelNoRefund(HttpUser):
 
         matrix = np.zeros((len(all_functions),len(all_functions)))
 
-        matrix[all_functions.index("home_expected"), all_functions.index("login_expected")] = 0.9
-        matrix[all_functions.index("home_expected"), all_functions.index("login_unexpected")] = 0.1
+        matrix[all_functions.index("home_expected"), all_functions.index("login_expected")] = 0.99 #0.9
+        matrix[all_functions.index("home_expected"), all_functions.index("login_unexpected")] = 0.01 #0.1
 
-        matrix[all_functions.index("login_unexpected"), all_functions.index("login_unexpected")] = 0.02
-        matrix[all_functions.index("login_unexpected"), all_functions.index("login_expected")] = 0.98
+        matrix[all_functions.index("login_unexpected"), all_functions.index("login_unexpected")] = 0.001 #0.02
+        matrix[all_functions.index("login_unexpected"), all_functions.index("login_expected")] = 0.999 #0.98
 
-        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_expected")] = 0.8
-        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_unexpected")] = 0.2
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_expected")] = 0.9 #0.8
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_unexpected")] = 0.1 #0.2
 
-        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_expected")] = 0.95
-        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_unexpected")] = 0.05
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_expected")] = 0.99 #0.95
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_unexpected")] = 0.01 #0.05
 
         matrix[all_functions.index("search_departure_expected"), all_functions.index("start_booking_expected")] = 1
 
@@ -571,33 +595,32 @@ class UserCancelNoRefund(HttpUser):
 
         matrix[all_functions.index("get_foods_expected"), all_functions.index("select_contact_expected")] = 1
 
-        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_expected")] = 0.8
+        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_expected")] = 0.99 #0.8
+        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_unexpected")] = 0.01 #0.2
 
-        matrix[all_functions.index("select_contact_expected"), all_functions.index("finish_booking_unexpected")] = 0.2
-
-        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_expected")] = 0.95
-        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_unexpected")] = 0.05
+        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_expected")] = 0.99 #0.95
+        matrix[all_functions.index("finish_booking_unexpected"), all_functions.index("finish_booking_unexpected")] = 0.01 #0.05
 
         matrix[all_functions.index("finish_booking_expected"), all_functions.index("select_order_expected")] = 1
 
-        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_expected")] = 0.8
-        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_unexpected")] = 0.2
+        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_expected")] = 0.99 #0.8
+        matrix[all_functions.index("select_order_expected"), all_functions.index("pay_unexpected")] = 0.01 #0.2
 
-        matrix[all_functions.index("pay_expected"), all_functions.index("cancel_with_no_refund_expected")] = 0.8
-        matrix[all_functions.index("pay_expected"), all_functions.index("cancel_with_no_refund_unexpected")] = 0.2
+        matrix[all_functions.index("pay_expected"), all_functions.index("cancel_with_no_refund_expected")] = 0.99 #0.8
+        matrix[all_functions.index("pay_expected"), all_functions.index("cancel_with_no_refund_unexpected")] = 0.01 #0.2
 
-        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_expected")] = 0.95
-        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_unexpected")] = 0.05
+        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_expected")] = 0.99 #0.95
+        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_unexpected")] = 0.01 #0.05
 
         matrix[all_functions.index("cancel_with_no_refund_expected"), all_functions.index("cancel_with_no_refund_expected")] = 1
 
-        matrix[all_functions.index("cancel_with_no_refund_unexpected"), all_functions.index("cancel_with_no_refund_expected")] = 0.95
-        matrix[all_functions.index("cancel_with_no_refund_unexpected"), all_functions.index("cancel_with_no_refund_unexpected")] = 0.05
+        matrix[all_functions.index("cancel_with_no_refund_unexpected"), all_functions.index("cancel_with_no_refund_expected")] = 0.99 #0.95
+        matrix[all_functions.index("cancel_with_no_refund_unexpected"), all_functions.index("cancel_with_no_refund_unexpected")] = 0.01 #0.05
 
-        
+
         task_sequence = sequence_generator(matrix, all_functions)
-       
-       
+
+
         print(task_sequence)
         for task in task_sequence:
             Requests.perform_task(self, task)
@@ -632,17 +655,17 @@ class UserRefundVoucher(HttpUser):
         matrix = np.zeros((len(all_functions),len(all_functions)))
 
 
-        matrix[all_functions.index("home_expected"), all_functions.index("login_expected")] = 0.9
-        matrix[all_functions.index("home_expected"), all_functions.index("login_unexpected")] = 0.1
+        matrix[all_functions.index("home_expected"), all_functions.index("login_expected")] = 0.85 #0.9
+        matrix[all_functions.index("home_expected"), all_functions.index("login_unexpected")] = 0.15 #0.1
 
-        matrix[all_functions.index("login_unexpected"), all_functions.index("login_unexpected")] = 0.02
-        matrix[all_functions.index("login_unexpected"), all_functions.index("login_expected")] = 0.98
+        matrix[all_functions.index("login_unexpected"), all_functions.index("login_unexpected")] = 0.1 #0.02
+        matrix[all_functions.index("login_unexpected"), all_functions.index("login_expected")] = 0.9 #0.98
 
-        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_expected")] = 0.8
-        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_unexpected")] = 0.2
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_expected")] = 0.85 #0.8
+        matrix[all_functions.index("login_expected"), all_functions.index("search_departure_unexpected")] = 0.15 #0.2
 
-        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_expected")] = 0.95
-        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_unexpected")] = 0.05
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_expected")] = 0.9 #0.95
+        matrix[all_functions.index("search_departure_unexpected"), all_functions.index("search_departure_unexpected")] = 0.1 #0.05
 
         matrix[all_functions.index("search_departure_expected"), all_functions.index("start_booking_expected")] = 1
 
@@ -667,19 +690,17 @@ class UserRefundVoucher(HttpUser):
         matrix[all_functions.index("pay_expected"), all_functions.index("get_voucher_expected")] = 0.8
         matrix[all_functions.index("pay_expected"), all_functions.index("get_voucher_unexpected")] = 0.2
 
-        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_expected")] = 0.95
-        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_unexpected")] = 0.05
+        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_expected")] = 0.9 #0.95
+        matrix[all_functions.index("pay_unexpected"), all_functions.index("pay_unexpected")] = 0.1 #0.05
 
         matrix[all_functions.index("get_voucher_expected"), all_functions.index("get_voucher_expected")] = 1
 
-        matrix[all_functions.index("get_voucher_unexpected"), all_functions.index("get_voucher_expected")] = 0.95
-        matrix[all_functions.index("get_voucher_unexpected"), all_functions.index("get_voucher_unexpected")] = 0.05
+        matrix[all_functions.index("get_voucher_unexpected"), all_functions.index("get_voucher_expected")] = 0.85 #0.95
+        matrix[all_functions.index("get_voucher_unexpected"), all_functions.index("get_voucher_unexpected")] = 0.15 #0.05
 
-        
+
         task_sequence = sequence_generator(matrix, all_functions)
-        
+
         print(task_sequence)
         for task in task_sequence:
             Requests.perform_task(self, task)
-
-
