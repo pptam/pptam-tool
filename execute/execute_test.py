@@ -127,6 +127,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     seconds_to_wait_for_undeployment = int(configuration["DEFAULT"]["test_case_waiting_for_undeployment_in_seconds"])
 
     sut_hostname = configuration["DEFAULT"]["docker_sut_hostname"]
+    # TODO handle exception
     docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
 
     token = configuration[section]["influxdb_token"]
