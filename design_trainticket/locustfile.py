@@ -45,16 +45,17 @@ def sequence_generator(matrix, all_functions):
 
 
 def do_log(logDict: dict):
-    data = {}
-    file = open('log.json')
-    if(os.fstat(file.fileno()).st_size > 0):
-        data = json.load(file)
-    if type(data) is dict:
-        data = [data]
-    data.append(logDict)
+    # data = {}
+    # file = open('log.json', "w+")
+    # if(os.fstat(file.fileno()).st_size > 0):
+    #     data = json.load(file)
+    # if type(data) is dict:
+    #     data = [data]
+    # data.append(logDict)
 
-    with open('log.json', 'w') as outfile:
-        json.dump(data, outfile)
+    # with open('log.json', 'w') as outfile:
+    #     json.dump(data, outfile)
+    pass
 
 
 def random_string_generator():
