@@ -11,8 +11,6 @@ import time
 import os
 import string
 
-MAX_REQUESTS = 10
-
 def matrix_checker(matrix):
     sum = np.sum(matrix, axis=1).tolist()
 
@@ -24,13 +22,14 @@ def sequence_generator(matrix, all_functions):
     if(not(matrix_checker(matrix))):
         raise Exception("Matrix is not correct")
 
+    max_sequence_len = 20
     current_node = 0
     i = 0
 
     array = []
     array.append(all_functions[0])
 
-    while(i < MAX_REQUESTS):
+    while(i < max_sequence_len):
         if(1 in matrix[current_node] and matrix[current_node].tolist().index(1) == current_node):
             break
         selection = random.choices(
