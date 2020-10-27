@@ -161,7 +161,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         csv_prefix = os.path.join(os.path.dirname(driver), "result")
         logging.info(f"Running the load test for {test_id}, with {load} users, running for {run_time} seconds.")
         run_external_applicaton(
-            f'locust --locustfile {driver} --host {host} --users {load} --spawn-rate {spawn_rate} --run-time {run_time}s --headless --only-summary --csv {csv_prefix} --csv-full-history --logfile "{log_file}" >> {out_file} 2> {out_file}', False)
+            f'locust --locustfile {driver} --host {host} --users {load} --spawn-rate {spawn_rate} --run-time {run_time}s --headless --only-summary --csv {csv_prefix} --csv-full-history --logfile "{log_file}" --loglevel DEBUG >> {out_file} 2> {out_file}', False)
 
         if len(command_to_execute_at_a_test) > 0:
             run_external_applicaton(f"{command_to_execute_at_a_test}")
