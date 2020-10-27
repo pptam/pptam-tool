@@ -153,9 +153,9 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         run_docker_stats_in_background.start()
 
         host = configuration["DEFAULT"]["locust_host_url"]
-        load = configuration["DEFAULT"]["load"]
-        spawn_rate = configuration["DEFAULT"]["spawn_rate_per_second"]
-        run_time = configuration["DEFAULT"]["run_time_in_seconds"]
+        load = configuration[section]["load"]
+        spawn_rate = configuration[section]["spawn_rate_per_second"]
+        run_time = configuration[section]["run_time_in_seconds"]
         log_file = os.path.splitext(driver)[0] + ".log"
         out_file = os.path.splitext(driver)[0] + ".out"
         csv_prefix = os.path.join(os.path.dirname(driver), "result")
