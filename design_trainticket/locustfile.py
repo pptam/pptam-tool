@@ -295,8 +295,9 @@ class Requests():
         do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response_order_refresh.status_code,
                 'response_time': time.time() - start_time,  'response': json.loads((response_order_refresh.content).decode('utf-8'))})
 
-        response_as_json_order_id = json.loads(
-            response_order_refresh.content)["data"][0]["id"]
+        response_order_refresh_content = json.loads(response_order_refresh.content)
+        print(json.dumps(response_order_refresh_content))
+        response_as_json_order_id = response_order_refresh_content["data"][0]["id"]
         self.order_id = response_as_json_order_id
 
     def pay(self, expected):
@@ -410,7 +411,6 @@ class UserNoLogin(HttpUser):
 
         task_sequence = sequence_generator(matrix, all_functions)
 
-        print(task_sequence)
         for task in task_sequence:
             Requests.perform_task(self, task)
 
@@ -480,7 +480,6 @@ class UserBooking(HttpUser):
 
         task_sequence = sequence_generator(matrix, all_functions)
 
-        print(task_sequence)
         for task in task_sequence:
             Requests.perform_task(self, task)
 
@@ -559,7 +558,6 @@ class UserConsignTicket(HttpUser):
 
         task_sequence = sequence_generator(matrix, all_functions)
 
-        print(task_sequence)
         for task in task_sequence:
             Requests.perform_task(self, task)
 
@@ -636,7 +634,6 @@ class UserCancelNoRefund(HttpUser):
 
         task_sequence = sequence_generator(matrix, all_functions)
 
-        print(task_sequence)
         for task in task_sequence:
             Requests.perform_task(self, task)
 
@@ -714,6 +711,5 @@ class UserRefundVoucher(HttpUser):
 
         task_sequence = sequence_generator(matrix, all_functions)
 
-        print(task_sequence)
         for task in task_sequence:
             Requests.perform_task(self, task)
