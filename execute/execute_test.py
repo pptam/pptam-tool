@@ -36,24 +36,22 @@ def flatten_hierarchy(y):
     return out
 
 
-def get_docker_stats(client, bucket, org, write_api, test_case_name):
+def get_docker_stats(client, bucket, org, write_api, test_case_name, output_path):
+
     while True:
-        for container in client.containers.list():
-            stats = container.stats(stream=False)
+        with open(os.path.join(output_path, "docker_stats.log"), "a") as f:
+            for container in client.containers.list():
+                stats = container.stats(stream=False)
 
-            data = {"tags": {}, "fields": {}}
-            data["measurement"] = "docker_stats"
-            data["time"] = stats["read"]
-            data["tags"]["test_case_name"] = test_case_name
-            data["tags"]["container"] = container.name
-            data["fields"]["cpu_usage"] = stats["cpu_stats"]["cpu_usage"]["total_usage"]
-            data["fields"]["memory_usage"] = stats["memory_stats"]["usage"]
-            data["fields"]["memory_max_usage"] = stats["memory_stats"]["max_usage"]
+                time = stats["read"]
+                container = container.name
+                cpu_usage = stats["cpu_stats"]["cpu_usage"]["total_usage"]
+                memory_usage = stats["memory_stats"]["usage"]
+                memory_max_usage = stats["memory_stats"]["max_usage"]
 
-            record = Point.from_dict(data)
-            write_api.write(bucket, org, record)
+                f.write(f"{time}: {container}, {cpu_usage}, {memory_usage}, {memory_max_usage}\n")
 
-        time.sleep(60)  # Configure
+            time.sleep(30)  # Configure
 
 
 def perform_test(configuration, section, repetition, overwrite_existing_results):
@@ -149,6 +147,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
             org,
             write_api,
             test_id_without_timestamp,
+            output
         ), daemon=True)
         run_docker_stats_in_background.start()
 
