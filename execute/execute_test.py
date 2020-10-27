@@ -51,7 +51,7 @@ def get_docker_stats(client, bucket, org, write_api, test_case_name, output_path
 
                 f.write(f"{time}: {container}, {cpu_usage}, {memory_usage}, {memory_max_usage}\n")
 
-            time.sleep(30)  # Configure
+        time.sleep(30)  # Configure
 
 
 def perform_test(configuration, section, repetition, overwrite_existing_results):
