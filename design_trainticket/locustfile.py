@@ -45,19 +45,7 @@ def sequence_generator(matrix, all_functions):
 
 
 def do_log(logDict: dict):
-    #logging.basicConfig(filename='punctual_requests.log', filemode='a', encoding='utf-8', level=logging.DEBUG)
     logging.debug(json.dumps(logDict))
-    # data = {}
-    # file = open('log.json', "w+")
-    # if(os.fstat(file.fileno()).st_size > 0):
-    #     data = json.load(file)
-    # if type(data) is dict:
-    #     data = [data]
-    # data.append(logDict)
-
-    # with open('log.json', 'w') as outfile:
-    #     json.dump(data, outfile)
-    #pass
 
 
 def random_string_generator():
@@ -131,7 +119,7 @@ class Requests():
                                     "password": "222222"},
                               name="admin_login"
                               ) as response1:
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response1.status_code,
+            do_log({'name': '_admin_login', 'expected': expected, 'status_code': response1.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response1.content).decode('utf-8'))})
 
             response_as_json1 = json.loads(response1.content)["data"]
