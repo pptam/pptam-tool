@@ -339,7 +339,7 @@ class Requests():
             with self.client.post(url="/getVoucher", headers=head,
                                   json={"orderId": random_string_generator(), "type": 1}, name=sys._getframe().f_code.co_name) as response:
                 do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': None))})
+                        'response_time': time.time() - start_time, 'response': None})
 
     # consign ticket
 
