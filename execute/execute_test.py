@@ -40,8 +40,9 @@ def get_docker_stats(client, bucket, org, write_api, test_case_name, output_path
 
     while True:
         with open(os.path.join(output_path, "docker_stats.log"), "a") as f:
+            f.write("timestamp, container, cpu_usage, memory_usage, memory_max_usage\n")
             for container in client.containers.list():
-                stats = container.stats(stream=False)
+                stats = container.stats(stream=False) # takes about 2s
 
                 timestamp = stats["read"]
                 container = container.name
@@ -49,9 +50,9 @@ def get_docker_stats(client, bucket, org, write_api, test_case_name, output_path
                 memory_usage = stats["memory_stats"]["usage"]
                 memory_max_usage = stats["memory_stats"]["max_usage"]
 
-                f.write(f"{timestamp}: {container}, {cpu_usage}, {memory_usage}, {memory_max_usage}\n")
+                f.write(f"{timestamp}, {container}, {cpu_usage}, {memory_usage}, {memory_max_usage}\n")
 
-        time.sleep(10)  # Configure (the sampling takes about 2s per container)
+        time.sleep(10)  # Configure
 
 
 def perform_test(configuration, section, repetition, overwrite_existing_results):
