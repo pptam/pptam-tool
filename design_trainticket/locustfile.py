@@ -69,6 +69,11 @@ def random_date_generator():
     random_d = randint(1, 31)  # assumendo che la data possa essere non sensata (e.g. 30 Febbraio)
     return str(random_y)+'-'+str(random_m)+'-'+str(random_d)
 
+def postfix(expected = True):
+    if expected:
+        return '_expected'
+    return '_unexpected'
+
 
 class Requests():
 
@@ -76,7 +81,7 @@ class Requests():
 
         start_time = time.time()
         with self.client.get('/index.html', name=sys._getframe().f_code.co_name) as response:
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': expected,  'status_code': response.status_code, 'response_time': time.time() - start_time, })
+            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected,  'status_code': response.status_code, 'response_time': time.time() - start_time, })
 
     def search_ticket(self, departure_date, from_station, to_station, expected = True):
         head = {"Accept": "application/json",
@@ -95,7 +100,7 @@ class Requests():
                 json=body_start,
                 catch_response=True,
                 name=sys._getframe().f_code.co_name) as response:
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
+            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time,  'response': json.loads((response.content).decode('utf-8'))})
 
     def search_departure(self, expected):
@@ -119,7 +124,7 @@ class Requests():
                                     "password": "222222"},
                               name="admin_login"
                               ) as response1:
-            do_log({'name': '_admin_login', 'expected': expected, 'status_code': response1.status_code,
+            do_log({'name': '_admin_login' + postfix(expected), 'expected': expected, 'status_code': response1.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response1.content).decode('utf-8'))})
 
             response_as_json1 = json.loads(response1.content)["data"]
@@ -134,14 +139,14 @@ class Requests():
                                   "Authorization": self.bearer, "Accept": "application/json", "Content-Type": "application/json"},
                               json={"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": self.user_name, "userName": self.user_name},
                               name=sys._getframe().f_code.co_name) as response2:
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response2.status_code,
+            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response2.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response2.content).decode('utf-8'))})
             response_as_json2 = json.loads(response2.content)["data"]
 
     def _navigate_to_client_login(self):
         start_time = time.time()
         with self.client.get('/client_login.html', name=sys._getframe().f_code.co_name) as response:
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': True,  'status_code': response.status_code, 'response_time': time.time() - start_time, })
+            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': True,  'status_code': response.status_code, 'response_time': time.time() - start_time, })
 
     def login(self, expected):
         Requests._create_user(self, expected)
@@ -154,7 +159,7 @@ class Requests():
                                             "username": self.user_name,
                                             "password": self.user_name
                                         }, name=sys._getframe().f_code.co_name)
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
+            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
         else:
             response = self.client.post(url="/api/v1/users/login",
@@ -163,7 +168,7 @@ class Requests():
                                             # wrong password
                                             "password": random_string_generator()
                                         }, name=sys._getframe().f_code.co_name)
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
+            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
         response_as_json = json.loads(response.content)["data"]
@@ -184,7 +189,7 @@ class Requests():
             headers=head,
             name=sys._getframe().f_code.co_name
         ) as response:
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code, 'response_time': time.time() - start_time, })
+            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code, 'response_time': time.time() - start_time, })
 
     def get_assurance_types(self, expected):
         head = {"Accept": "application/json",
@@ -192,7 +197,7 @@ class Requests():
         start_time = time.time()
         with self.client.get(
                 url="/api/v1/assuranceservice/assurances/types", headers=head, name=sys._getframe().f_code.co_name) as response:
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
+            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
     def get_foods(self, expected):
@@ -202,7 +207,7 @@ class Requests():
         start_time = time.time()
         with self.client.get(url="/api/v1/foodservice/foods/" +
                              departure_date + "/Shang%20Hai/Su%20Zhou/D1345", headers=head, name=sys._getframe().f_code.co_name) as response:
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
+            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
     def select_contact(self, expected):
@@ -211,7 +216,7 @@ class Requests():
         start_time = time.time()
         response_contacts = self.client.get(
             url="/api/v1/contactservice/contacts/account/" + self.user_id, headers=head, name=sys._getframe().f_code.co_name)
-        do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response_contacts.status_code,
+        do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response_contacts.status_code,
                 'response_time': time.time() - start_time,  'response': json.loads((response_contacts.content).decode('utf-8'))})
 
         response_as_json_contacts = json.loads(
@@ -271,7 +276,7 @@ class Requests():
                 catch_response=True,
                 name=sys._getframe().f_code.co_name
         ) as response:
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
+            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
     def select_order(self, expected):
@@ -281,7 +286,7 @@ class Requests():
         response_order_refresh = self.client.post(url="/api/v1/orderservice/order/refresh", name=sys._getframe().f_code.co_name, headers=head, json={
             "loginId": self.user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"})
 
-        do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response_order_refresh.status_code,
+        do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response_order_refresh.status_code,
                 'response_time': time.time() - start_time,  'response': json.loads((response_order_refresh.content).decode('utf-8'))})
 
         response_order_refresh_content = json.loads(response_order_refresh.content)
@@ -296,13 +301,13 @@ class Requests():
         if(expected):
             with self.client.post(url="/api/v1/inside_pay_service/inside_payment",
                                   headers=head, json={"orderId": self.order_id, "tripId": "D1345"}, name=sys._getframe().f_code.co_name) as response:
-                do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
+                do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
                         'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
         else:
             with self.client.post(url="/api/v1/inside_pay_service/inside_payment",
                                   headers=head, json={"orderId": random_string_generator(), "tripId": "D1345"}, name=sys._getframe().f_code.co_name) as response:
-                do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
+                do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
                         'response_time': time.time() - start_time,  'response': json.loads((response.content).decode('utf-8'))})
 
     # cancelNoRefund
@@ -314,13 +319,13 @@ class Requests():
         if(expected):
             with self.client.get(url="/api/v1/cancelservice/cancel/refound/" +
                                  self.order_id + "/" + self.user_id, headers=head, name=sys._getframe().f_code.co_name) as response:
-                do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
+                do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
                         'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
         else:
             with self.client.get(url="/api/v1/cancelservice/cancel/refound/" +
                                  self.order_id + "/" + random_string_generator(), headers=head, name=sys._getframe().f_code.co_name) as response:
-                do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
+                do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
                         'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
     # user refund with voucher
@@ -332,13 +337,13 @@ class Requests():
         if(expected):
             with self.client.post(url="/getVoucher", headers=head,
                                   json={"orderId": self.order_id, "type": 1}, name=sys._getframe().f_code.co_name) as response:
-                do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
+                do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
                         'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
         else:
             with self.client.post(url="/getVoucher", headers=head,
                                   json={"orderId": random_string_generator(), "type": 1}, name=sys._getframe().f_code.co_name) as response:
-                do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
+                do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
                         'response_time': time.time() - start_time, 'response': None})
 
     # consign ticket
@@ -347,7 +352,7 @@ class Requests():
         start_time = time.time()
         with self.client.get(
                 url="/api/v1/consignservice/consigns/order/" + self.order_id, name=sys._getframe().f_code.co_name) as response:
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response.status_code,
+            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
     def confirm_consign(self, expected):
@@ -357,13 +362,13 @@ class Requests():
         if(expected):
             response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns", name=sys._getframe().f_code.co_name, json={"accountId": self.user_id, "handleDate": "2020-11-06", "from": "Shang Hai",
                                                                                                                                          "to": "Su Zhou", "orderId": self.order_id, "consignee": self.order_id, "phone": "123", "weight": "1", "id": "", "isWithin": "false"}, headers=head)
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response_as_json_consign.status_code,
+            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response_as_json_consign.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response_as_json_consign.content).decode('utf-8'))})
 
         else:
             response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns",  name=sys._getframe().f_code.co_name, json={"accountId": self.user_id, "handleDate": "2020-11-06", "from": "Shang Hai",
                                                                                                                                           "to": "Su Zhou", "orderId": self.order_id, "consignee": random_string_generator(), "phone": random_string_generator(), "weight": "1", "id": "", "isWithin": "false"}, headers=head)
-            do_log({'name': sys._getframe().f_code.co_name, 'expected': expected, 'status_code': response_as_json_consign.status_code,
+            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response_as_json_consign.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response_as_json_consign.content).decode('utf-8'))})
 
     def perform_task(self, name):
