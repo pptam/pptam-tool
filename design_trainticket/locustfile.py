@@ -154,7 +154,7 @@ class Requests():
             do_log({'name': req_label, 'expected': True,  'status_code': response.status_code, 'response_time': time.time() - start_time, })
 
     def login(self, expected):
-        Requests._create_user(self, expected)
+        Requests._create_user(self, True)
 
         Requests._navigate_to_client_login(self)
         req_label = sys._getframe().f_code.co_name + postfix(expected)
