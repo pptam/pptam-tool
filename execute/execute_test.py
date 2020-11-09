@@ -35,24 +35,10 @@ def flatten_hierarchy(y):
     flatten(y)
     return out
 
-def calculate_cpu_percent(d):
-    cpu_count = len(d["cpu_stats"]["cpu_usage"]["percpu_usage"])
-    cpu_percent = 0.0
-    cpu_delta = float(d["cpu_stats"]["cpu_usage"]["total_usage"]) - \
-                float(d["precpu_stats"]["cpu_usage"]["total_usage"])
-    system_delta = float(d["cpu_stats"]["system_cpu_usage"]) - \
-                   float(d["precpu_stats"]["system_cpu_usage"])
-    if system_delta > 0.0:
-        cpu_percent = cpu_delta / system_delta * 100.0 * cpu_count
-    return cpu_percent
-
 def get_docker_stats(client, bucket, org, write_api, test_case_name, output_path):
 
     while True:
         with open(os.path.join(output_path, "docker_stats.log"), "a") as f:
-            cpu_total = 0.0
-            cpu_system = 0.0
-            cpu_percent = 0.0
 
             f.write("timestamp, container, cpu_usage, memory_usage, memory_limit\n")
             for container in client.containers.list():
@@ -60,11 +46,11 @@ def get_docker_stats(client, bucket, org, write_api, test_case_name, output_path
 
                 timestamp = stats["read"]
                 container = container.name
-                cpu_percent = calculate_cpu_percent(stats)
+                cpu_usage = stats["cpu_stats"]["cpu_usage"]["total_usage"]
                 memory_usage = stats["memory_stats"]["usage"]
                 memory_limit = stats["memory_stats"]["limit"]
 
-                f.write(f"{timestamp}, {container}, {cpu_percent}, {memory_usage}, {memory_limit}\n")
+                f.write(f"{timestamp}, {container}, {cpu_usage}, {memory_usage}, {memory_limit}\n")
 
         time.sleep(10)  # Configure
 

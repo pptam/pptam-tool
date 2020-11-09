@@ -144,7 +144,7 @@ class Requests():
                     'response_time': time.time() - start_time, 'response': json.loads((response2.content).decode('utf-8'))})
             response_as_json2 = json.loads(response2.content)["data"]
 
-    def _navigate_to_client_login(self):
+    def _navigate_to_client_login(self, expected = True):
         start_time = time.time()
         with self.client.get('/client_login.html', name=sys._getframe().f_code.co_name) as response:
             do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': True,  'status_code': response.status_code, 'response_time': time.time() - start_time, })
