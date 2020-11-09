@@ -12,6 +12,7 @@ import os
 import string
 import logging
 
+DEP_DATE = "2020-11-27"
 
 def matrix_checker(matrix):
     sum = np.sum(matrix, axis=1).tolist()
@@ -180,7 +181,7 @@ class Requests():
     # purchase ticket
 
     def start_booking(self, expected):
-        departure_date = "2020-11-06"
+        departure_date = DEP_DATE
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
         start_time = time.time()
@@ -201,7 +202,7 @@ class Requests():
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
     def get_foods(self, expected):
-        departure_date = "2020-11-06"
+        departure_date = DEP_DATE
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
         start_time = time.time()
@@ -233,7 +234,7 @@ class Requests():
             self.contactid = response_as_json_contacts[0]["id"]
 
     def finish_booking(self, expected):
-        departure_date = '2020-11-06'
+        departure_date = DEP_DATE
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
         if(expected):
@@ -360,13 +361,13 @@ class Requests():
                 "Content-Type": "application/json", "Authorization": self.bearer}
         start_time = time.time()
         if(expected):
-            response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns", name=sys._getframe().f_code.co_name, json={"accountId": self.user_id, "handleDate": "2020-11-06", "from": "Shang Hai",
+            response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns", name=sys._getframe().f_code.co_name, json={"accountId": self.user_id, "handleDate": DEP_DATE, "from": "Shang Hai",
                                                                                                                                          "to": "Su Zhou", "orderId": self.order_id, "consignee": self.order_id, "phone": "123", "weight": "1", "id": "", "isWithin": "false"}, headers=head)
             do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response_as_json_consign.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response_as_json_consign.content).decode('utf-8'))})
 
         else:
-            response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns",  name=sys._getframe().f_code.co_name, json={"accountId": self.user_id, "handleDate": "2020-11-06", "from": "Shang Hai",
+            response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns",  name=sys._getframe().f_code.co_name, json={"accountId": self.user_id, "handleDate": DEP_DATE, "from": "Shang Hai",
                                                                                                                                           "to": "Su Zhou", "orderId": self.order_id, "consignee": random_string_generator(), "phone": random_string_generator(), "weight": "1", "id": "", "isWithin": "false"}, headers=head)
             do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response_as_json_consign.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response_as_json_consign.content).decode('utf-8'))})
