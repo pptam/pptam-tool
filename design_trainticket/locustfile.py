@@ -80,9 +80,10 @@ class Requests():
 
     def home(self, expected):
 
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
-        with self.client.get('/index.html', name=sys._getframe().f_code.co_name) as response:
-            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected,  'status_code': response.status_code, 'response_time': time.time() - start_time, })
+        with self.client.get('/index.html', name = req_label) as response:
+            do_log({'name': req_label, 'expected': expected,  'status_code': response.status_code, 'response_time': time.time() - start_time, })
 
     def search_ticket(self, departure_date, from_station, to_station, expected = True):
         head = {"Accept": "application/json",
@@ -93,15 +94,15 @@ class Requests():
             "departureTime": departure_date
         }
 
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
-
         with self.client.post(
-                url="/api/v1/travelservice/trips/left",
-                headers=head,
-                json=body_start,
-                catch_response=True,
-                name=sys._getframe().f_code.co_name) as response:
-            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
+                url = "/api/v1/travelservice/trips/left",
+                headers = head,
+                json = body_start,
+                catch_response = True,
+                name = req_label) as response:
+            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time,  'response': json.loads((response.content).decode('utf-8'))})
 
     def search_departure(self, expected):
@@ -119,13 +120,13 @@ class Requests():
                 self, date.today().strftime(random_date_generator()), random_string_generator(), "Shang Hai", expected)
 
     def _create_user(self, expected):
+        req_label = 'admin_login' + postfix(expected)
         start_time = time.time()
         with self.client.post(url="/api/v1/users/login",
                               json={"username": "admin",
                                     "password": "222222"},
-                              name="admin_login"
-                              ) as response1:
-            do_log({'name': '_admin_login' + postfix(expected), 'expected': expected, 'status_code': response1.status_code,
+                              name = req_label) as response1:
+            do_log({'name': req_label, 'expected': expected, 'status_code': response1.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response1.content).decode('utf-8'))})
 
             response_as_json1 = json.loads(response1.content)["data"]
@@ -134,42 +135,46 @@ class Requests():
             userrID = response_as_json1["userId"]
             document_num = str(uuid.uuid4())
             self.user_name = str(uuid.uuid4())
+
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
-        with self.client.post(url="/api/v1/adminuserservice/users",
-                              headers={
+        with self.client.post(url = "/api/v1/adminuserservice/users",
+                              headers = {
                                   "Authorization": self.bearer, "Accept": "application/json", "Content-Type": "application/json"},
-                              json={"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": self.user_name, "userName": self.user_name},
-                              name=sys._getframe().f_code.co_name) as response2:
-            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response2.status_code,
+                              json = {"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": self.user_name, "userName": self.user_name},
+                              name = req_label) as response2:
+            do_log({'name': req_label, 'expected': expected, 'status_code': response2.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response2.content).decode('utf-8'))})
             response_as_json2 = json.loads(response2.content)["data"]
 
     def _navigate_to_client_login(self, expected = True):
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
-        with self.client.get('/client_login.html', name=sys._getframe().f_code.co_name) as response:
-            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': True,  'status_code': response.status_code, 'response_time': time.time() - start_time, })
+        with self.client.get('/client_login.html', name = req_label) as response:
+            do_log({'name': req_label, 'expected': True,  'status_code': response.status_code, 'response_time': time.time() - start_time, })
 
     def login(self, expected):
         Requests._create_user(self, expected)
 
         Requests._navigate_to_client_login(self)
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
         if(expected):
-            response = self.client.post(url="/api/v1/users/login",
-                                        json={
+            response = self.client.post(url = "/api/v1/users/login",
+                                        json = {
                                             "username": self.user_name,
                                             "password": self.user_name
-                                        }, name=sys._getframe().f_code.co_name)
-            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
+                                        }, name = req_label)
+            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
         else:
-            response = self.client.post(url="/api/v1/users/login",
-                                        json={
+            response = self.client.post(url = "/api/v1/users/login",
+                                        json = {
                                             "username": self.user_name,
                                             # wrong password
                                             "password": random_string_generator()
-                                        }, name=sys._getframe().f_code.co_name)
-            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
+                                        }, name = req_label)
+            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
         response_as_json = json.loads(response.content)["data"]
@@ -184,48 +189,62 @@ class Requests():
         departure_date = DEP_DATE
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
         with self.client.get(
-            url="/client_ticket_book.html?tripId=D1345&from=Shang%20Hai&to=Su%20Zhou&seatType=2&seat_price=50.0&date=" + departure_date,
-            headers=head,
-            name=sys._getframe().f_code.co_name
-        ) as response:
-            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code, 'response_time': time.time() - start_time, })
+                url = "/client_ticket_book.html?tripId=D1345&from=Shang%20Hai&to=Su%20Zhou&seatType=2&seat_price=50.0&date=" + departure_date,
+                headers = head,
+                name = req_label) as response:
+            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code, 'response_time': time.time() - start_time, })
 
     def get_assurance_types(self, expected):
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
         with self.client.get(
-                url="/api/v1/assuranceservice/assurances/types", headers=head, name=sys._getframe().f_code.co_name) as response:
-            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
+                url = "/api/v1/assuranceservice/assurances/types",
+                headers = head,
+                name = req_label) as response:
+            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
     def get_foods(self, expected):
         departure_date = DEP_DATE
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
-        with self.client.get(url="/api/v1/foodservice/foods/" +
-                             departure_date + "/Shang%20Hai/Su%20Zhou/D1345", headers=head, name=sys._getframe().f_code.co_name) as response:
-            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
+        with self.client.get(
+                url = "/api/v1/foodservice/foods/" + departure_date + "/Shang%20Hai/Su%20Zhou/D1345",
+                headers = head,
+                name = req_label) as response:
+            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
     def select_contact(self, expected):
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
         response_contacts = self.client.get(
-            url="/api/v1/contactservice/contacts/account/" + self.user_id, headers=head, name=sys._getframe().f_code.co_name)
-        do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response_contacts.status_code,
+                url = "/api/v1/contactservice/contacts/account/" + self.user_id,
+                headers = head,
+                name = req_label)
+        do_log({'name': req_label, 'expected': expected, 'status_code': response_contacts.status_code,
                 'response_time': time.time() - start_time,  'response': json.loads((response_contacts.content).decode('utf-8'))})
 
         response_as_json_contacts = json.loads(
             response_contacts.content)["data"]
 
         if len(response_as_json_contacts) == 0:
-            response_contacts = self.client.post(url="/api/v1/contactservice/contacts", headers=head, json={
-                "name": self.user_id, "accountId": self.user_id, "documentType": "1", "documentNumber": self.user_id, "phoneNumber": "123456"}, name="set_new_contact")
+            req_label = 'set_new_contact' + postfix(expected)
+            response_contacts = self.client.post(
+                    url="/api/v1/contactservice/contacts",
+                    headers=head,
+                    json = {
+                        "name": self.user_id, "accountId": self.user_id, "documentType": "1", "documentNumber": self.user_id, "phoneNumber": "123456"},
+                    name = req_label)
 
             response_as_json_contacts = json.loads(
                 response_contacts.content)["data"]
@@ -237,6 +256,7 @@ class Requests():
         departure_date = DEP_DATE
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         if(expected):
             body_for_reservation = {
                 "accountId": self.user_id,
@@ -271,23 +291,27 @@ class Requests():
             }
         start_time = time.time()
         with self.client.post(
-                url="/api/v1/preserveservice/preserve",
-                headers=head,
-                json=body_for_reservation,
-                catch_response=True,
-                name=sys._getframe().f_code.co_name
-        ) as response:
-            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
+                url = "/api/v1/preserveservice/preserve",
+                headers = head,
+                json = body_for_reservation,
+                catch_response = True,
+                name = req_label) as response:
+            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
     def select_order(self, expected):
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
-        response_order_refresh = self.client.post(url="/api/v1/orderservice/order/refresh", name=sys._getframe().f_code.co_name, headers=head, json={
-            "loginId": self.user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"})
+        response_order_refresh = self.client.post(
+                url = "/api/v1/orderservice/order/refresh",
+                name = req_label,
+                headers = head,
+                json = {
+                    "loginId": self.user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"})
 
-        do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response_order_refresh.status_code,
+        do_log({'name': req_label, 'expected': expected, 'status_code': response_order_refresh.status_code,
                 'response_time': time.time() - start_time,  'response': json.loads((response_order_refresh.content).decode('utf-8'))})
 
         response_order_refresh_content = json.loads(response_order_refresh.content)
@@ -298,17 +322,24 @@ class Requests():
     def pay(self, expected):
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
         if(expected):
-            with self.client.post(url="/api/v1/inside_pay_service/inside_payment",
-                                  headers=head, json={"orderId": self.order_id, "tripId": "D1345"}, name=sys._getframe().f_code.co_name) as response:
-                do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
+            with self.client.post(
+                    url= " /api/v1/inside_pay_service/inside_payment",
+                    headers = head,
+                    json = {"orderId": self.order_id, "tripId": "D1345"},
+                    name = req_label) as response:
+                do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                         'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
         else:
-            with self.client.post(url="/api/v1/inside_pay_service/inside_payment",
-                                  headers=head, json={"orderId": random_string_generator(), "tripId": "D1345"}, name=sys._getframe().f_code.co_name) as response:
-                do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
+            with self.client.post(
+                    url = "/api/v1/inside_pay_service/inside_payment",
+                    headers = head,
+                    json = {"orderId": random_string_generator(), "tripId": "D1345"},
+                    name = req_label) as response:
+                do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                         'response_time': time.time() - start_time,  'response': json.loads((response.content).decode('utf-8'))})
 
     # cancelNoRefund
@@ -316,17 +347,22 @@ class Requests():
     def cancel_with_no_refund(self, expected):
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
         if(expected):
-            with self.client.get(url="/api/v1/cancelservice/cancel/refound/" +
-                                 self.order_id + "/" + self.user_id, headers=head, name=sys._getframe().f_code.co_name) as response:
-                do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
+            with self.client.get(
+                    url = "/api/v1/cancelservice/cancel/refound/" + self.order_id + "/" + self.user_id,
+                    headers = head,
+                    name = req_label) as response:
+                do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                         'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
         else:
-            with self.client.get(url="/api/v1/cancelservice/cancel/refound/" +
-                                 self.order_id + "/" + random_string_generator(), headers=head, name=sys._getframe().f_code.co_name) as response:
-                do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
+            with self.client.get(
+                    url = "/api/v1/cancelservice/cancel/refound/" + self.order_id + "/" + random_string_generator(),
+                    headers = head,
+                    name = req_label) as response:
+                do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                         'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
     # user refund with voucher
@@ -334,47 +370,81 @@ class Requests():
     def get_voucher(self, expected):
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
         if(expected):
-            with self.client.post(url="/getVoucher", headers=head,
-                                  json={"orderId": self.order_id, "type": 1}, name=sys._getframe().f_code.co_name) as response:
-                do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
+            with self.client.post(
+                    url = "/getVoucher",
+                    headers = head,
+                    json = {"orderId": self.order_id, "type": 1},
+                    name = req_label) as response:
+                do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                         'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
         else:
-            with self.client.post(url="/getVoucher", headers=head,
-                                  json={"orderId": random_string_generator(), "type": 1}, name=sys._getframe().f_code.co_name) as response:
-                do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
+            with self.client.post(
+                    url = "/getVoucher",
+                    headers=head,
+                    json = {"orderId": random_string_generator(), "type": 1},
+                    name = req_label) as response:
+                do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                         'response_time': time.time() - start_time, 'response': None})
 
     # consign ticket
 
     def get_consigns(self, expected):
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
         with self.client.get(
-                url="/api/v1/consignservice/consigns/order/" + self.order_id, name=sys._getframe().f_code.co_name) as response:
-            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response.status_code,
+                url = "/api/v1/consignservice/consigns/order/" + self.order_id,
+                name = req_label) as response:
+            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
 
     def confirm_consign(self, expected):
         head = {"Accept": "application/json",
                 "Content-Type": "application/json", "Authorization": self.bearer}
+        req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
         if(expected):
-            response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns", name=sys._getframe().f_code.co_name, json={"accountId": self.user_id, "handleDate": DEP_DATE, "from": "Shang Hai",
-                                                                                                                                         "to": "Su Zhou", "orderId": self.order_id, "consignee": self.order_id, "phone": "123", "weight": "1", "id": "", "isWithin": "false"}, headers=head)
-            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response_as_json_consign.status_code,
+            response_as_json_consign = self.client.put(
+                    url = "/api/v1/consignservice/consigns",
+                    name = req_label,
+                    json = {
+                        "accountId": self.user_id,
+                        "handleDate": DEP_DATE,
+                        "from": "Shang Hai",
+                        "to": "Su Zhou",
+                        "orderId": self.order_id,
+                        "consignee": self.order_id,
+                        "phone": "123",
+                        "weight": "1",
+                        "id": "",
+                        "isWithin": "false"},
+                    headers = head)
+            do_log({'name': req_label, 'expected': expected, 'status_code': response_as_json_consign.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response_as_json_consign.content).decode('utf-8'))})
 
         else:
-            response_as_json_consign = self.client.put(url="/api/v1/consignservice/consigns",  name=sys._getframe().f_code.co_name, json={"accountId": self.user_id, "handleDate": DEP_DATE, "from": "Shang Hai",
-                                                                                                                                          "to": "Su Zhou", "orderId": self.order_id, "consignee": random_string_generator(), "phone": random_string_generator(), "weight": "1", "id": "", "isWithin": "false"}, headers=head)
-            do_log({'name': sys._getframe().f_code.co_name + postfix(expected), 'expected': expected, 'status_code': response_as_json_consign.status_code,
+            response_as_json_consign = self.client.put(
+                    url = "/api/v1/consignservice/consigns",
+                    name = req_label,
+                    json={
+                        "accountId": self.user_id,
+                        "handleDate": DEP_DATE,
+                        "from": "Shang Hai",
+                        "to": "Su Zhou",
+                        "orderId": self.order_id,
+                        "consignee": random_string_generator(),
+                        "phone": random_string_generator(),
+                        "weight": "1",
+                        "id": "",
+                        "isWithin": "false"}, headers=head)
+            do_log({'name': req_label, 'expected': expected, 'status_code': response_as_json_consign.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response_as_json_consign.content).decode('utf-8'))})
 
     def perform_task(self, name):
-        name_without_suffix = name.replace(
-            "_expected", "").replace("_unexpected", "")
+        name_without_suffix = name.replace("_expected", "").replace("_unexpected", "")
         task = getattr(Requests, name_without_suffix)
         task(self, name.endswith('_expected'))
 
