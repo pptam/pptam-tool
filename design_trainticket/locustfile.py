@@ -326,7 +326,7 @@ class Requests():
         start_time = time.time()
         if(expected):
             with self.client.post(
-                    url= " /api/v1/inside_pay_service/inside_payment",
+                    url = "/api/v1/inside_pay_service/inside_payment",
                     headers = head,
                     json = {"orderId": self.order_id, "tripId": "D1345"},
                     name = req_label) as response:
