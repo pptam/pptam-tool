@@ -12,7 +12,7 @@ import os
 import string
 import logging
 
-DEP_DATE = "2020-11-27"
+DEP_DATE = "2020-12-18"
 
 def matrix_checker(matrix):
     sum = np.sum(matrix, axis=1).tolist()
@@ -351,7 +351,7 @@ class Requests():
         start_time = time.time()
         if(expected):
             with self.client.get(
-                    url = "/api/v1/cancelservice/cancel/refound/" + self.order_id + "/" + self.user_id,
+                    url = "/api/v1/cancelservice/cancel/" + self.order_id + "/" + self.user_id,
                     headers = head,
                     name = req_label) as response:
                 do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
@@ -359,7 +359,7 @@ class Requests():
 
         else:
             with self.client.get(
-                    url = "/api/v1/cancelservice/cancel/refound/" + self.order_id + "/" + random_string_generator(),
+                    url = "/api/v1/cancelservice/cancel/" + self.order_id + "/" + random_string_generator(),
                     headers = head,
                     name = req_label) as response:
                 do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
@@ -384,7 +384,7 @@ class Requests():
         else:
             with self.client.post(
                     url = "/getVoucher",
-                    headers=head,
+                    headers = head,
                     json = {"orderId": random_string_generator(), "type": 1},
                     name = req_label) as response:
                 do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
@@ -397,6 +397,7 @@ class Requests():
         start_time = time.time()
         with self.client.get(
                 url = "/api/v1/consignservice/consigns/order/" + self.order_id,
+                headers = head,
                 name = req_label) as response:
             do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
                     'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
@@ -450,6 +451,7 @@ class Requests():
 
 
 class UserNoLogin(HttpUser):
+    weight = 1
     wait_time = constant(1)
 
     @task
@@ -481,6 +483,7 @@ class UserNoLogin(HttpUser):
 
 
 class UserBooking(HttpUser):
+    weight = 1
     wait_time = constant(1)
 
     @task
@@ -550,6 +553,7 @@ class UserBooking(HttpUser):
 
 
 class UserConsignTicket(HttpUser):
+    weight = 0
     wait_time = constant(1)
 
     @task
@@ -628,6 +632,7 @@ class UserConsignTicket(HttpUser):
 
 
 class UserCancelNoRefund(HttpUser):
+    weight = 1
     wait_time = constant(1)
 
     @task
@@ -704,6 +709,7 @@ class UserCancelNoRefund(HttpUser):
 
 
 class UserRefundVoucher(HttpUser):
+    weight = 0
     wait_time = constant(1)
 
     @task
