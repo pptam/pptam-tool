@@ -10,8 +10,6 @@ import datetime
 import requests
 import threading
 import docker
-from influxdb_client import InfluxDBClient, Point
-from influxdb_client.client.write_api import SYNCHRONOUS
 import csv
 import json
 
@@ -57,19 +55,6 @@ def get_docker_stats(client, bucket, org, write_api, test_case_name, output_path
 
 
 def perform_test(configuration, section, repetition, overwrite_existing_results):
-    logging.debug(f"Checking if InfluxDB is up...")
-    try:
-        response = requests.get(url=configuration[section]["influxdb_url"] + "/health")
-        data = response.json()
-        if data["status"] != "pass":
-            logging.fatal(f"InfluxDB health check was not successful.")
-            raise SystemExit()
-
-        logging.debug(f"Checking if InfluxDB is up...")
-    except requests.exceptions.RequestException:  # This is the correct syntax
-        logging.fatal(f"InfluxDB is down, please start it before executing tests.")
-        raise SystemExit()
-
     command_to_execute_before_a_test = configuration["DEFAULT"]["pre_exec_external_command"]
     command_to_execute_after_a_test = configuration["DEFAULT"]["post_exec_external_command"]
     command_to_execute_at_a_test = configuration["DEFAULT"]["on_exec_external_command"]
@@ -130,12 +115,6 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     # TODO handle exception
     docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
 
-    token = configuration[section]["influxdb_token"]
-    org = configuration[section]["influxdb_organization"]
-    bucket = configuration[section]["influxdb_bucket"]
-    client = InfluxDBClient(url=configuration[section]["influxdb_url"], token=token)
-    write_api = client.write_api(write_options=SYNCHRONOUS)
-
     try:
         if os.path.exists(deployment_descriptor):
             command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
@@ -178,83 +157,6 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
             time.sleep(seconds_to_wait_for_undeployment)
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
-
-    with open(os.path.join(output, "result_stats.csv"), "r") as f1:
-        reader = csv.DictReader(f1)
-        for row in reader:
-            data = {"tags": {}, "fields": {}}
-            data["tags"]["test_case_name"] = test_id_without_timestamp
-            data["tags"]["type"] = row["Type"]
-            data["tags"]["name"] = row["Name"]
-            data["fields"]["request_count"] = int(row["Request Count"])
-            data["fields"]["failure_count"] = int(row["Failure Count"])
-            data["fields"]["median_response_time"] = float(row["Median Response Time"])
-            data["fields"]["average_response_time"] = float(row["Average Response Time"])
-            data["fields"]["min_response_time"] = float(row["Min Response Time"])
-            data["fields"]["max_response_time"] = float(row["Max Response Time"])
-            data["fields"]["average_content_size"] = float(row["Average Content Size"])
-            data["fields"]["requests_per_second"] = float(row["Requests/s"])
-            data["fields"]["failures_per_second"] = float(row["Failures/s"])
-            for i in ["50%", "66%", "75%", "80%", "90%", "95%", "98%", "99%", "99.9%", "99.99%", "100%"]:
-                if row[i] != "N/A":
-                    data["fields"]["percentile_" + i[:-1]] = float(row[i])
-
-            if row["Name"] != "Aggregated":
-                data["measurement"] = "response_time"
-                data["tags"]["type"] = row["Type"]
-                data["tags"]["name"] = row["Name"]
-            else:
-                data["measurement"] = "response_time_aggregated"
-
-            record = Point.from_dict(data)
-            write_api.write(bucket, org, record)
-
-    with open(os.path.join(output, "result_stats_history.csv"), "r") as f2:
-        reader = csv.DictReader(f2)
-        for row in reader:
-            data = {"tags": {}, "fields": {}}
-            data["time"] = datetime.datetime.fromtimestamp(int(row["Timestamp"]))
-            data["tags"]["test_case_name"] = test_id_without_timestamp
-            data["tags"]["type"] = row["Type"]
-            data["tags"]["name"] = row["Name"]
-            data["fields"]["currently_running_users"] = int(row["User Count"])
-            data["fields"]["total_request_count"] = int(row["Total Request Count"])
-            data["fields"]["total_failure_count"] = int(row["Total Failure Count"])
-            data["fields"]["total_median_response_time"] = float(row["Total Median Response Time"])
-            data["fields"]["total_average_response_time"] = float(row["Total Average Response Time"])
-            data["fields"]["total_min_response_time"] = float(row["Total Min Response Time"])
-            data["fields"]["total_max_response_time"] = float(row["Total Max Response Time"])
-            data["fields"]["total_average_content_size"] = float(row["Total Average Content Size"])
-            data["fields"]["requests_per_second"] = float(row["Requests/s"])
-            data["fields"]["failures_per_second"] = float(row["Failures/s"])
-            for i in ["50%", "66%", "75%", "80%", "90%", "95%", "98%", "99%", "99.9%", "99.99%", "100%"]:
-                if row[i] != "N/A":
-                    data["fields"]["percentile_" + i[:-1]] = float(row[i])
-
-            if row["Name"] != "Aggregated":
-                data["measurement"] = "response_time_history"
-                data["tags"]["type"] = row["Type"]
-                data["tags"]["name"] = row["Name"]
-            else:
-                data["measurement"] = "response_time_history_aggregated"
-
-            record = Point.from_dict(data)
-            write_api.write(bucket, org, record)
-
-    with open(os.path.join(output, "result_failures.csv"), "r") as f3:
-        reader = csv.DictReader(f3)
-        for row in reader:
-            data = {"tags": {}, "fields": {}}
-            data["tags"]["test_case_name"] = test_id_without_timestamp
-            data["tags"]["type"] = row["Method"]
-            data["tags"]["name"] = row["Name"]
-            data["fields"]["error"] = row["Error"]
-            data["fields"]["occurrences"] = int(row["Occurrences"])
-            data["measurement"] = "failures"
-
-            record = Point.from_dict(data)
-            write_api.write(bucket, org, record)
-
 
 def execute_test(design_path, overwrite_existing_results):
     configuration = configparser.ConfigParser()

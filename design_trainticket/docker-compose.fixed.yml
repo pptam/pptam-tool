@@ -23,9 +23,13 @@ services:
     ports:
       - 6379:6379
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}      
     networks:
       - my-network
 
@@ -35,9 +39,13 @@ services:
     ports:
       - 8080:8080
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -47,18 +55,26 @@ services:
     ports:
       - 12340:12340
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-auth-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -68,18 +84,26 @@ services:
     ports:
       - 12342:12342
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-user-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -89,18 +113,26 @@ services:
     ports:
       - 15678:15678
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-account-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -110,18 +142,26 @@ services:
     ports:
       - 11178:11178
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-route-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -131,18 +171,26 @@ services:
     ports:
       - 12347:12347
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-contacts-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -152,18 +200,26 @@ services:
     ports:
       - 12031:12031
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-order-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -173,18 +229,26 @@ services:
     ports:
       - 12032:12032
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-order-other-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -194,18 +258,26 @@ services:
     ports:
       - 15679:15679
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-config-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -215,18 +287,26 @@ services:
     ports:
       - 12345:12345
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-station-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -236,18 +316,26 @@ services:
     ports:
       - 14567:14567
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-train-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -257,18 +345,26 @@ services:
     ports:
       - 12346:12346
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-travel-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -278,18 +374,26 @@ services:
     ports:
       - 16346:16346
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-travel2-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -299,9 +403,13 @@ services:
     ports:
       - 14568:14568
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -311,9 +419,13 @@ services:
     ports:
       - 14569:14569
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -323,9 +435,13 @@ services:
     ports:
       - 15680:15680
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -335,9 +451,13 @@ services:
     ports:
       - 15681:15681
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -347,18 +467,26 @@ services:
     ports:
       - 16579:16579
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-price-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -368,9 +496,13 @@ services:
     ports:
       - 17853:17853
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -380,18 +512,26 @@ services:
     ports:
       - 11188:11188
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-security-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -401,18 +541,26 @@ services:
     ports:
       - 18673:18673
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-inside-payment-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -422,9 +570,13 @@ services:
     ports:
       - 12386:12386
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -434,18 +586,26 @@ services:
     ports:
       - 19001:19001
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-payment-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -455,18 +615,26 @@ services:
     ports:
       - 18886:18886
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-rebook-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -476,9 +644,13 @@ services:
     ports:
       - 18885:18885
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -488,18 +660,26 @@ services:
     ports:
       - 18888:18888
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-assurance-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -509,9 +689,13 @@ services:
     ports:
       - 18898:18898
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -521,9 +705,13 @@ services:
     ports:
       - 14322:14322
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -533,18 +721,26 @@ services:
     ports:
       - 16108:16108
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-ticket-office-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -554,18 +750,26 @@ services:
     ports:
       - 12862:12862
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-news-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -576,9 +780,13 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -592,9 +800,13 @@ services:
     volumes:
       - /var/lib/mysql
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -604,18 +816,26 @@ services:
     ports:
       - 18855:18855
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-food-map-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -625,9 +845,13 @@ services:
     ports:
       - 14578:14578
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -637,9 +861,13 @@ services:
     ports:
       - 18856:18856
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -649,18 +877,26 @@ services:
     ports:
       - 16111:16111
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-consign-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -670,27 +906,39 @@ services:
     ports:
       - 16110:16110
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-consign-price-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
   ts-food-mongo:
     image: mongo
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -700,9 +948,13 @@ services:
     ports:
       - 18767:18767
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -712,9 +964,13 @@ services:
     ports:
       - 16112:16112
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -728,9 +984,13 @@ services:
       restart_policy:
         condition: on-failure
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -744,9 +1004,13 @@ services:
       restart_policy:
         condition: on-failure
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -760,9 +1024,13 @@ services:
       restart_policy:
         condition: on-failure
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
@@ -775,9 +1043,13 @@ services:
       restart_policy:
         condition: on-failure
     deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_CPUS}'
+          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == socks3
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
     networks:
       - my-network
           
