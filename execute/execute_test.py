@@ -13,6 +13,7 @@ import docker
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 import csv
+import json
 
 from lib import run_external_applicaton, replace_values_in_file
 
@@ -35,23 +36,24 @@ def flatten_hierarchy(y):
     flatten(y)
     return out
 
-
-def get_docker_stats(client, bucket, org, write_api, test_case_name, output_path):
-
+def get_docker_stats(client, bucket, org, write_api, test_case_name, output_path, verbose = False):
     while True:
         with open(os.path.join(output_path, "docker_stats.log"), "a") as f:
+            if not verbose:
+                f.write("timestamp, container, cpu_usage, memory_usage, memory_limit\n")
             for container in client.containers.list():
-                stats = container.stats(stream=False)
+                stats = container.stats(stream=False) # takes about 2s
+                if not verbose:
+                    timestamp = stats["read"]
+                    container = container.name
+                    cpu_usage = stats["cpu_stats"]["cpu_usage"]["total_usage"]
+                    memory_usage = stats["memory_stats"]["usage"]
+                    memory_limit = stats["memory_stats"]["limit"]
+                    f.write(f"{timestamp}, {container}, {cpu_usage}, {memory_usage}, {memory_limit}\n")
+                else:
+                    f.write(json.dumps(stats) + '\n')
 
-                time = stats["read"]
-                container = container.name
-                cpu_usage = stats["cpu_stats"]["cpu_usage"]["total_usage"]
-                memory_usage = stats["memory_stats"]["usage"]
-                memory_max_usage = stats["memory_stats"]["max_usage"]
-
-                f.write(f"{time}: {container}, {cpu_usage}, {memory_usage}, {memory_max_usage}\n")
-
-        time.sleep(30)  # Configure
+        time.sleep(10)  # Configure
 
 
 def perform_test(configuration, section, repetition, overwrite_existing_results):
@@ -147,7 +149,8 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
             org,
             write_api,
             test_id_without_timestamp,
-            output
+            output,
+            True
         ), daemon=True)
         run_docker_stats_in_background.start()
 
