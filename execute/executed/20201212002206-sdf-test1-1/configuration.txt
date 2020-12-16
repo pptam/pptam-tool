@@ -1,0 +1,14 @@
+load=10
+docker_sut_hostname=
+locust_host_url=https://smart.inf.unibz.it
+pre_exec_external_command=
+post_exec_external_command=
+test_case_prefix=sdf
+repeat=1
+enabled=1
+spawn_rate_per_second=1
+run_time_in_seconds=60
+test_case_waiting_for_deployment_in_seconds=10
+test_case_waiting_for_undeployment_in_seconds=10
+enable_docker_stats=0
+containers_to_get_stats=

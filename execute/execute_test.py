@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.8
+#!/usr/bin/env python3
 
 import os
 import time
@@ -7,57 +7,27 @@ import logging
 import shutil
 import configparser
 import datetime
-import requests
-import threading
-import docker
 import csv
-import json
-
+from pluginbase import PluginBase
 from lib import run_external_applicaton, replace_values_in_file
 
-
-def flatten_hierarchy(y):
-    out = {}
-
-    def flatten(x, name=''):
-        if type(x) is dict:
-            for a in x:
-                flatten(x[a], name + a + '.')
-        elif type(x) is list:
-            i = 0
-            for a in x:
-                flatten(a, name + str(i) + '.')
-                i += 1
-        else:
-            out[name[:-1]] = x
-
-    flatten(y)
-    return out
-
-def get_docker_stats(client, bucket, org, write_api, test_case_name, output_path, verbose = False):
-    while True:
-        with open(os.path.join(output_path, "docker_stats.log"), "a") as f:
-            if not verbose:
-                f.write("timestamp, container, cpu_usage, memory_usage, memory_limit\n")
-            for container in client.containers.list():
-                stats = container.stats(stream=False) # takes about 2s
-                if not verbose:
-                    timestamp = stats["read"]
-                    container = container.name
-                    cpu_usage = stats["cpu_stats"]["cpu_usage"]["total_usage"]
-                    memory_usage = stats["memory_stats"]["usage"]
-                    memory_limit = stats["memory_stats"]["limit"]
-                    f.write(f"{timestamp}, {container}, {cpu_usage}, {memory_usage}, {memory_limit}\n")
-                else:
-                    f.write(json.dumps(stats) + '\n')
-
-        time.sleep(10)  # Configure
-
-
+def run_plugins(configuration, section, func):
+    plugins = configuration[section]["enabled_plugins"].split()
+    
+    plugin_base = PluginBase(package='plugins')
+    plugin_source = plugin_base.make_plugin_source(searchpath=['./plugins'])
+    for plugin_name in plugin_source.list_plugins():
+        if not plugin_name.startswith("_") and (any("all" in p for p in plugins) or any(plugin_name in p for p in plugins)):
+            plugin = plugin_source.load_plugin(plugin_name)
+            try:
+                function_to_call = getattr(plugin, func, None)
+                if function_to_call!=None:
+                    function_to_call()
+            except:
+                logging.critical(f"Cannot invoke plugin {plugin_name}.")
+    
 def perform_test(configuration, section, repetition, overwrite_existing_results):
-    command_to_execute_before_a_test = configuration["DEFAULT"]["pre_exec_external_command"]
-    command_to_execute_after_a_test = configuration["DEFAULT"]["post_exec_external_command"]
-    command_to_execute_at_a_test = configuration["DEFAULT"]["on_exec_external_command"]
+    run_plugins(configuration, section, "setup")
 
     now = datetime.datetime.now()
     test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower() + "-" + str(repetition + 1)
@@ -79,8 +49,8 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     output = os.path.join(all_outputs, test_id)
     os.makedirs(output)
 
-    deployment_descriptor = f"{output}/docker-compose.yml"
     driver = f"{output}/locustfile.py"
+    deployment_descriptor = f"{output}/docker-compose.yml"
 
     logging.debug(f"Creating a folder name {test_id} in {output}.")
     if os.path.exists(os.path.join(design_path, "docker-compose.yml")):
@@ -105,15 +75,8 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
 
     logging.info(f"Executing test case {test_id}.")
 
-    if (len(command_to_execute_before_a_test) > 0):
-        run_external_applicaton(f"{command_to_execute_before_a_test}")
-
-    seconds_to_wait_for_deployment = int(configuration["DEFAULT"]["test_case_waiting_for_deployment_in_seconds"])
-    seconds_to_wait_for_undeployment = int(configuration["DEFAULT"]["test_case_waiting_for_undeployment_in_seconds"])
-
-    sut_hostname = configuration["DEFAULT"]["docker_sut_hostname"]
-    # TODO handle exception
-    docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
+    seconds_to_wait_for_deployment = int(configuration[section]["test_case_waiting_for_deployment_in_seconds"])
+    seconds_to_wait_for_undeployment = int(configuration[section]["test_case_waiting_for_undeployment_in_seconds"])
 
     try:
         if os.path.exists(deployment_descriptor):
@@ -122,18 +85,9 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
             logging.info(f"Waiting for {seconds_to_wait_for_deployment} seconds to allow the application to deploy.")
             time.sleep(seconds_to_wait_for_deployment)
 
-        run_docker_stats_in_background = threading.Thread(target=get_docker_stats, args=(
-            docker_client,
-            bucket,
-            org,
-            write_api,
-            test_id_without_timestamp,
-            output,
-            True
-        ), daemon=True)
-        run_docker_stats_in_background.start()
+        run_plugins(configuration, section, "before")
 
-        host = configuration["DEFAULT"]["locust_host_url"]
+        host = configuration[section]["locust_host_url"]
         load = configuration[section]["load"]
         spawn_rate = configuration[section]["spawn_rate_per_second"]
         run_time = configuration[section]["run_time_in_seconds"]
@@ -144,11 +98,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         run_external_applicaton(
             f'locust --locustfile {driver} --host {host} --users {load} --spawn-rate {spawn_rate} --run-time {run_time}s --headless --only-summary --csv {csv_prefix} --csv-full-history --logfile "{log_file}" --loglevel DEBUG >> {out_file} 2> {out_file}', False)
 
-        if len(command_to_execute_at_a_test) > 0:
-            run_external_applicaton(f"{command_to_execute_at_a_test}")
-
-        if (len(command_to_execute_after_a_test) > 0):
-            run_external_applicaton(f"{command_to_execute_after_a_test}")
+        run_plugins(configuration, section, "after")
     finally:
         if os.path.exists(deployment_descriptor):
             command_undeploy_stack = f"docker stack rm {test_id}"
@@ -156,6 +106,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
             logging.info(f"Waiting for {seconds_to_wait_for_undeployment} seconds to allow the application to undeploy.")
             time.sleep(seconds_to_wait_for_undeployment)
 
+    run_plugins(configuration, section, "teardown")
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
 def execute_test(design_path, overwrite_existing_results):
