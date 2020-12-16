@@ -22,7 +22,7 @@ def run_plugins(configuration, section, func):
             try:
                 function_to_call = getattr(plugin, func, None)
                 if function_to_call!=None:
-                    function_to_call()
+                    function_to_call(configuration, section)
             except Exception as e:
                 logging.critical(f"Cannot invoke plugin {plugin_name}: {e}")
     
