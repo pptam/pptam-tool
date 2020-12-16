@@ -23,8 +23,8 @@ def run_plugins(configuration, section, func):
                 function_to_call = getattr(plugin, func, None)
                 if function_to_call!=None:
                     function_to_call()
-            except:
-                logging.critical(f"Cannot invoke plugin {plugin_name}.")
+            except Exception as e:
+                logging.critical(f"Cannot invoke plugin {plugin_name}: {e}")
     
 def perform_test(configuration, section, repetition, overwrite_existing_results):
     run_plugins(configuration, section, "setup")
