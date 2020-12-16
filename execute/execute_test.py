@@ -18,6 +18,7 @@ def run_plugins(configuration, section, func):
     plugin_source = plugin_base.make_plugin_source(searchpath=['./plugins'])
     for plugin_name in plugin_source.list_plugins():
         if not plugin_name.startswith("_") and (any("all" in p for p in plugins) or any(plugin_name in p for p in plugins)):
+            logging.debug(f"Executing plugin {plugin_name}: {func}.")
             plugin = plugin_source.load_plugin(plugin_name)
             try:
                 function_to_call = getattr(plugin, func, None)
