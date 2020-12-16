@@ -5,7 +5,7 @@ import os
 import json
 import time
 
-def setup():
+def setup(current_configuration, output):
     logging.debug(f"Plugin #{os.path.basename(__file__)}: setup")
     
 def before(current_configuration, output):
