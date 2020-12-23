@@ -32,7 +32,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
 
     now = datetime.datetime.now()
     test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower() + "-" + str(repetition + 1)
-    test_id = now.strftime("%Y%m%d%H%M%S") + "-" + test_id_without_timestamp
+    test_id = now.strftime("%Y%m%d%H%M") + "-" + test_id_without_timestamp
 
     all_outputs = os.path.abspath(os.path.join("./executed"))
     if not os.path.isdir(all_outputs):
