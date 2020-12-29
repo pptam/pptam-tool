@@ -12,7 +12,7 @@ import os
 import string
 import logging
 
-DEP_DATE = "2020-12-18"
+DEP_DATE = "2021-01-08"
 
 def matrix_checker(matrix):
     sum = np.sum(matrix, axis=1).tolist()
