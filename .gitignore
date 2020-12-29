@@ -137,3 +137,4 @@ cython_debug/
 # Application specific paths to ignore
 /ui/grafana*
 /execute/executed*
+/design_trainticket/modified_images*

@@ -11,25 +11,27 @@ import csv
 from pluginbase import PluginBase
 from lib import run_external_applicaton, replace_values_in_file
 
-def run_plugins(configuration, section, func):
+def run_plugins(configuration, section, output, test_id, func):
+    result = []
     plugins = configuration[section]["enabled_plugins"].split()
     
     plugin_base = PluginBase(package='plugins')
     plugin_source = plugin_base.make_plugin_source(searchpath=['./plugins'])
     for plugin_name in plugin_source.list_plugins():
         if not plugin_name.startswith("_") and (any("all" in p for p in plugins) or any(plugin_name in p for p in plugins)):
-            logging.debug(f"Executing plugin {plugin_name}: {func}.")
+            logging.debug(f"Executing {func} of plugin {plugin_name}.")
             plugin = plugin_source.load_plugin(plugin_name)
             try:
                 function_to_call = getattr(plugin, func, None)
                 if function_to_call!=None:
-                    function_to_call(configuration, section)
+                    call_result = function_to_call(configuration[section], output, test_id)
+                    result.append(call_result)
             except Exception as e:
                 logging.critical(f"Cannot invoke plugin {plugin_name}: {e}")
     
-def perform_test(configuration, section, repetition, overwrite_existing_results):
-    run_plugins(configuration, section, "setup")
+    return result
 
+def create_output_directory(configuration, section, repetition, overwrite_existing_results):
     now = datetime.datetime.now()
     test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower() + "-" + str(repetition + 1)
     test_id = now.strftime("%Y%m%d%H%M") + "-" + test_id_without_timestamp
@@ -50,13 +52,19 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     output = os.path.join(all_outputs, test_id)
     os.makedirs(output)
 
-    driver = f"{output}/locustfile.py"
-    deployment_descriptor = f"{output}/docker-compose.yml"
+    return output, test_id
 
-    logging.debug(f"Creating a folder name {test_id} in {output}.")
-    if os.path.exists(os.path.join(design_path, "docker-compose.yml")):
-        shutil.copyfile(os.path.join(design_path, "docker-compose.yml"), deployment_descriptor)
-    shutil.copyfile(os.path.join(design_path, "locustfile.py"), driver)
+def perform_test(configuration, section, repetition, overwrite_existing_results):
+    run_plugins(configuration, section, None, None, "setup")
+
+    output, test_id = create_output_directory(configuration, section, repetition, overwrite_existing_results)
+    logging.debug(f"Created a folder name {test_id} in {output}.")
+
+    plugin_files = run_plugins(configuration, section, output, test_id, "get_configuration_files")
+    plugin_files = [item for sublist in plugin_files for item in sublist]
+    for plugin_file in plugin_files:
+        if os.path.exists(os.path.join(design_path, plugin_file)):
+            shutil.copyfile(os.path.join(design_path, plugin_file), os.path.join(output, plugin_file))
 
     replacements = []
     for entry in configuration[section].keys():
@@ -66,53 +74,31 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     replacements.append({"search_for": "${TEST_NAME}", "replace_with": test_id})
 
     logging.debug(f"Replacing values.")
-    if os.path.exists(deployment_descriptor):
-        replace_values_in_file(deployment_descriptor, replacements)
-    replace_values_in_file(driver, replacements)
+    for plugin_file in plugin_files:
+        if os.path.join(output, plugin_file):
+            replace_values_in_file(os.path.join(output, plugin_file), replacements)
 
-    with open(os.path.join(output, "configuration.txt"), "w") as f:
+    with open(os.path.join(output, "configuration.ini"), "w") as f:
+        f.write(f"[CONFIGURATION]\n")
         for option in configuration.options(section):
-            f.write(f"{option}={configuration[section][option]}\n")
+            f.write(f"{option.upper()}={configuration[section][option].upper()}\n")
 
     logging.info(f"Executing test case {test_id}.")
 
-    seconds_to_wait_for_deployment = int(configuration[section]["test_case_waiting_for_deployment_in_seconds"])
-    seconds_to_wait_for_undeployment = int(configuration[section]["test_case_waiting_for_undeployment_in_seconds"])
-
     try:
-        if os.path.exists(deployment_descriptor):
-            command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
-            run_external_applicaton(command_deploy_stack)
-            logging.info(f"Waiting for {seconds_to_wait_for_deployment} seconds to allow the application to deploy.")
-            time.sleep(seconds_to_wait_for_deployment)
-
-        run_plugins(configuration, section, "before")
-
-        host = configuration[section]["locust_host_url"]
-        load = configuration[section]["load"]
-        spawn_rate = configuration[section]["spawn_rate_per_second"]
-        run_time = configuration[section]["run_time_in_seconds"]
-        log_file = os.path.splitext(driver)[0] + ".log"
-        out_file = os.path.splitext(driver)[0] + ".out"
-        csv_prefix = os.path.join(os.path.dirname(driver), "result")
-        logging.info(f"Running the load test for {test_id}, with {load} users, running for {run_time} seconds.")
-        run_external_applicaton(
-            f'locust --locustfile {driver} --host {host} --users {load} --spawn-rate {spawn_rate} --run-time {run_time}s --headless --only-summary --csv {csv_prefix} --csv-full-history --logfile "{log_file}" --loglevel DEBUG >> {out_file} 2> {out_file}', False)
-
-        run_plugins(configuration, section, "after")
+        run_plugins(configuration, section, output, test_id, "before")
+        run_plugins(configuration, section, output, test_id, "run")
+        run_plugins(configuration, section, output, test_id, "after")
     finally:
-        if os.path.exists(deployment_descriptor):
-            command_undeploy_stack = f"docker stack rm {test_id}"
-            run_external_applicaton(command_undeploy_stack, False)
-            logging.info(f"Waiting for {seconds_to_wait_for_undeployment} seconds to allow the application to undeploy.")
-            time.sleep(seconds_to_wait_for_undeployment)
+        run_plugins(configuration, section, output, test_id, "teardown")
 
-    run_plugins(configuration, section, "teardown")
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
 def execute_test(design_path, overwrite_existing_results):
     configuration = configparser.ConfigParser()
     configuration.read([os.path.join(design_path, "configuration.ini"), os.path.join(design_path, "test_plan.ini")])
+
+    run_plugins(configuration, "DEFAULT", None, None, "setup_all")
 
     for section in configuration.sections():
         if section.lower().startswith("test"):
@@ -121,6 +107,8 @@ def execute_test(design_path, overwrite_existing_results):
                 repeat = int(configuration[section]["repeat"])
                 for repetition in range(repeat):
                     perform_test(configuration, section, repetition, overwrite_existing_results)
+
+    run_plugins(configuration, "DEFAULT", None, None, "teardown_all")
 
     logging.info(f"Done.")
 
