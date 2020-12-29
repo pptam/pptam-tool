@@ -78,9 +78,10 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         if os.path.join(output, plugin_file):
             replace_values_in_file(os.path.join(output, plugin_file), replacements)
 
-    with open(os.path.join(output, "configuration.txt"), "w") as f:
+    with open(os.path.join(output, "configuration.ini"), "w") as f:
+        f.write(f"[CONFIGURATION]\n")
         for option in configuration.options(section):
-            f.write(f"{option}={configuration[section][option]}\n")
+            f.write(f"{option.upper()}={configuration[section][option].upper()}\n")
 
     logging.info(f"Executing test case {test_id}.")
 
