@@ -29,7 +29,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}      
+          - node.hostname == ${DOCKER_NODE_NAME}      
     networks:
       - my-network
 
@@ -45,7 +45,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -61,7 +61,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -74,7 +74,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -90,7 +90,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -103,7 +103,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -119,7 +119,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -132,7 +132,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -148,7 +148,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -161,7 +161,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -177,7 +177,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -190,7 +190,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -206,7 +206,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -219,7 +219,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -235,7 +235,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -248,7 +248,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -264,7 +264,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -277,7 +277,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -293,7 +293,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -306,7 +306,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -322,7 +322,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -335,7 +335,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -351,7 +351,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -364,7 +364,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -380,7 +380,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -393,7 +393,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -409,7 +409,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -425,7 +425,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -441,7 +441,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -457,7 +457,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -473,7 +473,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -486,7 +486,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -502,7 +502,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -518,7 +518,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -531,7 +531,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -547,7 +547,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -560,7 +560,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -576,7 +576,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -592,7 +592,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -605,7 +605,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -621,7 +621,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -634,7 +634,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -650,7 +650,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -666,7 +666,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -679,7 +679,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -695,7 +695,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -711,7 +711,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -727,7 +727,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -740,7 +740,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -756,7 +756,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -769,7 +769,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -786,7 +786,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -806,7 +806,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -822,7 +822,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -835,7 +835,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -851,7 +851,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -867,7 +867,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -883,7 +883,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -896,7 +896,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -912,7 +912,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -925,7 +925,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -938,7 +938,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -954,7 +954,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -970,7 +970,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -990,7 +990,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -1010,7 +1010,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -1030,7 +1030,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           
@@ -1049,7 +1049,7 @@ services:
           memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
     networks:
       - my-network
           

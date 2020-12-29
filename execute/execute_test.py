@@ -47,7 +47,7 @@ def create_output_directory(configuration, section, repetition, overwrite_existi
             shutil.rmtree(os.path.join(all_outputs, name_of_existing_folder))
         else:
             logging.warning(f"Skipping test {test_id_without_timestamp}, since it already exists. Use --overwrite in case.")
-            return
+            return None, None
 
     output = os.path.join(all_outputs, test_id)
     os.makedirs(output)
@@ -58,6 +58,9 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     run_plugins(configuration, section, None, None, "setup")
 
     output, test_id = create_output_directory(configuration, section, repetition, overwrite_existing_results)
+    if output==None:
+        return
+        
     logging.debug(f"Created a folder name {test_id} in {output}.")
 
     plugin_files = run_plugins(configuration, section, output, test_id, "get_configuration_files")
@@ -81,7 +84,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     with open(os.path.join(output, "configuration.ini"), "w") as f:
         f.write(f"[CONFIGURATION]\n")
         for option in configuration.options(section):
-            f.write(f"{option.upper()}={configuration[section][option].upper()}\n")
+            f.write(f"{option.upper()}={configuration[section][option]}\n")
 
     logging.info(f"Executing test case {test_id}.")
 
@@ -116,7 +119,7 @@ def execute_test(design_path, overwrite_existing_results):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder")
-    parser.add_argument("--logging", help="Logging level", type=int, choices=range(1, 6), default=2)
+    parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=2)
     parser.add_argument("--overwrite", help="Overwrite existing test cases", action='store_true', default=False)
 
     args = parser.parse_args()

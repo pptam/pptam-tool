@@ -6,7 +6,7 @@ import json
 import time
     
 def before(current_configuration, output, test_id):
-    sut_hostname = current_configuration["docker_sut_hostname"]
+    sut_hostname = current_configuration["docker_stats_hostname"]
     docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
     
     global run_docker_stats_in_background

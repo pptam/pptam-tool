@@ -14,9 +14,9 @@ def before(current_configuration, output, test_id):
     logging.info(f"Waiting for {seconds_to_wait_for_deployment} seconds to allow the application to deploy.")
     time.sleep(seconds_to_wait_for_deployment)
 
-def after(current_configuration, output, test_id):
-    seconds_to_wait_for_undeployment = int(current_configuration["docker_waiting_for_undeployment_in_seconds"])
-    command_undeploy_stack = f"docker stack rm {test_id}"
-    run_external_applicaton(command_undeploy_stack, False)
-    logging.info(f"Waiting for {seconds_to_wait_for_undeployment} seconds to allow the application to undeploy.")
-    time.sleep(seconds_to_wait_for_undeployment)
+# def after(current_configuration, output, test_id):
+#     seconds_to_wait_for_undeployment = int(current_configuration["docker_waiting_for_undeployment_in_seconds"])
+#     command_undeploy_stack = f"docker stack rm {test_id}"
+#     run_external_applicaton(command_undeploy_stack, False)
+#     logging.info(f"Waiting for {seconds_to_wait_for_undeployment} seconds to allow the application to undeploy.")
+#     time.sleep(seconds_to_wait_for_undeployment)
