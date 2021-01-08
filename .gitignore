@@ -138,3 +138,4 @@ cython_debug/
 /ui/grafana*
 /execute/executed*
 /design_trainticket/modified_images*
+/installation/.vagrant

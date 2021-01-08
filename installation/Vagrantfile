@@ -49,7 +49,7 @@ Vagrant.configure("2") do |config|
 
     testbed.vm.provider "virtualbox" do |v|
       v.memory = 8192
-      v.cpus = 1
+      v.cpus = 4
     end
 
     testbed.vm.provision :shell, inline: "echo fs.file-max = 65535 >> /etc/sysctl.conf && sysctl -p"
