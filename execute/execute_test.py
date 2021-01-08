@@ -117,6 +117,9 @@ def execute_test(design_path, overwrite_existing_results):
 
 
 if __name__ == "__main__":
+    if os.geteuid() != 0:
+        exit("You need to have root privileges to run this script.\nPlease try again, this time using 'sudo'. Exiting.")
+
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder")
     parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=2)
