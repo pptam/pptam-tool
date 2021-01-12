@@ -26,6 +26,7 @@ def run_plugins(configuration, section, output, test_id, func):
                 if function_to_call!=None:
                     call_result = function_to_call(configuration[section], output, test_id)
                     result.append(call_result)
+                    
             except Exception as e:
                 logging.critical(f"Cannot invoke plugin {plugin_name}: {e}")
     
@@ -55,8 +56,6 @@ def create_output_directory(configuration, section, repetition, overwrite_existi
     return output, test_id
 
 def perform_test(configuration, section, repetition, overwrite_existing_results):
-    run_plugins(configuration, section, None, None, "setup")
-
     output, test_id = create_output_directory(configuration, section, repetition, overwrite_existing_results)
     if output==None:
         return
@@ -89,8 +88,11 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     logging.info(f"Executing test case {test_id}.")
 
     try:
+        run_plugins(configuration, section, output, test_id, "setup")
+        run_plugins(configuration, section, output, test_id, "deploy")
         run_plugins(configuration, section, output, test_id, "before")
         run_plugins(configuration, section, output, test_id, "run")
+        run_plugins(configuration, section, output, test_id, "undeploy")
         run_plugins(configuration, section, output, test_id, "after")
     finally:
         run_plugins(configuration, section, output, test_id, "teardown")
@@ -101,7 +103,7 @@ def execute_test(design_path, overwrite_existing_results):
     configuration = configparser.ConfigParser()
     configuration.read([os.path.join(design_path, "configuration.ini"), os.path.join(design_path, "test_plan.ini")])
 
-    run_plugins(configuration, "DEFAULT", None, None, "setup_all")
+    run_plugins(configuration, "DEFAULT", design_path, None, "setup_all")
 
     for section in configuration.sections():
         if section.lower().startswith("test"):
@@ -111,7 +113,7 @@ def execute_test(design_path, overwrite_existing_results):
                 for repetition in range(repeat):
                     perform_test(configuration, section, repetition, overwrite_existing_results)
 
-    run_plugins(configuration, "DEFAULT", None, None, "teardown_all")
+    run_plugins(configuration, "DEFAULT", design_path, None, "teardown_all")
 
     logging.info(f"Done.")
 

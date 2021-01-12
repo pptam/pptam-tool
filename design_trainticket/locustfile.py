@@ -315,7 +315,6 @@ class Requests():
                 'response_time': time.time() - start_time,  'response': json.loads((response_order_refresh.content).decode('utf-8'))})
 
         response_order_refresh_content = json.loads(response_order_refresh.content)
-        print(json.dumps(response_order_refresh_content))
         response_as_json_order_id = response_order_refresh_content["data"][0]["id"]
         self.order_id = response_as_json_order_id
 

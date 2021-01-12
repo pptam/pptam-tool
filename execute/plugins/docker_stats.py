@@ -15,7 +15,8 @@ def before(current_configuration, output, test_id):
             current_configuration,
             docker_client,            
             file_to_write,
-            time, #Necessary, because of https://stackoverflow.com/questions/17084260/imported-modules-become-none-when-running-a-function/17531377
+            #Necessary, because of https://stackoverflow.com/questions/17084260/imported-modules-become-none-when-running-a-function/17531377
+            time, 
             json
         ), daemon=True)
     run_docker_stats_in_background.start()
@@ -23,8 +24,10 @@ def before(current_configuration, output, test_id):
 def get_docker_stats(current_configuration, client, file_to_write, time, json):
     sleep_between_stats_reading_in_seconds = int(current_configuration["docker_stats_sleep_between_stats_reading_in_seconds"])
     is_verbose = current_configuration["docker_stats_verbose"]=="1"
-    
-    while True:
+    global docker_stats_is_active
+    docker_stats_is_active = True
+
+    while docker_stats_is_active:
         with open(file_to_write, "a") as f:
             if not is_verbose:
                 f.write("timestamp, container, cpu_usage, memory_usage, memory_limit\n")
@@ -42,3 +45,6 @@ def get_docker_stats(current_configuration, client, file_to_write, time, json):
                         f.write(f"{json.dumps(stats, indent=2)}\n")
 
         time.sleep(sleep_between_stats_reading_in_seconds) 
+
+def after(current_configuration, output, test_id):
+    docker_stats_is_active = False
