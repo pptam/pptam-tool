@@ -21,7 +21,7 @@ services:
   redis:
     image: redis
     ports:
-      - 6379:6379
+       - 6379:6379
     deploy:
       replicas: 1 
       resources:
@@ -36,9 +36,9 @@ services:
 
   ts-ui-dashboard:
     image: codewisdom/ts-ui-dashboard:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 8080:8080
+       - 8080:8080
     deploy:
       replicas: 1
       resources:
@@ -55,9 +55,9 @@ services:
           
   ts-auth-service:
     image: codewisdom/ts-auth-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 12340:12340
+       - 12340:12340
     deploy:
       replicas: 1
       resources:
@@ -88,9 +88,9 @@ services:
           
   ts-user-service:
     image: codewisdom/ts-user-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 12342:12342
+       - 12342:12342
     deploy:
       replicas: 1
       resources:
@@ -121,9 +121,9 @@ services:
           
   ts-verification-code-service:
     image: codewisdom/ts-verification-code-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 15678:15678
+       - 15678:15678
     deploy:
       replicas: 1
       resources:
@@ -154,9 +154,9 @@ services:
           
   ts-route-service:
     image: codewisdom/ts-route-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 11178:11178
+       - 11178:11178
     deploy:
       replicas: 1
       resources:
@@ -187,9 +187,9 @@ services:
           
   ts-contacts-service:
     image: codewisdom/ts-contacts-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 12347:12347
+       - 12347:12347
     deploy:
       replicas: 1
       resources:
@@ -220,9 +220,9 @@ services:
           
   ts-order-service:
     image: codewisdom/ts-order-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 12031:12031
+       - 12031:12031
     deploy:
       replicas: 1
       resources:
@@ -253,9 +253,9 @@ services:
           
   ts-order-other-service:
     image: codewisdom/ts-order-other-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 12032:12032
+       - 12032:12032
     deploy:
       replicas: 1
       resources:
@@ -286,9 +286,9 @@ services:
           
   ts-config-service:
     image: codewisdom/ts-config-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 15679:15679
+       - 15679:15679
     deploy:
       replicas: 1
       resources:
@@ -319,9 +319,9 @@ services:
           
   ts-station-service:
     image: codewisdom/ts-station-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 12345:12345
+       - 12345:12345
     deploy:
       replicas: 1
       resources:
@@ -352,9 +352,9 @@ services:
           
   ts-train-service:
     image: codewisdom/ts-train-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 14567:14567
+       - 14567:14567
     deploy:
       replicas: 1
       resources:
@@ -385,9 +385,9 @@ services:
           
   ts-travel-service:
     image: codewisdom/ts-travel-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 12346:12346
+       - 12346:12346
     deploy:
       replicas: 1
       resources:
@@ -418,9 +418,9 @@ services:
           
   ts-travel2-service:
     image: codewisdom/ts-travel2-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 16346:16346
+       - 16346:16346
     deploy:
       replicas: 1
       resources:
@@ -451,9 +451,9 @@ services:
           
   ts-preserve-service:
     image: my-ts-preserve-service:latest
-    restart: always
+    # restart: always
     ports:
-      - 14568:14568
+       - 14568:14568
     deploy:
       replicas: 1
       resources:
@@ -470,9 +470,9 @@ services:
           
   ts-preserve-other-service:
     image: my-ts-preserve-other-service:latest
-    restart: always
+    # restart: always
     ports:
-      - 14569:14569
+       - 14569:14569
     deploy:
       replicas: 1
       resources:
@@ -489,9 +489,9 @@ services:
           
   ts-basic-service:
     image: codewisdom/ts-basic-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 15680:15680
+       - 15680:15680
     deploy:
       replicas: 1
       resources:
@@ -508,9 +508,9 @@ services:
           
   ts-ticketinfo-service:
     image: codewisdom/ts-ticketinfo-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 15681:15681
+       - 15681:15681
     deploy:
       replicas: 1
       resources:
@@ -527,9 +527,9 @@ services:
           
   ts-price-service:
     image: codewisdom/ts-price-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 16579:16579
+       - 16579:16579
     deploy:
       replicas: 1
       resources:
@@ -560,9 +560,9 @@ services:
           
   ts-notification-service:
     image: codewisdom/ts-notification-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 17853:17853
+       - 17853:17853
     deploy:
       replicas: 1
       resources:
@@ -579,9 +579,9 @@ services:
           
   ts-security-service:
     image: codewisdom/ts-security-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 11188:11188
+       - 11188:11188
     deploy:
       replicas: 1
       resources:
@@ -612,9 +612,9 @@ services:
           
   ts-inside-payment-service:
     image: codewisdom/ts-inside-payment-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 18673:18673
+       - 18673:18673
     deploy:
       replicas: 1
       resources:
@@ -645,9 +645,9 @@ services:
           
   ts-execute-service:
     image: codewisdom/ts-execute-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 12386:12386
+       - 12386:12386
     deploy:
       replicas: 1
       resources:
@@ -664,9 +664,9 @@ services:
           
   ts-payment-service:
     image: codewisdom/ts-payment-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 19001:19001
+       - 19001:19001
     deploy:
       replicas: 1
       resources:
@@ -697,9 +697,9 @@ services:
           
   ts-rebook-service:
     image: codewisdom/ts-rebook-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 18886:18886
+       - 18886:18886
     deploy:
       replicas: 1
       resources:
@@ -730,9 +730,9 @@ services:
           
   ts-cancel-service:
     image: codewisdom/ts-cancel-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 18885:18885
+       - 18885:18885
     deploy:
       replicas: 1
       resources:
@@ -749,9 +749,9 @@ services:
           
   ts-assurance-service:
     image: codewisdom/ts-assurance-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 18888:18888
+       - 18888:18888
     deploy:
       replicas: 1
       resources:
@@ -782,9 +782,9 @@ services:
           
   ts-seat-service:
     image: codewisdom/ts-seat-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 18898:18898
+       - 18898:18898
     deploy:
       replicas: 1
       resources:
@@ -801,9 +801,9 @@ services:
           
   ts-travel-plan-service:
     image: codewisdom/ts-travel-plan-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 14322:14322
+       - 14322:14322
     deploy:
       replicas: 1
       resources:
@@ -820,9 +820,9 @@ services:
           
   ts-ticket-office-service:
     image: codewisdom/ts-ticket-office-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 16108:16108
+       - 16108:16108
     deploy:
       replicas: 1
       resources:
@@ -853,9 +853,9 @@ services:
           
   ts-news-service:
     image: codewisdom/ts-news-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 12862:12862
+       - 12862:12862
     deploy:
       replicas: 1
       resources:
@@ -886,8 +886,8 @@ services:
           
   ts-voucher-mysql:
     image: mysql
-    expose:
-      - "3306"
+    # expose:
+    #  - "3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
     deploy:
@@ -906,9 +906,9 @@ services:
           
   ts-voucher-service:
     image: codewisdom/ts-voucher-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 16101:16101
+       - 16101:16101
     depends_on:
       - ts-voucher-mysql
     volumes:
@@ -929,9 +929,9 @@ services:
           
   ts-food-map-service:
     image: codewisdom/ts-food-map-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 18855:18855
+       - 18855:18855
     deploy:
       replicas: 1
       resources:
@@ -962,9 +962,9 @@ services:
           
   ts-route-plan-service:
     image: codewisdom/ts-route-plan-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 14578:14578
+       - 14578:14578
     deploy:
       replicas: 1
       resources:
@@ -981,9 +981,9 @@ services:
           
   ts-food-service:
     image: codewisdom/ts-food-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 18856:18856
+       - 18856:18856
     deploy:
       replicas: 1
       resources:
@@ -1000,9 +1000,9 @@ services:
           
   ts-consign-service:
     image: codewisdom/ts-consign-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 16111:16111
+       - 16111:16111
     deploy:
       replicas: 1
       resources:
@@ -1033,9 +1033,9 @@ services:
           
   ts-consign-price-service:
     image: codewisdom/ts-consign-price-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 16110:16110
+       - 16110:16110
     deploy:
       replicas: 1
       resources:
@@ -1080,9 +1080,9 @@ services:
           
   ts-admin-basic-info-service:
     image: codewisdom/ts-admin-basic-info-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 18767:18767
+       - 18767:18767
     deploy:
       replicas: 1
       resources:
@@ -1099,9 +1099,9 @@ services:
           
   ts-admin-order-service:
     image: codewisdom/ts-admin-order-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 16112:16112
+       - 16112:16112
     deploy:
       replicas: 1
       resources:
@@ -1118,9 +1118,9 @@ services:
           
   ts-admin-route-service:
     image: codewisdom/ts-admin-route-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 16113:16113
+       - 16113:16113
     deploy:
       replicas: 1
       restart_policy:
@@ -1138,9 +1138,9 @@ services:
           
   ts-admin-travel-service:
     image: codewisdom/ts-admin-travel-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 16114:16114
+       - 16114:16114
     deploy:
       replicas: 1
       restart_policy:
@@ -1158,9 +1158,9 @@ services:
           
   ts-admin-user-service:
     image: codewisdom/ts-admin-user-service:0.0.3
-    restart: always
+    # restart: always
     ports:
-      - 16115:16115
+       - 16115:16115
     deploy:
       replicas: 1
       restart_policy:
@@ -1179,7 +1179,7 @@ services:
   jaeger:
     image: jaegertracing/all-in-one:1.15
     ports:
-      - 16686:16686
+       - 16686:16686
     deploy:
       replicas: 1
       restart_policy:

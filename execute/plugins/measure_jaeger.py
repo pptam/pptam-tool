@@ -18,6 +18,7 @@ def after(current_configuration, output, test_id):
         if (any("all" in s for s in jaeger_services) or any(service in s for s in jaeger_services)):
             file_to_write = os.path.join(output, f"jaeger_{service}.log")  
 
+            logging.info(f"Wrinting Jaeger data for service {service}.")
             with open(file_to_write, "a") as f:
                 request = session.get(f"{jaeger_host}/api/traces?service=" + service)
                 data = json.loads(request.content)["data"]

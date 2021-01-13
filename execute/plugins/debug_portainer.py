@@ -10,5 +10,5 @@ def setup_all(current_configuration, design_path, test_id):
 
 def teardown_all(current_configuration, design_path, test_id):
     command_undeploy_stack = f"docker stack rm portainer"
-    run_external_applicaton(command_undeploy_stack, False)
+    run_external_applicaton(command_undeploy_stack)
     
