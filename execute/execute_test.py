@@ -87,15 +87,19 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
 
     logging.info(f"Executing test case {test_id}.")
 
-    try:
-        run_plugins(configuration, section, output, test_id, "setup")
-        run_plugins(configuration, section, output, test_id, "deploy")
+    run_plugins(configuration, section, output, test_id, "setup")
+    run_plugins(configuration, section, output, test_id, "deploy")
+        
+    plugins_are_ready = run_plugins(configuration, section, output, test_id, "ready")
+    if False in plugins_are_ready:
+        logging.critical("Cannot start because not all plugins are ready.")
+    else:
         run_plugins(configuration, section, output, test_id, "before")
         run_plugins(configuration, section, output, test_id, "run")
-        run_plugins(configuration, section, output, test_id, "undeploy")
         run_plugins(configuration, section, output, test_id, "after")
-    finally:
-        run_plugins(configuration, section, output, test_id, "teardown")
+
+    run_plugins(configuration, section, output, test_id, "undeploy")
+    run_plugins(configuration, section, output, test_id, "teardown")
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
@@ -117,6 +121,10 @@ def execute_test(design_path, overwrite_existing_results):
 
     logging.info(f"Done.")
 
+def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.client.mount('https://', HTTPAdapter(pool_maxsize=100))
+    self.client.mount('http://', HTTPAdapter(pool_maxsize=100))
 
 if __name__ == "__main__":
     if os.geteuid() != 0:
@@ -130,7 +138,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
-
+    logging.getLogger("requests").setLevel(logging.WARNING)
+    logging.getLogger("urllib3").setLevel(logging.WARNING)
+    
     design_path = args.design
     if design_path == None or (not os.path.exists(design_path)):
         logging.fatal(f"Cannot find the design folder. Please indicate one with the parameter --design")

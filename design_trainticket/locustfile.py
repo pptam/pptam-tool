@@ -453,6 +453,11 @@ class UserNoLogin(HttpUser):
     weight = 1
     wait_time = constant(1)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.client.mount('https://', HTTPAdapter(pool_maxsize=50))
+        self.client.mount('http://', HTTPAdapter(pool_maxsize=50))
+
     @task
     def perfom_task(self):
         logging.debug("Running user 'no login'...")
@@ -484,6 +489,11 @@ class UserNoLogin(HttpUser):
 class UserBooking(HttpUser):
     weight = 1
     wait_time = constant(1)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.client.mount('https://', HTTPAdapter(pool_maxsize=50))
+        self.client.mount('http://', HTTPAdapter(pool_maxsize=50))
 
     @task
     def perform_task(self):
@@ -554,6 +564,11 @@ class UserBooking(HttpUser):
 class UserConsignTicket(HttpUser):
     weight = 0
     wait_time = constant(1)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.client.mount('https://', HTTPAdapter(pool_maxsize=50))
+        self.client.mount('http://', HTTPAdapter(pool_maxsize=50))
 
     @task
     def perform_task(self):
@@ -634,6 +649,11 @@ class UserCancelNoRefund(HttpUser):
     weight = 1
     wait_time = constant(1)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.client.mount('https://', HTTPAdapter(pool_maxsize=50))
+        self.client.mount('http://', HTTPAdapter(pool_maxsize=50))
+
     @task
     def perform_task(self):
         logging.debug("Running user 'cancel no refund'...")
@@ -711,6 +731,11 @@ class UserRefundVoucher(HttpUser):
     weight = 0
     wait_time = constant(1)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.client.mount('https://', HTTPAdapter(pool_maxsize=50))
+        self.client.mount('http://', HTTPAdapter(pool_maxsize=50))
+        
     @task
     def perform_task(self):
         logging.debug("Running user 'refound voucher'...")
