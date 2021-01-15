@@ -15,13 +15,12 @@ def collect_data(current_configuration, output, test_id, logging, docker, thread
     containers_to_watch = current_configuration["docker_stats_containers"].split()
 
     is_verbose = current_configuration["docker_stats_verbose"]=="1"
-
     sleep_between_stats_reading_in_seconds = int(current_configuration["docker_stats_sleep_between_stats_reading_in_seconds"])
-    run_time_in_seconds = int(current_configuration["run_time_in_seconds"])
-    number_of_measurements = int(run_time_in_seconds / sleep_between_stats_reading_in_seconds)
-    logging.info(f"Collecting Docker stats {number_of_measurements} times.")
-            
-    for i in range(number_of_measurements+1):
+
+    global continue_measurement
+    continue_measurement = True
+    
+    while continue_measurement:
         time.sleep(sleep_between_stats_reading_in_seconds)
 
         logging.info(f"Collecting Docker stats #{i+1} in background.")
@@ -57,3 +56,7 @@ def collect_data(current_configuration, output, test_id, logging, docker, thread
 def before(current_configuration, output, test_id):
     stats = threading.Thread(target=collect_data, args=(current_configuration, output, test_id, logging, docker, threading, os, json, time), daemon=True)
     stats.start()
+
+def after(current_configuration, output, test_id):
+    global continue_measurement
+    continue_measurement = False
