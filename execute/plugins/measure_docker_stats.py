@@ -48,17 +48,21 @@ class CollectionTask:
                         with open(file_to_write, "a") as f:        
                             logging.info(f"Collecting Docker stats of {container.name}.")
                             
-                            stats = container.stats(stream=False) # takes about 2s
-                            if (stats!=None):
-                                if not self.is_verbose:
-                                    timestamp = stats["read"]
-                                    container = container.name
-                                    cpu_usage = stats["cpu_stats"]["cpu_usage"]["total_usage"]
-                                    memory_usage = stats["memory_stats"]["usage"]
-                                    memory_limit = stats["memory_stats"]["limit"]
-                                    f.write(f"{timestamp}, {container}, {cpu_usage}, {memory_usage}, {memory_limit}\n")
-                                else:
-                                    f.write(f"{json.dumps(stats, indent=2)}\n")
+                            try:
+                                stats = container.stats(stream=False) # takes about 2s
+                                if (stats!=None):
+                                    if not self.is_verbose:
+                                        timestamp = stats["read"]
+                                        container = container.name
+                                        cpu_usage = stats["cpu_stats"]["cpu_usage"]["total_usage"]
+                                        memory_usage = stats["memory_stats"]["usage"]
+                                        memory_limit = stats["memory_stats"]["limit"]
+                                        f.write(f"{timestamp}, {container}, {cpu_usage}, {memory_usage}, {memory_limit}\n")
+                                    else:
+                                        f.write(f"{json.dumps(stats, indent=2)}\n")
+                            except Exception as e:
+                                self.logging.critical(f"Exception in Docker stats: {e}")
+
                         f.close()
             except Exception as e:
                 self.logging.critical(f"Exception in Docker stats: {e}")

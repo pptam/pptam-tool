@@ -12,7 +12,7 @@ def setup(global_plugin_state, current_configuration, output, test_id):
 def deploy(global_plugin_state, current_configuration, output, test_id):
     seconds_to_wait_for_deployment = int(current_configuration["docker_waiting_for_deployment_in_seconds"])
     deployment_descriptor = os.path.join(output, "docker-compose.yml")
-    command_deploy_stack = f"docker stack deploy --compose-file={deployment_descriptor} {test_id}"
+    command_deploy_stack = f"docker stack deploy --with-registry-auth --compose-file={deployment_descriptor} {test_id}"
     run_external_applicaton(command_deploy_stack)
     logging.info(f"Waiting for {seconds_to_wait_for_deployment} seconds to allow the application to deploy.")
     time.sleep(seconds_to_wait_for_deployment)
