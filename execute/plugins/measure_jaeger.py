@@ -3,7 +3,7 @@ import os
 import requests
 import json
 
-def after(current_configuration, output, test_id): 
+def after(global_plugin_state, current_configuration, output, test_id): 
     session = requests.Session()
     session.headers.update({'accept': 'application/json'})
     session.headers.update({'content-type': 'application/json'})

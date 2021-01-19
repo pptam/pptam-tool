@@ -8,8 +8,11 @@ import shutil
 import configparser
 import datetime
 import csv
+import json
 from pluginbase import PluginBase
 from lib import run_external_applicaton, replace_values_in_file
+
+global_plugin_state = {}
 
 def run_plugins(configuration, section, output, test_id, func):
     result = []
@@ -24,7 +27,9 @@ def run_plugins(configuration, section, output, test_id, func):
             try:
                 function_to_call = getattr(plugin, func, None)
                 if function_to_call!=None:
-                    call_result = function_to_call(configuration[section], output, test_id)
+                    logging.info(f"Current plugin state contains {global_plugin_state.keys()}")
+
+                    call_result = function_to_call(global_plugin_state, configuration[section], output, test_id)
                     result.append(call_result)
                     
             except Exception as e:

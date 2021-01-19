@@ -31,7 +31,7 @@ conda init
 conda install -c r r-essentials -y
 conda install -c conda-forge notebook -y
 conda install -c anaconda python=3.8 pip -y
-pip install requests locust psutil influxdb-client docker
+pip install requests locust psutil influxdb-client docker pluginbase
 
 cp -r /vagrant/configuration/jupyter /home/vagrant/.jupyter
 

@@ -4,21 +4,20 @@ services:
   front-end:
     image: weaveworksdemos/front-end:0.3.12
     ports:
-      - "80:8079"
+      - '80:8079'
     environment:
       - reschedule=on-node-failure
     deploy:
       placement:
         constraints:
           - node.hostname == ${DOCKER_SUT_HOSTNAME}
+      restart_policy:
+        condition: any
+
   catalogue:
     image: weaveworksdemos/catalogue:0.3.5
     environment:
       - reschedule=on-node-failure
-    deploy:
-      placement:
-        constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
   catalogue-db:
     image: weaveworksdemos/catalogue-db:0.3.0
     environment:
@@ -30,33 +29,30 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_SUT_HOSTNAME}
-  carts:
-    image: weaveworksdemos/cart:0.4.1
-    deploy:
-      mode: replicated
-      replicas: ${CARTS_REPLICAS}
-      placement:
-        constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
-      update_config:
-        parallelism: 2
-        delay: 10s
-      resources:
-        limits:
-          cpus: "${CARTS_CPUS_LIMITS}"
-          memory: ${CARTS_RAM_LIMITS}
-        reservations:
-          cpus: "${CARTS_CPUS_RESERVATIONS}"
-          memory: ${CARTS_RAM_RESERVATIONS}
       restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
+        condition: any
+
+  carts:
+    image: weaveworksdemos/carts:0.4.8
     environment:
       - reschedule=on-node-failure
       - JAVA_OPTS=-Xms64m -Xmx128m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom -Dspring.zipkin.enabled=false
-  cart-db:
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+      replicas: ${CARTS_REPLICAS}
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          cpus: "${CARTS_CPUS_LIMITS}"
+          memory: ${CARTS_RAM_LIMITS_IN_MEGABYTES}M
+        reservations:
+          cpus: "${CARTS_CPUS_RESERVATIONS}"
+          memory: ${CARTS_RAM_RESERVATIONS_IN_MEGABYTES}M
+
+  carts-db:
     image: mongo:3.4
     environment:
       - reschedule=on-node-failure
@@ -64,6 +60,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_SUT_HOSTNAME}
+      restart_policy:
+        condition: any
+
   orders:
     image: weaveworksdemos/orders:0.4.7
     environment:
@@ -73,6 +72,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_SUT_HOSTNAME}
+      restart_policy:
+        condition: any
+
   orders-db:
     image: mongo:3.4
     environment:
@@ -81,6 +83,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_SUT_HOSTNAME}
+      restart_policy:
+        condition: any
+
   shipping:
     image: weaveworksdemos/shipping:0.4.8
     environment:
@@ -90,6 +95,19 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_SUT_HOSTNAME}
+      restart_policy:
+        condition: any
+
+  # @pidster: I've added this back in a comment, because I don't know why it is missing from this file
+  # queue-master:
+  #   image: weaveworksdemos/queue-master:0.3.1
+  #   hostname: queue-master
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   dns: 172.17.0.1
+  #   environment:
+  #     - reschedule=on-node-failure
+
   rabbitmq:
     image: rabbitmq:3.6.8
     environment:
@@ -98,6 +116,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_SUT_HOSTNAME}
+      restart_policy:
+        condition: any
+
   payment:
     image: weaveworksdemos/payment:0.4.3
     environment:
@@ -106,6 +127,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_SUT_HOSTNAME}
+      restart_policy:
+        condition: any
+
   user:
     image: weaveworksdemos/user:0.4.4
     environment:
@@ -115,6 +139,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_SUT_HOSTNAME}
+      restart_policy:
+        condition: any
+
   user-db:
     image: weaveworksdemos/user-db:0.4.0
     environment:
@@ -123,3 +150,10 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_SUT_HOSTNAME}
+      restart_policy:
+        condition: any
+
+  # user-sim:
+  #   image: weaveworksdemos/load-test:0.1.1
+  #   command: "-d 60 -r 200 -c 2 -h front-end:8079"
+    

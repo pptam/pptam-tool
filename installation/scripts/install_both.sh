@@ -20,3 +20,5 @@ usermod -aG docker vagrant
 # Adding both machines to the hosts file so that they can be found by name 
 sudo echo 192.168.50.100 driver >> /etc/hosts
 sudo echo 192.168.50.101 testbed >> /etc/hosts
+
+sudo echo * - nofile 100000 >> /etc/security/limits.conf

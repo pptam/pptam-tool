@@ -11,6 +11,7 @@ import time
 import os
 import string
 import logging
+from requests.adapters import HTTPAdapter 
 
 DEP_DATE = "2021-01-08"
 
@@ -103,7 +104,7 @@ class Requests():
                 catch_response = True,
                 name = req_label) as response:
             do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time,  'response': json.loads((response.content).decode('utf-8'))})
+                    'response_time': time.time() - start_time,  'response': json.loads(response.content)})
 
     def search_departure(self, expected):
         if(expected):
@@ -166,7 +167,7 @@ class Requests():
                                             "password": self.user_name
                                         }, name = req_label)
             do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
+                    'response_time': time.time() - start_time, 'response': json.loads(response.content)})
         else:
             response = self.client.post(url = "/api/v1/users/login",
                                         json = {
@@ -175,7 +176,7 @@ class Requests():
                                             "password": random_string_generator()
                                         }, name = req_label)
             do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
+                    'response_time': time.time() - start_time, 'response': json.loads(response.content)})
 
         response_as_json = json.loads(response.content)["data"]
         if response_as_json is not None:
@@ -207,7 +208,7 @@ class Requests():
                 headers = head,
                 name = req_label) as response:
             do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
+                    'response_time': time.time() - start_time, 'response': json.loads(response.content)})
 
     def get_foods(self, expected):
         departure_date = DEP_DATE
@@ -220,7 +221,7 @@ class Requests():
                 headers = head,
                 name = req_label) as response:
             do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
+                    'response_time': time.time() - start_time, 'response': json.loads(response.content)})
 
     def select_contact(self, expected):
         head = {"Accept": "application/json",
@@ -297,7 +298,7 @@ class Requests():
                 catch_response = True,
                 name = req_label) as response:
             do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
+                    'response_time': time.time() - start_time, 'response': json.loads(response.content)})
 
     def select_order(self, expected):
         head = {"Accept": "application/json",
@@ -330,7 +331,7 @@ class Requests():
                     json = {"orderId": self.order_id, "tripId": "D1345"},
                     name = req_label) as response:
                 do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
+                        'response_time': time.time() - start_time, 'response': json.loads(response.content)})
 
         else:
             with self.client.post(
@@ -339,7 +340,7 @@ class Requests():
                     json = {"orderId": random_string_generator(), "tripId": "D1345"},
                     name = req_label) as response:
                 do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time,  'response': json.loads((response.content).decode('utf-8'))})
+                        'response_time': time.time() - start_time,  'response': json.loads(response.content)})
 
     # cancelNoRefund
 
@@ -354,7 +355,7 @@ class Requests():
                     headers = head,
                     name = req_label) as response:
                 do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
+                        'response_time': time.time() - start_time, 'response': json.loads(response.content)})
 
         else:
             with self.client.get(
@@ -362,7 +363,7 @@ class Requests():
                     headers = head,
                     name = req_label) as response:
                 do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
+                        'response_time': time.time() - start_time, 'response': json.loads(response.content)})
 
     # user refund with voucher
 
@@ -378,7 +379,7 @@ class Requests():
                     json = {"orderId": self.order_id, "type": 1},
                     name = req_label) as response:
                 do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
+                        'response_time': time.time() - start_time, 'response': json.loads(response.content)})
 
         else:
             with self.client.post(
@@ -399,7 +400,7 @@ class Requests():
                 headers = head,
                 name = req_label) as response:
             do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': json.loads((response.content).decode('utf-8'))})
+                    'response_time': time.time() - start_time, 'response': json.loads(response.content)})
 
     def confirm_consign(self, expected):
         head = {"Accept": "application/json",
