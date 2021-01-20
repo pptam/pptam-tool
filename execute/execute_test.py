@@ -27,7 +27,8 @@ def run_plugins(configuration, section, output, test_id, func):
             try:
                 function_to_call = getattr(plugin, func, None)
                 if function_to_call!=None:
-                    logging.info(f"Current plugin state contains {global_plugin_state.keys()}")
+                    plugin_state = ", ".join(global_plugin_state.keys())
+                    logging.info(f"Current plugin state contains [{plugin_state}]")
 
                     call_result = function_to_call(global_plugin_state, configuration[section], output, test_id)
                     result.append(call_result)
@@ -94,9 +95,19 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
 
     run_plugins(configuration, section, output, test_id, "setup")
     run_plugins(configuration, section, output, test_id, "deploy")
-        
-    plugins_are_ready = run_plugins(configuration, section, output, test_id, "ready")
-    if False in plugins_are_ready:
+
+    plugins_are_ready = None
+    for i in range(10):   
+        plugins_are_ready = run_plugins(configuration, section, output, test_id, "ready")
+
+        if not (False in plugins_are_ready):
+            break
+
+        logging.critical("Cannot start because not all plugins are ready, waiting 1 min...")
+        self.time.sleep(60)
+
+
+    if (plugins_are_ready == None) or (False in plugins_are_ready):
         logging.critical("Cannot start because not all plugins are ready.")
     else:
         run_plugins(configuration, section, output, test_id, "before")
