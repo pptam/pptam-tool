@@ -6,7 +6,7 @@ def ready(global_plugin_state, current_configuration, output, test_id):
 
     sut_hostname = current_configuration["docker_test_hostname"]
     docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
-    tests = current_configuration["test_if_image_is_present"].split()
+    tests = current_configuration["docker_test_if_image_is_present"].split()
 
     for test in tests:    
         found = False
