@@ -93,7 +93,17 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
 
     logging.info(f"Executing test case {test_id}.")
 
+    seconds_to_wait_before_setup = int(configuration[section]["seconds_to_wait_before_setup"])
+    seconds_to_wait_before_deploy = int(configuration[section]["seconds_to_wait_before_deploy"])
+    seconds_to_wait_before_before = int(configuration[section]["seconds_to_wait_before_before"])
+    seconds_to_wait_before_run = int(configuration[section]["seconds_to_wait_before_run"])
+    seconds_to_wait_before_after = int(configuration[section]["seconds_to_wait_before_after"])
+    seconds_to_wait_before_undeploy = int(configuration[section]["seconds_to_wait_before_undeploy"])
+    seconds_to_wait_before_teardown = int(configuration[section]["seconds_to_wait_before_teardown"])
+
+    time.sleep(seconds_to_wait_before_setup)
     run_plugins(configuration, section, output, test_id, "setup")
+    time.sleep(seconds_to_wait_before_deploy)
     run_plugins(configuration, section, output, test_id, "deploy")
 
     plugins_are_ready = None
@@ -103,18 +113,22 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         if not (False in plugins_are_ready):
             break
 
-        logging.critical("Cannot start because not all plugins are ready, waiting 1 min...")
-        self.time.sleep(60)
-
+        logging.critical("Cannot start because not all plugins are ready, waiting 1 min.")
+        time.sleep(60)
 
     if (plugins_are_ready == None) or (False in plugins_are_ready):
         logging.critical("Cannot start because not all plugins are ready.")
     else:
+        time.sleep(seconds_to_wait_before_before)
         run_plugins(configuration, section, output, test_id, "before")
+        time.sleep(seconds_to_wait_before_run)
         run_plugins(configuration, section, output, test_id, "run")
+        time.sleep(seconds_to_wait_before_after)
         run_plugins(configuration, section, output, test_id, "after")
 
+    time.sleep(seconds_to_wait_before_undeploy)
     run_plugins(configuration, section, output, test_id, "undeploy")
+    time.sleep(seconds_to_wait_before_teardown)
     run_plugins(configuration, section, output, test_id, "teardown")
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
