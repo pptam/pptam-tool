@@ -30,7 +30,7 @@ class CollectionTask:
     def run(self, output, test_id): 
 
         def collect_stats(output, service_name, container):
-            file_to_write = self.os.path.join(output, f"docker_stats.log")   
+            file_to_write = self.os.path.join(output, f"docker_stats.csv")   
 
             if not self.os.path.isfile(file_to_write) and not self.is_verbose:
                 with open(file_to_write, "w") as f:                
