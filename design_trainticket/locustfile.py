@@ -45,11 +45,6 @@ def sequence_generator(matrix, all_functions):
         i += 1
     return array
 
-
-def do_log(logDict: dict):
-    logging.debug(json.dumps(logDict))
-
-
 def random_string_generator():
     len = randint(8, 16)
     prob = randint(0, 100)
@@ -79,12 +74,23 @@ def postfix(expected = True):
 
 class Requests():
 
+    def __init__(self, client):
+        self.client = client
+
+        handler = logging.FileHandler("locustfile_debug.log")        
+        # handler.setFormatter(logging.Formatter('%(asctime)s %(message)s'))
+        logger = logging.getLogger("Debugging logger")
+        logger.setLevel(logging.DEBUG)
+        logger.addHandler(handler)
+        self.debugging_logger = logger
+
     def home(self, expected):
 
         req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
         with self.client.get('/index.html', name = req_label) as response:
-            do_log({'name': req_label, 'expected': expected,  'status_code': response.status_code, 'response_time': time.time() - start_time})
+            to_log = {'name': req_label, 'expected': expected,  'status_code': response.status_code, 'response_time': time.time() - start_time}
+            self.debugging_logger.debug(json.dumps(to_log))
 
     def search_ticket(self, departure_date, from_station, to_station, expected = True):
         head = {"Accept": "application/json",
@@ -103,23 +109,22 @@ class Requests():
                 json = body_start,
                 catch_response = True,
                 name = req_label) as response:
-            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time,  'response': response.json})
-            
+            to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
+                        'response_time': time.time() - start_time,  'response': response.json()}
+            self.debugging_logger.debug(json.dumps(to_log))
+           
 
     def search_departure(self, expected):
         if(expected):
-            Requests.search_ticket(self, date.today().strftime(random_date_generator()), "Shang Hai", "Su Zhou", expected)
+            self.search_ticket(date.today().strftime(random_date_generator()), "Shang Hai", "Su Zhou", expected)
         else:
-            Requests.search_ticket(
-                self, date.today().strftime(random_date_generator()), random_string_generator(), "Su Zhou", expected)
+            self.search_ticket(date.today().strftime(random_date_generator()), random_string_generator(), "Su Zhou", expected)
 
     def search_return(self, expected):
         if(expected):
-            Requests.search_ticket(self, date.today().strftime(random_date_generator()), "Su Zhou", "Shang Hai", expected)
+            self.search_ticket(date.today().strftime(random_date_generator()), "Su Zhou", "Shang Hai", expected)
         else:
-            Requests.search_ticket(
-                self, date.today().strftime(random_date_generator()), random_string_generator(), "Shang Hai", expected)
+            self.search_ticket(date.today().strftime(random_date_generator()), random_string_generator(), "Shang Hai", expected)
 
     def _create_user(self, expected):
         req_label = 'admin_login' + postfix(expected)
@@ -128,13 +133,14 @@ class Requests():
                               json={"username": "admin",
                                     "password": "222222"},
                               name = req_label) as response1:
-            do_log({'name': req_label, 'expected': expected, 'status_code': response1.status_code,
-                    'response_time': time.time() - start_time, 'response': response1.json})
+            to_log = {'name': req_label, 'expected': expected, 'status_code': response1.status_code,
+                    'response_time': time.time() - start_time, 'response': response1.json()}
+            self.debugging_logger.debug(json.dumps(to_log))                              
 
-            response_as_json1 = json.loads(response1.content)["data"]
-            token = response_as_json1["token"]
+            response1_as_json = response1.json()["data"]
+            token = response1_as_json["token"]
             self.bearer = "Bearer " + token
-            userrID = response_as_json1["userId"]
+            userrID = response1_as_json["userId"]
             document_num = str(uuid.uuid4())
             self.user_name = str(uuid.uuid4())
 
@@ -145,20 +151,21 @@ class Requests():
                                   "Authorization": self.bearer, "Accept": "application/json", "Content-Type": "application/json"},
                               json = {"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": self.user_name, "userName": self.user_name},
                               name = req_label) as response2:
-            do_log({'name': req_label, 'expected': expected, 'status_code': response2.status_code,
-                    'response_time': time.time() - start_time, 'response': response2.json})
-            response_as_json2 = json.loads(response2.content)["data"]
+            to_log = {'name': req_label, 'expected': expected, 'status_code': response2.status_code,
+                    'response_time': time.time() - start_time, 'response': response2.json()}
+            self.debugging_logger.debug(json.dumps(to_log))
 
     def _navigate_to_client_login(self, expected = True):
         req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
         with self.client.get('/client_login.html', name = req_label) as response:
-            do_log({'name': req_label, 'expected': True,  'status_code': response.status_code, 'response_time': time.time() - start_time})
+            to_log = {'name': req_label, 'expected': True,  'status_code': response.status_code, 'response_time': time.time() - start_time}
+            self.debugging_logger.debug(json.dumps(to_log))
 
     def login(self, expected):
-        Requests._create_user(self, True)
+        self._create_user(True)
 
-        Requests._navigate_to_client_login(self)
+        self._navigate_to_client_login()
         req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
         if(expected):
@@ -167,8 +174,9 @@ class Requests():
                                             "username": self.user_name,
                                             "password": self.user_name
                                         }, name = req_label)
-            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': response.json})
+            to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
+                    'response_time': time.time() - start_time, 'response': response.json()}
+            self.debugging_logger.debug(json.dumps(to_log))
         else:
             response = self.client.post(url = "/api/v1/users/login",
                                         json = {
@@ -176,10 +184,11 @@ class Requests():
                                             # wrong password
                                             "password": random_string_generator()
                                         }, name = req_label)
-            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': response.json})
+            to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
+                    'response_time': time.time() - start_time, 'response': response.json()}
+            self.debugging_logger.debug(json.dumps(to_log))
 
-        response_as_json = json.loads(response.content)["data"]
+        response_as_json = response.json()["data"]
         if response_as_json is not None:
             token = response_as_json["token"]
             self.bearer = "Bearer " + token
@@ -197,7 +206,8 @@ class Requests():
                 url = "/client_ticket_book.html?tripId=D1345&from=Shang%20Hai&to=Su%20Zhou&seatType=2&seat_price=50.0&date=" + departure_date,
                 headers = head,
                 name = req_label) as response:
-            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code, 'response_time': time.time() - start_time})
+            to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code, 'response_time': time.time() - start_time}
+            self.debugging_logger.debug(json.dumps(to_log))
 
     def get_assurance_types(self, expected):
         head = {"Accept": "application/json",
@@ -208,8 +218,9 @@ class Requests():
                 url = "/api/v1/assuranceservice/assurances/types",
                 headers = head,
                 name = req_label) as response:
-            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': response.json})
+            to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
+                    'response_time': time.time() - start_time, 'response': response.json()}
+            self.debugging_logger.debug(json.dumps(to_log))
 
     def get_foods(self, expected):
         departure_date = DEP_DATE
@@ -221,8 +232,9 @@ class Requests():
                 url = "/api/v1/foodservice/foods/" + departure_date + "/Shang%20Hai/Su%20Zhou/D1345",
                 headers = head,
                 name = req_label) as response:
-            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': json.loads(response.content)})
+            to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
+                    'response_time': time.time() - start_time, 'response': response.json()}
+            self.debugging_logger.debug(json.dumps(to_log))
 
     def select_contact(self, expected):
         head = {"Accept": "application/json",
@@ -233,11 +245,11 @@ class Requests():
                 url = "/api/v1/contactservice/contacts/account/" + self.user_id,
                 headers = head,
                 name = req_label)
-        do_log({'name': req_label, 'expected': expected, 'status_code': response_contacts.status_code,
-                'response_time': time.time() - start_time,  'response': response_contacts.json})
+        to_log = {'name': req_label, 'expected': expected, 'status_code': response_contacts.status_code,
+                'response_time': time.time() - start_time,  'response': response_contacts.json()}
+        self.debugging_logger.debug(json.dumps(to_log))
 
-        response_as_json_contacts = json.loads(
-            response_contacts.content)["data"]
+        response_as_json_contacts = response_contacts.json()["data"]
 
         if len(response_as_json_contacts) == 0:
             req_label = 'set_new_contact' + postfix(expected)
@@ -248,8 +260,7 @@ class Requests():
                         "name": self.user_id, "accountId": self.user_id, "documentType": "1", "documentNumber": self.user_id, "phoneNumber": "123456"},
                     name = req_label)
 
-            response_as_json_contacts = json.loads(
-                response_contacts.content)["data"]
+            response_as_json_contacts = response_contacts.json()["data"]
             self.contactid = response_as_json_contacts["id"]
         else:
             self.contactid = response_as_json_contacts[0]["id"]
@@ -298,8 +309,9 @@ class Requests():
                 json = body_for_reservation,
                 catch_response = True,
                 name = req_label) as response:
-            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': response.json})
+            to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
+                        'response_time': time.time() - start_time, 'response': response.json()}
+            self.debugging_logger.debug(json.dumps(to_log))
 
     def select_order(self, expected):
         head = {"Accept": "application/json",
@@ -313,12 +325,12 @@ class Requests():
                 json = {
                     "loginId": self.user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"})
 
-        do_log({'name': req_label, 'expected': expected, 'status_code': response_order_refresh.status_code,
-                'response_time': time.time() - start_time,  'response': response_order_refresh.json})
+        to_log = {'name': req_label, 'expected': expected, 'status_code': response_order_refresh.status_code,
+                'response_time': time.time() - start_time,  'response': response_order_refresh.json()}
+        self.debugging_logger.debug(json.dumps(to_log))
 
-        response_order_refresh_content = json.loads(response_order_refresh.content)
-        response_as_json_order_id = response_order_refresh_content["data"][0]["id"]
-        self.order_id = response_as_json_order_id
+        response_as_json = response_order_refresh.json()["data"]
+        self.order_id = response_as_json[0]["id"]
 
     def pay(self, expected):
         head = {"Accept": "application/json",
@@ -331,17 +343,18 @@ class Requests():
                     headers = head,
                     json = {"orderId": self.order_id, "tripId": "D1345"},
                     name = req_label) as response:
-                do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': response.json})
-
+                to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
+                        'response_time': time.time() - start_time, 'response': response.json()}
+                self.debugging_logger.debug(json.dumps(to_log))
         else:
             with self.client.post(
                     url = "/api/v1/inside_pay_service/inside_payment",
                     headers = head,
                     json = {"orderId": random_string_generator(), "tripId": "D1345"},
                     name = req_label) as response:
-                do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time,  'response': response.json})
+                to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
+                        'response_time': time.time() - start_time,  'response': response.json()}
+                self.debugging_logger.debug(json.dumps(to_log))
 
     # cancelNoRefund
 
@@ -355,16 +368,18 @@ class Requests():
                     url = "/api/v1/cancelservice/cancel/" + self.order_id + "/" + self.user_id,
                     headers = head,
                     name = req_label) as response:
-                do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': response.json})
+                to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
+                        'response_time': time.time() - start_time, 'response': response.json()}
+                self.debugging_logger.debug(json.dumps(to_log))
 
         else:
             with self.client.get(
                     url = "/api/v1/cancelservice/cancel/" + self.order_id + "/" + random_string_generator(),
                     headers = head,
                     name = req_label) as response:
-                do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': response.json})
+                to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
+                        'response_time': time.time() - start_time, 'response': response.json()}
+                self.debugging_logger.debug(json.dumps(to_log))
 
     # user refund with voucher
 
@@ -379,8 +394,9 @@ class Requests():
                     headers = head,
                     json = {"orderId": self.order_id, "type": 1},
                     name = req_label) as response:
-                do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': response.json})
+                to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
+                        'response_time': time.time() - start_time, 'response': response.json()}
+                self.debugging_logger.debug(json.dumps(to_log))
 
         else:
             with self.client.post(
@@ -388,8 +404,9 @@ class Requests():
                     headers = head,
                     json = {"orderId": random_string_generator(), "type": 1},
                     name = req_label) as response:
-                do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time})
+                to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
+                        'response_time': time.time() - start_time}
+                self.debugging_logger.debug(json.dumps(to_log))
 
     # consign ticket
 
@@ -400,8 +417,9 @@ class Requests():
                 url = "/api/v1/consignservice/consigns/order/" + self.order_id,
                 headers = head,
                 name = req_label) as response:
-            do_log({'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': response.json})
+            to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
+                    'response_time': time.time() - start_time, 'response': response.json()}
+            self.debugging_logger.debug(json.dumps(to_log))
 
     def confirm_consign(self, expected):
         head = {"Accept": "application/json",
@@ -424,9 +442,9 @@ class Requests():
                         "id": "",
                         "isWithin": "false"},
                     headers = head)
-            do_log({'name': req_label, 'expected': expected, 'status_code': response_as_json_consign.status_code,
-                    'response_time': time.time() - start_time, 'response': response_as_json_consign.json})
-
+            to_log = {'name': req_label, 'expected': expected, 'status_code': response_as_json_consign.status_code,
+                    'response_time': time.time() - start_time, 'response': response_as_json_consign.json()}
+            self.debugging_logger.debug(json.dumps(to_log))
         else:
             response_as_json_consign = self.client.put(
                     url = "/api/v1/consignservice/consigns",
@@ -442,13 +460,14 @@ class Requests():
                         "weight": "1",
                         "id": "",
                         "isWithin": "false"}, headers=head)
-            do_log({'name': req_label, 'expected': expected, 'status_code': response_as_json_consign.status_code,
-                    'response_time': time.time() - start_time, 'response': response_as_json_consign.json})
+            to_log = {'name': req_label, 'expected': expected, 'status_code': response_as_json_consign.status_code,
+                    'response_time': time.time() - start_time, 'response': response_as_json_consign.json()}
+            self.debugging_logger.debug(json.dumps(to_log))
 
     def perform_task(self, name):
         name_without_suffix = name.replace("_expected", "").replace("_unexpected", "")
-        task = getattr(Requests, name_without_suffix)
-        task(self, name.endswith('_expected'))
+        task = getattr(self, name_without_suffix)
+        task(name.endswith('_expected'))
 
 
 class UserNoLogin(HttpUser):
@@ -484,8 +503,9 @@ class UserNoLogin(HttpUser):
 
         task_sequence = sequence_generator(matrix, all_functions)
 
+        requests = Requests(self.client)
         for task in task_sequence:
-            Requests.perform_task(self, task)
+            requests.perform_task(task)
 
 
 class UserBooking(HttpUser):
@@ -559,8 +579,9 @@ class UserBooking(HttpUser):
 
         task_sequence = sequence_generator(matrix, all_functions)
 
+        requests = Requests(self.client)
         for task in task_sequence:
-            Requests.perform_task(self, task)
+            requests.perform_task(task)
 
 
 class UserConsignTicket(HttpUser):
@@ -643,8 +664,9 @@ class UserConsignTicket(HttpUser):
 
         task_sequence = sequence_generator(matrix, all_functions)
 
+        requests = Requests(self.client)
         for task in task_sequence:
-            Requests.perform_task(self, task)
+            requests.perform_task(task)
 
 
 class UserCancelNoRefund(HttpUser):
@@ -725,8 +747,9 @@ class UserCancelNoRefund(HttpUser):
 
         task_sequence = sequence_generator(matrix, all_functions)
 
+        requests = Requests(self.client)
         for task in task_sequence:
-            Requests.perform_task(self, task)
+            requests.perform_task(task)
 
 
 class UserRefundVoucher(HttpUser):
@@ -808,5 +831,6 @@ class UserRefundVoucher(HttpUser):
 
         task_sequence = sequence_generator(matrix, all_functions)
 
+        requests = Requests(self.client)
         for task in task_sequence:
-            Requests.perform_task(self, task)
+            requests.perform_task(task)

@@ -5,7 +5,6 @@ import secrets
 from locust import HttpUser, task, between
 import requests
 
-
 class TrainTicketUser(HttpUser):
     wait_time = between(5, 9)
 

@@ -29,10 +29,12 @@ class CollectionTask:
     
     def run(self, output, test_id): 
 
-        def collect_stats(file_to_write, container):
+        def collect_stats(output, service_name, container):
+            file_to_write = self.os.path.join(output, f"docker_stats.log")   
+
             if not self.os.path.isfile(file_to_write) and not self.is_verbose:
                 with open(file_to_write, "w") as f:                
-                    f.write("timestamp, container, cpu_usage, memory_usage, memory_limit\n")
+                    f.write("timestamp, service, cpu_usage, memory_usage, memory_limit\n")
                     f.close()
 
             with open(file_to_write, "a") as f:        
@@ -43,11 +45,10 @@ class CollectionTask:
                     if (stats!=None):
                         if not self.is_verbose:
                             timestamp = stats["read"]
-                            container = container.name
                             cpu_usage = stats["cpu_stats"]["cpu_usage"]["total_usage"]
                             memory_usage = stats["memory_stats"]["usage"]
                             memory_limit = stats["memory_stats"]["limit"]
-                            f.write(f"{timestamp}, {container}, {cpu_usage}, {memory_usage}, {memory_limit}\n")
+                            f.write(f"{timestamp}, {service_name}, {cpu_usage}, {memory_usage}, {memory_limit}\n")
                         else:
                             f.write(f"{json.dumps(stats, indent=2)}\n")
                     else:
@@ -70,9 +71,8 @@ class CollectionTask:
                         last_dot = service_name.rfind(".")
                         if last_dot > 0:
                             service_name = service_name[0:last_dot-2]
-
-                        file_to_write = self.os.path.join(output, f"docker_stats_{service_name}.log")  
-                        collect_stats(file_to_write, container)
+                        
+                        collect_stats(output, service_name, container)
   
             except Exception as e:
                 self.logging.critical(f"Exception in Docker stats: {e}")

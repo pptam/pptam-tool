@@ -2,6 +2,7 @@ import logging
 import requests
 import json
 import os
+import time
 
 def after(global_plugin_state, current_configuration, output, test_id): 
     try: 
@@ -27,6 +28,7 @@ def after(global_plugin_state, current_configuration, output, test_id):
                 else:
                     break
 
+            input("Press Enter to continue...")
             time.sleep(60)
         
         if (all_services != None) and (service_to_test in all_services):
