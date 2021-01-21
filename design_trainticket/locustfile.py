@@ -92,6 +92,12 @@ class Requests():
             to_log = {'name': req_label, 'expected': expected,  'status_code': response.status_code, 'response_time': time.time() - start_time}
             self.debugging_logger.debug(json.dumps(to_log))
 
+    def try_to_read_response_as_json(response):
+        try: 
+            return response.json()
+        except JSONDecodeError:
+            return response.content
+
     def search_ticket(self, departure_date, from_station, to_station, expected = True):
         head = {"Accept": "application/json",
                 "Content-Type": "application/json"}
@@ -106,11 +112,12 @@ class Requests():
         with self.client.post(
                 url = "/api/v1/travelservice/trips/left",
                 headers = head,
-                json = body_start,
+                json = body_start, 
                 catch_response = True,
                 name = req_label) as response:
+            
             to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time,  'response': response.json()}
+                        'response_time': time.time() - start_time,  'response': self.try_to_read_response_as_json(response)}
             self.debugging_logger.debug(json.dumps(to_log))
            
 
@@ -134,7 +141,7 @@ class Requests():
                                     "password": "222222"},
                               name = req_label) as response1:
             to_log = {'name': req_label, 'expected': expected, 'status_code': response1.status_code,
-                    'response_time': time.time() - start_time, 'response': response1.json()}
+                    'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response1)}
             self.debugging_logger.debug(json.dumps(to_log))                              
 
             response1_as_json = response1.json()["data"]
@@ -152,7 +159,7 @@ class Requests():
                               json = {"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": self.user_name, "userName": self.user_name},
                               name = req_label) as response2:
             to_log = {'name': req_label, 'expected': expected, 'status_code': response2.status_code,
-                    'response_time': time.time() - start_time, 'response': response2.json()}
+                    'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response2)}
             self.debugging_logger.debug(json.dumps(to_log))
 
     def _navigate_to_client_login(self, expected = True):
@@ -175,7 +182,7 @@ class Requests():
                                             "password": self.user_name
                                         }, name = req_label)
             to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': response.json()}
+                    'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response)}
             self.debugging_logger.debug(json.dumps(to_log))
         else:
             response = self.client.post(url = "/api/v1/users/login",
@@ -185,7 +192,7 @@ class Requests():
                                             "password": random_string_generator()
                                         }, name = req_label)
             to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': response.json()}
+                    'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response)}
             self.debugging_logger.debug(json.dumps(to_log))
 
         response_as_json = response.json()["data"]
@@ -219,7 +226,7 @@ class Requests():
                 headers = head,
                 name = req_label) as response:
             to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': response.json()}
+                    'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response)}
             self.debugging_logger.debug(json.dumps(to_log))
 
     def get_foods(self, expected):
@@ -233,7 +240,7 @@ class Requests():
                 headers = head,
                 name = req_label) as response:
             to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': response.json()}
+                    'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response)}
             self.debugging_logger.debug(json.dumps(to_log))
 
     def select_contact(self, expected):
@@ -246,7 +253,7 @@ class Requests():
                 headers = head,
                 name = req_label)
         to_log = {'name': req_label, 'expected': expected, 'status_code': response_contacts.status_code,
-                'response_time': time.time() - start_time,  'response': response_contacts.json()}
+                'response_time': time.time() - start_time,  'response': self.try_to_read_response_as_json(response_contacts)}
         self.debugging_logger.debug(json.dumps(to_log))
 
         response_as_json_contacts = response_contacts.json()["data"]
@@ -310,7 +317,7 @@ class Requests():
                 catch_response = True,
                 name = req_label) as response:
             to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': response.json()}
+                        'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response)}
             self.debugging_logger.debug(json.dumps(to_log))
 
     def select_order(self, expected):
@@ -326,7 +333,7 @@ class Requests():
                     "loginId": self.user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"})
 
         to_log = {'name': req_label, 'expected': expected, 'status_code': response_order_refresh.status_code,
-                'response_time': time.time() - start_time,  'response': response_order_refresh.json()}
+                'response_time': time.time() - start_time,  'response': self.try_to_read_response_as_json(response_order_refresh)}
         self.debugging_logger.debug(json.dumps(to_log))
 
         response_as_json = response_order_refresh.json()["data"]
@@ -344,7 +351,7 @@ class Requests():
                     json = {"orderId": self.order_id, "tripId": "D1345"},
                     name = req_label) as response:
                 to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': response.json()}
+                        'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response)}
                 self.debugging_logger.debug(json.dumps(to_log))
         else:
             with self.client.post(
@@ -353,7 +360,7 @@ class Requests():
                     json = {"orderId": random_string_generator(), "tripId": "D1345"},
                     name = req_label) as response:
                 to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time,  'response': response.json()}
+                        'response_time': time.time() - start_time,  'response': self.try_to_read_response_as_json(response)}
                 self.debugging_logger.debug(json.dumps(to_log))
 
     # cancelNoRefund
@@ -369,7 +376,7 @@ class Requests():
                     headers = head,
                     name = req_label) as response:
                 to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': response.json()}
+                        'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response)}
                 self.debugging_logger.debug(json.dumps(to_log))
 
         else:
@@ -378,7 +385,7 @@ class Requests():
                     headers = head,
                     name = req_label) as response:
                 to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': response.json()}
+                        'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response)}
                 self.debugging_logger.debug(json.dumps(to_log))
 
     # user refund with voucher
@@ -395,7 +402,7 @@ class Requests():
                     json = {"orderId": self.order_id, "type": 1},
                     name = req_label) as response:
                 to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                        'response_time': time.time() - start_time, 'response': response.json()}
+                        'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response)}
                 self.debugging_logger.debug(json.dumps(to_log))
 
         else:
@@ -418,7 +425,7 @@ class Requests():
                 headers = head,
                 name = req_label) as response:
             to_log = {'name': req_label, 'expected': expected, 'status_code': response.status_code,
-                    'response_time': time.time() - start_time, 'response': response.json()}
+                    'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response)}
             self.debugging_logger.debug(json.dumps(to_log))
 
     def confirm_consign(self, expected):
@@ -443,7 +450,7 @@ class Requests():
                         "isWithin": "false"},
                     headers = head)
             to_log = {'name': req_label, 'expected': expected, 'status_code': response_as_json_consign.status_code,
-                    'response_time': time.time() - start_time, 'response': response_as_json_consign.json()}
+                    'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response_as_json_consign)}
             self.debugging_logger.debug(json.dumps(to_log))
         else:
             response_as_json_consign = self.client.put(
@@ -461,7 +468,7 @@ class Requests():
                         "id": "",
                         "isWithin": "false"}, headers=head)
             to_log = {'name': req_label, 'expected': expected, 'status_code': response_as_json_consign.status_code,
-                    'response_time': time.time() - start_time, 'response': response_as_json_consign.json()}
+                    'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response_as_json_consign)}
             self.debugging_logger.debug(json.dumps(to_log))
 
     def perform_task(self, name):
@@ -834,3 +841,4 @@ class UserRefundVoucher(HttpUser):
         requests = Requests(self.client)
         for task in task_sequence:
             requests.perform_task(task)
+
