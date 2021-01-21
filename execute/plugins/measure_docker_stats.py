@@ -48,7 +48,7 @@ class CollectionTask:
                             cpu_usage = stats["cpu_stats"]["cpu_usage"]["total_usage"]
                             memory_usage = stats["memory_stats"]["usage"]
                             memory_limit = stats["memory_stats"]["limit"]
-                            f.write(f"{timestamp}, {service_name}, {cpu_usage}, {memory_usage}, {memory_limit}\n")
+                            f.write(f"{timestamp},{service_name},{cpu_usage},{memory_usage},{memory_limit}\n")
                         else:
                             f.write(f"{json.dumps(stats, indent=2)}\n")
                     else:

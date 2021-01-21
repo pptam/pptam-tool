@@ -92,10 +92,10 @@ class Requests():
             to_log = {'name': req_label, 'expected': expected,  'status_code': response.status_code, 'response_time': time.time() - start_time}
             self.debugging_logger.debug(json.dumps(to_log))
 
-    def try_to_read_response_as_json(response):
+    def try_to_read_response_as_json(self, response):
         try: 
             return response.json()
-        except JSONDecodeError:
+        except:
             return response.content
 
     def search_ticket(self, departure_date, from_station, to_station, expected = True):
