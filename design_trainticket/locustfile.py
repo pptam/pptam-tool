@@ -77,7 +77,8 @@ class Requests():
     def __init__(self, client):
         self.client = client
 
-        handler = logging.FileHandler("locustfile_debug.log")        
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        handler = logging.FileHandler(os.path.join(dir_path, "locustfile_debug.log"))   
         # handler.setFormatter(logging.Formatter('%(asctime)s %(message)s'))
         logger = logging.getLogger("Debugging logger")
         logger.setLevel(logging.DEBUG)
