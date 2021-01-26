@@ -35,7 +35,6 @@ class CollectionTask:
             if not self.os.path.isfile(file_to_write) and not self.is_verbose:
                 with open(file_to_write, "w") as f:                
                     f.write("timestamp, service, cpu_usage, memory_usage, memory_limit\n")
-                    f.close()
 
             with open(file_to_write, "a") as f:        
                 self.logging.info(f"Collecting Docker stats of {container.name}.")
@@ -55,8 +54,6 @@ class CollectionTask:
                         self.logging.critical(f"Cannot collect Docker stats.")
                 except Exception as e:
                     self.logging.critical(f"Exception in Docker stats: {e}")
-
-            f.close()
 
         iteration = 1
         

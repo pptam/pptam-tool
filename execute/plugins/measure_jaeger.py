@@ -11,7 +11,7 @@ def after(global_plugin_state, current_configuration, output, test_id):
         service_to_test = current_configuration["jaeger_test_if_service_is_present"]
 
         all_services = []
-        for i in range(10):   
+        for i in range(60):   
             session = requests.Session()
             session.headers.update({'accept': 'application/json'})
             session.headers.update({'content-type': 'application/json'})
@@ -21,10 +21,10 @@ def after(global_plugin_state, current_configuration, output, test_id):
             all_services = service_request.json()["data"]
             
             if all_services == None:
-                logging.critical(f"Cannot determine Jaeger services: {service_request.json}, waiting 1 min.")
+                logging.critical(f"Cannot determine Jaeger services: {service_request.json}.")
             else:
                 if not (service_to_test in all_services):
-                    logging.critical(f"Service {service_to_test} is not in the list of services, waiting 1 min.")
+                    logging.critical(f"Service {service_to_test} is not in the list of services.")
                 else:
                     break
 

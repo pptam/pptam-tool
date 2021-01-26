@@ -18,16 +18,56 @@ services:
   #    ports:
   #      - 9411:9411
   #      #      
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.15
+    ports:
+       - 16686:16686
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    deploy:      
+      placement:
+        constraints:
+          - node.hostname == ${DOCKER_NODE_NAME}
+    networks:
+      - my-network
+
+  #https://prometheus.io/docs/guides/cadvisor/
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   container_name: prometheus
+  #   ports:
+  #   - 9090:9090
+  #   command:
+  #   - --config.file=/etc/prometheus/prometheus.yml
+  #   volumes:
+  #   - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  #   depends_on:
+  #   - cadvisor
+
+  # cadvisor:
+  #   image: gcr.io/cadvisor/cadvisor:latest
+  #   container_name: cadvisor
+  #   ports:
+  #   - 8080:8080
+  #   volumes:
+  #   - /:/rootfs:ro
+  #   - /var/run:/var/run:rw
+  #   - /sys:/sys:ro
+  #   - /var/lib/docker/:/var/lib/docker:ro
+  #   depends_on:
+  #   - redis
+
   redis:
     image: redis
     ports:
        - 6379:6379
     deploy:
       replicas: 1 
-      resources:
-        limits:
-          cpus: "${DOCKER_CPUS}"
-          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
+      restart_policy:
+        condition: on-failure
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
@@ -1161,25 +1201,6 @@ services:
     # restart: always
     ports:
        - 16115:16115
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-    deploy:
-      resources:
-        limits:
-          cpus: "${DOCKER_CPUS}"
-          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
-      placement:
-        constraints:
-          - node.hostname == ${DOCKER_NODE_NAME}
-    networks:
-      - my-network
-          
-  jaeger:
-    image: jaegertracing/all-in-one:1.15
-    ports:
-       - 16686:16686
     deploy:
       replicas: 1
       restart_policy:
