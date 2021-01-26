@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  server:
+    image: clue/json-server
+    ports:
+      - '80:80'
+    volumes:
+      - ./data.json:/data/db.json
+    # deploy:
+    #   placement:
+    #     constraints:
+    #       - node.hostname == ${DOCKER_SUT_HOSTNAME}
+    #   restart_policy:
+    #     condition: any
+
+  
