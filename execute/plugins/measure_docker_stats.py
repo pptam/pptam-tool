@@ -40,6 +40,13 @@ class CollectionTask:
                 cpu_percent = cpu_delta / system_delta * 100.0 #* cpu_count
             return cpu_percent
 
+        def extract_service_name(container, test_id):
+            service_name = container[len(test_id)+1:]
+            last_dot = service_name.rfind(".")
+            if last_dot > 0:
+                service_name = service_name[0:last_dot-2]
+            return service_name
+
         def collect_stats(output, service_name, container):
             file_to_write = self.os.path.join(output, f"docker_stats.csv")
 
@@ -73,13 +80,13 @@ class CollectionTask:
 
             try:
                 for container in self.docker_client.containers.list():
-                    if (any("all" in s for s in self.containers_to_watch) or any(test in container.name for test in self.containers_to_watch)):
-                        service_name = container.name[len(test_id)+1:]
-                        last_dot = service_name.rfind(".")
-                        if last_dot > 0:
-                            service_name = service_name[0:last_dot-2]
+                    service_name = extract_service_name(container.name, test_id)
 
-                        collect_stats(output, service_name, container)
+                    if ("all" in self.containers_to_watch) or (service_name in self.containers_to_watch):
+                        if f"!{service_name}" in self.containers_to_watch:
+                            logging.debug(f"Skipping container {container.name}.")
+                        else:
+                            collect_stats(output, service_name, container)
 
             except Exception as e:
                 self.logging.critical(f"Exception in Docker stats: {e}")
