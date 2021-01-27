@@ -7,7 +7,7 @@ def get_configuration_files(global_plugin_state, current_configuration, output, 
     return ["docker-compose.yml"]
 
 def setup(global_plugin_state, current_configuration, output, test_id):
-    run_external_applicaton("docker service rm $(docker service ls -q)", False)
+    run_external_applicaton("docker service rm $(docker service ls -q) 2> nul", False)
     run_external_applicaton("/etc/init.d/docker restart")
 
 def deploy(global_plugin_state, current_configuration, output, test_id):

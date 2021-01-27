@@ -111,7 +111,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     run_plugins(configuration, section, output, test_id, "deploy")
 
     plugins_are_ready = None
-    for i in range(10):   
+    for _ in range(10):   
         plugins_are_ready = run_plugins(configuration, section, output, test_id, "ready")
 
         if not (False in plugins_are_ready):
