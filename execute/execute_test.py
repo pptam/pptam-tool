@@ -50,7 +50,8 @@ def create_output_directory(configuration, section, repetition, overwrite_existi
     if not os.path.isdir(all_outputs):
         logging.debug(f"Creating {all_outputs}, since it does not exist.")
         os.makedirs(all_outputs)
-    if (x.endswith(test_id_without_timestamp) in os.listdir(all_outputs)):
+        
+    if any(x.endswith(test_id_without_timestamp) for x in os.listdir(all_outputs)):
         if overwrite_existing_results:
             name_of_existing_folder = next(x for x in os.listdir(all_outputs) if x.endswith(test_id_without_timestamp))
             logging.warning(f"Deleting {name_of_existing_folder}, since it already exists and the --override flag is set.")
@@ -153,11 +154,6 @@ def execute_test(design_path, overwrite_existing_results):
     run_plugins(configuration, "DEFAULT", design_path, None, "teardown_all")
 
     logging.info(f"Done.")
-
-def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    self.client.mount('https://', HTTPAdapter(pool_maxsize=100))
-    self.client.mount('http://', HTTPAdapter(pool_maxsize=100))
 
 if __name__ == "__main__":
     if os.geteuid() != 0:
