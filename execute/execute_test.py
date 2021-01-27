@@ -21,20 +21,23 @@ def run_plugins(configuration, section, output, test_id, func):
     plugin_base = PluginBase(package='plugins')
     plugin_source = plugin_base.make_plugin_source(searchpath=['./plugins'])
     for plugin_name in plugin_source.list_plugins():
-        if not plugin_name.startswith("_") and (any("all" in p for p in plugins) or any(plugin_name in p for p in plugins)):
-            logging.debug(f"Executing {func} of plugin {plugin_name}.")
-            plugin = plugin_source.load_plugin(plugin_name)
-            try:
-                function_to_call = getattr(plugin, func, None)
-                if function_to_call!=None:
-                    plugin_state = ", ".join(global_plugin_state.keys())
-                    logging.info(f"Current plugin state contains [{plugin_state}]")
+        if not plugin_name.startswith("_") and (("all" in plugins) or (plugin_name in plugins)):
+            if f"!{plugin_name}" in plugins:
+                logging.debug(f"Skipping plugin {plugin_name}.")
+            else:
+                logging.debug(f"Executing {func} of plugin {plugin_name}.")
+                plugin = plugin_source.load_plugin(plugin_name)
+                try:
+                    function_to_call = getattr(plugin, func, None)
+                    if function_to_call!=None:
+                        plugin_state = ", ".join(global_plugin_state.keys())
+                        logging.info(f"Current plugin state contains [{plugin_state}]")
 
-                    call_result = function_to_call(global_plugin_state, configuration[section], output, test_id)
-                    result.append(call_result)
-                    
-            except Exception as e:
-                logging.critical(f"Cannot invoke plugin {plugin_name}: {e}")
+                        call_result = function_to_call(global_plugin_state, configuration[section], output, test_id)
+                        result.append(call_result)
+                        
+                except Exception as e:
+                    logging.critical(f"Cannot invoke plugin {plugin_name}: {e}")
     
     return result
 
@@ -47,7 +50,7 @@ def create_output_directory(configuration, section, repetition, overwrite_existi
     if not os.path.isdir(all_outputs):
         logging.debug(f"Creating {all_outputs}, since it does not exist.")
         os.makedirs(all_outputs)
-    if any(x.endswith(test_id_without_timestamp) for x in os.listdir(all_outputs)):
+    if (x.endswith(test_id_without_timestamp) in os.listdir(all_outputs)):
         if overwrite_existing_results:
             name_of_existing_folder = next(x for x in os.listdir(all_outputs) if x.endswith(test_id_without_timestamp))
             logging.warning(f"Deleting {name_of_existing_folder}, since it already exists and the --override flag is set.")
