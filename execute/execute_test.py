@@ -159,20 +159,34 @@ if __name__ == "__main__":
     if os.geteuid() != 0:
         exit("You need to have root privileges to run this script.\nPlease try again, this time using 'sudo'. Exiting.")
 
-    parser = argparse.ArgumentParser(description="Executes test cases.")
-    parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder")
-    parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=2)
-    parser.add_argument("--overwrite", help="Overwrite existing test cases", action='store_true', default=False)
+    overwrite_data = False
+    design_path = None
+    logging_level = 2
 
-    args = parser.parse_args()
+    if os.path.exists("./arguments.ini"):
+        arguments = configparser.ConfigParser()
+        arguments.read("./arguments.ini")
+        overwrite_data = arguments["ARGUMENTS"]["OVERWRITE"] == "1"
+        design_path = arguments["ARGUMENTS"]["DESIGN"]
+        logging_level = int(arguments["ARGUMENTS"]["LOGGING"])
+    else:
+        parser = argparse.ArgumentParser(description="Executes test cases.")
+        parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder")
+        parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=2)
+        parser.add_argument("--overwrite", help="Overwrite existing test cases", action='store_true', default=False)
 
-    logging.basicConfig(format='%(message)s', level=args.logging * 10)
+        args = parser.parse_args()
+
+        overwrite_data = args.overwrite
+        design_path = args.design
+        logging_level = args.logging
+
+    logging.basicConfig(format='%(message)s', level=logging_level * 10)
     logging.getLogger("requests").setLevel(logging.WARNING)
     logging.getLogger("urllib3").setLevel(logging.WARNING)
-    
-    design_path = args.design
-    if design_path == None or (not os.path.exists(design_path)):
+        
+    if design_path == None or design_path == "" or (not os.path.exists(design_path)):
         logging.fatal(f"Cannot find the design folder. Please indicate one with the parameter --design")
         quit()
 
-    execute_test(design_path, args.overwrite)
+    execute_test(design_path, overwrite_data)

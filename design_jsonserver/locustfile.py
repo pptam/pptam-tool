@@ -2,20 +2,30 @@ import random
 import json
 import datetime
 import secrets
-from locust import HttpUser, task, between
+from locust import HttpUser, task, between, events
 import requests
 
+@events.test_start.add_listener
+def setup(environment, **kwargs):
+    headers = {'content-type': 'application/json'}
+
+    for i in range(10):
+        name_of_car = "Great car {i}"
+        type_of_car = random.randrange(1, 10)
+        year_of_car = random.randrange(1920, 2021)
+        requests.post(f"{environment.host}/cars", data=json.dumps({'name': name_of_car, 'type': type_of_car, 'year': year_of_car}), headers=headers, verify=False)
+        
 class JsonUser(HttpUser):
     wait_time = between(5, 9)
 
-    def setup(self):
-        self.client.post("/cars", {'name':'great car 1', 'type':'1', 'year':'2001'}, verify=False)
-        self.client.post("/cars", {'name':'great car 2', 'type':'2', 'year':'2011'}, verify=False)
-        self.client.post("/cars", {'name':'great car 3', 'type':'3', 'year':'2021'}, verify=False)
-
     @task
-    def see_offers(self):
-        self.client.get("/cars", verify=False)
-        self.client.get("/cars/1", verify=False)
-        self.client.get("/cars/2", verify=False)
-        self.client.get("/cars/3", verify=False)
+    def see_all(self):
+        headers = {'content-type': 'application/json'}
+        self.client.get("/cars", headers=headers, verify=False)
+        
+    @task
+    def see_cars(self):
+        headers = {'content-type': 'application/json'}
+        for _ in range(random.randrange(1, 20)):
+            car = random.randrange(1, 10)
+            self.client.get(f"/cars/{car}", headers=headers, verify=False)
