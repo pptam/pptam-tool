@@ -20,7 +20,7 @@ def after(global_plugin_state, current_configuration, output, test_id):
             service_request = session.get(f"{jaeger_host}/api/services")
             all_services = service_request.json()["data"]
             
-            if all_services == None:
+            if all_services is None:
                 logging.critical(f"Cannot determine Jaeger services: {service_request.json}.")
             else:
                 if not (service_to_test in all_services):

@@ -120,7 +120,7 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         logging.critical("Cannot start because not all plugins are ready, waiting 1 min.")
         time.sleep(60)
 
-    if (plugins_are_ready == None) or (False in plugins_are_ready):
+    if (plugins_are_ready is None) or (False in plugins_are_ready):
         logging.critical("Cannot start because not all plugins are ready.")
     else:
         time.sleep(seconds_to_wait_before_before)
@@ -185,7 +185,7 @@ if __name__ == "__main__":
     logging.getLogger("requests").setLevel(logging.WARNING)
     logging.getLogger("urllib3").setLevel(logging.WARNING)
         
-    if design_path == None or design_path == "" or (not os.path.exists(design_path)):
+    if design_path is None or design_path == "" or (not os.path.exists(design_path)):
         logging.fatal(f"Cannot find the design folder. Please indicate one with the parameter --design")
         quit()
 
