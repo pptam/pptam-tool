@@ -57,6 +57,7 @@ class CollectionTask:
             with open(file_to_write, "a") as f:
                 self.logging.info(f"Collecting Docker stats of {container.name}.")
 
+                stats = None
                 try:
                     stats = container.stats(stream=False) # takes about 2s
                     if (stats != None):
@@ -66,11 +67,20 @@ class CollectionTask:
                             mem_perc = int(stats["memory_stats"]["usage"]) / int(stats["memory_stats"]["limit"]) * 100
                             f.write(f"{timestamp},{service_name},{str(cpu_perc)},{str(mem_perc)}\n")
                         else:
-                            f.write(f"{json.dumps(stats, indent=2)}\n")
+                            f.write(f"{self.json.dumps(stats, indent=2)}\n")
                     else:
                         self.logging.critical(f"Cannot collect Docker stats.")
+                        if (stats != None):
+                            print(self.json.dumps(stats, indent=2))
+                        else:
+                            print("!!!!")
+
                 except Exception as e:
                     self.logging.critical(f"Exception in Docker stats: {e}")
+                    if (stats != None):
+                        print(self.json.dumps(stats, indent=2))
+                    else:
+                        print("!!!!2")
 
         iteration = 1
 

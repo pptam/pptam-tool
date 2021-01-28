@@ -3,11 +3,13 @@ import os
 import time
 from lib import run_external_applicaton
 
+def prepare_all(global_plugin_state, current_configuration, design_path, test_id):
+    run_external_applicaton("docker service rm $(docker service ls -q) 2>/dev/null", False)
+
 def get_configuration_files(global_plugin_state, current_configuration, output, test_id):
     return ["docker-compose.yml"]
 
 def setup(global_plugin_state, current_configuration, output, test_id):
-    run_external_applicaton("docker service rm $(docker service ls -q) 2>/dev/null", False)
     run_external_applicaton("/etc/init.d/docker restart")
 
 def deploy(global_plugin_state, current_configuration, output, test_id):
