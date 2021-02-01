@@ -30,7 +30,8 @@ class CollectionTask:
     def run(self, output, test_id):
 
         def calculate_cpu_percent_norm(d):
-            cpu_count = len(d["cpu_stats"]["cpu_usage"]["percpu_usage"])
+            # The field cpu_count is not always present. If used, we need to check that it is present.
+            # cpu_count = len(d["cpu_stats"]["cpu_usage"]["percpu_usage"])
             cpu_percent = 0.0
             cpu_delta = float(d["cpu_stats"]["cpu_usage"]["total_usage"]) - \
                         float(d["precpu_stats"]["cpu_usage"]["total_usage"])
@@ -68,19 +69,9 @@ class CollectionTask:
                             f.write(f"{timestamp},{service_name},{str(cpu_perc)},{str(mem_perc)}\n")
                         else:
                             f.write(f"{self.json.dumps(stats, indent=2)}\n")
-                    else:
-                        self.logging.critical(f"Cannot collect Docker stats.")
-                        if (stats != None):
-                            print(self.json.dumps(stats, indent=2))
-                        else:
-                            print("!!!!")
 
                 except Exception as e:
                     self.logging.critical(f"Exception in Docker stats: {e}")
-                    if (stats != None):
-                        print(self.json.dumps(stats, indent=2))
-                    else:
-                        print("!!!!2")
 
         iteration = 1
 
@@ -90,6 +81,9 @@ class CollectionTask:
 
             try:
                 for container in self.docker_client.containers.list():
+                    if not self._running:
+                        break
+                        
                     service_name = extract_service_name(container.name, test_id)
 
                     if ("all" in self.containers_to_watch) or (service_name in self.containers_to_watch):

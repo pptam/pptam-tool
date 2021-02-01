@@ -20,7 +20,9 @@ def run_plugins(configuration, section, output, test_id, func):
     
     plugin_base = PluginBase(package='plugins')
     plugin_source = plugin_base.make_plugin_source(searchpath=['./plugins'])
-    for plugin_name in plugin_source.list_plugins():
+    plugin_list = sorted(plugin_source.list_plugins())
+
+    for plugin_name in plugin_list:
         if not plugin_name.startswith("_") and (("all" in plugins) or (plugin_name in plugins)):
             if f"!{plugin_name}" in plugins:
                 logging.debug(f"Skipping plugin {plugin_name}.")
@@ -105,8 +107,11 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     seconds_to_wait_before_undeploy = int(configuration[section]["seconds_to_wait_before_undeploy"])
     seconds_to_wait_before_teardown = int(configuration[section]["seconds_to_wait_before_teardown"])
 
+    logging.debug(f"Waiting for {seconds_to_wait_before_setup} seconds.")
     time.sleep(seconds_to_wait_before_setup)
     run_plugins(configuration, section, output, test_id, "setup")
+    
+    logging.debug(f"Waiting for {seconds_to_wait_before_deploy} seconds.")
     time.sleep(seconds_to_wait_before_deploy)
     run_plugins(configuration, section, output, test_id, "deploy")
 
@@ -123,15 +128,23 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     if (plugins_are_ready is None) or (False in plugins_are_ready):
         logging.critical("Cannot start because not all plugins are ready.")
     else:
+        logging.debug(f"Waiting for {seconds_to_wait_before_before} seconds.")
         time.sleep(seconds_to_wait_before_before)
         run_plugins(configuration, section, output, test_id, "before")
+
+        logging.debug(f"Waiting for {seconds_to_wait_before_run} seconds.")
         time.sleep(seconds_to_wait_before_run)
         run_plugins(configuration, section, output, test_id, "run")
+
+        logging.debug(f"Waiting for {seconds_to_wait_before_after} seconds.")
         time.sleep(seconds_to_wait_before_after)
         run_plugins(configuration, section, output, test_id, "after")
 
+    logging.debug(f"Waiting for {seconds_to_wait_before_undeploy} seconds.")
     time.sleep(seconds_to_wait_before_undeploy)
     run_plugins(configuration, section, output, test_id, "undeploy")
+
+    logging.debug(f"Waiting for {seconds_to_wait_before_teardown} seconds.")
     time.sleep(seconds_to_wait_before_teardown)
     run_plugins(configuration, section, output, test_id, "teardown")
 
@@ -141,7 +154,6 @@ def execute_test(design_path, overwrite_existing_results):
     configuration = configparser.ConfigParser()
     configuration.read([os.path.join(design_path, "configuration.ini"), os.path.join(design_path, "test_plan.ini")])
 
-    run_plugins(configuration, "DEFAULT", design_path, None, "prepare_all")
     run_plugins(configuration, "DEFAULT", design_path, None, "setup_all")
 
     for section in configuration.sections():
