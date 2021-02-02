@@ -160,8 +160,6 @@ class Requests():
             self.log_verbose(to_log)                              
 
             response1_as_json = self.try_to_read_response_as_json(response1)
-            print("!!!!!")
-            print(response1_as_json)
 
             response1_as_json = response1.json()["data"]
             token = response1_as_json["token"]
