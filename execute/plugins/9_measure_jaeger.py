@@ -29,7 +29,7 @@ def after(global_plugin_state, current_configuration, output, test_id):
                     break
 
         except Exception as e:
-                self.logging.critical(f"Exception while determining Jaeger services: {e}")
+            logging.critical(f"Exception while determining Jaeger services: {e}")
 
         time.sleep(60)
     

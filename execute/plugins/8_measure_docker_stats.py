@@ -100,6 +100,7 @@ class CollectionTask:
 data_collection = None
 
 def before(global_plugin_state, current_configuration, output, test_id):
+    logging.info(f"Starting Docker stats thread.")
     data_collection = CollectionTask(current_configuration, logging, docker, threading, os, json, time)
     t = threading.Thread(target = data_collection.run, args =(output, test_id), daemon=True)
     t.start()
@@ -107,5 +108,6 @@ def before(global_plugin_state, current_configuration, output, test_id):
     global_plugin_state["docker_stats_data_collection_class"] = data_collection
 
 def after(global_plugin_state, current_configuration, output, test_id):
+    logging.info(f"Killing Docker stats thread.")
     global_plugin_state["docker_stats_data_collection_class"].terminate()
     del global_plugin_state["docker_stats_data_collection_class"]

@@ -12,7 +12,7 @@ services:
       mode: global
       placement:
         constraints: [node.platform.os == linux]
-
+    
   portainer:
     image: portainer/portainer-ce
     command: -H tcp://tasks.agent:9001 --tlsskipverify
