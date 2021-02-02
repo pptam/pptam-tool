@@ -20,21 +20,26 @@ def run_plugins(configuration, section, output, test_id, func):
     
     plugin_base = PluginBase(package='plugins')
     plugin_source = plugin_base.make_plugin_source(searchpath=['./plugins'])
-    for plugin_name in plugin_source.list_plugins():
-        if not plugin_name.startswith("_") and (any("all" in p for p in plugins) or any(plugin_name in p for p in plugins)):
-            logging.debug(f"Executing {func} of plugin {plugin_name}.")
-            plugin = plugin_source.load_plugin(plugin_name)
-            try:
-                function_to_call = getattr(plugin, func, None)
-                if function_to_call!=None:
-                    plugin_state = ", ".join(global_plugin_state.keys())
-                    logging.info(f"Current plugin state contains [{plugin_state}]")
+    plugin_list = sorted(plugin_source.list_plugins())
 
-                    call_result = function_to_call(global_plugin_state, configuration[section], output, test_id)
-                    result.append(call_result)
-                    
-            except Exception as e:
-                logging.critical(f"Cannot invoke plugin {plugin_name}: {e}")
+    for plugin_name in plugin_list:
+        if not plugin_name.startswith("_") and (("all" in plugins) or (plugin_name in plugins)):
+            if f"!{plugin_name}" in plugins:
+                logging.debug(f"Skipping plugin {plugin_name}.")
+            else:
+                logging.debug(f"Executing {func} of plugin {plugin_name}.")
+                plugin = plugin_source.load_plugin(plugin_name)
+                try:
+                    function_to_call = getattr(plugin, func, None)
+                    if function_to_call!=None:
+                        plugin_state = ", ".join(global_plugin_state.keys())
+                        logging.info(f"Current plugin state contains [{plugin_state}]")
+
+                        call_result = function_to_call(global_plugin_state, configuration[section], output, test_id)
+                        result.append(call_result)
+                        
+                except Exception as e:
+                    logging.critical(f"Cannot invoke plugin {plugin_name}: {e}")
     
     return result
 
@@ -47,6 +52,7 @@ def create_output_directory(configuration, section, repetition, overwrite_existi
     if not os.path.isdir(all_outputs):
         logging.debug(f"Creating {all_outputs}, since it does not exist.")
         os.makedirs(all_outputs)
+        
     if any(x.endswith(test_id_without_timestamp) for x in os.listdir(all_outputs)):
         if overwrite_existing_results:
             name_of_existing_folder = next(x for x in os.listdir(all_outputs) if x.endswith(test_id_without_timestamp))
@@ -101,13 +107,16 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
     seconds_to_wait_before_undeploy = int(configuration[section]["seconds_to_wait_before_undeploy"])
     seconds_to_wait_before_teardown = int(configuration[section]["seconds_to_wait_before_teardown"])
 
+    logging.debug(f"Waiting for {seconds_to_wait_before_setup} seconds.")
     time.sleep(seconds_to_wait_before_setup)
     run_plugins(configuration, section, output, test_id, "setup")
+    
+    logging.debug(f"Waiting for {seconds_to_wait_before_deploy} seconds.")
     time.sleep(seconds_to_wait_before_deploy)
     run_plugins(configuration, section, output, test_id, "deploy")
 
     plugins_are_ready = None
-    for i in range(10):   
+    for _ in range(10):   
         plugins_are_ready = run_plugins(configuration, section, output, test_id, "ready")
 
         if not (False in plugins_are_ready):
@@ -116,18 +125,26 @@ def perform_test(configuration, section, repetition, overwrite_existing_results)
         logging.critical("Cannot start because not all plugins are ready, waiting 1 min.")
         time.sleep(60)
 
-    if (plugins_are_ready == None) or (False in plugins_are_ready):
+    if (plugins_are_ready is None) or (False in plugins_are_ready):
         logging.critical("Cannot start because not all plugins are ready.")
     else:
+        logging.debug(f"Waiting for {seconds_to_wait_before_before} seconds.")
         time.sleep(seconds_to_wait_before_before)
         run_plugins(configuration, section, output, test_id, "before")
+
+        logging.debug(f"Waiting for {seconds_to_wait_before_run} seconds.")
         time.sleep(seconds_to_wait_before_run)
         run_plugins(configuration, section, output, test_id, "run")
+
+        logging.debug(f"Waiting for {seconds_to_wait_before_after} seconds.")
         time.sleep(seconds_to_wait_before_after)
         run_plugins(configuration, section, output, test_id, "after")
 
+    logging.debug(f"Waiting for {seconds_to_wait_before_undeploy} seconds.")
     time.sleep(seconds_to_wait_before_undeploy)
     run_plugins(configuration, section, output, test_id, "undeploy")
+
+    logging.debug(f"Waiting for {seconds_to_wait_before_teardown} seconds.")
     time.sleep(seconds_to_wait_before_teardown)
     run_plugins(configuration, section, output, test_id, "teardown")
 
@@ -151,29 +168,38 @@ def execute_test(design_path, overwrite_existing_results):
 
     logging.info(f"Done.")
 
-def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    self.client.mount('https://', HTTPAdapter(pool_maxsize=100))
-    self.client.mount('http://', HTTPAdapter(pool_maxsize=100))
-
 if __name__ == "__main__":
     if os.geteuid() != 0:
         exit("You need to have root privileges to run this script.\nPlease try again, this time using 'sudo'. Exiting.")
 
-    parser = argparse.ArgumentParser(description="Executes test cases.")
-    parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder")
-    parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=2)
-    parser.add_argument("--overwrite", help="Overwrite existing test cases", action='store_true', default=False)
+    overwrite_data = False
+    design_path = None
+    logging_level = 2
 
-    args = parser.parse_args()
+    if os.path.exists("./arguments.ini"):
+        arguments = configparser.ConfigParser()
+        arguments.read("./arguments.ini")
+        overwrite_data = arguments["ARGUMENTS"]["OVERWRITE"] == "1"
+        design_path = arguments["ARGUMENTS"]["DESIGN"]
+        logging_level = int(arguments["ARGUMENTS"]["LOGGING"])
+    else:
+        parser = argparse.ArgumentParser(description="Executes test cases.")
+        parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder")
+        parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=2)
+        parser.add_argument("--overwrite", help="Overwrite existing test cases", action='store_true', default=False)
 
-    logging.basicConfig(format='%(message)s', level=args.logging * 10)
+        args = parser.parse_args()
+
+        overwrite_data = args.overwrite
+        design_path = args.design
+        logging_level = args.logging
+
+    logging.basicConfig(format='%(message)s', level=logging_level * 10)
     logging.getLogger("requests").setLevel(logging.WARNING)
     logging.getLogger("urllib3").setLevel(logging.WARNING)
-    
-    design_path = args.design
-    if design_path == None or (not os.path.exists(design_path)):
+        
+    if design_path is None or design_path == "" or (not os.path.exists(design_path)):
         logging.fatal(f"Cannot find the design folder. Please indicate one with the parameter --design")
         quit()
 
-    execute_test(design_path, args.overwrite)
+    execute_test(design_path, overwrite_data)

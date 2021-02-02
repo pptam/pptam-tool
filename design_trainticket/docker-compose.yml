@@ -18,21 +18,61 @@ services:
   #    ports:
   #      - 9411:9411
   #      #      
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.15
+    ports:
+       - 16686:16686
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    deploy:      
+      placement:
+        constraints:
+          - node.hostname == ${DOCKER_NODE_NAME}
+    networks:
+      - pptam-network
+
+  #https://prometheus.io/docs/guides/cadvisor/
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   container_name: prometheus
+  #   ports:
+  #   - 9090:9090
+  #   command:
+  #   - --config.file=/etc/prometheus/prometheus.yml
+  #   volumes:
+  #   - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  #   depends_on:
+  #   - cadvisor
+
+  # cadvisor:
+  #   image: gcr.io/cadvisor/cadvisor:latest
+  #   container_name: cadvisor
+  #   ports:
+  #   - 8080:8080
+  #   volumes:
+  #   - /:/rootfs:ro
+  #   - /var/run:/var/run:rw
+  #   - /sys:/sys:ro
+  #   - /var/lib/docker/:/var/lib/docker:ro
+  #   depends_on:
+  #   - redis
+
   redis:
     image: redis
     ports:
        - 6379:6379
     deploy:
       replicas: 1 
-      resources:
-        limits:
-          cpus: "${DOCKER_CPUS}"
-          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
+      restart_policy:
+        condition: on-failure
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
 
   ts-ui-dashboard:
     image: codewisdom/ts-ui-dashboard:0.0.3
@@ -51,7 +91,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-auth-service:
     image: codewisdom/ts-auth-service:0.0.3
@@ -70,7 +110,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-auth-mongo:
     image: mongo
@@ -84,7 +124,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-user-service:
     image: codewisdom/ts-user-service:0.0.3
@@ -103,7 +143,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-user-mongo:
     image: mongo
@@ -117,7 +157,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-verification-code-service:
     image: codewisdom/ts-verification-code-service:0.0.3
@@ -136,7 +176,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-account-mongo:
     image: mongo
@@ -150,7 +190,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-route-service:
     image: codewisdom/ts-route-service:0.0.3
@@ -169,7 +209,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-route-mongo:
     image: mongo
@@ -183,7 +223,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-contacts-service:
     image: codewisdom/ts-contacts-service:0.0.3
@@ -202,7 +242,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-contacts-mongo:
     image: mongo
@@ -216,7 +256,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-order-service:
     image: codewisdom/ts-order-service:0.0.3
@@ -235,7 +275,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-order-mongo:
     image: mongo
@@ -249,7 +289,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-order-other-service:
     image: codewisdom/ts-order-other-service:0.0.3
@@ -268,7 +308,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-order-other-mongo:
     image: mongo
@@ -282,7 +322,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-config-service:
     image: codewisdom/ts-config-service:0.0.3
@@ -301,7 +341,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-config-mongo:
     image: mongo
@@ -315,7 +355,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-station-service:
     image: codewisdom/ts-station-service:0.0.3
@@ -334,7 +374,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-station-mongo:
     image: mongo
@@ -348,7 +388,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-train-service:
     image: codewisdom/ts-train-service:0.0.3
@@ -367,7 +407,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-train-mongo:
     image: mongo
@@ -381,7 +421,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-travel-service:
     image: codewisdom/ts-travel-service:0.0.3
@@ -400,7 +440,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-travel-mongo:
     image: mongo
@@ -414,7 +454,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-travel2-service:
     image: codewisdom/ts-travel2-service:0.0.3
@@ -433,7 +473,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-travel2-mongo:
     image: mongo
@@ -447,7 +487,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-preserve-service:
     image: my-ts-preserve-service:latest
@@ -466,7 +506,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-preserve-other-service:
     image: my-ts-preserve-other-service:latest
@@ -485,7 +525,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-basic-service:
     image: codewisdom/ts-basic-service:0.0.3
@@ -504,7 +544,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-ticketinfo-service:
     image: codewisdom/ts-ticketinfo-service:0.0.3
@@ -523,7 +563,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-price-service:
     image: codewisdom/ts-price-service:0.0.3
@@ -542,7 +582,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-price-mongo:
     image: mongo
@@ -556,7 +596,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-notification-service:
     image: codewisdom/ts-notification-service:0.0.3
@@ -575,7 +615,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-security-service:
     image: codewisdom/ts-security-service:0.0.3
@@ -594,7 +634,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-security-mongo:
     image: mongo
@@ -608,7 +648,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-inside-payment-service:
     image: codewisdom/ts-inside-payment-service:0.0.3
@@ -627,7 +667,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-inside-payment-mongo:
     image: mongo
@@ -641,7 +681,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-execute-service:
     image: codewisdom/ts-execute-service:0.0.3
@@ -660,7 +700,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-payment-service:
     image: codewisdom/ts-payment-service:0.0.3
@@ -679,7 +719,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-payment-mongo:
     image: mongo
@@ -693,7 +733,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-rebook-service:
     image: codewisdom/ts-rebook-service:0.0.3
@@ -712,7 +752,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-rebook-mongo:
     image: mongo
@@ -726,7 +766,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-cancel-service:
     image: codewisdom/ts-cancel-service:0.0.3
@@ -745,7 +785,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-assurance-service:
     image: codewisdom/ts-assurance-service:0.0.3
@@ -764,7 +804,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-assurance-mongo:
     image: mongo
@@ -778,7 +818,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-seat-service:
     image: codewisdom/ts-seat-service:0.0.3
@@ -797,7 +837,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-travel-plan-service:
     image: codewisdom/ts-travel-plan-service:0.0.3
@@ -816,7 +856,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-ticket-office-service:
     image: codewisdom/ts-ticket-office-service:0.0.3
@@ -835,7 +875,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-ticket-office-mongo:
     image: mongo
@@ -849,7 +889,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-news-service:
     image: codewisdom/ts-news-service:0.0.3
@@ -868,7 +908,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-news-mongo:
     image: mongo
@@ -882,7 +922,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-voucher-mysql:
     image: mysql
@@ -902,7 +942,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-voucher-service:
     image: codewisdom/ts-voucher-service:0.0.3
@@ -925,7 +965,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-food-map-service:
     image: codewisdom/ts-food-map-service:0.0.3
@@ -944,7 +984,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-food-map-mongo:
     image: mongo
@@ -958,7 +998,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-route-plan-service:
     image: codewisdom/ts-route-plan-service:0.0.3
@@ -977,7 +1017,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-food-service:
     image: codewisdom/ts-food-service:0.0.3
@@ -996,7 +1036,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-consign-service:
     image: codewisdom/ts-consign-service:0.0.3
@@ -1015,7 +1055,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-consign-mongo:
     image: mongo
@@ -1029,7 +1069,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-consign-price-service:
     image: codewisdom/ts-consign-price-service:0.0.3
@@ -1048,7 +1088,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-consign-price-mongo:
     image: mongo
@@ -1062,7 +1102,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-food-mongo:
     image: mongo
@@ -1076,7 +1116,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-admin-basic-info-service:
     image: codewisdom/ts-admin-basic-info-service:0.0.3
@@ -1095,7 +1135,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-admin-order-service:
     image: codewisdom/ts-admin-order-service:0.0.3
@@ -1114,7 +1154,7 @@ services:
       restart_policy:
         condition: any
     networks:
-      - my-network
+      - pptam-network
           
   ts-admin-route-service:
     image: codewisdom/ts-admin-route-service:0.0.3
@@ -1134,7 +1174,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-admin-travel-service:
     image: codewisdom/ts-admin-travel-service:0.0.3
@@ -1154,7 +1194,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
+      - pptam-network
           
   ts-admin-user-service:
     image: codewisdom/ts-admin-user-service:0.0.3
@@ -1174,28 +1214,8 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
     networks:
-      - my-network
-          
-  jaeger:
-    image: jaegertracing/all-in-one:1.15
-    ports:
-       - 16686:16686
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-    deploy:
-      resources:
-        limits:
-          cpus: "${DOCKER_CPUS}"
-          memory: ${DOCKER_MEMORY_IN_MEGABYTES}M
-      placement:
-        constraints:
-          - node.hostname == ${DOCKER_NODE_NAME}
-    networks:
-      - my-network
+      - pptam-network
           
 networks:
-  my-network:
+  pptam-network:
     driver: overlay
-    # driver: bridge

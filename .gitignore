@@ -139,3 +139,4 @@ cython_debug/
 /execute/executed*
 /design_trainticket/modified_images*
 .vagrant
+workspace.code-workspace

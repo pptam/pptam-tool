@@ -22,3 +22,9 @@ sudo echo 192.168.50.100 driver >> /etc/hosts
 sudo echo 192.168.50.101 testbed >> /etc/hosts
 
 sudo echo * - nofile 100000 >> /etc/security/limits.conf
+
+# The following ports should be open to allow Docker Swarm communication
+# - TCP port 2377 for cluster management communications
+# - TCP and UDP port 7946 for communication among nodes
+# - UDP port 4789 for overlay network traffic
+
