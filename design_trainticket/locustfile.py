@@ -146,28 +146,7 @@ class Requests():
             self.search_ticket(date.today().strftime(random_date_generator()), random_string_generator(), "Shang Hai", expected)
 
     def _create_user(self, expected):
-        req_label = 'admin_login' + postfix(expected)
-        start_time = time.time()
-        head = {"Accept": "application/json",
-                "Content-Type": "application/json"}
-        with self.client.post(url="/api/v1/users/login",
-                              json={"username": "admin",
-                                    "password": "222222"},
-                                headers = head,
-                              name = req_label) as response1:
-            to_log = {'name': req_label, 'expected': expected, 'status_code': response1.status_code,
-                    'response_time': time.time() - start_time, 'response': self.try_to_read_response_as_json(response1)}
-            self.log_verbose(to_log)                              
-
-            response1_as_json = self.try_to_read_response_as_json(response1)
-
-            response1_as_json = response1.json()["data"]
-            token = response1_as_json["token"]
-            self.bearer = "Bearer " + token
-            userrID = response1_as_json["userId"]
-            document_num = str(uuid.uuid4())
-            self.user_name = str(uuid.uuid4())
-
+        
         req_label = sys._getframe().f_code.co_name + postfix(expected)
         start_time = time.time()
         with self.client.post(url = "/api/v1/adminuserservice/users",

@@ -17,4 +17,4 @@ If you are looking for the archived version published together with the followin
   Scalability Assessment of Microservice Architecture Deployment Configurations: A Domain-based Approach Leveraging Operational Profiles and Load Tests,
   Journal of Systems and Software, Volume 165, 2020, 110564, ISSN 0164-1212, DOI: https://doi.org/10.1016/j.jss.2020.110564.
 - Vilc Queupe Rufino, Mateus Schulz Nogueira, Alberto Avritzer, Daniel Sadoc Menasché, Barbara Russo, Andrea Janes, Vincenzo Ferme, André van Hoorn, Henning Schulz, Cabral Lima:
-Improving Predictability of User-Affecting Metrics to Support Anomaly Detection in Cloud Services. IEEE Access 8: 198152-198167 (2020)
+Improving Predictability of User-Affecting Metrics to Support Anomaly Detection in Cloud Services. IEEE Access 8: 198152-198167 (2020). DOI: https://doi.org/10.1109/ACCESS.2020.3028571 
