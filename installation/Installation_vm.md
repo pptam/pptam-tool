@@ -22,4 +22,4 @@ Please carry out the following steps:
 
         - `vagrant ssh driver`
         - `cd /vagrant/scripts/`
-        - `./get_pptam.sh`
+        - `./get_pptam.sh` (if you get "Permission denied", execute `chmod uog+x get_pptam.sh`)
