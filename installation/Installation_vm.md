@@ -29,32 +29,51 @@ Please carry out the following steps:
         - `cd ~/pptam-tool/execute`
         - `./execute_test.py --design=../design_jsonserver_vagrant`
 
-        You should now see the following output:
+        You should now see a simimlar output:
 
-        Executing test case 202102120926-json-test1.
-        Creating network 202102120926-json-test1_default
-        Creating service 202102120926-json-test1_server
+        ```
+        Executing test case 202102120945-json-test1.
+        Creating network 202102120945-json-test1_default
+        Creating service 202102120945-json-test1_server
         Waiting for 10 seconds to allow the application to deploy.
-        Collecting Docker stats #1 in background.
-
-        Running the load test for 202102120926-json-test1, with 1000 users, running for 60 seconds.
-        Collecting Docker stats of 202102120926-json-test1_server.1.y1er45elfl12tzjlkerzl4v42.
-        Collecting Docker stats #2 in background.
-        Collecting Docker stats of 202102120926-json-test1_server.1.y1er45elfl12tzjlkerzl4v42.
-        Collecting Docker stats #3 in background.
-        Collecting Docker stats of 202102120926-json-test1_server.1.y1er45elfl12tzjlkerzl4v42.
-        Collecting Docker stats #4 in background.
-        Collecting Docker stats of 202102120926-json-test1_server.1.y1er45elfl12tzjlkerzl4v42.
-        Collecting Docker stats #5 in background.
-        Collecting Docker stats of 202102120926-json-test1_server.1.y1er45elfl12tzjlkerzl4v42.
-        Collecting Docker stats #6 in background.
-        Collecting Docker stats of 202102120926-json-test1_server.1.y1er45elfl12tzjlkerzl4v42.
-
-        Killing Docker stats thread.
-        Stopping Docker stats in background.
-
-        Removing service 202102120926-json-test1_server
-        Removing network 202102120926-json-test1_default
+        Running the load test for 202102120945-json-test1, with 1000 users, running for 60 seconds.
+        Removing service 202102120945-json-test1_server
+        Removing network 202102120945-json-test1_default
         Waiting for 5 seconds to allow the application to undeploy.
-        Test 202102120926-json-test1 completed. Test results can be found in /home/vagrant/pptam-tool/execute/executed/202102120926-json-test1.
+        Test 202102120945-json-test1 completed. Test results can be found in /home/vagrant/pptam-tool/execute/executed/202102120945-json-test1.
         Done.
+        ```
+
+        If you now check the `~/pptam-tool/execute/executed` folder, you will find the results of the experiment, e.g., results_stats.csv. You can find out more about what the various output files mean [here](./How_to_use.md).
+        ```
+        Name         # reqs   # fails  |  Avg  Min  Max  Median  |   req/s failures/s
+        -------------------------------------------------------------------------------
+        GET /cars       146  0(0.00%)  |   15    5  105       9  |    2.43    0.00
+        GET /cars/1     173  0(0.00%)  |   18    3  226       9  |    2.88    0.00
+        GET /cars/2     162  0(0.00%)  |   17    4  134       8  |    2.70    0.00
+        GET /cars/3     170  0(0.00%)  |   16    3  127       8  |    2.83    0.00
+        GET /cars/4     164  0(0.00%)  |   15    3  151       7  |    2.73    0.00
+        GET /cars/5     177  0(0.00%)  |   17    3  105       8  |    2.95    0.00
+        GET /cars/6     153  0(0.00%)  |   16    3  132       8  |    2.55    0.00
+        GET /cars/7     170  0(0.00%)  |   17    3  118       8  |    2.83    0.00
+        GET /cars/8     179  0(0.00%)  |   15    4  135       8  |    2.98    0.00
+        GET /cars/9     167  0(0.00%)  |   18    3  113       8  |    2.78    0.00
+        -------------------------------------------------------------------------------
+        Aggregated     1661  0(0.00%)  |   16    3  226       8  |   27.68    0.00
+
+        Response time percentiles (approximated)
+        Type   Name         50%  66%  75%  80%  90%  95%  98%  99%  99.9% 99.99%  100% # reqs
+        ------|------------|----|----|----|----|----|----|----|----|------|------|-----|------|
+        GET    /cars          9   11   14   18   29   59   81   87    110    110   110    146
+        GET    /cars/1        9   13   20   25   43   58   85  130    230    230   230    173
+        GET    /cars/2        8   11   17   24   49   61  110  120    130    130   130    162
+        GET    /cars/3        8   12   18   26   41   48   69   95    130    130   130    170
+        GET    /cars/4        7    9   14   19   40   50   77  100    150    150   150    164
+        GET    /cars/5        8   13   21   27   45   54   78   85    110    110   110    177
+        GET    /cars/6        8   11   18   23   44   50   79  120    130    130   130    153
+        GET    /cars/7        8   11   15   25   46   60   81   99    120    120   120    170
+        GET    /cars/8        8   12   15   22   41   53   74  130    140    140   140    179
+        GET    /cars/9        8   14   24   32   44   55   93  110    110    110   110    167
+        ------|------------|----|----|----|----|----|----|----|----|------|------|-----|------|
+        None   Aggregated     8   12   17   24   44   55   79  110    150    230   230   1661
+        ```
