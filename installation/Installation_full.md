@@ -2,7 +2,12 @@
 
 Installing PPTAM on two machines, or installing it in the cloud requires that you have two machines that can reach each other over the network. This usually requires configuration that we cannot foresee, therefore we cannot build an installer for it. Therefore, we can here only give guidelines how to proceed:
 
-1. Setup two machines (which we call "driver" and "testbed") so that they can reach each other on a network. 
+1. Setup two machines (which we call "driver" and "testbed") so that they can reach each other on a network. Make sure that the following ports are open:
+   - TCP 2375
+   - TCP 2376
+   - TCP 2377
+   - TCP and UDP 7946
+   - UDP 4789
 2. Install Ubuntu 18.04.4 LTS on both machines.
 3. Let's start with the driver:
    - Execute the steps we perform for the installation using virtual machines ([scripts/install_both.sh](scripts/install_both.sh)), but adapt them to your configuration: 
