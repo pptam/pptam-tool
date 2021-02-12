@@ -106,9 +106,9 @@ Once a test design is present, its possible to execute tests using the `execute_
 An example call could be:
 
 - cd ~/pptam-tool/execute
-- `su -u vagrant ./execute_test.py --design=../design_jsonserver_vagrant --logging=1 --overwrite`
+- `./execute_test.py --design=../design_jsonserver_vagrant --logging=1 --overwrite`
 
-This call would execute the tests present in the json server design folder, log everything and overwrite existing test cases (if present).
+Depending on your configuration, you need to use `sudo` to execute tests. This call would execute the tests present in the json server design folder, log everything and overwrite existing test cases (if present).
 
 If a file `arguments.ini` is present in the execute folder, the parameters indicated in that configuration file will be read, not those provided on the command line. It has the following format:
 
