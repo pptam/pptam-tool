@@ -33,7 +33,7 @@ def run_plugins(configuration, section, output, test_id, func):
                     function_to_call = getattr(plugin, func, None)
                     if function_to_call!=None:
                         plugin_state = ", ".join(global_plugin_state.keys())
-                        logging.info(f"Current plugin state contains [{plugin_state}]")
+                        logging.debug(f"Current plugin state contains [{plugin_state}]")
 
                         call_result = function_to_call(global_plugin_state, configuration[section], output, test_id)
                         result.append(call_result)

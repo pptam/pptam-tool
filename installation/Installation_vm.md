@@ -23,3 +23,38 @@ Please carry out the following steps:
         - `vagrant ssh driver`
         - `cd /vagrant/scripts/`
         - `./get_pptam.sh` (if you get "Permission denied", execute `chmod uog+x get_pptam.sh`)
+
+    6.  If you want, you can do a test run:
+
+        - `cd ~/pptam-tool/execute`
+        - `./execute_test.py --design=../design_jsonserver_vagrant`
+
+        You should now see the following output:
+
+        Executing test case 202102120926-json-test1.
+        Creating network 202102120926-json-test1_default
+        Creating service 202102120926-json-test1_server
+        Waiting for 10 seconds to allow the application to deploy.
+        Collecting Docker stats #1 in background.
+
+        Running the load test for 202102120926-json-test1, with 1000 users, running for 60 seconds.
+        Collecting Docker stats of 202102120926-json-test1_server.1.y1er45elfl12tzjlkerzl4v42.
+        Collecting Docker stats #2 in background.
+        Collecting Docker stats of 202102120926-json-test1_server.1.y1er45elfl12tzjlkerzl4v42.
+        Collecting Docker stats #3 in background.
+        Collecting Docker stats of 202102120926-json-test1_server.1.y1er45elfl12tzjlkerzl4v42.
+        Collecting Docker stats #4 in background.
+        Collecting Docker stats of 202102120926-json-test1_server.1.y1er45elfl12tzjlkerzl4v42.
+        Collecting Docker stats #5 in background.
+        Collecting Docker stats of 202102120926-json-test1_server.1.y1er45elfl12tzjlkerzl4v42.
+        Collecting Docker stats #6 in background.
+        Collecting Docker stats of 202102120926-json-test1_server.1.y1er45elfl12tzjlkerzl4v42.
+
+        Killing Docker stats thread.
+        Stopping Docker stats in background.
+
+        Removing service 202102120926-json-test1_server
+        Removing network 202102120926-json-test1_default
+        Waiting for 5 seconds to allow the application to undeploy.
+        Test 202102120926-json-test1 completed. Test results can be found in /home/vagrant/pptam-tool/execute/executed/202102120926-json-test1.
+        Done.
