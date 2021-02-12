@@ -14,7 +14,7 @@ PPTAM helps to you to conduct load tests. We use the following terminology:
  - design_jsonserver: a json server that is deployed on the testbed and then tested.
 
  Typically a design folder contains:
-   - configuration.ini: a file that contains all configuration parameters to conduct the load test. Please refer to the file itself for the configuration parameters.
+   - configuration.ini: a file that contains all configuration parameters to conduct the load test. Please see below the section "configuration parameters" for the explaination of the single parameters.
    - docker-compose.yml: a [https://docs.docker.com/compose/](Docker compose) file to deploy the system under test on the testbed. 
    - locustfile.py: load tests are conducted using [https://locust.io](locust.io), which requires a [https://docs.locust.io/en/stable/writing-a-locustfile.html](locustfile.py) to describes how to interact with the system under test. This one just calles several pages of the website we are testing.
    - test_plan.ini: describes the tests to perform.
@@ -35,6 +35,65 @@ RUN_TIME_IN_SECONDS=120
 ```
 
 In this case, test_plan.ini overwrites SECONDS_TO_WAIT_BEFORE_SETUP for all tests. Then, it specifies two tests: one with a load of 10 users, running for 60 seconds, and one with a load of 20 users, running for 120 seconds.
+
+### Configuration parameters
+
+`configuration.ini` contains the following parameters:
+
+- ENABLED_PLUGINS: this parameter decides which plugins to execute. Currently the following plugins are available:
+
+  - 0_cleanup_docker.py: deletes old Docker containers and restarts Docker *before* a test;
+  - 0_deploy_docker.py: deploys the system under test using the provided `docker-compose.yml`;
+  - 1_analyze_portainer.py: deploys [Portainer](https://www.portainer.io), for debugging;
+  - 2_deploy_files.py: deploys optional additional files to the execution folder;
+  - 8_measure_docker_stats.py: measures the system under test collecting [Docker stats](https://docs.docker.com/engine/reference/commandline/stats/);
+  - 9_measure_jaeger.py: collects [Jaeger tracing](https://www.jaegertracing.io) data.
+  - load_test_locust.py: executes a [Locust](https://locust.io) load test;
+  - test_deployment.py: tests if the application is deployed correctly checking for a specific container.
+
+  This parameter can be set using either 'all' or indicating the plugins, separated by a space. You can exclude a plugin adding a ! before it. Examples of this setting are:
+    - all
+    - all !9_measure_jaeger
+    - load_test_locust 0_deploy_docker test_deployment
+
+- TEST_CASE_PREFIX: Prefix to add to every test; useful to distinguish test sets
+- SECONDS_TO_WAIT_BEFORE_SETUP: Seconds to wait before starting the phase 'setup'
+- SECONDS_TO_WAIT_BEFORE_DEPLOY: Seconds to wait before starting the phase 'deploy'
+- SECONDS_TO_WAIT_BEFORE_BEFORE: Seconds to wait before starting the phase 'before'
+- SECONDS_TO_WAIT_BEFORE_RUN: Seconds to wait before starting the phase 'run'
+- SECONDS_TO_WAIT_BEFORE_AFTER : Seconds to wait before starting the phase 'after'
+- SECONDS_TO_WAIT_BEFORE_UNDEPLOY: Seconds to wait before starting the phase 'undeploy'
+- SECONDS_TO_WAIT_BEFORE_TEARDOWN: Seconds to wait before starting the phase 'teardown'
+- ENABLED: Set to 0 to disable this test
+
+The following settings are used if the `load_test_locust.py` plugin is used:
+- LOCUST_HOST_URL: the url that locus uses to conduct performance tests.
+- LOAD: Load to generate for a test. This value should be specified in a test plan.
+- SPAWN_RATE_PER_SECOND: Speed at which new users are launched.
+- RUN_TIME_IN_SECONDS: Duration of the overall test.
+
+The following settings are used if the `0_deploy_docker.py` plugin is used:
+- DOCKER_NODE_NAME: the node on which the system under test (SUT) must be deployed.
+- DOCKER_WAITING_FOR_DEPLOYMENT_IN_SECONDS: seconds to wait till a system is deployed.
+- DOCKER_WAITING_FOR_UNDEPLOYMENT_IN_SECONDS: seconds to wait till a system is undeployed.
+
+The following settings are used if the `8_measure_docker_stats.py` plugin is used:
+- DOCKER_STATS_HOSTNAME: host to contact to obtain docker stats.
+- DOCKER_STATS_CONTAINERS: either choose 'all' or indicate the containers, separated by a space.
+- DOCKER_STATS_VERBOSE: use 0 or 1 to disable or enable verbose mode.
+- DOCKER_STATS_SLEEP_BETWEEN_STATS_READING_IN_SECONDS: time to wait between reading stats.
+
+The following settings are used if the `9_measure_jaeger.py` plugin is used:
+- JAEGER_HOST_URL: host to contact to obtain Jaeger traces.
+- JAEGER_SERVICES: either choose 'all' or indicate the services, separated by a space.
+- JAEGER_TEST_IF_SERVICE_IS_PRESENT: specify a service that should be present to start collecting Jaeger data
+
+The following settings are used if the `test_deployment.py` plugin is used:
+- DOCKER_TEST_HOSTNAME: host to contact to contact Docker
+- DOCKER_TEST_IF_IMAGE_IS_PRESENT: either choose 'all' or indicate the services, separated by a space.
+
+The following settings are used if the `2_deploy_files.py` plugin is used:
+- FILES_TO_INCLUDE: the list of files, separated by space, to include in the output folder
 
 ## Execution
 
