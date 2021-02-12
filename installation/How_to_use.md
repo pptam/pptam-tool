@@ -95,6 +95,10 @@ The following settings are used if the `test_deployment.py` plugin is used:
 The following settings are used if the `2_deploy_files.py` plugin is used:
 - FILES_TO_INCLUDE: the list of files, separated by space, to include in the output folder
 
+### Typical setups
+
+If you want to load test an application that is *already deployed*, have a look at the `design_website` folder. You do not need to deploy the system under test using docker and you might only need the `load_test_locust.py` plugin. If you need want to deploy the system under test, have a look at the `design_jsonserver`.
+
 ## Execution
 
 Once a test design is present, its possible to execute tests using the `execute_test.py` script within the `execute` folder. This script accepts three arguments:
