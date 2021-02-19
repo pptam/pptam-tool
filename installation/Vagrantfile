@@ -1,5 +1,6 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
+  config.disksize.size = '10GB'
 
   required_plugins = %w(
     vagrant-vbguest
@@ -20,8 +21,10 @@ Vagrant.configure("2") do |config|
   config.vagrant.plugins = "vagrant-vbguest"
   config.vm.provision "shell", path: "scripts/install_both.sh"
   config.vm.box_download_insecure = true
-  
+  config.vm.boot_timeout = 3600
+
   config.vm.define "driver", primary: true do |driver|
+    driver.disksize.size = '20GB'
     driver.vm.network "private_network", ip: "192.168.50.100"
     driver.vm.hostname = "driver"
     driver.vm.network :forwarded_port, guest: 8888, host: 8888
@@ -41,12 +44,11 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "testbed" do |testbed|
+    testbed.disksize.size = '40GB'
     testbed.vm.network "private_network", ip: "192.168.50.101"
     testbed.vm.hostname = "testbed"
     testbed.vm.network :forwarded_port, guest: 80, host: 8000
     testbed.vm.network :forwarded_port, guest: 8080, host: 8080
-
-    config.disksize.size = '10GB'
 
     testbed.vm.provider "virtualbox" do |v|
       v.memory = 2048
