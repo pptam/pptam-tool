@@ -1,6 +1,6 @@
 # Installation using virtual machines
 
-Please carry out the following steps:
+Please carry out the following steps *on your computer*:
 
 1.  Install [VirtualBox](https://www.virtualbox.org).
 2.  Install [Vagrant](https://www.vagrantup.com).
@@ -18,13 +18,18 @@ Please carry out the following steps:
         - `vagrant destroy` to delete the machines.
         - `vagrant reload` to reboot the machines.
 
-    5.  Now, execute the following commands:
+    5.  Now, execute the following command *on your computer*:
 
         - `vagrant ssh driver`
+
+    6. Now, you should have logged into the driver machine. On the *driver*, please execute the following commands:
+
         - `cd /vagrant/scripts/`
         - `./get_pptam.sh` (if you get "Permission denied", execute `chmod uog+x get_pptam.sh`)
 
-    6.  If you want, you can do a test run:
+        The last command will clone PPTAM into the driver, where you will execute experiments. 
+
+    7.  If you want, you can do a test run:
 
         - `cd ~/pptam-tool/execute`
         - `./execute_test.py --design=../design_jsonserver_vagrant`
