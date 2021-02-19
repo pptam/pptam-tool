@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
     driver.vm.network :forwarded_port, guest: 9999, host: 9999
     
     driver.vm.provider "virtualbox" do |v|
-      v.memory = 2048
+      v.memory = 1024
       v.cpus = 1
     end
 
@@ -49,8 +49,8 @@ Vagrant.configure("2") do |config|
     config.disksize.size = '25GB'
 
     testbed.vm.provider "virtualbox" do |v|
-      v.memory = 8192
-      v.cpus = 4
+      v.memory = 2048
+      v.cpus = 1
     end
 
     testbed.vm.provision :shell, inline: "echo fs.file-max = 65535 >> /etc/sysctl.conf && sysctl -p"

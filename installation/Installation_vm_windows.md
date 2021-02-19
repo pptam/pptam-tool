@@ -1,5 +1,13 @@
 # Installation using virtual machines
 
+To install PPTAM on *Windows* we first performed the following installation steps:
+
+- we activated the Linux Subsystem, installing the *Ubuntu* distribution (e.g., following [this](https://www.windowscentral.com/install-windows-subsystem-linux-windows-10) instructions);
+- 
+
+
+
+
 Please carry out the following steps *on your computer*:
 
 1.  Install [VirtualBox](https://www.virtualbox.org).

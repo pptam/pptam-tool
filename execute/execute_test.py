@@ -180,7 +180,7 @@ if __name__ == "__main__":
     else:
         parser = argparse.ArgumentParser(description="Executes test cases.")
         parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder")
-        parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=2)
+        parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=1)
         parser.add_argument("--overwrite", help="Overwrite existing test cases", action='store_true', default=False)
 
         args = parser.parse_args()
