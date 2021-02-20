@@ -9,7 +9,7 @@ Please carry out the following steps *on your computer*:
 
     1.  `git clone https://github.com/pptam/pptam-tool.git`
     2.  `cd ./pptam-tool/installation`
-    3.  `vagrant up` (This step might take more than 15 minutes)
+    3.  `vagrant up` (This step might take some time since images have to be donwloaded and two virtual machines will be configured with the necessary software; in our case it took 1 hour)
     
 5.  Once installation is finished, these are the available commands **within the installation folder**:
 
