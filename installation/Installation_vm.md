@@ -51,7 +51,9 @@ Please carry out the following steps *on your computer*:
     Done.
     ```
 
-    If you now check the `~/pptam-tool/execute/executed` folder, you will find the results of the experiment, e.g., results_stats.csv. You can find out more about what the various output files mean [here](./How_to_use.md).
+    If you now check the `~/pptam-tool/execute/executed` folder, you will find the results of the experiment. You can find out more about what the various output files mean [here](./How_to_use.md).
+
+    This should be the output of `locustfile.out`:
     ```
     Name         # reqs   # fails  |  Avg  Min  Max  Median  |   req/s failures/s
     -------------------------------------------------------------------------------
