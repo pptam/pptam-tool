@@ -9,7 +9,7 @@ Please carry out the following steps *on your computer*:
 
     1.  `git clone https://github.com/pptam/pptam-tool.git`
     2.  `cd ./pptam-tool/installation`
-    3.  `vagrant up`
+    3.  `vagrant up` (This step might take more than 15 minutes)
     
 5.  Once installation is finished, these are the available commands **within the installation folder**:
 
@@ -36,7 +36,7 @@ Please carry out the following steps *on your computer*:
     - `cd ~/pptam-tool/execute`
     - `./execute_test.py --design=../design_jsonserver_vagrant`
 
-    You should now see a simimlar output:
+    You should now see a similar output:
 
     ```
     Executing test case 202102120945-json-test1.
