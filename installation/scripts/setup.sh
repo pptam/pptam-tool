@@ -8,8 +8,6 @@ echo " |  __/|  __/ | |/ ___ \| |  | |  ___) |  __/ |_| |_| | |_) |";
 echo " |_|   |_|    |_/_/   \_\_|  |_| |____/ \___|\__|\__,_| .__/ ";
 echo "                                                      |_|    ";
 
-cd ~
-
 # Install Grafana
 # sudo apt-get install -y apt-transport-https
 # sudo apt-get install -y software-properties-common wget
@@ -19,7 +17,7 @@ cd ~
 # sudo apt-get install grafana -y
 
 # Cloning PPTAM from github
-sudo rm -rf pptam-tool
+cd ~
 git clone --depth 1 https://github.com/pptam/pptam-tool.git
 
 cd pptam-tool

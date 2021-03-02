@@ -2,7 +2,7 @@ import logging
 import docker
 
 def ready(global_plugin_state, current_configuration, output, test_id): 
-    logging.info(f"Testing if SUT is correctly deployed.")
+    logging.debug(f"Testing if SUT is correctly deployed.")
 
     sut_hostname = current_configuration["docker_test_hostname"]
     docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")

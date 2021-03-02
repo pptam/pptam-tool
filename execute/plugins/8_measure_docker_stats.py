@@ -8,8 +8,6 @@ import time
 class CollectionTask:
     def __init__(self, current_configuration, logging, docker, threading, os, json, time):
         self._running = True
-        logging.info(f"Started Docker stats in background.")
-
         sut_hostname = current_configuration["docker_stats_hostname"]
         self.docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
         self.containers_to_watch = current_configuration["docker_stats_containers"].split()
@@ -24,7 +22,6 @@ class CollectionTask:
         self.time = time
 
     def terminate(self):
-        self.logging.info(f"Stopping Docker stats in background.")
         self._running = False
 
     def run(self, output, test_id):
@@ -56,7 +53,7 @@ class CollectionTask:
                     f.write("timestamp, service, cpu_perc, mem_perc\n")
 
             with open(file_to_write, "a") as f:
-                self.logging.info(f"Collecting Docker stats of {container.name}.")
+                self.logging.debug(f"Collecting Docker stats of {container.name}.")
 
                 stats = None
                 try:
@@ -99,15 +96,13 @@ class CollectionTask:
 
 data_collection = None
 
-def before(global_plugin_state, current_configuration, output, test_id):
-    logging.info(f"Starting Docker stats thread.")
+def before(global_plugin_state, current_configuration, output, test_id):    
     data_collection = CollectionTask(current_configuration, logging, docker, threading, os, json, time)
     t = threading.Thread(target = data_collection.run, args =(output, test_id), daemon=True)
     t.start()
 
     global_plugin_state["docker_stats_data_collection_class"] = data_collection
 
-def after(global_plugin_state, current_configuration, output, test_id):
-    logging.info(f"Killing Docker stats thread.")
+def after(global_plugin_state, current_configuration, output, test_id):    
     global_plugin_state["docker_stats_data_collection_class"].terminate()
     del global_plugin_state["docker_stats_data_collection_class"]

@@ -33,7 +33,7 @@ def run_plugins(configuration, section, output, test_id, func):
                     function_to_call = getattr(plugin, func, None)
                     if function_to_call!=None:
                         plugin_state = ", ".join(global_plugin_state.keys())
-                        logging.info(f"Current plugin state contains [{plugin_state}]")
+                        logging.debug(f"Current plugin state contains [{plugin_state}]")
 
                         call_result = function_to_call(global_plugin_state, configuration[section], output, test_id)
                         result.append(call_result)
@@ -43,9 +43,9 @@ def run_plugins(configuration, section, output, test_id, func):
     
     return result
 
-def create_output_directory(configuration, section, repetition, overwrite_existing_results):
+def create_output_directory(configuration, section, overwrite_existing_results):
     now = datetime.datetime.now()
-    test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower() + "-" + str(repetition + 1)
+    test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower()
     test_id = now.strftime("%Y%m%d%H%M") + "-" + test_id_without_timestamp
 
     all_outputs = os.path.abspath(os.path.join("./executed"))
@@ -67,8 +67,8 @@ def create_output_directory(configuration, section, repetition, overwrite_existi
 
     return output, test_id
 
-def perform_test(configuration, section, repetition, overwrite_existing_results):
-    output, test_id = create_output_directory(configuration, section, repetition, overwrite_existing_results)
+def perform_test(configuration, section, overwrite_existing_results):
+    output, test_id = create_output_directory(configuration, section, overwrite_existing_results)
     if output==None:
         return
         
@@ -160,18 +160,13 @@ def execute_test(design_path, overwrite_existing_results):
         if section.lower().startswith("test"):
             enabled = (configuration[section]["enabled"] == "1")
             if enabled:
-                repeat = int(configuration[section]["repeat"])
-                for repetition in range(repeat):
-                    perform_test(configuration, section, repetition, overwrite_existing_results)
+                perform_test(configuration, section, overwrite_existing_results)
 
     run_plugins(configuration, "DEFAULT", design_path, None, "teardown_all")
 
     logging.info(f"Done.")
 
 if __name__ == "__main__":
-    if os.geteuid() != 0:
-        exit("You need to have root privileges to run this script.\nPlease try again, this time using 'sudo'. Exiting.")
-
     overwrite_data = False
     design_path = None
     logging_level = 2
