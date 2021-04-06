@@ -10,7 +10,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
 
@@ -28,7 +28,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
 
@@ -40,7 +40,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
       replicas: ${CARTS_REPLICAS}
       restart_policy:
         condition: any
@@ -59,7 +59,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
 
@@ -71,7 +71,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
 
@@ -82,7 +82,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
 
@@ -94,7 +94,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
 
@@ -115,7 +115,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
 
@@ -126,7 +126,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
 
@@ -138,7 +138,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
 
@@ -149,7 +149,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${DOCKER_SUT_HOSTNAME}
+          - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
 

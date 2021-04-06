@@ -42,20 +42,18 @@ In this case, test_plan.ini overwrites SECONDS_TO_WAIT_BEFORE_SETUP for all test
 
 - ENABLED_PLUGINS: this parameter decides which plugins to execute. Currently the following plugins are available:
 
-  - 0_cleanup_docker.py: deletes old Docker containers and restarts Docker *before* a test;
-  - 0_deploy_docker.py: deploys the system under test using the provided `docker-compose.yml`;
-  - 1_analyze_portainer.py: deploys [Portainer](https://www.portainer.io), for debugging;
-  - 2_deploy_files.py: deploys optional additional files to the execution folder;
-  - 8_measure_docker_stats.py: measures the system under test collecting [Docker stats](https://docs.docker.com/engine/reference/commandline/stats/);
-  - 9_measure_jaeger.py: collects [Jaeger tracing](https://www.jaegertracing.io) data.
+  - cleanup_docker.py: deletes old Docker containers and restarts Docker *before* a test;
+  - deploy_docker.py: deploys the system under test using the provided `docker-compose.yml`;
+  - analyze_portainer.py: deploys [Portainer](https://www.portainer.io), for debugging;
+  - deploy_files.py: deploys optional additional files to the execution folder;
+  - measure_docker_stats.py: measures the system under test collecting [Docker stats](https://docs.docker.com/engine/reference/commandline/stats/);
+  - measure_jaeger.py: collects [Jaeger tracing](https://www.jaegertracing.io) data.
   - load_test_locust.py: executes a [Locust](https://locust.io) load test;
   - test_deployment.py: tests if the application is deployed correctly checking for a specific container.
 
-  This parameter can be set using either 'all' or indicating the plugins, separated by a space. You can exclude a plugin adding a ! before it. Examples of this setting are:
-    - all
-    - all !9_measure_jaeger
-    - load_test_locust 0_deploy_docker test_deployment
+  This parameter has to be set listing the plugins to use, separated by a space, e.g., deploy_docker test_deployment load_test_locust. **The plugins are executed in the order they are set in the parameter**.
 
+- PROJECT_NAME: Name of the current project
 - TEST_CASE_PREFIX: Prefix to add to every test; useful to distinguish test sets
 - SECONDS_TO_WAIT_BEFORE_SETUP: Seconds to wait before starting the phase 'setup'
 - SECONDS_TO_WAIT_BEFORE_DEPLOY: Seconds to wait before starting the phase 'deploy'
@@ -101,27 +99,17 @@ If you want to load test an application that is *already deployed*, have a look 
 
 ## Execution
 
-Once a test design is present, its possible to execute tests using the `execute_test.py` script within the `execute` folder. This script accepts three arguments:
+Once a test design is present, its possible to execute tests using the `execute_test.py` script within the `execute` folder. This script accepts the following arguments:
 
-* --design: the path to the design folder;
-* --logging: the logging level from 1 (everything) to 5 (nothing), default is 2;
-* --overwrite: if present, overwrites existing test cases, default is false.
+* design_folder: the path to the design folder;
+* --logging: the logging level from 1 (everything) to 5 (nothing), default is 1;
 
 An example call could be:
 
 - cd ~/pptam-tool/execute
-- `./execute_test.py --design=../design_jsonserver_vagrant --logging=1 --overwrite`
+- `./execute_test.py ../design_jsonserver_vagrant --logging=1`
 
 Depending on your configuration, you need to use `sudo` to execute tests. This call would execute the tests present in the json server design folder, log everything and overwrite existing test cases (if present).
-
-If a file `arguments.ini` is present in the execute folder, the parameters indicated in that configuration file will be read, not those provided on the command line. It has the following format:
-
-```
-[ARGUMENTS]
-OVERWRITE=1
-DESIGN=../design_trainticket
-LOGGING=1
-````
 
 ## Analysis
 

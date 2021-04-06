@@ -14,7 +14,7 @@ docker swarm init --advertise-addr $1 --listen-addr $1
 docker swarm join-token -q worker > /vagrant/.join-token-worker
 
 # Python installation
-apt install -y python3.8 python3.8-dev
+apt install -y python3.8 python3.8-dev libpq-dev
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
 sudo update-alternatives --set python /usr/bin/python3.8
 
@@ -31,7 +31,7 @@ conda init
 conda install -c r r-essentials -y
 conda install -c conda-forge notebook -y
 conda install -c anaconda python=3.8 pip -y
-/home/vagrant/miniconda/bin/pip3 install requests locust psutil docker pluginbase
+/home/vagrant/miniconda/bin/pip3 install requests locust psutil docker pluginbase psycopg2
 
 cp -r /vagrant/configuration/jupyter /home/vagrant/.jupyter
 

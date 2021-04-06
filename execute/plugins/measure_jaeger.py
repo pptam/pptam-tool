@@ -23,7 +23,7 @@ def after(global_plugin_state, current_configuration, output, test_id):
             if all_services is None:
                 logging.critical(f"Cannot determine Jaeger services.")
             else:
-                if not (service_to_test in all_services):
+                if (service_to_test != "") and not (service_to_test in all_services):
                     logging.critical(f"Service {service_to_test} is not in the list of services.")
                 else:
                     break
@@ -33,7 +33,7 @@ def after(global_plugin_state, current_configuration, output, test_id):
 
         time.sleep(60)
     
-    if (all_services != None) and (service_to_test in all_services):
+    if (all_services != None) and ((service_to_test == "") or (service_to_test in all_services)):
         for service in all_services:
             if ("all" in jaeger_services) or (service in jaeger_services):
                 if f"!{service}" in jaeger_services:

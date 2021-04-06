@@ -16,34 +16,28 @@ global_plugin_state = {}
 
 def run_plugins(configuration, section, output, test_id, func):
     result = []
-    plugins = configuration[section]["enabled_plugins"].split()
-    
+    plugin_list = configuration[section]["enabled_plugins"].split()    
     plugin_base = PluginBase(package='plugins')
     plugin_source = plugin_base.make_plugin_source(searchpath=['./plugins'])
-    plugin_list = sorted(plugin_source.list_plugins())
 
-    for plugin_name in plugin_list:
-        if not plugin_name.startswith("_") and (("all" in plugins) or (plugin_name in plugins)):
-            if f"!{plugin_name}" in plugins:
-                logging.debug(f"Skipping plugin {plugin_name}.")
-            else:
-                logging.debug(f"Executing {func} of plugin {plugin_name}.")
-                plugin = plugin_source.load_plugin(plugin_name)
-                try:
-                    function_to_call = getattr(plugin, func, None)
-                    if function_to_call!=None:
-                        plugin_state = ", ".join(global_plugin_state.keys())
-                        logging.debug(f"Current plugin state contains [{plugin_state}]")
+    for plugin_name in plugin_list:        
+        logging.debug(f"Executing {func} of plugin {plugin_name}.")
+        plugin = plugin_source.load_plugin(plugin_name)
+        try:
+            function_to_call = getattr(plugin, func, None)
+            if function_to_call!=None:
+                plugin_state = ", ".join(global_plugin_state.keys())
+                logging.debug(f"Current plugin state contains [{plugin_state}]")
 
-                        call_result = function_to_call(global_plugin_state, configuration[section], output, test_id)
-                        result.append(call_result)
-                        
-                except Exception as e:
-                    logging.critical(f"Cannot invoke plugin {plugin_name}: {e}")
+                call_result = function_to_call(global_plugin_state, configuration[section], output, test_id)
+                result.append(call_result)
+                
+        except Exception as e:
+            logging.critical(f"Cannot invoke plugin {plugin_name}: {e}")
     
     return result
 
-def create_output_directory(configuration, section, overwrite_existing_results):
+def create_output_directory(configuration, section):
     now = datetime.datetime.now()
     test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower()
     test_id = now.strftime("%Y%m%d%H%M") + "-" + test_id_without_timestamp
@@ -54,21 +48,17 @@ def create_output_directory(configuration, section, overwrite_existing_results):
         os.makedirs(all_outputs)
         
     if any(x.endswith(test_id_without_timestamp) for x in os.listdir(all_outputs)):
-        if overwrite_existing_results:
-            name_of_existing_folder = next(x for x in os.listdir(all_outputs) if x.endswith(test_id_without_timestamp))
-            logging.warning(f"Deleting {name_of_existing_folder}, since it already exists and the --override flag is set.")
-            shutil.rmtree(os.path.join(all_outputs, name_of_existing_folder))
-        else:
-            logging.warning(f"Skipping test {test_id_without_timestamp}, since it already exists. Use --overwrite in case.")
-            return None, None
+        name_of_existing_folder = next(x for x in os.listdir(all_outputs) if x.endswith(test_id_without_timestamp))
+        logging.warning(f"Deleting {name_of_existing_folder}, since it already exists.")
+        shutil.rmtree(os.path.join(all_outputs, name_of_existing_folder))
 
     output = os.path.join(all_outputs, test_id)
     os.makedirs(output)
 
-    return output, test_id
+    return output, test_id, now
 
-def perform_test(configuration, section, overwrite_existing_results):
-    output, test_id = create_output_directory(configuration, section, overwrite_existing_results)
+def perform_test(configuration, section, design_path):
+    output, test_id, now = create_output_directory(configuration, section)
     if output==None:
         return
         
@@ -96,6 +86,8 @@ def perform_test(configuration, section, overwrite_existing_results):
         f.write(f"[CONFIGURATION]\n")
         for option in configuration.options(section):
             f.write(f"{option.upper()}={configuration[section][option]}\n")
+        f.write(f"TIMESTAMP={now.timestamp()}\n")
+        f.write(f"TEST_NAME={test_id}\n")
 
     logging.info(f"Executing test case {test_id}.")
 
@@ -150,7 +142,7 @@ def perform_test(configuration, section, overwrite_existing_results):
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
-def execute_test(design_path, overwrite_existing_results):
+def execute_test(design_path):
     configuration = configparser.ConfigParser()
     configuration.read([os.path.join(design_path, "configuration.ini"), os.path.join(design_path, "test_plan.ini")])
 
@@ -160,41 +152,24 @@ def execute_test(design_path, overwrite_existing_results):
         if section.lower().startswith("test"):
             enabled = (configuration[section]["enabled"] == "1")
             if enabled:
-                perform_test(configuration, section, overwrite_existing_results)
+                perform_test(configuration, section, design_path)
 
     run_plugins(configuration, "DEFAULT", design_path, None, "teardown_all")
 
     logging.info(f"Done.")
 
 if __name__ == "__main__":
-    overwrite_data = False
-    design_path = None
-    logging_level = 2
+    parser = argparse.ArgumentParser(description="Executes test cases.")
+    parser.add_argument("design", metavar="path_to_design_folder", help="Design folder")
+    parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=1)
+    args = parser.parse_args()
 
-    if os.path.exists("./arguments.ini"):
-        arguments = configparser.ConfigParser()
-        arguments.read("./arguments.ini")
-        overwrite_data = arguments["ARGUMENTS"]["OVERWRITE"] == "1"
-        design_path = arguments["ARGUMENTS"]["DESIGN"]
-        logging_level = int(arguments["ARGUMENTS"]["LOGGING"])
-    else:
-        parser = argparse.ArgumentParser(description="Executes test cases.")
-        parser.add_argument("--design", metavar="path_to_design_folder", help="Design folder")
-        parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=2)
-        parser.add_argument("--overwrite", help="Overwrite existing test cases", action='store_true', default=False)
-
-        args = parser.parse_args()
-
-        overwrite_data = args.overwrite
-        design_path = args.design
-        logging_level = args.logging
-
-    logging.basicConfig(format='%(message)s', level=logging_level * 10)
+    logging.basicConfig(format='%(message)s', level=args.logging * 10)
     logging.getLogger("requests").setLevel(logging.WARNING)
     logging.getLogger("urllib3").setLevel(logging.WARNING)
         
-    if design_path is None or design_path == "" or (not os.path.exists(design_path)):
-        logging.fatal(f"Cannot find the design folder. Please indicate one with the parameter --design")
+    if args.design is None or args.design == "" or (not os.path.exists(args.design)):
+        logging.fatal(f"Cannot find the design folder. Please indicate one.")
         quit()
 
-    execute_test(design_path, overwrite_data)
+    execute_test(args.design)
