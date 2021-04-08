@@ -7,3 +7,10 @@ services:
     ports:
       - 8888:8888
     container_name: datascience-notebook-container
+    environment:
+      - POSTGRES_USERNAME
+      - POSTGRES_PASSWORD      
+      - DB_NAME=pptam      
+      - HOST_NAME=host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1" #https://stackoverflow.com/questions/31249112/allow-docker-container-to-connect-to-a-local-host-postgres-database    
