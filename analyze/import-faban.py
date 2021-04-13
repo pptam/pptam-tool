@@ -46,7 +46,7 @@ def store_test(file_to_import):
                         if id!=current_id:
                             current_id = id
                             test_id = str(uuid.uuid4())
-                            logging.info(f"Switching to test id {test_id}.")
+                            logging.debug(f"Importing test {test_id}.")
 
                             test_name = row["Memory"] + "mb_" + row["CPU"] + "cpu_" + row["CartReplicas"] + "cart_replicas (" + row["ID"] + ")"
                             cursor.execute("INSERT INTO tests (id, project, name) VALUES (%s, %s, %s);", (test_id, project_id, test_name))
@@ -55,67 +55,62 @@ def store_test(file_to_import):
                         cursor.execute("INSERT INTO test_properties (test, name, value) VALUES (%s, %s, %s);", (test_id, "memory", row["Memory"]))
                         cursor.execute("INSERT INTO test_properties (test, name, value) VALUES (%s, %s, %s);", (test_id, "cpu", row["CPU"]))
                         cursor.execute("INSERT INTO test_properties (test, name, value) VALUES (%s, %s, %s);", (test_id, "cart_replicas", row["CartReplicas"]))
-                            
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "createOrder", 4, float(row["createOrder"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "basket", 4, float(row["basket"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getCatalogue", 4, float(row["getCatalogue"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getItem", 4, float(row["getItem"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getCart", 4, float(row["getCart"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "login", 4, float(row["login"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getOrders", 4, float(row["getOrders"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "catalogue", 4, float(row["catalogue"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "home", 4, float(row["home"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "tags", 4, float(row["tags"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getCustomer", 4, float(row["getCustomer"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "viewOrdersPage", 4, float(row["viewOrdersPage"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "cataloguePage", 4, float(row["cataloguePage"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getRelated", 4, float(row["getRelated"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "addToCart", 4, float(row["addToCart"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "catalogueSize", 4, float(row["catalogueSize"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getAddress", 4, float(row["getAddress"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getCard", 4, float(row["getCard"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "showDetails", 4, float(row["showDetails"])))                    
-                        row = reader.__next__()
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "createOrder", 22, float(row["createOrder"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "basket", 22, float(row["basket"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getCatalogue", 22, float(row["getCatalogue"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getItem", 22, float(row["getItem"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getCart", 22, float(row["getCart"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "login", 22, float(row["login"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getOrders", 22, float(row["getOrders"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "catalogue", 22, float(row["catalogue"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "home", 22, float(row["home"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "tags", 22, float(row["tags"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getCustomer", 22, float(row["getCustomer"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "viewOrdersPage", 22, float(row["viewOrdersPage"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "cataloguePage", 22, float(row["cataloguePage"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getRelated", 22, float(row["getRelated"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "addToCart", 22, float(row["addToCart"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "catalogueSize", 22, float(row["catalogueSize"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getAddress", 22, float(row["getAddress"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getCard", 22, float(row["getCard"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "showDetails", 22, float(row["showDetails"])))                    
-                        row = reader.__next__()
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "createOrder", 23, float(row["createOrder"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "basket", 23, float(row["basket"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getCatalogue", 23, float(row["getCatalogue"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getItem", 23, float(row["getItem"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getCart", 23, float(row["getCart"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "login", 23, float(row["login"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getOrders", 23, float(row["getOrders"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "catalogue", 23, float(row["catalogue"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "home", 23, float(row["home"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "tags", 23, float(row["tags"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getCustomer", 23, float(row["getCustomer"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "viewOrdersPage", 23, float(row["viewOrdersPage"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "cataloguePage", 23, float(row["cataloguePage"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getRelated", 23, float(row["getRelated"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "addToCart", 23, float(row["addToCart"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "catalogueSize", 23, float(row["catalogueSize"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getAddress", 23, float(row["getAddress"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "getCard", 23, float(row["getCard"])))
-                        cursor.execute("INSERT INTO results(test, object_of_study, metric, value) VALUES (%s, %s, %s, %s);", (test_id, "showDetails", 23, float(row["showDetails"])))                    
                         
+                        fields = ["createOrder", "basket", "getCatalogue", "getItem", "getCart", "login", "getOrders", "catalogue", "home", "tags", "getCustomer", "viewOrdersPage", "cataloguePage", "getRelated", "addToCart", "catalogueSize", "getAddress", "getCard", "showDetails"]
+
+                        for field in fields:
+                            cursor.execute(f"INSERT INTO results(test, item, metric, value) VALUES (%s, create_or_get_item('{project_id}', %s), %s, %s);", (test_id, field, 4, float(row[field])))                                                    
+
+                        row = reader.__next__()
+                        
+                        for field in fields:
+                            cursor.execute(f"INSERT INTO results(test, item, metric, value) VALUES (%s, create_or_get_item('{project_id}', %s), %s, %s);", (test_id, field, 22, float(row[field])))
+                        
+                        row = reader.__next__()
+                        
+                        for field in fields:
+                            cursor.execute(f"INSERT INTO results(test, item, metric, value) VALUES (%s, create_or_get_item('{project_id}', %s), %s, %s);", (test_id, field, 23, float(row[field])))
+            
+            with connection.cursor() as cursor: 
+                sql_groups = """
+                    SELECT A.value::text AS cpu, B.value::text AS memory, C.value::text AS cart_replicas FROM TESTS 
+                    INNER JOIN TEST_PROPERTIES A ON (TESTS.ID = A.TEST AND A.name='cpu')
+                    INNER JOIN TEST_PROPERTIES B ON (TESTS.ID = B.TEST AND B.name='memory')
+                    INNER JOIN TEST_PROPERTIES C ON (TESTS.ID = C.TEST AND C.name='cart_replicas')
+                    WHERE TESTS.project=%s
+                    GROUP BY cpu, memory, cart_replicas
+                    """
+
+                cursor.execute(sql_groups, (project_id, ))
+                records = cursor.fetchall()
+                
+                for test_set in records: 
+                    cpu=test_set[0]
+                    memory=test_set[1]
+                    cart_replicas=test_set[2]
+                    
+                    test_set_id = str(uuid.uuid4())                    
+                    test_set_name = memory + "mb_" + cpu + "cpu_" + cart_replicas + "cart_replicas"
+                    logging.debug(f"Creating test set {test_set_id} with name {test_set_name}.")
+                    cursor.execute("INSERT INTO test_sets (id, project, name) VALUES (%s, %s, %s);", (test_set_id, project_id, test_set_name))
+
+                    sql_test_set_tests = """
+                        SELECT id FROM (SELECT TESTS.id, A.value::text AS cpu, B.value::text AS memory, C.value::text AS cart_replicas FROM TESTS 
+                        INNER JOIN TEST_PROPERTIES A ON (TESTS.ID = A.TEST AND A.name='cpu')
+                        INNER JOIN TEST_PROPERTIES B ON (TESTS.ID = B.TEST AND B.name='memory')
+                        INNER JOIN TEST_PROPERTIES C ON (TESTS.ID = C.TEST AND C.name='cart_replicas') 
+                        WHERE TESTS.project=%s) AS A WHERE cpu=%s AND memory=%s AND cart_replicas=%s
+                        """
+
+                    with connection.cursor() as cursor2: 
+                        cursor2.execute(sql_test_set_tests, (project_id, cpu, memory, cart_replicas))
+                        tests = cursor2.fetchall()
+
+                        for test in tests: 
+                            test_to_link = test[0]
+                            logging.debug(f"Linking test {test_to_link} to it.")
+                            cursor.execute("INSERT INTO test_set_tests(test_set, test) VALUES (%s, %s);", (test_set_id, test_to_link))
+     
     finally:
         if connection is not None:
             connection.close()

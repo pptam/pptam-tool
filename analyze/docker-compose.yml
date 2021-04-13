@@ -1,7 +1,7 @@
 version: "3"
 services:
   datascience-notebook:
-    image: jupyter/datascience-notebook
+    image: jupyter/pptam-datascience-notebook
     volumes:
       - ./notebooks:/home/jovyan/work
     ports:
