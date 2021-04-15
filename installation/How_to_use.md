@@ -54,6 +54,7 @@ In this case, test_plan.ini overwrites SECONDS_TO_WAIT_BEFORE_SETUP for all test
   This parameter has to be set listing the plugins to use, separated by a space, e.g., deploy_docker test_deployment load_test_locust. **The plugins are executed in the order they are set in the parameter**.
 
 - PROJECT_NAME: Name of the current project
+- TEST_SET_NAME: (Useful to group tests into test sets) Name of the test set
 - TEST_CASE_PREFIX: Prefix to add to every test; useful to distinguish test sets
 - SECONDS_TO_WAIT_BEFORE_SETUP: Seconds to wait before starting the phase 'setup'
 - SECONDS_TO_WAIT_BEFORE_DEPLOY: Seconds to wait before starting the phase 'deploy'
