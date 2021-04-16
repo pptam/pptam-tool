@@ -13,6 +13,11 @@ import string
 import logging
 from requests.adapters import HTTPAdapter 
 
+import locust.stats
+locust.stats.CONSOLE_STATS_INTERVAL_SEC = 1
+locust.stats.CSV_STATS_FLUSH_INTERVAL_SEC = 10
+locust.stats.PERCENTILES_TO_REPORT = [0.25, 0.50, 0.75, 0.80, 0.90, 0.95, 0.98, 0.99, 0.999, 0.9999, 1.0]
+
 DEP_DATE = "2021-01-08"
 VERBOSE_LOGGING = ${LOCUST_VERBOSE_LOGGING}
 
