@@ -73,15 +73,15 @@ def store_test(test_path):
                                 cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), %s, %s, %s);", (test_id, row["Name"], 9, float(row["Failures/s"]), created_at))
                                 
                                 #https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-14-135
-                                n = float(row["Request Count"])
-                                a = float(row["Min Response Time"])
-                                q1 = float(row["25%"])
-                                m = float(row["Median Response Time"])
-                                q3 = float(row["75%"])
-                                b = float(row["Max Response Time"])
+                                # n = float(row["Request Count"])
+                                # a = float(row["Min Response Time"])
+                                # q1 = float(row["25%"])
+                                # m = float(row["Median Response Time"])
+                                # q3 = float(row["75%"])
+                                # b = float(row["Max Response Time"])
                                 
-                                estimated_sd = math.sqrt((1/16)*(a**2+2*q1**2+2*m**2+2*q3**2+b**2) + (1/8)*(a*q1+q1*m+m*q3+q3*b) - (1/64)*(a+2*q1+2*m+2*q3+b)**2)
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), %s, %s, %s);", (test_id, row["Name"], 22, estimated_sd, created_at))
+                                # estimated_sd = math.sqrt((1/16)*(a**2+2*q1**2+2*m**2+2*q3**2+b**2) + (1/8)*(a*q1+q1*m+m*q3+q3*b) - (1/64)*(a+2*q1+2*m+2*q3+b)**2)
+                                # cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), %s, %s, %s);", (test_id, row["Name"], 22, estimated_sd, created_at))
 
                 history_statistics_path = os.path.join(test_path, "result_stats_history.csv")
                 if os.path.exists(history_statistics_path):
