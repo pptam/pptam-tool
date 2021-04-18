@@ -2,13 +2,13 @@
 
 Welcome to PPTAM, a set of tools for Production and Performance Testing Based Application Monitoring.
 
-To see how to **install** PPTAM, see [here](installation/README.md).
+To see how to **install** PPTAM, see [here](documentation/how_to_install.md).
 
-To see how to **use** PPTAM, see [here](installation/How_to_use.md).
+To see how to **use** PPTAM, see [here](documentation/how_to_use.md).
 
-To see how to **extend** PPTAM, see [here](installation/How_to_extend.md).
+To see how to **extend** PPTAM, see [here](documentation/how_to_extend.md).
 
-If you are looking for the archived version published together with the following pubblications, see [here](archive/README.md).
+This is the repository referenced in the following papers:
 
 - Alberto Avritzer, Daniel Menasché, Vilc Rufino, Barbara Russo, Andrea Janes, Vincenzo Ferme, André van Hoorn, and Henning Schulz. 2019. PPTAM: Production and Performance Testing Based Application Monitoring. In Companion of the 2019 ACM/SPEC International Conference on Performance Engineering (ICPE ’19). Association for Computing Machinery, New York, NY, USA, 39–40. DOI: https://doi.org/10.1145/3302541.3311961
 - Andrea Janes, Barbara Russo:

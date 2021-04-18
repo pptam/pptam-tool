@@ -136,7 +136,7 @@ cython_debug/
 
 # Application specific paths to ignore
 /ui/grafana*
-/execute/executed*
+/toolchain/executed*
 /design_trainticket/modified_images*
 .vagrant
 workspace.code-workspace
