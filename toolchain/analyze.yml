@@ -14,3 +14,4 @@ services:
       - HOST_NAME=host.docker.internal
     extra_hosts:
       - "host.docker.internal:172.17.0.1" #https://stackoverflow.com/questions/31249112/allow-docker-container-to-connect-to-a-local-host-postgres-database    
+    entrypoint: start.sh jupyter lab --ServerApp.token=
