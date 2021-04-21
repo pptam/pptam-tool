@@ -43,6 +43,11 @@ Vagrant.configure("2") do |config|
     driver.vm.provision :reload
   end
 
+  # The following ports should be open to allow Docker Swarm communication
+  # - TCP port 2377 for cluster management communications
+  # - TCP and UDP port 7946 for communication among nodes
+  # - UDP port 4789 for overlay network traffic
+  
   config.vm.define "testbed" do |testbed|
     testbed.vm.network "private_network", ip: "192.168.50.101"
     testbed.vm.hostname = "testbed"
