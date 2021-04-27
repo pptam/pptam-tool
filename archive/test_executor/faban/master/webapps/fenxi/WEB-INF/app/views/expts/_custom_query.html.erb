@@ -1,0 +1,28 @@
+<a href="#" onclick="Effect.toggle(<%="'custom-query-id-#{section.id}'"%>, 'appear');return false;">Edit</a>
+<div class="custom-query" id="<%="custom-query-id-#{section.id}"%>" style="display:none;">
+<% form_remote_tag :url => { :action => "custom_query" },
+  :loading => 'CustomQueryExecutor.loading()',
+  :complete => 'CustomQueryExecutor.complete()',
+  :html => { :id => 'custom-query-form' } do
+%>
+  <%=  hidden_field_tag 'id', @expt.to_param %>
+  <%=  hidden_field_tag 'dims', section.dims %>
+  <table>
+    <tr>
+      <td><%= label_tag 'Title'%></td>
+      <td><%= text_field_tag 'desc', section.desc, :size=>"50" %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag 'Display as' %></td>
+      <td><%= select_tag 'display', options_for_select(supported_display_types, section.display) %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag 'query' %></td>
+      <td><%= text_area_tag 'query', section.query, :size => "50x5" %></td>
+    </tr>
+    <tr>
+      <td colspan="2"><%= submit_tag 'Execute custom query' %></td>
+    </tr>    
+  </table>
+<%end%>
+</div>

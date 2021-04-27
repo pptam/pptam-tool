@@ -26,12 +26,7 @@ Please carry out the following steps *on your computer*:
 
     After this instruction you should have logged into the *driver* machine. There, please execute the following commands:
 
-    - `cd /vagrant/scripts/`
-    - `bash ./setup.sh` 
-
-    The last command will clone PPTAM into the driver, where you will execute experiments. 
-
-7.  If you want, you can do a test run:
+7.  If you want, you can do a test run now:
 
     - `cd ~/pptam-tool/toolchain`
     - `./execute.py --design=../design_jsonserver_vagrant`
@@ -51,7 +46,7 @@ Please carry out the following steps *on your computer*:
     Done.
     ```
 
-    If you now check the `~/pptam-tool/toolchain/executed` folder, you will find the results of the experiment. You can find out more about what the various output files mean [here](./How_to_use.md).
+    If you now check the `~/pptam-tool/toolchain/executed` folder, you will find a folder of the just executed experiment, and in this folder the results of the experiment. You can find out more about what the various output files mean [here](./how_to_use.md).
 
     This should be the output of `locustfile.out`:
     ```

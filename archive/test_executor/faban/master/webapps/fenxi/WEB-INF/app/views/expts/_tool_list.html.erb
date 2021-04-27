@@ -1,0 +1,22 @@
+<%#Input: @expt, and tool =>[realname, prettyname]%>
+<div class="tool=list-box">
+  <div class="tool-name">
+    <a href="#" class="tool-list-href" id="tool-<%=tool.last%>"
+       onclick="Effect.toggle('sections-<%=tool.first%>', 'appear',{ duration: 0.5 });return false;">
+      <%= tool.last %><span><%= tool.first %></span>
+    </a>
+  </div>
+  <div class="section-list" id="sections-<%=tool.first%>" style="display:none;">
+    <div>
+      <ul>
+        <% @expt.sections_for_tool(tool.first).each do |section| %>
+          <LI><%= link_to_remote "#{h(section.desc)}",
+              :url=>url_for(:action=>"show_section", :id=>@expt, :sectionid => section.id),
+              :loading => "Element.show('spinner');",
+              :complete => "Element.hide('spinner');"
+          %> </LI>
+          <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

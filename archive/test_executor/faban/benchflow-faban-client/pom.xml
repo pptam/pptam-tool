@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>cloud.benchflow</groupId>
+  <artifactId>faban-client</artifactId>
+  <version>0.1.0</version>
+  <name>benchflow-faban-client</name>
+
+  <properties>
+    <project.name>benchflow-faban-client</project.name>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+    <httpclient.version>4.5.1</httpclient.version>
+    <guava.version>18.0</guava.version>
+    <jsoup.version>1.10.3</jsoup.version>
+    <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+    <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
+    <maven-shade-plugin.verion>2.4.3</maven-shade-plugin.verion>
+    <maven-surefire-plugin.version>2.20</maven-surefire-plugin.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>${httpclient.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+      <version>${httpclient.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>${jsoup.version}</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>${project.name}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <!--TODO: enable it when we have proper tests-->
+          <excludes>
+            <exclude>**/cloud/benchflow/faban/test/client/*.java</exclude>
+          </excludes>
+        </configuration>
+        <!--TODO: enable it when we have proper tests-->
+        <executions>
+          <execution>
+            <id>default-test-compile</id>
+            <phase>test-compile</phase>
+            <goals>
+              <goal>testCompile</goal>
+            </goals>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>${maven-shade-plugin.verion}</version>
+        <configuration>
+          <!--<createDependencyReducedPom>true</createDependencyReducedPom>-->
+          <shadedArtifactAttached>false</shadedArtifactAttached>
+          <createDependencyReducedPom>true</createDependencyReducedPom>
+          <createSourcesJar>true</createSourcesJar>
+          <filters>
+            <filter>
+              <artifact>*:*</artifact>
+            </filter>
+          </filters>
+            <transformers>
+                <transformer implementation=
+                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                    <mainClass>cloud.benchflow.faban.client.CommandLine</mainClass>
+                </transformer>
+            </transformers>
+          <outputDirectory>${session.executionRootDirectory}/target</outputDirectory>
+          <finalName>${project.name}</finalName>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven-jar-plugin.version}</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration>
+          <!--TODO: enable it when we have proper tests-->
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

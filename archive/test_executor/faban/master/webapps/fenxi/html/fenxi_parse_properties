@@ -1,0 +1,19 @@
+## This is the fenxi parser property file
+## All the parsers used are to be listed as a key value pair.
+^iostat			= iostat.pl
+^awr			= awrrpt_stats.pl
+^statspack		= awrrpt_stats.pl
+^statit			= statit.rb
+^prstat			= prstat.pl
+^mpstat			= mpstat.pl
+^vmstat			= vmstat.rb
+^netsum			= netsum.pl
+^nicstat		= nicstat.pl
+^prstat			= prstat.pl
+^report$		= tpccmeta.pl
+\.xan\.			= xyy.rb
+\.xan$          = xyy.rb
+^summary$		= summary.rb
+^iosum			= iosum.rb
+^waiter			= waiter.rb
+^uperf			= uperf.rb

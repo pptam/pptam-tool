@@ -91,6 +91,14 @@ def perform_test(configuration, section, design_path):
 
     logging.info(f"Executing test case {test_id}.")
 
+    enable_phase_setup = configuration[section]["seconds_to_wait_before_setup"])=="1"
+    enable_phase_deploy = configuration[section]["seconds_to_wait_before_deploy"])=="1"
+    enable_phase_before = configuration[section]["seconds_to_wait_before_before"])=="1"
+    enable_phase_run = configuration[section]["seconds_to_wait_before_run"])=="1"
+    enable_phase_after = configuration[section]["seconds_to_wait_before_after"])=="1"
+    enable_phase_undeploy = configuration[section]["seconds_to_wait_before_undeploy"])=="1"
+    enable_phase_teardown = configuration[section]["seconds_to_wait_before_teardown"])=="1"
+
     seconds_to_wait_before_setup = int(configuration[section]["seconds_to_wait_before_setup"])
     seconds_to_wait_before_deploy = int(configuration[section]["seconds_to_wait_before_deploy"])
     seconds_to_wait_before_before = int(configuration[section]["seconds_to_wait_before_before"])
@@ -99,13 +107,15 @@ def perform_test(configuration, section, design_path):
     seconds_to_wait_before_undeploy = int(configuration[section]["seconds_to_wait_before_undeploy"])
     seconds_to_wait_before_teardown = int(configuration[section]["seconds_to_wait_before_teardown"])
 
-    logging.debug(f"Waiting for {seconds_to_wait_before_setup} seconds.")
-    time.sleep(seconds_to_wait_before_setup)
-    run_plugins(configuration, section, output, test_id, "setup")
+    if enable_phase_setup:
+        logging.debug(f"Waiting for {seconds_to_wait_before_setup} seconds.")
+        time.sleep(seconds_to_wait_before_setup)
+        run_plugins(configuration, section, output, test_id, "setup")
     
-    logging.debug(f"Waiting for {seconds_to_wait_before_deploy} seconds.")
-    time.sleep(seconds_to_wait_before_deploy)
-    run_plugins(configuration, section, output, test_id, "deploy")
+    if enable_phase_deploy:
+        logging.debug(f"Waiting for {seconds_to_wait_before_deploy} seconds.")
+        time.sleep(seconds_to_wait_before_deploy)
+        run_plugins(configuration, section, output, test_id, "deploy")
 
     plugins_are_ready = None
     for _ in range(10):   
@@ -120,25 +130,30 @@ def perform_test(configuration, section, design_path):
     if (plugins_are_ready is None) or (False in plugins_are_ready):
         logging.critical("Cannot start because not all plugins are ready.")
     else:
-        logging.debug(f"Waiting for {seconds_to_wait_before_before} seconds.")
-        time.sleep(seconds_to_wait_before_before)
-        run_plugins(configuration, section, output, test_id, "before")
+        if enable_phase_before:
+            logging.debug(f"Waiting for {seconds_to_wait_before_before} seconds.")
+            time.sleep(seconds_to_wait_before_before)
+            run_plugins(configuration, section, output, test_id, "before")
 
-        logging.debug(f"Waiting for {seconds_to_wait_before_run} seconds.")
-        time.sleep(seconds_to_wait_before_run)
-        run_plugins(configuration, section, output, test_id, "run")
+        if enable_phase_run:
+            logging.debug(f"Waiting for {seconds_to_wait_before_run} seconds.")
+            time.sleep(seconds_to_wait_before_run)
+            run_plugins(configuration, section, output, test_id, "run")
 
-        logging.debug(f"Waiting for {seconds_to_wait_before_after} seconds.")
-        time.sleep(seconds_to_wait_before_after)
-        run_plugins(configuration, section, output, test_id, "after")
+        if enable_phase_after:
+            logging.debug(f"Waiting for {seconds_to_wait_before_after} seconds.")
+            time.sleep(seconds_to_wait_before_after)
+            run_plugins(configuration, section, output, test_id, "after")
 
-    logging.debug(f"Waiting for {seconds_to_wait_before_undeploy} seconds.")
-    time.sleep(seconds_to_wait_before_undeploy)
-    run_plugins(configuration, section, output, test_id, "undeploy")
+    if enable_phase_undeploy:
+        logging.debug(f"Waiting for {seconds_to_wait_before_undeploy} seconds.")
+        time.sleep(seconds_to_wait_before_undeploy)
+        run_plugins(configuration, section, output, test_id, "undeploy")
 
-    logging.debug(f"Waiting for {seconds_to_wait_before_teardown} seconds.")
-    time.sleep(seconds_to_wait_before_teardown)
-    run_plugins(configuration, section, output, test_id, "teardown")
+    if enable_phase_teardown:
+        logging.debug(f"Waiting for {seconds_to_wait_before_teardown} seconds.")
+        time.sleep(seconds_to_wait_before_teardown)
+        run_plugins(configuration, section, output, test_id, "teardown")
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 

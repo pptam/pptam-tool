@@ -1,0 +1,33 @@
+#!/bin/sh
+############################
+
+BINDIR=`dirname $0`
+
+# Determine the cpustat interface - CPU type dependent
+STATIF0=`/usr/sbin/cpustat -h | grep "CPU performance counter interface:" \
+        | nawk -v FS=":" '{ print $2 }' | nawk -v FS="\&" '{ print $1 }'`
+
+# Now, this will still have spaces, not good for file name extensions.
+# Replace the spaces with a dash
+STATIF=""
+for i in $STATIF0
+do
+   if [ -z "${STATIF}" ] ; then
+       STATIF="${i}"
+   else
+       STATIF="${STATIF}-${i}"
+   fi
+done
+
+# Check for the right cpustat script for this interface.
+if [ ! -f "${BINDIR}/.cpustat/cpustat.${STATIF}" ] ; then
+    echo "Interface: ${STATIF}" >&2
+    echo "No cpustat script available for interface ${STATIF}" >&2
+    exit 1
+fi
+
+# Prepend the output with the header showing which interface it came from.
+echo "Interface: ${STATIF}"
+
+# Then execute the right cpustat script.
+exec sh ${BINDIR}/.cpustat/cpustat.${STATIF} $*

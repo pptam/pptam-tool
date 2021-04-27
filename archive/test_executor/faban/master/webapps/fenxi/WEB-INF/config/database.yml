@@ -1,0 +1,16 @@
+# JDBC Setup
+# Adjust JDBC driver URLs as necessary.
+development:
+      host: localhost
+      adapter: jdbc
+
+# Warning: The database defined as 'test' will be erased and
+# re-generated from your development database when you run 'rake'.
+# Do not set this db to the same as development or production.
+test:
+      host: localhost
+      adapter: jdbc
+
+production:
+      host: localhost
+      adapter: jdbc

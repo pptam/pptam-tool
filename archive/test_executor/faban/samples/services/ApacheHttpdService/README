@@ -1,0 +1,24 @@
+                    ApacheHttpdService Sample README
+
+The ApacheHttpdService sample provides a very simple example for organizing a
+Faban service project as well as how to write a new service. It is a good
+starting point to copy the directory from this sample to create your new service.
+
+Notes:
+- The sbin directory contains utilities to run a benchmark outside
+  the Faban harness. This will not be packaged into the deployment
+  jar files. Services/tools-specific scripts and binaries should be placed
+  into the bin directory.
+
+- The deploy directory contains the files services-tools.xml and toolsets.xml.
+  service-tools.xmls has list services and the tools to run for that service.
+  toolsets.xml has the list of toolsets.
+
+- The service project consists of a single service class - ApacheHttpdService.java
+  that is responsible for configuring, starting and stopping the service. There
+  can be many tools associated with this service. In this example project we
+  have httpderrlog and httpdaccesslog tools.
+
+- If you need to change the default deployment system, edit build.properties.
+  To deploy, simply type 'ant deploy'. This will build and deploy the service
+  to the target faban master.

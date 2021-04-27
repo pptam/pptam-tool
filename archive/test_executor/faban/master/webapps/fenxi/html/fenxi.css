@@ -1,0 +1,110 @@
+
+/* FenXi static css file */
+body {
+        margin:0;
+        font-family:"Trebuchet MS", Arial, Verdana;
+        font-size:10pt;
+        color:#444444;
+        background-color:#FFFFFF;
+        text-align:left;
+}
+#header {
+        background-color:#395d76;
+        width:100%;
+        padding-top:10px;
+        padding-bottom:10px;
+        margin-bottom:20px;
+        font-size:16pt;
+        font-variant:small-caps;
+        text-align:center;
+        color:#FFFFFF;
+        font-family:Verdana, Arial, Helvetica, sans-serif;
+        background-image: url("FenXi.jpg");
+}
+#footer {
+        background-color:#eeeeee;
+        width:100%;
+        text-align:center;
+}
+#fcontent {
+	margin-left:40px;
+	width:80%;
+}
+#header h1 {
+	font-family:Gallant,"Century Gothic", "Trebuchet MS", "Arial Narrow", Arial, sans-serif;
+	font-size:16pt;
+	/* text-transform:uppercase; */
+	font-weight:normal;
+	/* color:#000000;
+	text-align:left; */
+}
+#fcontent h2 {
+	font-family:"Century Gothic", "Trebuchet MS", "Arial Narrow", Arial, sans-serif;
+	font-size:15pt;
+	text-transform:uppercase;
+	text-align:left;
+	font-weight:normal;
+	margin:0;
+	padding:0;
+	color:#395d76;
+	/* border-bottom:1px solid #eeeeee; */
+}
+#fcontent table {
+    padding:2px;
+    border: 2px solid #cccccc;
+}
+#fcontent td {
+    border-bottom: 1px solid #C1DAD7;
+    border-left: 1px solid #C1DAD7;
+    vertical-align:middle;
+    padding:4px;    
+}
+td.num, td.bigint, td.float {
+    text-align:right;
+}
+#fcontent td.row0 {
+    background-color:#ffffff;
+}
+#fcontent td.row1 {
+    background-color:#f1f5f9;
+}
+#fcontent tr.row0 {
+     background-color:#ffffff;
+}
+#fcontent tr.row1 {    
+    background-color:#f1f5f9;
+}
+#fcontent th {
+    background-color:#C5D5A9;/*#C1DAD7;*/
+    border-bottom: 1px solid #395d76;/*#6D929B;*/
+    padding:4px;
+    text-align:center;
+}
+a {
+    text-decoration:none;
+}
+a:hover {
+    background-color:#FFC726;
+}
+div.error {
+    background-color:#ffcc99;
+    border:1px solid #eeeeee;
+    padding:4px;
+    margin-bottom:10px;
+    width: 700px;
+}
+div.error_body {    
+    display: none;
+}
+div.prevnext {
+    clear:both;
+    text-align:left;
+    padding-bottom:20px;
+/*    width: 700px; */
+}
+div.section-detail {
+    margin-top:20px;
+}
+a.section-detail {
+    hover:none;
+}

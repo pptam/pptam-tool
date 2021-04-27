@@ -1,0 +1,143 @@
+#!/bin/sh
+
+########################################################################
+# Project FenXi
+#
+# fenxi -	Wrapper script for "process" and "compare"
+#
+# Shell script to process or compare a set of benchmark runs. It sets
+# the environment variables and path and executes the ProcessRun
+# program.
+# 
+# FenXi uses Derby.jar to implement backend DB, JFreeChart.jar to
+# implement the Charting and JRuby.jar for ruby script processing.
+#
+########################################################################
+
+DIR=`dirname $0`
+VERSION=2.1
+
+usage () {
+	echo "\
+Fenxi Version $VERSION
+usage:
+    $0 process [ -p | -profile name ] rawdir htmldir expt_name
+    $0 compare rundir1 rundir2 [...] outdir
+    $0 ij htmldir/xanaDB" >&2
+	exit 1
+}
+
+# Set the FenXi home directory
+FENXI_HOME=`cd $DIR/.. > /dev/null 2>&1 && pwd`
+
+# Set the Scripts library.
+# All existing / new parser scripts go here.
+PERL5LIB=$FENXI_HOME/txt2db
+
+PATH=$FENXI_HOME/WEB-INF/lib/:$PATH
+
+# Set the classpath to access the libraries.
+CLASSPATH=\
+$FENXI_HOME/WEB-INF/lib/spark.jar:\
+$FENXI_HOME/WEB-INF/classes:\
+$FENXI_HOME/WEB-INF/lib/derby.jar:\
+$FENXI_HOME/WEB-INF/lib/jfreechart.jar:\
+$FENXI_HOME/WEB-INF/lib/jcommon.jar:\
+$FENXI_HOME/WEB-INF/lib/jruby-complete-1.1.6.jar
+
+IJ_CLASSPATH=$FENXI_HOME/WEB-INF/lib/derbytools.jar:\
+$FENXI_HOME/WEB-INF/lib/derby.jar 
+
+export PATH PERL5LIB CLASSPATH FENXI_HOME
+
+JAVA_ARGS="
+-mx1536m
+-Dderby.storage.pageReservedSpace=0
+-Dderby.language.logQueryPlan=true
+-Dderby.storage.rowLocking=false
+-Dfenxi.basedir=$FENXI_HOME
+-Djava.awt.headless=true
+-Dsun.java2d.pmoffscreen=false
+"
+
+if type ruby >/dev/null 2>&1 ; then
+	version=`ruby --version | awk '{ print $2 }'`
+    minor=`echo $version | awk -F"." '{ print $2 }'`
+	if [ "$minor" -ge 8 ]; then
+		JAVA_ARGS="$JAVA_ARGS -Dfenxi.have_native_ruby=true"
+	fi
+fi
+
+if test "x${FABAN_HOME}" != "x"; then
+    FENXI_CSS_LOC="/fenxi/html/"
+    export FENXI_CSS_LOC
+fi
+
+profile=default_profile
+
+# Routine to find the last argument without shifting the argument list
+# in the current environment, we just pass it to the routine.
+lastarg() {
+    pos=`expr $# - 1`
+    shift $pos
+    echo $1
+}
+
+# Perform the chosen sub-command
+case $1 in
+'process' )
+	shift
+	case "$1 $2" in
+	'-p '?* | '-profile '?* )
+		profile="${2}_profile"
+		shift ; shift
+		;;
+	esac
+	if [ "$#" -ne 3 ]; then
+		usage
+	fi
+
+	rm -Rf $2/xanaDB
+	# Now do the "process"
+	rm -rf txt
+	mkdir txt
+	java $JAVA_ARGS -Dfenxi.profile=$profile \
+		org.fenxi.cmd.process.FenxiProcess "$@"
+	java $JAVA_ARGS org.jruby.Main $FENXI_HOME/ruby/main.rb view "$@"
+
+	# Not needed once we have created the Derby databases
+	rm -rf txt
+	;;
+
+'compare' )
+	shift
+
+	if [ "$#" -lt 3 ]; then
+		usage
+	fi
+
+	rm -Rf `lastarg $@`
+	# Now do the "compare"
+	exec java $JAVA_ARGS org.jruby.Main $FENXI_HOME/ruby/main.rb comp "$@"
+	# NOTREACHED
+	;;
+
+'ij' )
+	shift
+
+	if [ "$#" -lt 1 ]; then
+		usage
+	fi
+
+	# Now do the "compare"
+	exec java $JAVA_ARGS -Dij.protocol=jdbc:derby: \
+		-Dij.database=$@	\
+		-classpath $IJ_CLASSPATH \
+		org.apache.derby.tools.ij 
+	# NOTREACHED
+	;;
+
+* )
+	usage
+	;;
+esac

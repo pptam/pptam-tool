@@ -1,0 +1,6 @@
+<tr id="expt-<%=expt.to_param%>">
+  <td><%= check_box_tag "expts[]", expt.to_param %></td>
+  <td><%= link_to h(expt.name), expt %></td>
+  <td><%= h(expt.path)%></td>
+  <td><%= link_to_remote 'Unload',:url => expt_url(:id => expt), :method => :delete%></td>
+</tr>

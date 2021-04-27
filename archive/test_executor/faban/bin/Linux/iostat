@@ -1,0 +1,18 @@
+#!/bin/sh
+addtime() {
+    while read a
+    do
+        case $a in
+            [sd]*)
+                DATE=`date +%I:%M:%S`
+                echo "$DATE  $a";;
+            *)  echo "          $a";;
+        esac
+    done
+}
+
+exec /usr/bin/iostat $@ | addtime &
+pid=$!
+trap "kill $pid" 2 9 15
+wait
+

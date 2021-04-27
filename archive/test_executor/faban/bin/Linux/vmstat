@@ -1,0 +1,17 @@
+#!/bin/sh
+addtime() {
+    while read a
+    do
+        case $a in
+            [0-9]*)
+                DATE=`date +%I:%M:%S`
+                echo "$DATE  $a";;
+            *)  echo "          $a";;
+        esac
+    done
+}
+
+exec /usr/bin/vmstat $@ | addtime &
+pid=$!
+trap "kill $pid" 2 9 15
+wait
