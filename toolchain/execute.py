@@ -91,13 +91,13 @@ def perform_test(configuration, section, design_path):
 
     logging.info(f"Executing test case {test_id}.")
 
-    enable_phase_setup = configuration[section]["seconds_to_wait_before_setup"])=="1"
-    enable_phase_deploy = configuration[section]["seconds_to_wait_before_deploy"])=="1"
-    enable_phase_before = configuration[section]["seconds_to_wait_before_before"])=="1"
-    enable_phase_run = configuration[section]["seconds_to_wait_before_run"])=="1"
-    enable_phase_after = configuration[section]["seconds_to_wait_before_after"])=="1"
-    enable_phase_undeploy = configuration[section]["seconds_to_wait_before_undeploy"])=="1"
-    enable_phase_teardown = configuration[section]["seconds_to_wait_before_teardown"])=="1"
+    enable_phase_setup = configuration[section]["seconds_to_wait_before_setup"].strip()=="1"
+    enable_phase_deploy = configuration[section]["seconds_to_wait_before_deploy"].strip()=="1"
+    enable_phase_before = configuration[section]["seconds_to_wait_before_before"].strip()=="1"
+    enable_phase_run = configuration[section]["seconds_to_wait_before_run"].strip()=="1"
+    enable_phase_after = configuration[section]["seconds_to_wait_before_after"].strip()=="1"
+    enable_phase_undeploy = configuration[section]["seconds_to_wait_before_undeploy"].strip()=="1"
+    enable_phase_teardown = configuration[section]["seconds_to_wait_before_teardown"].strip()=="1"
 
     seconds_to_wait_before_setup = int(configuration[section]["seconds_to_wait_before_setup"])
     seconds_to_wait_before_deploy = int(configuration[section]["seconds_to_wait_before_deploy"])

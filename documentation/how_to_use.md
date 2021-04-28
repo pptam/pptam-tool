@@ -38,7 +38,19 @@ In this case, test_plan.ini overwrites SECONDS_TO_WAIT_BEFORE_SETUP for all test
 
 ### Configuration parameters
 
-`configuration.ini` contains the following parameters:
+`configuration.ini` contains the parameters below. Please bear in mind that each test passes the following phases:
+
+1. Phase "get_configuration_files": in this phase, all plugins are asked to return an array of files that should be copied into the test output folder. Typically, these files are needed in later phases.
+2. Phase "setup": tells all plugins to perform necessary preparation steps. Can be disabled setting the `ENABLE_PHASE_SETUP` configuration setting to 0. The configuration setting `SECONDS_TO_WAIT_BEFORE_SETUP` configures the time to wait before starting this phase.
+3. Phase "deploy": tells all plugins to deploy the software under test. Can be disabled setting the `ENABLE_PHASE_DEPLOY` configuration setting to 0. The configuration setting `SECONDS_TO_WAIT_BEFORE_DEPLOY` configures the time to wait before starting this phase.
+4. Phase "ready": asks all plugins if they are ready. If one plugin returns false, the execution script waits for 1 minute and tries again for 9 more times. If then one plugin is still not ready, the execution script terminates. 
+5. Phase "before": tells all plugins to perform the steps that have to be executed just before the test. Can be disabled setting the `ENABLE_PHASE_BEFORE` configuration setting to 0. The configuration setting `SECONDS_TO_WAIT_BEFORE_BEFORE` configures the time to wait before starting this phase.
+6. Phase "run": tells all plugins to perform performance test. Can be disabled setting the `ENABLE_PHASE_RUN` configuration setting to 0.The configuration setting `SECONDS_TO_WAIT_BEFORE_RUN` configures the time to wait before starting this phase.
+7. Phase "after": tells all plugins to perform the steps that have to be executed just after the test.  Can be disabled setting the `ENABLE_PHASE_AFTER` configuration setting to 0.The configuration setting `SECONDS_TO_WAIT_BEFORE_AFTER` configures the time to wait before starting this phase.
+8. Phase "undeploy": tells all plugins to undeploy the software under test. Can be disabled setting the `ENABLE_PHASE_UNDEPLOY` configuration setting to 0.The configuration setting `SECONDS_TO_WAIT_BEFORE_UNDEPLOY` configures the time to wait before starting this phase.
+9. Phase "teardown": tells all plugins to remove all temporary files and to undo all steps performed in the setup phase. Can be disabled setting the `ENABLE_PHASE_TEARDOWN` configuration setting to 0. The configuration setting `SECONDS_TO_WAIT_BEFORE_TEARDOWN` configures the time to wait before starting this phase.
+
+The configuration parameters are:
 
 - ENABLED_PLUGINS: this parameter decides which plugins to execute. Currently the following plugins are available:
 
@@ -56,13 +68,20 @@ In this case, test_plan.ini overwrites SECONDS_TO_WAIT_BEFORE_SETUP for all test
 - PROJECT_NAME: Name of the current project
 - TEST_SET_NAME: (Useful to group tests into test sets) Name of the test set
 - TEST_CASE_PREFIX: Prefix to add to every test; useful to distinguish test sets
-- SECONDS_TO_WAIT_BEFORE_SETUP: Seconds to wait before starting the phase 'setup'
-- SECONDS_TO_WAIT_BEFORE_DEPLOY: Seconds to wait before starting the phase 'deploy'
-- SECONDS_TO_WAIT_BEFORE_BEFORE: Seconds to wait before starting the phase 'before'
-- SECONDS_TO_WAIT_BEFORE_RUN: Seconds to wait before starting the phase 'run'
-- SECONDS_TO_WAIT_BEFORE_AFTER : Seconds to wait before starting the phase 'after'
-- SECONDS_TO_WAIT_BEFORE_UNDEPLOY: Seconds to wait before starting the phase 'undeploy'
-- SECONDS_TO_WAIT_BEFORE_TEARDOWN: Seconds to wait before starting the phase 'teardown'
+- ENABLE_PHASE_SETUP: Enable phase "setup"
+- ENABLE_PHASE_DEPLOY: Enable phase "deploy"
+- ENABLE_PHASE_BEFORE: Enable phase "before"
+- ENABLE_PHASE_RUN: Enable phase "run"
+- ENABLE_PHASE_AFTER : Enable phase "after"
+- ENABLE_PHASE_UNDEPLOY: Enable phase "undeploy"
+- ENABLE_PHASE_TEARDOWN: Enable phase "teardown"
+- SECONDS_TO_WAIT_BEFORE_SETUP: Seconds to wait before starting the phase "setup"
+- SECONDS_TO_WAIT_BEFORE_DEPLOY: Seconds to wait before starting the phase "deploy"
+- SECONDS_TO_WAIT_BEFORE_BEFORE: Seconds to wait before starting the phase "before"
+- SECONDS_TO_WAIT_BEFORE_RUN: Seconds to wait before starting the phase "run"
+- SECONDS_TO_WAIT_BEFORE_AFTER : Seconds to wait before starting the phase "after"
+- SECONDS_TO_WAIT_BEFORE_UNDEPLOY: Seconds to wait before starting the phase "undeploy"
+- SECONDS_TO_WAIT_BEFORE_TEARDOWN: Seconds to wait before starting the phase "teardown"
 - ENABLED: Set to 0 to disable this test
 
 The following settings are used if the `load_test_locust.py` plugin is used:
