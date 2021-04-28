@@ -1,3 +1,3 @@
 #!/bin/bash 
-docker compose -f analyze.yml up --abort-on-container-exit 
+docker-compose up --abort-on-container-exit 
 

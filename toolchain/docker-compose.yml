@@ -6,10 +6,9 @@ services:
       - ./notebooks:/home/jovyan/work
     ports:
       - 8888:8888
-    container_name: datascience-notebook-container
     environment:
-      - POSTGRES_USERNAME
-      - POSTGRES_PASSWORD      
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
       - DB_NAME=pptam      
       - HOST_NAME=host.docker.internal
     extra_hosts:
