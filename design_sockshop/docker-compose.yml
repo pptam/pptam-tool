@@ -41,16 +41,16 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-      replicas: ${CARTS_REPLICAS}
+      replicas: ${CART_REPLICAS}
       restart_policy:
         condition: any
       resources:
         limits:
-          cpus: "${CARTS_CPUS_LIMITS}"
-          memory: ${CARTS_RAM_LIMITS_IN_MEGABYTES}M
+          cpus: "${CPU_SHARE}"
+          memory: ${MEMORY}M
         reservations:
-          cpus: "${CARTS_CPUS_RESERVATIONS}"
-          memory: ${CARTS_RAM_RESERVATIONS_IN_MEGABYTES}M
+          cpus: "${CPU_SHARE}"
+          memory: ${MEMORY}M
 
   carts-db:
     image: mongo:3.4
