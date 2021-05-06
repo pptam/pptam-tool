@@ -33,22 +33,15 @@ def store_test(test_path):
         connection = psycopg2.connect(host="localhost", port=5432, dbname="pptam", user="postgres", password="postgres")
         
         with connection:
-            project_id = get_scalar(connection, """                
-                    INSERT INTO projects (name) VALUES (%s) ON CONFLICT DO NOTHING;
-                    SELECT id FROM projects WHERE name = %s;
-                """, (project_name, project_name))
+            project_id = get_scalar(connection, "SELECT create_or_get_project(%s);", (project_name, ))
             
             if test_set_name!="":
-                test_set_id = get_scalar(connection, """                
-                        INSERT INTO test_sets (project, name) VALUES (%s, %s) ON CONFLICT DO NOTHING;
-                        SELECT id FROM test_sets WHERE project = %s AND name = %s;
-                    """, (project_id, test_set_name, project_id, test_set_name))
+                test_set_id = get_scalar(connection, "SELECT create_or_get_test_set(%s, %s);", (project_id, test_set_name))
 
             test_id = get_scalar(connection, """                
                     DELETE FROM tests WHERE project = %s AND name = %s;
-                    INSERT INTO tests (project, name, created_at) VALUES (%s, %s, %s);
-                    SELECT id FROM tests WHERE project = %s AND name = %s;
-                """, (project_id, test_name, project_id, test_name, created_at, project_id, test_name))
+                    SELECT create_or_get_test(%s, %s, %s);                    
+                """, (project_id, test_name, project_id, test_name, created_at))
             logging.debug(f"Adding test with the id {test_id} and name {test_name}.")
 
             with connection.cursor() as cursor:
