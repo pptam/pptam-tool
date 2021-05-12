@@ -25,7 +25,10 @@ def store_test(file_to_import, project_id):
         connection = psycopg2.connect(host="localhost", port=5432, dbname="pptam", user="postgres", password="postgres")
         
         current_id = 0
-        
+
+        if project_id==None:
+            project_id = get_scalar(connection, "SELECT create_or_get_project(%s);", ("Faban", ))
+
         with connection:
             with connection.cursor() as cursor:      
                 skip_first_line = False
@@ -118,7 +121,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Imports old experiments.")
     parser.add_argument("file", help="File to import")    
     parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=1)
-    parser.add_argument("--project", help="The project id to attach the tests to", default="1628ba4d-8900-41a6-88a3-2c0868b53566")
+    parser.add_argument("--project", help="The project id to attach the tests to")
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
