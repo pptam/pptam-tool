@@ -8,6 +8,7 @@ import psycopg2
 from datetime import datetime
 import csv
 import uuid
+from psycopg2.extras import LoggingConnection
 
 def get_scalar(connection, query, parameters):
     with connection.cursor() as cursor:
@@ -22,7 +23,12 @@ def store_test(file_to_import, project_id):
 
     connection = None
     try:
-        connection = psycopg2.connect(host="localhost", port=5432, dbname="pptam", user="postgres", password="postgres")
+        logfile = open('db.log', 'a')
+
+        connection = LoggingConnection("postgresql://postgres:postgres@localhost/pptam")
+        connection.initialize(logfile)
+
+        # connection = psycopg2.connect(host="localhost", port=5432, dbname="pptam", user="postgres", password="postgres")
         
         current_id = 0
 
