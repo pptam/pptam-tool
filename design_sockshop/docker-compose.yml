@@ -13,6 +13,13 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
+      resources:
+          limits:
+            cpus: "${CPU_SHARE}"
+            memory: ${MEMORY}M
+          reservations:
+            cpus: "${CPU_SHARE}"
+            memory: ${MEMORY}M
 
   catalogue:
     image: weaveworksdemos/catalogue:0.3.5
@@ -31,6 +38,13 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
+      resources:
+        limits:
+          cpus: "${CPU_SHARE}"
+          memory: ${MEMORY}M
+        reservations:
+          cpus: "${CPU_SHARE}"
+          memory: ${MEMORY}M
 
   carts:
     image: weaveworksdemos/carts:0.4.8
@@ -74,6 +88,13 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
+      resources:
+        limits:
+          cpus: "${CPU_SHARE}"
+          memory: ${MEMORY}M
+        reservations:
+          cpus: "${CPU_SHARE}"
+          memory: ${MEMORY}M
 
   orders-db:
     image: mongo:3.4
@@ -97,6 +118,13 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
+      resources:
+        limits:
+          cpus: "${CPU_SHARE}"
+          memory: ${MEMORY}M
+        reservations:
+          cpus: "${CPU_SHARE}"
+          memory: ${MEMORY}M
 
   # @pidster: I've added this back in a comment, because I don't know why it is missing from this file
   # queue-master:
@@ -129,6 +157,13 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
+      resources:
+        limits:
+          cpus: "${CPU_SHARE}"
+          memory: ${MEMORY}M
+        reservations:
+          cpus: "${CPU_SHARE}"
+          memory: ${MEMORY}M
 
   user:
     image: weaveworksdemos/user:0.4.4
@@ -141,6 +176,13 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       restart_policy:
         condition: any
+      resources:
+        limits:
+          cpus: "${CPU_SHARE}"
+          memory: ${MEMORY}M
+        reservations:
+          cpus: "${CPU_SHARE}"
+          memory: ${MEMORY}M
 
   user-db:
     image: weaveworksdemos/user-db:0.4.0

@@ -11,7 +11,7 @@ def run_external_applicaton(command, fail_if_result_not_zero=True):
     logging.debug(f"Executing {command} in {current_folder}.")
     result = os.system(command)
     if fail_if_result_not_zero and result != 0:
-        logging.fatal(f"Could not execute {command}.")
+        logging.fatal(f"Could not execute {command}: {result}.")
         raise RuntimeError
     else:
         return result
