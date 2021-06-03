@@ -35,7 +35,10 @@ def execute_query_with_result(command, headers):
             with connection.cursor() as cursor:      
                 cursor.execute(command)
                 records = cursor.fetchall()
-                print("\n" + tabulate(records, headers=headers) + "\n")
+                if cursor.rowcount>0:
+                    print("\n" + tabulate(records, headers=headers) + "\n")
+                else:
+                    print("No results.\n")
     finally:
         if connection is not None:
             connection.close()
@@ -48,6 +51,7 @@ def execute_command_without_result(command):
         with connection:
             with connection.cursor() as cursor:      
                 cursor.execute(command)
+                print(f"The command was executed successfully.")
                 print("")
                 
     finally:
@@ -55,7 +59,7 @@ def execute_command_without_result(command):
             connection.close()
 
 def projects_list(args):
-    query = "SELECT id, name FROM projects ORDER BY name"
+    query = f"SELECT id, name FROM projects ORDER BY name"
     headers = ["ID", "Name"]
     execute_query_with_result(query, headers)
 
@@ -68,7 +72,7 @@ def project_delete(args):
     execute_command_without_result(query)
 
 def tests_list(args):
-    query = "SELECT tests.id, projects.name, tests.name FROM tests INNER JOIN projects ON tests.project = projects.id WHERE projects.name = '{args.project}' ORDER BY projects.name, tests.name"
+    query = f"SELECT tests.id, projects.name, tests.name FROM tests INNER JOIN projects ON tests.project = projects.id WHERE projects.name = '{args.project}' ORDER BY projects.name, tests.name"
     headers = ["ID", "Project", "Name"]
     execute_query_with_result(query, headers)
 
@@ -131,6 +135,102 @@ def set_show(args):
     headers = ["ID", "Name"]
     execute_query_with_result(query, headers)
 
+def sample_addop(args):
+    project_id = get_scalar(f"SELECT id FROM projects WHERE name = '{args.project}'")
+    if project_id is None:
+        print("Cannot find project.")
+    else:
+        id = str(uuid.uuid4())
+
+        if args.number==1:
+            query = f"""        
+            INSERT INTO operational_profiles (id, project, name) VALUES ('{id}', '{project_id}', 'Operational Profile');
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',15,3);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',16,11);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',17,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',18,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',19,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',20,8);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',25,2);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',26,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',27,2);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',28,2);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',30,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',31,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',32,8);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',33,7);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',34,7);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',35,7);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',36,7);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',37,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',38,5);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',39,1);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',40,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',41,3);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',42,3);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',43,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',45,10);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',50,13);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',55,21);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',57,10);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',60,20);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',65,12);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',70,19);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',75,25);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',80,28);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',85,26);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',90,18);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',95,16);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',120,1);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',100,17);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',105,15);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',110,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',115,1);"""
+            execute_command_without_result(query)
+
+        if args.number==2:
+            query = f"""        
+            INSERT INTO operational_profiles (id, project, name) VALUES ('{id}', '{project_id}', 'Operational Profile');
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',15,3);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',16,11);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',17,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',18,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',19,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',20,8);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',25,2);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',26,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',27,2);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',28,2);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',30,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',31,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',32,8);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',33,7);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',34,7);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',35,7);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',36,7);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',37,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',38,5);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',39,1);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',40,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',41,3);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',42,3);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',43,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',45,10);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',50,13);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',55,21);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',57,10);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',60,20);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',65,12);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',70,19);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',75,25);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',80,28);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',85,26);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',90,18);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',95,16);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',100,17);"""
+            execute_command_without_result(query)
+    
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Organize items stored in the database")
     parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=1)
@@ -190,6 +290,12 @@ if __name__ == "__main__":
     subparser_tests_subparser_link.add_argument("test", help="The name of the test")
     subparser_tests_subparser_link.add_argument("set", help="The name of the test set")
 
+    subparser_sample = subparsers.add_parser("sample", help="Manage sample data")
+    subparser_sample_subparser = subparser_sample.add_subparsers(dest="action", required=True, help="One of the following actions:")
+    subparser_sample_subparser_add = subparser_sample_subparser.add_parser("addop", help="Add sample operational profile")
+    subparser_sample_subparser_add.add_argument("project", help="The name of the project")
+    subparser_sample_subparser_add.add_argument("number", help="The number of the operational profile", type=int, choices=[1, 2])
+
     args = parser.parse_args()
 
     logging.basicConfig(format="%(message)s", level=args.logging * 10)
@@ -209,7 +315,8 @@ if __name__ == "__main__":
         "tests_list": tests_list,
         "tests_rename": test_rename,
         "tests_delete": test_delete,
-        "tests_link": test_link
+        "tests_link": test_link,
+        "sample_addop": sample_addop,
     }
 
     switcher.get(args.command + "_" + args.action)(args)

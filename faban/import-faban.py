@@ -58,7 +58,7 @@ def store_test(file_to_import, project_id):
                             test_name = row["Memory"] + "mb_" + row["CPU"] + "cpu_" + row["CartReplicas"] + "cart_replicas (" + row["ID"] + ")"
                             cursor.execute("INSERT INTO tests (id, project, name) VALUES (%s, %s, %s);", (test_id, project_id, test_name))
                             
-                        cursor.execute("INSERT INTO test_properties (test, name, value) VALUES (%s, %s, %s);", (test_id, "no_of_users", row["Users"]))
+                        cursor.execute("INSERT INTO test_properties (test, name, value) VALUES (%s, %s, %s);", (test_id, "load", row["Users"]))
                         cursor.execute("INSERT INTO test_properties (test, name, value) VALUES (%s, %s, %s);", (test_id, "memory", row["Memory"]))
                         cursor.execute("INSERT INTO test_properties (test, name, value) VALUES (%s, %s, %s);", (test_id, "cpu", row["CPU"]))
                         cursor.execute("INSERT INTO test_properties (test, name, value) VALUES (%s, %s, %s);", (test_id, "cart_replicas", row["CartReplicas"]))
