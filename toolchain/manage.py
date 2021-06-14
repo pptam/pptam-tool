@@ -191,6 +191,11 @@ def sample_addop(args):
         if args.number==2:
             query = f"""        
             INSERT INTO operational_profiles (id, project, name) VALUES ('{id}', '{project_id}', 'Operational Profile');
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',10,0);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',11,0);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',12,0);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',13,0);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',14,0);
             INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',15,3);
             INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',16,11);
             INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',17,6);
@@ -292,7 +297,7 @@ if __name__ == "__main__":
 
     subparser_sample = subparsers.add_parser("sample", help="Manage sample data")
     subparser_sample_subparser = subparser_sample.add_subparsers(dest="action", required=True, help="One of the following actions:")
-    subparser_sample_subparser_add = subparser_sample_subparser.add_parser("addop", help="Add sample operational profile")
+    subparser_sample_subparser_add = subparser_sample_subparser.add_parser("op", help="Add sample operational profile")
     subparser_sample_subparser_add.add_argument("project", help="The name of the project")
     subparser_sample_subparser_add.add_argument("number", help="The number of the operational profile", type=int, choices=[1, 2])
 
@@ -316,7 +321,7 @@ if __name__ == "__main__":
         "tests_rename": test_rename,
         "tests_delete": test_delete,
         "tests_link": test_link,
-        "sample_addop": sample_addop,
+        "sample_op": sample_addop,
     }
 
     switcher.get(args.command + "_" + args.action)(args)

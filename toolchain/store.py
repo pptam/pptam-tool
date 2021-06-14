@@ -56,20 +56,29 @@ def store_test(test_path):
                         for row in reader:
                             if row["Name"] == "Aggregated":
                                 total_number_of_requests = float(row["Request Count"])
-                    
+
                     with open(summary_statistics_path, newline='') as csvfile:
                         reader = csv.DictReader(csvfile, delimiter=",", quotechar='"')
                         for row in reader:
                             if row["Name"] != "Aggregated":
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "rc", float(row["Request Count"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "fc", float(row["Failure Count"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "mrt", float(row["Median Response Time"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "art", float(row["Average Response Time"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "minrt", float(row["Min Response Time"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "maxrt", float(row["Max Response Time"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "acs", float(row["Average Content Size"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "rps", float(row["Requests/s"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "fps", float(row["Failures/s"]), created_at))
+                                if "Request Count" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "rc", float(row["Request Count"]), created_at))
+                                if "Failure Count" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "fc", float(row["Failure Count"]), created_at))
+                                if "Median Response Time" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "mrt", float(row["Median Response Time"]), created_at))
+                                if "Average Response Time" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "art", float(row["Average Response Time"]), created_at))
+                                if "Min Response Time" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "minrt", float(row["Min Response Time"]), created_at))
+                                if "Max Response Time" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "maxrt", float(row["Max Response Time"]), created_at))
+                                if "Average Content Size" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "acs", float(row["Average Content Size"]), created_at))
+                                if "Requests/s" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "rps", float(row["Requests/s"]), created_at))
+                                if "Failures/s" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "fps", float(row["Failures/s"]), created_at))
                                 
                                 # https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-14-135
                                 q1 = float(row["25%"])
@@ -88,16 +97,26 @@ def store_test(test_path):
                         for row in reader:
                             if row["Name"] != "Aggregated":
                                 created_at = datetime.fromtimestamp(int(row["Timestamp"]))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "iuc", float(row["User Count"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "irc", float(row["Total Request Count"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "ifc", float(row["Total Failure Count"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "imrt", float(row["Total Median Response Time"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "iart", float(row["Total Average Response Time"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "iminrt", float(row["Total Min Response Time"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "imaxrt", float(row["Total Max Response Time"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "iacs", float(row["Total Average Content Size"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "irps", float(row["Requests/s"]), created_at))
-                                cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "ifps", float(row["Failures/s"]), created_at))                  
+                                if "User Count" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "iuc", float(row["User Count"]), created_at))
+                                if "Total Request Count" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "irc", float(row["Total Request Count"]), created_at))
+                                if "Total Failure Count" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "ifc", float(row["Total Failure Count"]), created_at))
+                                if "Total Median Response Time" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "imrt", float(row["Total Median Response Time"]), created_at))
+                                if "Total Average Response Time" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "iart", float(row["Total Average Response Time"]), created_at))
+                                if "Total Min Response Time" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "iminrt", float(row["Total Min Response Time"]), created_at))
+                                if "Total Max Response Time" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "imaxrt", float(row["Total Max Response Time"]), created_at))
+                                if "Total Average Content Size" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "iacs", float(row["Total Average Content Size"]), created_at))
+                                if "Requests/s" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "irps", float(row["Requests/s"]), created_at))
+                                if "Failures/s" in row:
+                                    cursor.execute(f"INSERT INTO results (test, item, metric, value, created_at) VALUES (%s, create_or_get_item('{project_id}', %s), get_metric(%s), %s, %s);", (test_id, row["Name"], "ifps", float(row["Failures/s"]), created_at))                  
                 
                 if test_set_name!="":
                     logging.debug(f"Assigning test to test set {test_set_name}.")
