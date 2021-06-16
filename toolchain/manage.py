@@ -145,89 +145,53 @@ def sample_addop(args):
         if args.number==1:
             query = f"""        
             INSERT INTO operational_profiles (id, project, name) VALUES ('{id}', '{project_id}', 'Operational Profile');
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',15,3);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',16,11);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',17,6);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',18,6);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',19,6);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',20,8);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',25,2);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',26,4);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',27,2);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',28,2);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',30,4);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',31,4);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',32,8);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',33,7);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',34,7);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',35,7);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',36,7);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',37,6);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',38,5);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',39,1);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',40,4);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',41,3);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',42,3);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',43,4);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',45,10);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',50,13);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',55,21);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',57,10);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',60,20);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',65,12);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',70,19);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',75,25);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',80,28);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',85,26);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',90,18);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',95,16);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',120,1);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',100,17);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',105,15);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',110,6);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',115,1);"""
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',0,3);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',1,11);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',2,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',3,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',4,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',5,8);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',10,2);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',11,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',12,2);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',13,2);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',15,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',16,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',17,8);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',18,7);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',19,7);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',20,7);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',21,7);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',22,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',23,5);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',24,1);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',25,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',26,3);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',27,3);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',28,4);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',30,10);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',35,13);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',40,21);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',42,10);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',45,20);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',50,12);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',55,19);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',60,25);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',65,28);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',70,26);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',75,18);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',80,16);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',105,1);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',85,17);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',90,15);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',95,6);
+            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',100,1);"""
             execute_command_without_result(query)
 
         if args.number==2:
             query = f"""        
             INSERT INTO operational_profiles (id, project, name) VALUES ('{id}', '{project_id}', 'Operational Profile');
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',15,3);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',16,11);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',17,6);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',18,6);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',19,6);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',20,8);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',25,2);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',26,4);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',27,2);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',28,2);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',30,4);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',31,4);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',32,8);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',33,7);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',34,7);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',35,7);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',36,7);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',37,6);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',38,5);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',39,1);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',40,4);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',41,3);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',42,3);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',43,4);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',45,10);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',50,13);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',55,21);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',57,10);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',60,20);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',65,12);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',70,19);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',75,25);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',80,28);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',85,26);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',90,18);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',95,16);
-            INSERT INTO operational_profile_observations (operational_profile, users, frequency) VALUES ('{id}',100,17);"""
+            """
             execute_command_without_result(query)
     
 
