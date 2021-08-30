@@ -4,7 +4,7 @@ import os
 import argparse
 import logging
 import configparser
-import psycopg2
+import sqlite3
 from datetime import datetime
 import csv
 import uuid

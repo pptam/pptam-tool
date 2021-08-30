@@ -4,7 +4,6 @@ import os
 import argparse
 import logging
 import configparser
-import psycopg2
 from datetime import datetime
 import uuid
 import sys
