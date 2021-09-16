@@ -21,6 +21,7 @@ usermod -aG docker vagrant
 sudo echo 192.168.50.100 driver >> /etc/hosts
 sudo echo 192.168.50.101 testbed >> /etc/hosts
 
+# This increases the number of allowed open files
 sudo echo * - nofile 100000 >> /etc/security/limits.conf
 
 
