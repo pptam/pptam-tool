@@ -15,18 +15,21 @@ Installing PPTAM on two machines, or installing it in the cloud requires that yo
 
 2. Install Ubuntu 18.04.4 LTS on both machines.
 3. Let's start with the driver:
-   - Execute the steps we perform for the installation using virtual machines ([installation/scripts/install_both.sh](installation/scripts/install_both.sh)), but adapt them to your configuration: 
+   - Execute the steps we perform for the installation using virtual machines ([install_both.sh](documentation/installation/scripts/install_both.sh)), but adapt them to your configuration: 
       - use your IP addresses;
       - use your machine names;
       - change the user "vagrant" to the user you are using;
-   - Execute the *driver-specific* steps for the driver we perform for the installation using virtual machines ([installation/scripts/install_driver.sh](installation/scripts/install_driver.sh)), but adapt them to your configuration: 
+   - Execute the *driver-specific* steps for the driver we perform for the installation using virtual machines ([install_driver.sh](documentation/installation/scripts/install_driver.sh)), but adapt them to your configuration: 
       - use your IP addresses;
       - use your machine names;
       - change the user "vagrant" to the user you are using;
       - change /home/vagrant to your home directory;
       - when creating a Docker swarm, `install_driver.sh` saves the join token in `/vagrant/.join-token-worker` so that `install_testbed.sh` can pick it up from there. When installing Docker swarm on two real machines, you can skip saving the token and execute the join instruction Docker displays when creating the swarm within the driver;
       - keep in mind that the /vagrant folder within the Vagrant installation scripts is the `installation` folder of the PPTAM repository. Therefore, when in the installation script we copy files from `/vagrant`, you need to copy them from the `installation` folder.
-   - Execute the *testbed-specific* steps for the driver we perform for the installation using virtual machines ([installation/scripts/install_testbed.sh](installation/scripts/install_testbed.sh)), but adapt them to your configuration: 
+   - Execute the *testbed-specific* steps for the driver we perform for the installation using virtual machines ([install_testbed.sh](documentation/installation/scripts/install_testbed.sh)), but adapt them to your configuration: 
       - use the Docker swarm join instruction that you got when installing the driver;
       - change the user "vagrant" to the user you are using;
       - change /home/vagrant to your home directory;
+
+      https://github.com/pptam/pptam-tool/blob/master/documentation/installation/scripts/install_testbed.sh
+      https://github.com/pptam/pptam-tool/blob/master/installation/scripts/install_testbed.sh
