@@ -14,9 +14,11 @@ docker swarm init --advertise-addr $1 --listen-addr $1
 docker swarm join-token -q worker > /vagrant/.join-token-worker
 
 # Python installation
-apt install -y python3.8 python3.8-dev python3-pip postgresql postgresql-contrib libpq-dev
+apt install -y python3.8 python3.8-dev python3-pip 
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
 sudo update-alternatives --set python /usr/bin/python3.8
+
+apt install postgresql postgresql-contrib libpq-dev
 sudo -H pip3 install requests locust psutil docker pluginbase psycopg2
 
 # Update to the last version of Git and configure it
