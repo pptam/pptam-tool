@@ -1,8 +1,6 @@
 {
   "python.pythonPath": "/usr/local/opt/python@3.9/bin/python3.9",
   "python.envFile": "${workspaceFolder}/.env",
-  "python.formatting.provider": "autopep8",
-  "python.formatting.autopep8Args": ["--max-line-length", "120", "--experimental"],
-  "python.formatting.yapfArgs": ["--style", "{based_on_style: chromium, indent_width: 20}"],
-  "python.formatting.blackArgs": ["--line-length", "100"]
+  "python.formatting.provider": "black",
+  "python.formatting.blackArgs": ["--line-length", "1000"]
 }

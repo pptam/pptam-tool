@@ -1,0 +1,6 @@
+requests==2.24.0
+locust==1.4.1
+psutil==5.8.0
+docker==4.3.1
+pluginbase==1.0.0
+psycopg2==2.8.6

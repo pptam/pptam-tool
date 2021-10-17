@@ -18,28 +18,16 @@ apt install -y python3.8 python3.8-dev python3-pip
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
 sudo update-alternatives --set python /usr/bin/python3.8
 
-apt install postgresql postgresql-contrib libpq-dev
-sudo -H pip3 install requests locust psutil docker pluginbase psycopg2
+sudo pip install -r /home/vagrant/requirements.txt
 
 # Update to the last version of Git and configure it
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo apt-get update
 sudo apt-get install git -y
 
-# Setup Postgres
-cd /home/vagrant/
-git clone --depth 1 https://github.com/pptam/pptam-data.git
-
-sudo /etc/init.d/postgresql start
-sudo -u postgres psql --command "ALTER USER postgres WITH PASSWORD 'postgres';"
-sudo -u postgres psql --command "CREATE DATABASE pptam;"
-sudo -u postgres psql --dbname=pptam --file /home/vagrant/pptam-data/init.sql >/dev/null 
-sudo update-rc.d postgresql enable
-sudo rm -rf /home/vagrant/pptam-data
-
-# Create Docker images
-cd /vagrant/scripts/docker/
-./build.sh 
+# Create Docker images / MIGHT NOT BE NECESSARY ANYMORE
+# cd /vagrant/scripts/docker/
+# ./build.sh 
 
 # Install Docker Compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
