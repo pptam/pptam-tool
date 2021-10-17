@@ -160,7 +160,7 @@ def perform_test(configuration, section, design_path):
 def execute_test(design_path):
     configuration = configparser.ConfigParser()
     configuration.read([os.path.join(design_path, "configuration.ini"), os.path.join(design_path, "test_plan.ini")])
-
+    
     run_plugins(configuration, "DEFAULT", design_path, None, "setup_all")
 
     for section in configuration.sections():

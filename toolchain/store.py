@@ -73,12 +73,14 @@ def store_test(test_path):
                                 execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, create_or_get_item(connection, project_id, row["Name"]), get_metric(connection, "rps"), float(row["Requests/s"]), created_at))
                             if "Failures/s" in row:
                                 execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, create_or_get_item(connection, project_id, row["Name"]), get_metric(connection, "fps"), float(row["Failures/s"]), created_at))
-
-                            # https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-14-135
-                            q1 = float(row["25%"])
-                            q3 = float(row["75%"])
-                            estimated_sd = (q3 - q1) / 1.35
-                            execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, create_or_get_item(connection, project_id, row["Name"]), get_metric(connection, "sdrt"), estimated_sd, created_at))
+                            if "Standard Deviation" in row:
+                                execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, create_or_get_item(connection, project_id, row["Name"]), get_metric(connection, "sdrt"), float(row["Standard Deviation Response Time"]), created_at))
+                            else:
+                                # https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-14-135
+                                q1 = float(row["25%"])
+                                q3 = float(row["75%"])
+                                estimated_sd = (q3 - q1) / 1.35
+                                execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, create_or_get_item(connection, project_id, row["Name"]), get_metric(connection, "sdrt"), estimated_sd, created_at))
 
                             mix = float(row["Request Count"]) / total_number_of_requests
                             execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, create_or_get_item(connection, project_id, row["Name"]), get_metric(connection, "mix"), mix, created_at))

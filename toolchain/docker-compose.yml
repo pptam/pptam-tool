@@ -6,10 +6,7 @@ services:
       - ./notebooks:/home/jovyan/work
     ports:
       - 8888:8888
-    environment:
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=postgres
-      - DB_NAME=pptam      
+    environment: 
       - HOST_NAME=host.docker.internal
     extra_hosts:
       - "host.docker.internal:172.17.0.1" #https://stackoverflow.com/questions/31249112/allow-docker-container-to-connect-to-a-local-host-postgres-database    

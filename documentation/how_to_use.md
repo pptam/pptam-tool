@@ -127,7 +127,7 @@ Once a test design is present, its possible to execute tests using the `execute.
 An example call could be:
 
 - cd ~/pptam-tool/toolchain
-- `./execute.py ../design_jsonserver_vagrant --logging=1`
+- `./execute.py ../design_jsonserver_vagrant`
 
 Depending on your configuration, you need to use `sudo` to execute tests. This call would execute the tests present in the json server design folder, log everything and overwrite existing test cases (if present).
 
@@ -151,3 +151,5 @@ Typically, after performing a test, you will find the following files in the res
 - result_stats_history.csv: the response times while executing the load test;
 - result_stats.csv: the summary of the response times of the load test;
 - other files that the different plugins present in the `execute/plugins` folder generated.
+
+To study the collected files, we developed the necessary scripts to load the files into a database access this database using Jupyter Notebook. See [here](./how_to_use.md) for further information.
