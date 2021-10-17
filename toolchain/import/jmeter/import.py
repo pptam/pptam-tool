@@ -10,14 +10,14 @@ from datetime import datetime
 import math
 
 
-def get_line(label, rows):
+def get_line(key, rows):
     request_type = ""
 
     # Assumes that labels have the form of NAME-REQUEST_TYPE
-    if "-" in label:
-        request_type = label.split("-")[1].upper()
+    if "-" in key:
+        request_type = key.split("-")[1].upper()
     
-    name = label
+    name = key
     request_count: int = rows["label"].count()
     failure_count = rows[~rows["success"]]["label"].count()
     median_response_time = rows["elapsed"].median()
@@ -101,7 +101,7 @@ def convert(input, project, test_set, test, load):
         results.write(f"{aggregated_data}\n")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Imports results from jMeter.")
+    parser = argparse.ArgumentParser(description="Imports results from JMeter.")
     parser.add_argument("input", help="jtl file to import")
     parser.add_argument("project", help="Name of the project")    
     parser.add_argument("testset", help="Name of the test set")
