@@ -67,7 +67,7 @@ def convert(input, project, test_set, test, load):
     all_outputs = os.path.abspath(os.path.join("../../executed"))
     
     data_frame = pandas.read_csv(input)
-    test_id_without_timestamp = test_set + "-" + test
+    test_id_without_timestamp = f"{test_set}-{test}-{load}"
     timestamp_in_millis = math.trunc(data_frame.iloc[0]["timeStamp"]/1000)
     timestamp = datetime.fromtimestamp(timestamp_in_millis)
     output, test_id = create_output_directory(all_outputs, test_id_without_timestamp, timestamp)
@@ -77,7 +77,7 @@ def convert(input, project, test_set, test, load):
     configuration.optionxform=str
     configuration.add_section("CONFIGURATION")
     configuration.set("CONFIGURATION", "PROJECT_NAME", project)
-    configuration.set("CONFIGURATION", "TEST_LABEL", test_set)
+    configuration.set("CONFIGURATION", "TEST_SET_NAME", test_set)
     configuration.set("CONFIGURATION", "TEST_NAME", test)
     configuration.set("CONFIGURATION", "LOAD", str(load))
     configuration.set("CONFIGURATION", "TIMESTAMP", str(timestamp_in_millis))
