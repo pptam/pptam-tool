@@ -1,0 +1,2263 @@
+Country,Year,Status,Life expectancy,Population,GDP,Schooling,continent
+Afghanistan,2015,Developing,65,33736494,584.25921,10.1,Asia
+Afghanistan,2014,Developing,59.9,327582,612.696514,10,Asia
+Afghanistan,2013,Developing,59.9,31731688,631.744976,9.9,Asia
+Afghanistan,2012,Developing,59.5,3696958,669.959,9.8,Asia
+Afghanistan,2011,Developing,59.2,2978599,63.537231,9.5,Asia
+Afghanistan,2010,Developing,58.8,2883167,553.32894,9.2,Asia
+Afghanistan,2009,Developing,58.6,284331,445.8932979,8.9,Asia
+Afghanistan,2008,Developing,58.1,2729431,373.3611163,8.7,Asia
+Afghanistan,2007,Developing,57.5,26616792,369.835796,8.4,Asia
+Afghanistan,2006,Developing,57.3,2589345,272.56377,8.1,Asia
+Afghanistan,2005,Developing,57.3,257798,25.2941299,7.9,Asia
+Afghanistan,2004,Developing,57,24118979,219.1413528,6.8,Asia
+Afghanistan,2003,Developing,56.7,2364851,198.7285436,6.5,Asia
+Afghanistan,2002,Developing,56.2,21979923,187.84595,6.2,Asia
+Afghanistan,2001,Developing,55.3,2966463,117.49698,5.9,Asia
+Afghanistan,2000,Developing,54.8,293756,114.56,5.5,Asia
+Albania,2015,Developing,77.8,28873,3954.22783,14.2,Europe
+Albania,2014,Developing,77.5,288914,4575.763787,14.2,Europe
+Albania,2013,Developing,77.2,289592,4414.72314,14.2,Europe
+Albania,2012,Developing,76.9,2941,4247.61438,14.2,Europe
+Albania,2011,Developing,76.6,295195,4437.17868,13.3,Europe
+Albania,2010,Developing,76.2,291321,494.358832,12.5,Europe
+Albania,2009,Developing,76.1,2927519,4114.136545,12.2,Europe
+Albania,2008,Developing,75.3,2947314,437.539647,12,Europe
+Albania,2007,Developing,75.9,29717,363.13685,11.6,Europe
+Albania,2006,Developing,74.2,2992547,35.1293,11.4,Europe
+Albania,2005,Developing,73.5,311487,279.142931,10.8,Europe
+Albania,2004,Developing,73,326939,2416.588235,10.9,Europe
+Albania,2003,Developing,72.8,339616,189.681557,10.7,Europe
+Albania,2002,Developing,73.3,3511,1453.642777,10.7,Europe
+Albania,2001,Developing,73.6,36173,1326.97339,10.6,Europe
+Albania,2000,Developing,72.6,38927,1175.788981,10.7,Europe
+Algeria,2015,Developing,75.6,39871528,4132.76292,14.4,Africa
+Algeria,2014,Developing,75.4,39113313,547.8517,14.4,Africa
+Algeria,2013,Developing,75.3,38338562,5471.866766,14.4,Africa
+Algeria,2012,Developing,75.1,37565847,5564.82566,14.4,Africa
+Algeria,2011,Developing,74.9,36819558,5432.2523,14,Africa
+Algeria,2010,Developing,74.7,36117637,4463.394675,13.6,Africa
+Algeria,2009,Developing,74.4,3546576,3868.83123,13.1,Africa
+Algeria,2008,Developing,74.1,3486715,495.254866,12.6,Africa
+Algeria,2007,Developing,73.8,34376,3935.183343,12.3,Africa
+Algeria,2006,Developing,73.4,33777915,3464.6179,12.3,Africa
+Algeria,2005,Developing,72.9,33288437,31.122378,12,Africa
+Algeria,2004,Developing,72.3,3283196,2598.9823,11.7,Africa
+Algeria,2003,Developing,71.7,3243514,294.33556,11.5,Africa
+Algeria,2002,Developing,71.6,3199546,1774.33673,11.1,Africa
+Algeria,2001,Developing,71.4,31592153,1732.857979,10.9,Africa
+Algeria,2000,Developing,71.3,3118366,1757.17797,10.7,Africa
+Angola,2015,Developing,52.4,2785935,3695.793748,11.4,Africa
+Angola,2014,Developing,51.7,2692466,479.31224,11.4,Africa
+Angola,2013,Developing,51.1,2599834,484.616884,11.4,Africa
+Angola,2012,Developing,56,259615,4598.249988,10.3,Africa
+Angola,2011,Developing,51,24218565,4299.12889,9.4,Africa
+Angola,2010,Developing,49.6,23369131,3529.53482,9,Africa
+Angola,2009,Developing,49.1,22549547,3347.84485,8.5,Africa
+Angola,2008,Developing,48.7,2175942,3868.578883,8.1,Africa
+Angola,2007,Developing,48.2,2997687,2878.837144,7.7,Africa
+Angola,2006,Developing,47.7,2262399,262.415149,7.2,Africa
+Angola,2005,Developing,47.4,19552542,1443.991929,6.8,Africa
+Angola,2004,Developing,47.1,18865716,141.86844,6.4,Africa
+Angola,2003,Developing,46.8,1823369,779.468356,5.9,Africa
+Angola,2002,Developing,46.5,17572649,711.181716,5.5,Africa
+Angola,2001,Developing,45.7,16983266,526.168743,5.1,Africa
+Angola,2000,Developing,45.3,1644924,555.2969419,4.6,Africa
+Argentina,2015,Developing,76.3,43417765,13467.1236,17.3,Americas
+Argentina,2014,Developing,76.2,42981515,12245.25645,17.3,Americas
+Argentina,2013,Developing,76,42539925,12976.63642,17.3,Americas
+Argentina,2012,Developing,75.9,4296739,12969.7712,17.2,Americas
+Argentina,2011,Developing,75.7,41656879,12726.9836,17.1,Americas
+Argentina,2010,Developing,75.5,41223889,1276.265,16.8,Americas
+Argentina,2009,Developing,75.6,479947,8161.36966,16.5,Americas
+Argentina,2008,Developing,75.4,4382389,8953.359275,16.3,Americas
+Argentina,2007,Developing,74.8,3997224,7193.61764,16.3,Americas
+Argentina,2006,Developing,75.2,3955889,5878.76127,16.1,Americas
+Argentina,2005,Developing,74.9,39145488,576.883829,16.3,Americas
+Argentina,2004,Developing,74.7,38728696,4251.574348,16.3,Americas
+Argentina,2003,Developing,74.1,3839379,333.4376,16.4,Americas
+Argentina,2002,Developing,74.1,3788937,2579.193168,16.3,Americas
+Argentina,2001,Developing,74,3747159,717.694674,15.6,Americas
+Argentina,2000,Developing,74.1,3757452,7669.273916,15,Americas
+Armenia,2015,Developing,74.8,291695,369.654776,12.7,Asia
+Armenia,2014,Developing,74.6,29622,3994.712355,12.7,Asia
+Armenia,2013,Developing,74.4,289359,3843.591213,12.7,Asia
+Armenia,2012,Developing,74.4,2881922,3684.8481,12.7,Asia
+Armenia,2011,Developing,73.9,2875581,3526.978143,12.7,Asia
+Armenia,2010,Developing,73.5,2877311,3218.381655,12.3,Asia
+Armenia,2009,Developing,73.3,2888584,2993.832531,11.9,Asia
+Armenia,2008,Developing,73.2,29822,41.26997,12.3,Asia
+Armenia,2007,Developing,73.5,293356,3138.8873,11.7,Asia
+Armenia,2006,Developing,72.9,29585,2158.299,11.2,Asia
+Armenia,2005,Developing,73,2981259,1643.758397,10.9,Asia
+Armenia,2004,Developing,73,3612,1191.96192,10.9,Asia
+Armenia,2003,Developing,72.7,31786,93.1661567,10.8,Asia
+Armenia,2002,Developing,72.6,333897,783.261699,10.8,Asia
+Armenia,2001,Developing,72.6,35655,694.435119,11.1,Asia
+Armenia,2000,Developing,72,369588,622.7427477,11.2,Asia
+Australia,2015,Developed,82.8,23789338,56554.3876,20.4,Oceania
+Australia,2014,Developed,82.7,2346694,62214.6912,20.4,Oceania
+Australia,2013,Developed,82.5,23117353,67792.3386,20.3,Oceania
+Australia,2012,Developed,82.3,22728254,67677.63477,20.1,Oceania
+Australia,2011,Developed,82,223424,62245.129,19.8,Oceania
+Australia,2010,Developed,81.9,223175,51874.848,19.5,Oceania
+Australia,2009,Developed,81.7,216917,42742.99898,19.1,Oceania
+Australia,2008,Developed,81.3,212492,49664.6854,19.1,Oceania
+Australia,2007,Developed,81.3,28276,4991.98289,19,Oceania
+Australia,2006,Developed,81.2,26979,36118.28381,20.3,Oceania
+Australia,2005,Developed,81,23948,3416.71483,20.3,Oceania
+Australia,2004,Developed,86,21274,3472.37977,20.7,Oceania
+Australia,2003,Developed,83,198954,23465.38559,20.6,Oceania
+Australia,2002,Developed,79.9,196514,281.81763,20.1,Oceania
+Australia,2001,Developed,79.9,19413,19517.84168,20.5,Oceania
+Australia,2000,Developed,79.5,19153,2169.921,20.4,Oceania
+Austria,2015,Developed,81.5,8633169,43665.947,15.9,Europe
+Austria,2014,Developed,81.4,8541575,51322.63997,15.9,Europe
+Austria,2013,Developed,81.1,8479375,554.71532,15.7,Europe
+Austria,2012,Developed,88,8429991,48333.57273,15.7,Europe
+Austria,2011,Developed,88,8391643,51126.74139,15.7,Europe
+Austria,2010,Developed,84,836344,46657.629,15.4,Europe
+Austria,2009,Developed,82,8343323,47654.18721,15.3,Europe
+Austria,2008,Developed,84,8321496,51386.37665,15.1,Europe
+Austria,2007,Developed,81,8295487,46586.6525,15.2,Europe
+Austria,2006,Developed,79.8,8268641,443.99361,15,Europe
+Austria,2005,Developed,79.4,8227829,38242.4252,14.9,Europe
+Austria,2004,Developed,79.3,8171966,36693.4262,14.7,Europe
+Austria,2003,Developed,78.8,8121423,3212.9355,14.7,Europe
+Austria,2002,Developed,78.7,881957,26351.37568,16.1,Europe
+Austria,2001,Developed,78.6,842293,24489.73553,15.5,Europe
+Austria,2000,Developed,78.1,811566,24517.26745,15.4,Europe
+Azerbaijan,2015,Developing,72.7,9649341,55.31382,12.7,Asia
+Azerbaijan,2014,Developing,72.5,953579,7891.299776,12.2,Asia
+Azerbaijan,2013,Developing,72.2,941681,7875.756953,11.9,Asia
+Azerbaijan,2012,Developing,71.9,9295784,7496.335728,11.8,Asia
+Azerbaijan,2011,Developing,71.6,917382,7189.691229,11.7,Asia
+Azerbaijan,2010,Developing,71.1,954332,5842.85784,11.7,Asia
+Azerbaijan,2009,Developing,78,8947243,495.294791,11.6,Asia
+Azerbaijan,2008,Developing,73,87634,5574.6382,11.6,Asia
+Azerbaijan,2007,Developing,73,85813,3851.437869,11.6,Asia
+Azerbaijan,2006,Developing,69.2,848455,2473.85776,10.7,Asia
+Azerbaijan,2005,Developing,68.4,839185,1578.4239,11.2,Asia
+Azerbaijan,2004,Developing,68.4,8365,145.2163,11,Asia
+Azerbaijan,2003,Developing,67.8,82341,883.6439965,10.8,Asia
+Azerbaijan,2002,Developing,67.8,817195,763.73858,10.6,Asia
+Azerbaijan,2001,Developing,67.5,81112,73.6838434,10.4,Asia
+Azerbaijan,2000,Developing,66.6,8486,655.974326,10.1,Asia
+Bangladesh,2015,Developing,71.8,1612886,121.15812,10.2,Asia
+Bangladesh,2014,Developing,71.4,15945279,184.56543,10,Asia
+Bangladesh,2013,Developing,71,157571292,951.8894535,10,Asia
+Bangladesh,2012,Developing,77,15572753,856.342857,9.9,Asia
+Bangladesh,2011,Developing,73,153911916,835.789341,9.4,Asia
+Bangladesh,2010,Developing,69.9,15214912,757.6717572,8.9,Asia
+Bangladesh,2009,Developing,69.5,1545478,681.125368,8.4,Asia
+Bangladesh,2008,Developing,69.1,14885814,615.7775411,8.6,Asia
+Bangladesh,2007,Developing,68.6,147139191,541.651484,8.6,Asia
+Bangladesh,2006,Developing,68.2,1453684,494.51466,8.4,Asia
+Bangladesh,2005,Developing,67.8,14343111,484.155471,8.2,Asia
+Bangladesh,2004,Developing,67.3,14137489,46.7579167,8.1,Asia
+Bangladesh,2003,Developing,66.8,139191,432.7388972,7.9,Asia
+Bangladesh,2002,Developing,66.3,1366667,4.6135745,7.7,Asia
+Bangladesh,2001,Developing,65.8,1341716,42.5981152,7.5,Asia
+Bangladesh,2000,Developing,65.3,131581243,45.63371,7.3,Asia
+Belarus,2015,Developing,72.3,9489616,5949.11677,15.6,Europe
+Belarus,2014,Developing,72,9474511,8318.429294,15.7,Europe
+Belarus,2013,Developing,71.7,9465997,7978.825443,15.7,Europe
+Belarus,2012,Developing,71.9,9464495,694.243915,15.6,Europe
+Belarus,2011,Developing,72,9473172,6519.71753,15.5,Europe
+Belarus,2010,Developing,73,949583,63.38877,15.5,Europe
+Belarus,2009,Developing,70,956765,5176.172649,15.4,Europe
+Belarus,2008,Developing,70,9527985,6376.183153,15.1,Europe
+Belarus,2007,Developing,69.8,956953,4735.484827,14.9,Europe
+Belarus,2006,Developing,68.9,964924,3848.215966,14.6,Europe
+Belarus,2005,Developing,68.1,9663915,3126.71767,14.4,Europe
+Belarus,2004,Developing,68.2,973146,2378.33927,14.1,Europe
+Belarus,2003,Developing,67.7,9796749,1819.525644,13.9,Europe
+Belarus,2002,Developing,67.2,9865548,1479.383142,13.6,Europe
+Belarus,2001,Developing,67.7,9928549,1244.373185,13.3,Europe
+Belarus,2000,Developing,68,997961,1276.28834,13.1,Europe
+Belgium,2015,Developed,81.1,11274196,4356.875,16.6,Europe
+Belgium,2014,Developed,89,112957,47439.39684,16.3,Europe
+Belgium,2013,Developed,87,11182817,4651.38647,16.3,Europe
+Belgium,2012,Developed,83,11128246,4474.5717,16.2,Europe
+Belgium,2011,Developed,83,1147744,4772.77415,16.1,Europe
+Belgium,2010,Developed,80,1895586,4438.23741,15.9,Europe
+Belgium,2009,Developed,79.8,1796493,4488.5615,15.8,Europe
+Belgium,2008,Developed,79.5,179973,48424.58927,15.8,Europe
+Belgium,2007,Developed,79.5,16257,4443.83131,15.8,Europe
+Belgium,2006,Developed,79.4,1547958,38852.3613,15.7,Europe
+Belgium,2005,Developed,78.9,1478617,36967.28292,15.7,Europe
+Belgium,2004,Developed,78.8,1421137,35589.71295,18.8,Europe
+Belgium,2003,Developed,78.3,1376133,3743.95693,18.6,Europe
+Belgium,2002,Developed,78,1332785,2552.3328,18.8,Europe
+Belgium,2001,Developed,78,128657,23121.56635,18.2,Europe
+Belgium,2000,Developed,77.6,125125,2327.4591,18,Europe
+Belize,2015,Developing,71,359288,4849.997495,12.8,Americas
+Belize,2014,Developing,70,351694,4852.223666,12.8,Americas
+Belize,2013,Developing,69.8,344181,4688.538443,12.9,Americas
+Belize,2012,Developing,69.4,33671,4673.63848,12.5,Americas
+Belize,2011,Developing,69.4,329192,4516.24675,12.4,Americas
+Belize,2010,Developing,69.5,32168,4344.15177,12.4,Americas
+Belize,2009,Developing,69.5,313929,4258.788611,12.7,Americas
+Belize,2008,Developing,69.6,36165,447.22796,12.8,Americas
+Belize,2007,Developing,69.6,29847,4324.876427,12.8,Americas
+Belize,2006,Developing,69.4,29747,4187.3783,12.3,Americas
+Belize,2005,Developing,69,283277,3933.332215,12.8,Americas
+Belize,2004,Developing,68.7,27689,3831.53819,12.5,Americas
+Belize,2003,Developing,68.4,26913,3679.99523,12.2,Americas
+Belize,2002,Developing,68.5,26226,3556.561825,11.9,Americas
+Belize,2001,Developing,68.2,254984,3419.275719,11.8,Americas
+Belize,2000,Developing,68.3,247315,3364.423711,11.7,Americas
+Benin,2015,Developing,60,1575952,783.94791,10.7,Africa
+Benin,2014,Developing,59.7,1286712,943.686575,10.7,Africa
+Benin,2013,Developing,59.5,14451,915.2674586,10.3,Africa
+Benin,2012,Developing,59.3,972916,837.9551,10,Africa
+Benin,2011,Developing,59.1,94682,825.9427854,9.8,Africa
+Benin,2010,Developing,58.7,9199259,757.695974,9.5,Africa
+Benin,2009,Developing,58.4,894476,793.45243,9.3,Africa
+Benin,2008,Developing,57.6,8696916,82.1513498,9.1,Africa
+Benin,2007,Developing,57.1,8454791,76.535419,8.9,Africa
+Benin,2006,Developing,56.8,8216896,625.8392,8.7,Africa
+Benin,2005,Developing,56.5,7982225,61.799977,8.5,Africa
+Benin,2004,Developing,56.1,7754,583.493514,8.1,Africa
+Benin,2003,Developing,55.8,752555,519.2922847,7.7,Africa
+Benin,2002,Developing,55.6,7295394,418.6985763,7.3,Africa
+Benin,2001,Developing,55.5,776733,378.73654,6.6,Africa
+Benin,2000,Developing,55.4,6865951,374.1923942,6.4,Africa
+Bhutan,2015,Developing,69.8,787386,2613.645177,12.5,Asia
+Bhutan,2014,Developing,69.4,776448,2522.7968,12.5,Asia
+Bhutan,2013,Developing,69.1,764961,235.882889,12.6,Asia
+Bhutan,2012,Developing,68.7,752967,2422.816,12.3,Asia
+Bhutan,2011,Developing,68.3,7451,2458.45976,11.9,Asia
+Bhutan,2010,Developing,67.9,727641,2178.921383,11.4,Asia
+Bhutan,2009,Developing,67.4,714458,177.234497,10.9,Asia
+Bhutan,2008,Developing,67,795,1795.18137,10.5,Asia
+Bhutan,2007,Developing,66.5,686958,1741.142552,10.1,Asia
+Bhutan,2006,Developing,65.8,672228,1335.45696,9.6,Asia
+Bhutan,2005,Developing,65,656639,1247.61392,9.2,Asia
+Bhutan,2004,Developing,64.2,64282,197.45788,8.8,Asia
+Bhutan,2003,Developing,63.3,623434,997.7417141,8.4,Asia
+Bhutan,2002,Developing,62.5,66399,885.6382245,8,Asia
+Bhutan,2001,Developing,61.7,5896,87.9387673,7.6,Asia
+Bhutan,2000,Developing,62,573416,765.8632358,7.3,Asia
+Bosnia and Herzegovina,2015,Developing,77.4,3535961,4574.9787,14.2,Europe
+Bosnia and Herzegovina,2014,Developing,77.2,35662,5193.94932,14.2,Europe
+Bosnia and Herzegovina,2013,Developing,77,364999,535.86555,14.2,Europe
+Bosnia and Herzegovina,2012,Developing,76.8,36482,4716.673325,13.9,Europe
+Bosnia and Herzegovina,2011,Developing,76.9,3688865,55.156834,13.4,Europe
+Bosnia and Herzegovina,2010,Developing,76.4,372284,4611.47298,13.3,Europe
+Bosnia and Herzegovina,2009,Developing,76.1,3746561,4697.89732,13.3,Europe
+Bosnia and Herzegovina,2008,Developing,76,3763599,575.31664,13.1,Europe
+Bosnia and Herzegovina,2007,Developing,75.4,3774,418.292176,12.9,Europe
+Bosnia and Herzegovina,2006,Developing,75.7,3779468,344.321698,12.7,Europe
+Bosnia and Herzegovina,2005,Developing,75,378153,2968.41186,12.5,Europe
+Bosnia and Herzegovina,2004,Developing,75.5,3781287,265.642661,12.3,Europe
+Bosnia and Herzegovina,2003,Developing,75.2,3779247,2214.732246,12.1,Europe
+Bosnia and Herzegovina,2002,Developing,75.4,377587,1761.537647,11.9,Europe
+Bosnia and Herzegovina,2001,Developing,74.9,3771284,1524.41222,11.6,Europe
+Bosnia and Herzegovina,2000,Developing,74.6,376676,1461.7552,0,Europe
+Botswana,2015,Developing,65.7,229197,6532.651,12.6,Africa
+Botswana,2014,Developing,65.1,2168573,7497.762376,12.6,Africa
+Botswana,2013,Developing,64.2,212857,77.625783,12.6,Africa
+Botswana,2012,Developing,63.4,289315,729.231453,12.5,Africa
+Botswana,2011,Developing,62.2,251339,7645.21469,12.4,Africa
+Botswana,2010,Developing,61.1,214866,6346.15624,12.3,Africa
+Botswana,2009,Developing,59.2,1979882,5185.729845,12.2,Africa
+Botswana,2008,Developing,57.5,1946351,5623.379566,12.1,Africa
+Botswana,2007,Developing,56.9,1914414,5714.47937,12.1,Africa
+Botswana,2006,Developing,54.8,1884238,5374.554867,11.9,Africa
+Botswana,2005,Developing,51.7,1855852,5351.253732,11.9,Africa
+Botswana,2004,Developing,48.1,182933,4896.583835,11.8,Africa
+Botswana,2003,Developing,46.4,184339,4163.6596,11.8,Africa
+Botswana,2002,Developing,46,1779953,355.618382,11.9,Africa
+Botswana,2001,Developing,46.7,1754935,3128.97793,11.8,Africa
+Botswana,2000,Developing,47.8,172834,3349.68823,11.7,Africa
+Brazil,2015,Developing,75,2596218,8757.2622,15.2,Americas
+Brazil,2014,Developing,74.8,24213133,1226.61731,15.2,Americas
+Brazil,2013,Developing,74.7,2248632,12216.9446,14.2,Americas
+Brazil,2012,Developing,74.5,256983,12291.46685,14.2,Americas
+Brazil,2011,Developing,74.1,198686688,13167.47289,14,Americas
+Brazil,2010,Developing,73.8,196796269,11224.1548,13.8,Americas
+Brazil,2009,Developing,73.6,194895996,8553.3847,13.8,Americas
+Brazil,2008,Developing,73.4,19297929,8787.61375,13.3,Americas
+Brazil,2007,Developing,73.3,19126637,7313.557962,13.5,Americas
+Brazil,2006,Developing,73,18912412,586.145975,13.8,Americas
+Brazil,2005,Developing,72.7,186917361,477.182746,13.8,Americas
+Brazil,2004,Developing,72,184738458,3623.47667,14,Americas
+Brazil,2003,Developing,71.8,182482149,359.587582,14.8,Americas
+Brazil,2002,Developing,71.4,1815121,2819.649531,14.6,Americas
+Brazil,2001,Developing,71,1777567,3146.95177,14.3,Americas
+Brazil,2000,Developing,75,175287587,3739.11936,14.1,Americas
+Bulgaria,2015,Developed,74.5,7177991,6993.47736,15,Europe
+Bulgaria,2014,Developed,74.3,7223938,7853.335191,14.8,Europe
+Bulgaria,2013,Developed,74.1,7265115,7674.86559,14.4,Europe
+Bulgaria,2012,Developed,73.9,735888,7378.25539,14.3,Europe
+Bulgaria,2011,Developed,73.7,7348328,7813.83499,14.2,Europe
+Bulgaria,2010,Developed,73.4,7395599,6843.263289,13.9,Europe
+Bulgaria,2009,Developed,73.2,7444443,6955.987733,13.8,Europe
+Bulgaria,2008,Developed,72.9,7492561,7296.122479,13.8,Europe
+Bulgaria,2007,Developed,72.6,7545338,5932.899677,13.5,Europe
+Bulgaria,2006,Developed,72.2,76122,4513.13628,13.5,Europe
+Bulgaria,2005,Developed,72.1,7658972,3893.68998,13.5,Europe
+Bulgaria,2004,Developed,72.2,771686,3381.57837,13.3,Europe
+Bulgaria,2003,Developed,72,7775327,271.46824,12.9,Europe
+Bulgaria,2002,Developed,71.8,7837161,287.534843,12.9,Europe
+Bulgaria,2001,Developed,71.6,89142,1764.97387,12.9,Europe
+Bulgaria,2000,Developed,71.1,817172,169.28586,12.9,Europe
+Burkina Faso,2015,Developing,59.9,1811624,615.592225,7.7,Africa
+Burkina Faso,2014,Developing,59.3,17585977,75.1464113,7.7,Africa
+Burkina Faso,2013,Developing,59,1772723,699.452847,7.5,Africa
+Burkina Faso,2012,Developing,58.6,16571216,673.8227,7.2,Africa
+Burkina Faso,2011,Developing,58.1,168194,666.842783,6.7,Africa
+Burkina Faso,2010,Developing,57.5,1565217,575.4464527,6.3,Africa
+Burkina Faso,2009,Developing,56.9,1514199,552.7455521,5.9,Africa
+Burkina Faso,2008,Developing,56.1,14689726,569.7612784,5.4,Africa
+Burkina Faso,2007,Developing,55.3,1425221,475.11122,4.9,Africa
+Burkina Faso,2006,Developing,54.3,13829177,422.6332374,4.7,Africa
+Burkina Faso,2005,Developing,53.3,1342193,46.998871,4.3,Africa
+Burkina Faso,2004,Developing,52.4,133569,371.323865,3.9,Africa
+Burkina Faso,2003,Developing,51.6,12654621,332.344351,3.8,Africa
+Burkina Faso,2002,Developing,51,122931,26.7635413,3.6,Africa
+Burkina Faso,2001,Developing,56,11944587,235.4912324,3.5,Africa
+Burkina Faso,2000,Developing,51,1167942,226.4759814,3.4,Africa
+Burundi,2015,Developing,59.6,119927,33.681223,10.6,Africa
+Burundi,2014,Developing,59.1,989179,312.7489794,10.6,Africa
+Burundi,2013,Developing,58.6,96186,282.7555252,10.5,Africa
+Burundi,2012,Developing,58,931971,265.285651,10.3,Africa
+Burundi,2011,Developing,57.4,94358,26.479973,9.9,Africa
+Burundi,2010,Developing,56.8,876693,231.1943256,9.3,Africa
+Burundi,2009,Developing,56.2,848931,24.944652,8.6,Africa
+Burundi,2008,Developing,55.3,8212264,196.2472628,7.9,Africa
+Burundi,2007,Developing,54.8,7939573,17.79995,7.2,Africa
+Burundi,2006,Developing,54.1,7675338,165.8794176,5.9,Africa
+Burundi,2005,Developing,53.4,7423289,15.57434,5.6,Africa
+Burundi,2004,Developing,52.6,7182451,127.4296648,5.2,Africa
+Burundi,2003,Developing,51.9,6953113,112.849373,4.7,Africa
+Burundi,2002,Developing,51.5,6741569,122.4335893,4.4,Africa
+Burundi,2001,Developing,51.3,6555829,133.7427689,4.5,Africa
+Burundi,2000,Developing,58,6476,135.9984455,4.5,Africa
+Cabo Verde,2015,Developing,73.3,532913,2954.119467,13.5,Africa
+Cabo Verde,2014,Developing,73,526437,3529.61843,13.5,Africa
+Cabo Verde,2013,Developing,72.8,5216,3558.796314,13.6,Africa
+Cabo Verde,2012,Developing,72.7,513979,348.482762,13.2,Africa
+Cabo Verde,2011,Developing,72.6,5867,367.429453,13.1,Africa
+Cabo Verde,2010,Developing,72.5,52384,3312.825985,12.7,Africa
+Cabo Verde,2009,Developing,72.4,496963,3444.5566,12.4,Africa
+Cabo Verde,2008,Developing,72.4,491723,3638.95946,12.2,Africa
+Cabo Verde,2007,Developing,72.3,486438,3112.285712,11.9,Africa
+Cabo Verde,2006,Developing,72.1,48795,234.28992,11.9,Africa
+Cabo Verde,2005,Developing,71.8,474567,248.13459,11.2,Africa
+Cabo Verde,2004,Developing,71.4,467664,1976.45856,11.1,Africa
+Cabo Verde,2003,Developing,71.1,46147,1768.92132,11.3,Africa
+Cabo Verde,2002,Developing,77,45216,1373.515636,11.3,Africa
+Cabo Verde,2001,Developing,73,443716,1268.884564,11,Africa
+Cabo Verde,2000,Developing,69.9,43579,1239.377855,11.3,Africa
+Cambodia,2015,Developing,68.7,15517635,1163.18977,10.9,Asia
+Cambodia,2014,Developing,68.3,152779,198.687123,10.9,Asia
+Cambodia,2013,Developing,67.8,1522692,128.419568,10.8,Asia
+Cambodia,2012,Developing,67.4,14776866,95.244132,10.7,Asia
+Cambodia,2011,Developing,67,14537886,882.491462,10.7,Asia
+Cambodia,2010,Developing,66.6,143874,785.6928841,10.6,Asia
+Cambodia,2009,Developing,66.1,14928,738.2326684,10.5,Asia
+Cambodia,2008,Developing,65.6,138859,745.7877873,10.5,Asia
+Cambodia,2007,Developing,65,13676693,631.675789,10.3,Asia
+Cambodia,2006,Developing,64.1,13474489,539.8791529,10.1,Asia
+Cambodia,2005,Developing,62.9,132721,474.2238766,10,Asia
+Cambodia,2004,Developing,61.5,1363377,48.615184,9.7,Asia
+Cambodia,2003,Developing,63,12853124,362.4213785,9.3,Asia
+Cambodia,2002,Developing,59.3,12634729,339.676984,8.2,Asia
+Cambodia,2001,Developing,58.5,1242473,321.22634,7.6,Asia
+Cambodia,2000,Developing,57.7,12152354,3.685949,7.2,Asia
+Cameroon,2015,Developing,57.3,22834522,1244.429421,10.4,Africa
+Cameroon,2014,Developing,56.7,2223994,1441.1417,10.4,Africa
+Cameroon,2013,Developing,56.4,21655715,1365.34419,10.4,Africa
+Cameroon,2012,Developing,55.9,2182383,1255.648189,10.4,Africa
+Cameroon,2011,Developing,55.6,252447,1295.649726,10,Africa
+Cameroon,2010,Developing,55.3,1997495,1182.869227,9.7,Africa
+Cameroon,2009,Developing,54.8,19432541,123.19538,9.2,Africa
+Cameroon,2008,Developing,54.2,18978,1233.524316,8.8,Africa
+Cameroon,2007,Developing,53.6,18395389,111.71186,8,Africa
+Cameroon,2006,Developing,53.3,17899562,12.989164,8.2,Africa
+Cameroon,2005,Developing,52.8,1742795,952.1872484,8.3,Africa
+Cameroon,2004,Developing,52.1,1695981,93.211716,8.2,Africa
+Cameroon,2003,Developing,51.8,16513822,824.8689393,8.1,Africa
+Cameroon,2002,Developing,51.6,1684886,676.397661,8.4,Africa
+Cameroon,2001,Developing,51.5,15671927,614.6729339,7.1,Africa
+Cameroon,2000,Developing,51.4,15274234,68.414399,6.9,Africa
+Canada,2015,Developing,82.2,3584861,43315.744,16.3,Americas
+Canada,2014,Developing,82,35544564,544.43376,15.9,Americas
+Canada,2013,Developing,81.8,35155451,52413.72116,15.9,Americas
+Canada,2012,Developing,81.6,3475545,52496.69487,15.9,Americas
+Canada,2011,Developing,81.5,3434278,5282.2176,15.9,Americas
+Canada,2010,Developing,81.2,345274,47447.4762,15.9,Americas
+Canada,2009,Developing,81,33628571,4773.45436,15.9,Americas
+Canada,2008,Developing,87,33245773,46596.33599,15.8,Americas
+Canada,2007,Developing,85,32887928,44544.5268,15.8,Americas
+Canada,2006,Developing,85,325755,4386.69948,15.8,Americas
+Canada,2005,Developing,81,32312,36189.58838,15.8,Americas
+Canada,2004,Developing,80,31995,31979.87195,15.8,Americas
+Canada,2003,Developing,79.7,31676,28172.14883,15.8,Americas
+Canada,2002,Developing,79.5,31362,24167.8431,15.8,Americas
+Canada,2001,Developing,79.4,31819,23691.59472,15.8,Americas
+Canada,2000,Developing,79.1,37697,24124.16917,15.9,Americas
+Central African Republic,2015,Developing,52.5,45461,348.381417,7.1,Africa
+Central African Republic,2014,Developing,58,4515392,377.132274,7.1,Africa
+Central African Republic,2013,Developing,49.9,4499653,337.4849614,7.1,Africa
+Central African Republic,2012,Developing,53,449416,486.41114,7.1,Africa
+Central African Republic,2011,Developing,49.8,4476153,494.336779,6.8,Africa
+Central African Republic,2010,Developing,49.2,4448525,446.4434494,6.6,Africa
+Central African Republic,2009,Developing,48.6,44423,449.961839,6.4,Africa
+Central African Republic,2008,Developing,47.6,4345386,456.8614334,6.3,Africa
+Central African Republic,2007,Developing,46.8,42758,397.148467,6.2,Africa
+Central African Republic,2006,Developing,46.3,421758,347.673678,6,Africa
+Central African Republic,2005,Developing,45.9,412791,327.1149461,5.9,Africa
+Central African Republic,2004,Developing,45.7,45536,313.21598,5.7,Africa
+Central African Republic,2003,Developing,45.7,3981665,286.25819,5.6,Africa
+Central African Republic,2002,Developing,45.6,397612,253.768343,5.4,Africa
+Central African Republic,2001,Developing,45.6,383223,243.1586486,5.3,Africa
+Central African Republic,2000,Developing,46,3754986,243.5429317,5.2,Africa
+Chad,2015,Developing,53.1,149413,777.248751,7.3,Africa
+Chad,2014,Developing,52.6,13569438,125.998515,7.3,Africa
+Chad,2013,Developing,52.2,13133589,986.13177,7.3,Africa
+Chad,2012,Developing,51.8,1275135,973.472574,7.3,Africa
+Chad,2011,Developing,51.6,12288651,989.2363633,6.7,Africa
+Chad,2010,Developing,51.2,1188722,896.5697341,6.7,Africa
+Chad,2009,Developing,57,1152786,84.455939,6.3,Africa
+Chad,2008,Developing,49.6,11133861,929.772391,6,Africa
+Chad,2007,Developing,49.4,177578,81.683884,5.7,Africa
+Chad,2006,Developing,48.5,1421597,712.1847694,5.5,Africa
+Chad,2005,Developing,48.6,1679,66.2421396,5.6,Africa
+Chad,2004,Developing,48.5,97143,454.6765879,5.6,Africa
+Chad,2003,Developing,48.4,935321,292.5914364,5.4,Africa
+Chad,2002,Developing,48.1,91689,22.854821,5.1,Africa
+Chad,2001,Developing,48,866312,197.3156442,4.9,Africa
+Chad,2000,Developing,47.6,8342559,166.231785,4.7,Africa
+Chile,2015,Developing,85,17762681,13653.2264,16.3,Americas
+Chile,2014,Developing,83,17613798,14817.37778,16.2,Americas
+Chile,2013,Developing,81,17462982,15941.39722,15.6,Americas
+Chile,2012,Developing,79.9,1739746,15431.9293,15.5,Americas
+Chile,2011,Developing,79.8,17153357,1475.69242,15.4,Americas
+Chile,2010,Developing,79.1,16993354,1286.17764,15.2,Americas
+Chile,2009,Developing,79.3,16829442,1243.32824,15.3,Americas
+Chile,2008,Developing,79.6,16661942,1781.3668,15.2,Americas
+Chile,2007,Developing,78.9,16491687,1526.87746,14.8,Americas
+Chile,2006,Developing,78.9,16319792,9484.681227,14.9,Americas
+Chile,2005,Developing,78.4,1614764,7615.3468,14.6,Americas
+Chile,2004,Developing,78,15973778,621.828325,14.3,Americas
+Chile,2003,Developing,77.9,15799542,4787.699532,14,Americas
+Chile,2002,Developing,77.8,15623635,4463.545867,13.9,Americas
+Chile,2001,Developing,77.3,15444969,4595.666327,13.7,Americas
+Chile,2000,Developing,77.3,15262754,511.368479,13.5,Americas
+China,2015,Developing,76.1,137122,869.211938,13.5,Asia
+China,2014,Developing,75.8,136427,7683.5238,13.1,Asia
+China,2013,Developing,75.6,135738,777.77594,12.7,Asia
+China,2012,Developing,75.4,135695,6337.882993,12.4,Asia
+China,2011,Developing,75.2,134413,5633.79616,12.8,Asia
+China,2010,Developing,75,133775,456.512487,12.5,Asia
+China,2009,Developing,74.9,133126,3838.434292,12.2,Asia
+China,2008,Developing,74.5,1324655,3471.247547,11.9,Asia
+China,2007,Developing,74.4,1317885,2695.366223,11.4,Asia
+China,2006,Developing,74.2,13112,299.229676,11,Asia
+China,2005,Developing,73.9,13372,1753.4178,10.6,Asia
+China,2004,Developing,73.5,129675,158.668462,10.2,Asia
+China,2003,Developing,73.1,12884,1288.642924,9.9,Asia
+China,2002,Developing,72.7,1284,1148.5857,9.7,Asia
+China,2001,Developing,72.2,127185,153.1824,9.6,Asia
+China,2000,Developing,71.7,1262645,959.372181,9.5,Asia
+Colombia,2015,Developing,74.8,48228697,644.525556,13.6,Americas
+Colombia,2014,Developing,74.6,47791911,7913.383432,13.6,Americas
+Colombia,2013,Developing,74.4,47342981,83.5863,13.3,Americas
+Colombia,2012,Developing,74.3,46881475,7884.984429,13.2,Americas
+Colombia,2011,Developing,74.2,4646646,7227.73968,13,Americas
+Colombia,2010,Developing,73.6,4591897,625.65544,12.8,Americas
+Colombia,2009,Developing,73.6,45416181,5148.422113,12.4,Americas
+Colombia,2008,Developing,73.5,4491544,5433.7245,12.2,Americas
+Colombia,2007,Developing,73.5,44374572,4674.21961,11.9,Americas
+Colombia,2006,Developing,73.1,43835722,379.78776,11.5,Americas
+Colombia,2005,Developing,73.1,43285634,3386.256,11.1,Americas
+Colombia,2004,Developing,72.8,42724163,274.249442,11.3,Americas
+Colombia,2003,Developing,72.4,42152151,2246.257472,11.6,Americas
+Colombia,2002,Developing,71.8,41572491,2355.725857,11.5,Americas
+Colombia,2001,Developing,71.5,498899,2395.856551,11.4,Americas
+Colombia,2000,Developing,71.4,443958,2472.197831,11.3,Americas
+Comoros,2015,Developing,63.5,777424,727.6463868,11.1,Africa
+Comoros,2014,Developing,63.2,759385,852.954379,11.1,Africa
+Comoros,2013,Developing,62.9,7415,834.341949,10.9,Africa
+Comoros,2012,Developing,62.5,723868,788.632653,10.8,Africa
+Comoros,2011,Developing,62.2,76569,829.7586885,10.6,Africa
+Comoros,2010,Developing,61.8,689692,769.1742883,10.5,Africa
+Comoros,2009,Developing,61.3,673252,778.5454199,10.3,Africa
+Comoros,2008,Developing,61,657229,795.97519,10.2,Africa
+Comoros,2007,Developing,66,64162,72.759313,10,Africa
+Comoros,2006,Developing,63,626425,648.38717,9.9,Africa
+Comoros,2005,Developing,60,611627,621.93372,9.7,Africa
+Comoros,2004,Developing,59.8,597228,616.4197236,9.5,Africa
+Comoros,2003,Developing,59.6,583211,544.566526,9.2,Africa
+Comoros,2002,Developing,59.5,569479,433.2691451,8.8,Africa
+Comoros,2001,Developing,59.5,555888,395.9319363,8.5,Africa
+Comoros,2000,Developing,59.5,542357,375.8528566,8.2,Africa
+Costa Rica,2015,Developing,79.6,487852,1146.36273,14.2,Americas
+Costa Rica,2014,Developing,79.5,4757575,1647.44179,13.9,Americas
+Costa Rica,2013,Developing,79.4,47641,1569.66631,13.7,Americas
+Costa Rica,2012,Developing,79.2,4654122,9985.36959,13.6,Americas
+Costa Rica,2011,Developing,79,46474,9186.59639,13.4,Americas
+Costa Rica,2010,Developing,78.1,454528,8199.414621,13.3,Americas
+Costa Rica,2009,Developing,79.2,4488263,689.396224,13.1,Americas
+Costa Rica,2008,Developing,78.9,442958,6911.136136,12.9,Americas
+Costa Rica,2007,Developing,78.9,4369469,612.623418,12.8,Americas
+Costa Rica,2006,Developing,78,438794,5245.187372,12.6,Americas
+Costa Rica,2005,Developing,78.6,4247841,4697.11135,12.4,Americas
+Costa Rica,2004,Developing,77.7,418738,4425.57467,12.2,Americas
+Costa Rica,2003,Developing,78,4125971,4167.71417,12.1,Americas
+Costa Rica,2002,Developing,78.3,46324,462.14965,11.9,Americas
+Costa Rica,2001,Developing,77.5,3996798,3981.52847,11.7,Americas
+Costa Rica,2000,Developing,77.6,3925443,388.363689,11.6,Americas
+Croatia,2015,Developed,78,42364,11579.6674,15.3,Europe
+Croatia,2014,Developed,77.8,4238389,13467.46827,15.1,Europe
+Croatia,2013,Developed,77.7,4255689,13574.749,14.9,Europe
+Croatia,2012,Developed,77.1,4267558,13235.97757,14.6,Europe
+Croatia,2011,Developed,77,428622,14539.18421,14.5,Europe
+Croatia,2010,Developed,76.6,4417781,1355.74586,14.2,Europe
+Croatia,2009,Developed,76.3,442978,14157.14416,14.2,Europe
+Croatia,2008,Developed,76,443458,15893.8656,14.3,Europe
+Croatia,2007,Developed,75.8,4436,13546.69872,14.3,Europe
+Croatia,2006,Developed,75.9,444,11363.41845,13.9,Europe
+Croatia,2005,Developed,75.2,4442,1224.2459,13.6,Europe
+Croatia,2004,Developed,75.4,4439,9365.742468,13.3,Europe
+Croatia,2003,Developed,74.7,444,785.881418,12.9,Europe
+Croatia,2002,Developed,74.8,444,653.71637,12.6,Europe
+Croatia,2001,Developed,74.9,444,5245.421419,12.3,Europe
+Croatia,2000,Developed,74.7,4426,4919.62869,12.2,Europe
+Cyprus,2015,Developed,85,116985,2375.1127,14.3,Europe
+Cyprus,2014,Developed,83,115239,2734.88382,14,Europe
+Cyprus,2013,Developed,81,1143896,2797.96736,13.8,Europe
+Cyprus,2012,Developed,80,113562,28951.15556,13.8,Europe
+Cyprus,2011,Developed,79.7,1124835,32233.83942,13.8,Europe
+Cyprus,2010,Developed,79.5,111267,3818.46396,14.6,Europe
+Cyprus,2009,Developed,79.3,19876,3215.8159,14.1,Europe
+Cyprus,2008,Developed,79.1,181563,3539.7488,13.7,Europe
+Cyprus,2007,Developed,78.9,163712,31386.63265,13.5,Europe
+Cyprus,2006,Developed,78.8,14559,27169.99256,13.4,Europe
+Cyprus,2005,Developed,78.7,127658,25324.48666,13.5,Europe
+Cyprus,2004,Developed,78.6,1141,23932.49128,13.4,Europe
+Cyprus,2003,Developed,78.5,993563,2293.4789,13,Europe
+Cyprus,2002,Developed,78.4,976966,16372.29152,12.5,Europe
+Cyprus,2001,Developed,78.2,96282,1562.92433,12.4,Europe
+Cyprus,2000,Developed,78.1,943286,14672.8826,12.5,Europe
+Denmark,2015,Developed,86,5683483,5314.64416,19.2,Europe
+Denmark,2014,Developed,84,5643475,62425.5392,19.2,Europe
+Denmark,2013,Developed,81,5614932,61191.19263,18.7,Europe
+Denmark,2012,Developed,80,5591572,5857.521,18.4,Europe
+Denmark,2011,Developed,79.7,557572,61753.667,16.9,Europe
+Denmark,2010,Developed,79.2,5547683,5841.41122,16.8,Europe
+Denmark,2009,Developed,78.9,552395,58163.29359,16.8,Europe
+Denmark,2008,Developed,78.8,5493621,64322.6664,16.8,Europe
+Denmark,2007,Developed,78.4,5461438,58487.451,16.7,Europe
+Denmark,2006,Developed,78.1,5437272,5226.99311,16.9,Europe
+Denmark,2005,Developed,78.1,5419432,48799.8237,16.6,Europe
+Denmark,2004,Developed,77.7,544523,46511.6457,16.5,Europe
+Denmark,2003,Developed,77.3,539574,4458.7764,16.3,Europe
+Denmark,2002,Developed,77,5375931,33228.69291,16.6,Europe
+Denmark,2001,Developed,77,5358783,3751.64946,16.2,Europe
+Denmark,2000,Developed,76.9,5339616,3743.55917,16.5,Europe
+Djibouti,2015,Developing,63.5,927414,1862.167274,6.3,Africa
+Djibouti,2014,Developing,63,912164,174.91511,6.3,Africa
+Djibouti,2013,Developing,62.7,896688,1622.637974,6.3,Africa
+Djibouti,2012,Developing,62.2,881185,1536.15685,6.3,Africa
+Djibouti,2011,Developing,61.8,865937,143.986898,5.9,Africa
+Djibouti,2010,Developing,61.3,851146,1325.99724,5.5,Africa
+Djibouti,2009,Developing,69,83684,1253.657431,5.3,Africa
+Djibouti,2008,Developing,62,822934,1214.77118,5,Africa
+Djibouti,2007,Developing,59.8,8942,147.586896,4.5,Africa
+Djibouti,2006,Developing,59.1,79628,965.6693779,4.3,Africa
+Djibouti,2005,Developing,58.6,783254,94.7297489,4,Africa
+Djibouti,2004,Developing,58.1,77752,864.184726,3.7,Africa
+Djibouti,2003,Developing,58,758615,819.974118,3.5,Africa
+Djibouti,2002,Developing,57.9,746221,792.15412,3.3,Africa
+Djibouti,2001,Developing,57.7,732711,781.2322196,2.9,Africa
+Djibouti,2000,Developing,57.4,717584,768.176767,2.9,Africa
+Dominican Republic,2015,Developing,73.9,1528394,6468.471648,13.2,Americas
+Dominican Republic,2014,Developing,73.6,145844,6268.692122,13.2,Americas
+Dominican Republic,2013,Developing,73.4,1281296,627.55544,13.2,Americas
+Dominican Republic,2012,Developing,72.1,115495,5968.876767,13.1,Americas
+Dominican Republic,2011,Developing,73.1,12795,5759.643,13,Americas
+Dominican Republic,2010,Developing,72.7,9897985,5451.6696,12.9,Americas
+Dominican Republic,2009,Developing,73.6,9767758,4952.67753,12.9,Americas
+Dominican Republic,2008,Developing,73.3,963652,511.37937,12.8,Americas
+Dominican Republic,2007,Developing,72.9,954353,4647.31359,12.7,Americas
+Dominican Republic,2006,Developing,72.3,9371338,3836.468771,12.6,Americas
+Dominican Republic,2005,Developing,69.7,9237566,3681.5993,12.6,Americas
+Dominican Republic,2004,Developing,69.3,912998,2421.9662,12.5,Americas
+Dominican Republic,2003,Developing,73,896776,2372.628827,12.4,Americas
+Dominican Republic,2002,Developing,71.4,8832285,38.46578,12.3,Americas
+Dominican Republic,2001,Developing,71.2,8697126,2862.154836,12.3,Americas
+Dominican Republic,2000,Developing,72,8562622,282.4242,12.2,Americas
+Ecuador,2015,Developing,76.2,16144368,625.62224,14,Americas
+Ecuador,2014,Developing,76,1593112,6432.216537,14,Americas
+Ecuador,2013,Developing,76,15661547,674.9829,13.4,Americas
+Ecuador,2012,Developing,75.5,15419666,572.14313,13.3,Americas
+Ecuador,2011,Developing,75.3,15177355,5223.351763,13.2,Americas
+Ecuador,2010,Developing,75,1493469,4657.32361,13.1,Americas
+Ecuador,2009,Developing,75.1,14691275,4255.56571,13.1,Americas
+Ecuador,2008,Developing,74.6,14447562,4274.95265,13,Americas
+Ecuador,2007,Developing,74.7,1425453,359.71886,12.9,Americas
+Ecuador,2006,Developing,74.4,1396748,335.786541,12.8,Americas
+Ecuador,2005,Developing,74.2,13735233,321.942547,12.8,Americas
+Ecuador,2004,Developing,74.4,1359647,278.557892,12.7,Americas
+Ecuador,2003,Developing,74.4,1328961,244.46898,12.6,Americas
+Ecuador,2002,Developing,73.6,13726,2183.966796,12.5,Americas
+Ecuador,2001,Developing,73.4,12852755,193.741571,12.4,Americas
+Ecuador,2000,Developing,72.8,12628596,1451.29776,12.4,Americas
+El Salvador,2015,Developing,73.5,6312478,4127.11775,13.2,Americas
+El Salvador,2014,Developing,73.3,6281189,3988.771871,13.2,Americas
+El Salvador,2013,Developing,73,625777,3895.664491,13.2,Americas
+El Salvador,2012,Developing,73,6221246,3827.786267,13.2,Americas
+El Salvador,2011,Developing,72,619256,3736.58713,13,Americas
+El Salvador,2010,Developing,72,6164626,3474.392445,12.9,Americas
+El Salvador,2009,Developing,71.4,6137276,3366.482133,12.8,Americas
+El Salvador,2008,Developing,71.7,61131,357.347674,13.4,Americas
+El Salvador,2007,Developing,71.2,683475,334.83817,12.9,Americas
+El Salvador,2006,Developing,75,656478,362.951768,12.9,Americas
+El Salvador,2005,Developing,71,628961,2835.281237,12.7,Americas
+El Salvador,2004,Developing,70,6775,2632.79942,12.4,Americas
+El Salvador,2003,Developing,69.9,5971535,2519.737387,12,Americas
+El Salvador,2002,Developing,73,59433,248.4125,11.8,Americas
+El Salvador,2001,Developing,68.9,595962,2338.772244,11.6,Americas
+El Salvador,2000,Developing,69,5867626,2238.4116,11.3,Americas
+Equatorial Guinea,2015,Developing,58.2,1175389,1347.31257,9.2,Africa
+Equatorial Guinea,2014,Developing,57.9,1129424,192.59733,9.2,Africa
+Equatorial Guinea,2013,Developing,57.4,183746,2246.9938,9.2,Africa
+Equatorial Guinea,2012,Developing,56.7,138593,21557.6528,9.2,Africa
+Equatorial Guinea,2011,Developing,56.2,99429,21451.88617,9.2,Africa
+Equatorial Guinea,2010,Developing,56.1,95114,17136.44568,9.2,Africa
+Equatorial Guinea,2009,Developing,55.7,99111,1653.2937,9.1,Africa
+Equatorial Guinea,2008,Developing,55.4,868418,22742.38159,9.1,Africa
+Equatorial Guinea,2007,Developing,55,829327,15761.83913,9,Africa
+Equatorial Guinea,2006,Developing,54.8,792217,12732.2759,9,Africa
+Equatorial Guinea,2005,Developing,54.4,757317,185.63334,8.7,Africa
+Equatorial Guinea,2004,Developing,54.1,724817,685.34897,8.5,Africa
+Equatorial Guinea,2003,Developing,53.8,694611,3577.176197,8.4,Africa
+Equatorial Guinea,2002,Developing,53.5,66647,2711.17114,8.2,Africa
+Equatorial Guinea,2001,Developing,53.1,639762,2283.87939,8,Africa
+Equatorial Guinea,2000,Developing,52.7,614323,172.68491,0,Africa
+Eritrea,2011,Developing,62.9,447469,582.775532,5,Africa
+Eritrea,2010,Developing,62.1,43984,482.14994,5.1,Africa
+Eritrea,2009,Developing,61.4,431334,43.7544499,5.2,Africa
+Eritrea,2008,Developing,67,4232636,326.825642,5.2,Africa
+Eritrea,2007,Developing,62,4153332,317.3294336,5.3,Africa
+Eritrea,2006,Developing,59.7,466648,297.828588,5.3,Africa
+Eritrea,2005,Developing,59.4,39697,276.75896,5.4,Africa
+Eritrea,2004,Developing,59.1,3858623,287.4222243,5,Africa
+Eritrea,2003,Developing,58.8,3738265,232.7945459,4.7,Africa
+Eritrea,2002,Developing,58.5,3614639,21.7687981,4.4,Africa
+Eritrea,2001,Developing,58.1,3497124,215.139213,4.3,Africa
+Eritrea,2000,Developing,45.3,339281,28.1969487,3.9,Africa
+Estonia,2015,Developing,77.6,131547,1774.9291,16.5,Europe
+Estonia,2014,Developing,77.3,1314545,19941.45532,16.5,Europe
+Estonia,2013,Developing,76.9,1317997,1929.7746,16.5,Europe
+Estonia,2012,Developing,76.3,1322696,17421.8922,16.5,Europe
+Estonia,2011,Developing,76.1,1327439,17454.84342,16.4,Europe
+Estonia,2010,Developing,75.6,1331475,14638.6482,16.2,Europe
+Estonia,2009,Developing,74.9,1334515,14726.31828,16.1,Europe
+Estonia,2008,Developing,74.2,13379,1894.5485,16.1,Europe
+Estonia,2007,Developing,73,13468,16586.452,16.1,Europe
+Estonia,2006,Developing,73,134681,12595.4165,16.1,Europe
+Estonia,2005,Developing,72.8,1354775,1338.31322,15.9,Europe
+Estonia,2004,Developing,72.3,136255,885.465115,15.7,Europe
+Estonia,2003,Developing,71.9,13772,7174.237415,15.6,Europe
+Estonia,2002,Developing,71.2,137935,538.347781,15.4,Europe
+Estonia,2001,Developing,78,1388115,4498.95727,15,Europe
+Estonia,2000,Developing,78,1396985,47.32827,14.4,Europe
+Ethiopia,2015,Developing,64.8,9987333,645.4637627,8.4,Africa
+Ethiopia,2014,Developing,64.2,97366774,571.1622759,8.4,Africa
+Ethiopia,2013,Developing,63.7,94887724,52.1535887,8.4,Africa
+Ethiopia,2012,Developing,63.3,92444183,468.567249,8.4,Africa
+Ethiopia,2011,Developing,62.6,946756,354.8463544,8.2,Africa
+Ethiopia,2010,Developing,61.8,877267,341.39992,8.1,Africa
+Ethiopia,2009,Developing,68,85416253,379.7566385,8.1,Africa
+Ethiopia,2008,Developing,59.8,83184892,325.3825543,7.6,Africa
+Ethiopia,2007,Developing,58.5,8149,243.326822,7.1,Africa
+Ethiopia,2006,Developing,57.2,7885689,193.794956,6.6,Africa
+Ethiopia,2005,Developing,56,7672783,161.6266248,5.8,Africa
+Ethiopia,2004,Developing,55,7462445,135.7623858,5.4,Africa
+Ethiopia,2003,Developing,54,72545144,118.8734466,5.2,Africa
+Ethiopia,2002,Developing,53.2,7497192,111.3634356,4.9,Africa
+Ethiopia,2001,Developing,52.5,68492257,12.1789279,4.3,Africa
+Ethiopia,2000,Developing,51.2,66537331,123.876257,3.9,Africa
+Fiji,2015,Developing,69.9,892149,4921.89629,15.3,Oceania
+Fiji,2014,Developing,69.7,88586,546.3728,15.2,Oceania
+Fiji,2013,Developing,69.6,879715,4763.68956,15,Oceania
+Fiji,2012,Developing,69.4,873596,4546.73854,14.9,Oceania
+Fiji,2011,Developing,69.2,86786,4353.121392,14.7,Oceania
+Fiji,2010,Developing,69.1,85995,3651.966784,14.6,Oceania
+Fiji,2009,Developing,68.9,851967,3369.48247,14.5,Oceania
+Fiji,2008,Developing,68.7,84334,4177.657789,14.3,Oceania
+Fiji,2007,Developing,68.6,834812,478.82327,14.2,Oceania
+Fiji,2006,Developing,68.5,827411,3749.939813,14,Oceania
+Fiji,2005,Developing,68.3,821817,3658.63832,13.9,Oceania
+Fiji,2004,Developing,68.1,818354,3332.918533,13.4,Oceania
+Fiji,2003,Developing,68,816628,2835.973972,13.3,Oceania
+Fiji,2002,Developing,67.9,815691,2259.55796,13.3,Oceania
+Fiji,2001,Developing,67.8,814218,238.891729,13.2,Oceania
+Fiji,2000,Developing,67.7,811223,276.1338,13.1,Oceania
+Finland,2015,Developing,81.1,5479531,4245.39744,17,Europe
+Finland,2014,Developing,89,5461512,49914.61864,17,Europe
+Finland,2013,Developing,87,5438972,49638.7713,17,Europe
+Finland,2012,Developing,84,5413971,47415.55987,17,Europe
+Finland,2011,Developing,83,5388272,579.72415,16.9,Europe
+Finland,2010,Developing,79.9,5363352,4622.41516,16.8,Europe
+Finland,2009,Developing,79.7,5338871,4717.15571,17,Europe
+Finland,2008,Developing,79.6,5313399,5341.31487,17.1,Europe
+Finland,2007,Developing,79.3,528872,48288.5491,17.2,Europe
+Finland,2006,Developing,79.2,5266268,4112.67651,17.2,Europe
+Finland,2005,Developing,78.9,524696,38969.17163,17.1,Europe
+Finland,2004,Developing,78.7,5228172,37636.11173,18.3,Europe
+Finland,2003,Developing,78.4,521314,32816.1688,18.1,Europe
+Finland,2002,Developing,78.1,52598,26834.2625,18,Europe
+Finland,2001,Developing,78,51888,24913.24452,17.7,Europe
+Finland,2000,Developing,77.5,517629,24253.2542,17.3,Europe
+France,2015,Developing,82.4,6662468,36526.7711,16.3,Europe
+France,2014,Developing,82.2,66331957,42955.24287,16.2,Europe
+France,2013,Developing,82,6599857,42554.1225,16.2,Europe
+France,2012,Developing,81.5,6565979,4838.2444,16.1,Europe
+France,2011,Developing,81.7,65342776,4381.288,16.1,Europe
+France,2010,Developing,81.3,6527512,473.34279,16,Europe
+France,2009,Developing,81.1,647744,41631.13141,16,Europe
+France,2008,Developing,89,6437499,45413.6571,16.1,Europe
+France,2007,Developing,89,6416229,416.58397,16.1,Europe
+France,2006,Developing,86,63621376,36544.5853,16.1,Europe
+France,2005,Developing,81,63179356,34879.72633,15.5,Europe
+France,2004,Developing,82,6274897,33874.74255,15.5,Europe
+France,2003,Developing,79.3,62244884,29691.18158,15.4,Europe
+France,2002,Developing,79.2,6185267,24275.2426,15.5,Europe
+France,2001,Developing,79,61357431,22527.31775,15.6,Europe
+France,2000,Developing,78.8,6912498,22465.64184,15.7,Europe
+Gabon,2015,Developing,66,193175,7388.984144,12.6,Africa
+Gabon,2014,Developing,65.5,1875713,9692.163874,12.6,Africa
+Gabon,2013,Developing,64.6,1817271,9679.742995,12.5,Africa
+Gabon,2012,Developing,63.5,1756817,9774.18117,12.5,Africa
+Gabon,2011,Developing,62.8,169711,1716.2258,12.5,Africa
+Gabon,2010,Developing,62.3,16421,8754.113376,12.5,Africa
+Gabon,2009,Developing,61.7,1586754,763.66223,12.4,Africa
+Gabon,2008,Developing,61.6,1536411,194.2746,12.4,Africa
+Gabon,2007,Developing,61.6,1489193,8352.81711,12.4,Africa
+Gabon,2006,Developing,61.4,1444844,727.777345,12.4,Africa
+Gabon,2005,Developing,65,143126,6741.293948,12.4,Africa
+Gabon,2004,Developing,59.7,136425,5685.577736,12.3,Africa
+Gabon,2003,Developing,59.7,1328146,4892.11618,12.3,Africa
+Gabon,2002,Developing,59.7,129449,412.55271,12.3,Africa
+Gabon,2001,Developing,59.8,1262259,3976.14887,12.3,Africa
+Gabon,2000,Developing,61,1231122,4116.46693,12.2,Africa
+Georgia,2015,Developing,74.4,37171,3764.64912,13.9,Europe
+Georgia,2014,Developing,74.5,3727,4429.6575,13.5,Europe
+Georgia,2013,Developing,74.5,3776,4274.376857,13.5,Europe
+Georgia,2012,Developing,74.2,3825,4142.869175,13.4,Europe
+Georgia,2011,Developing,73.9,3875,3725.63221,13.3,Europe
+Georgia,2010,Developing,73.8,3926,2964.47734,13.3,Europe
+Georgia,2009,Developing,73.2,3978,276.588512,12.8,Europe
+Georgia,2008,Developing,73.9,43,3174.9491,13.1,Europe
+Georgia,2007,Developing,74.4,482,2492.12878,12.5,Europe
+Georgia,2006,Developing,73.9,4136,1872.68416,12.6,Europe
+Georgia,2005,Developing,73.9,419,153.57521,12.2,Europe
+Georgia,2004,Developing,72.3,4245,127.367228,12,Europe
+Georgia,2003,Developing,72.7,431,928.18227,11.8,Europe
+Georgia,2002,Developing,71.7,4357,779.3845935,11.8,Europe
+Georgia,2001,Developing,73,43864,733.974142,11.7,Europe
+Georgia,2000,Developing,71.8,44183,691.997711,11.4,Europe
+Germany,2015,Developed,81,81686611,41176.88158,17.1,Europe
+Germany,2014,Developed,89,89825,4792.65288,17,Europe
+Germany,2013,Developed,86,864565,4653.91143,16.9,Europe
+Germany,2012,Developed,86,8425823,4465.24891,16.9,Europe
+Germany,2011,Developed,85,8274983,4681.32796,16.8,Europe
+Germany,2010,Developed,81,8177693,41785.55691,16.7,Europe
+Germany,2009,Developed,80,819237,41732.7725,16.7,Europe
+Germany,2008,Developed,79.9,821197,45699.19832,16.6,Europe
+Germany,2007,Developed,79.8,82266372,41814.8191,16.6,Europe
+Germany,2006,Developed,79.6,82376451,36447.87232,16.5,Europe
+Germany,2005,Developed,79.2,82469422,34696.6292,16.4,Europe
+Germany,2004,Developed,79.1,8251626,34165.9343,16.4,Europe
+Germany,2003,Developed,78.5,82534176,3359.95215,16.3,Europe
+Germany,2002,Developed,78.4,82488495,2525.16445,16.3,Europe
+Germany,2001,Developed,78.3,82349925,23687.31689,16.2,Europe
+Germany,2000,Developed,78,8221158,23718.7467,16.2,Europe
+Ghana,2015,Developing,62.4,27582821,1361.11395,11.4,Africa
+Ghana,2014,Developing,62.1,26962563,1432.227943,11.7,Africa
+Ghana,2013,Developing,61.9,26346251,1814.492297,11.5,Africa
+Ghana,2012,Developing,61.6,2573349,1629.8222,11.2,Africa
+Ghana,2011,Developing,61.2,25121796,1574.978653,10.9,Africa
+Ghana,2010,Developing,69,2451214,1312.67557,10.5,Africa
+Ghana,2009,Developing,66,2393831,186.76538,10.4,Africa
+Ghana,2008,Developing,63,2329864,1224.41554,9.8,Africa
+Ghana,2007,Developing,59.9,227212,19.686718,9.1,Africa
+Ghana,2006,Developing,59.4,22113425,922.9351677,8.7,Africa
+Ghana,2005,Developing,58.9,215429,498.172394,8.1,Africa
+Ghana,2004,Developing,58.3,2986536,423.1936389,7.7,Africa
+Ghana,2003,Developing,57.9,2446782,373.2815537,7.9,Africa
+Ghana,2002,Developing,57.6,19924522,39.484473,7.6,Africa
+Ghana,2001,Developing,57.4,1942165,273.6596668,8,Africa
+Ghana,2000,Developing,57.2,18938762,263.1124679,7.7,Africa
+Greece,2015,Developing,81,182883,187.78991,17.2,Europe
+Greece,2014,Developing,88,1892413,21673.7817,17.2,Europe
+Greece,2013,Developing,86,1965211,21874.8195,17.1,Europe
+Greece,2012,Developing,84,114511,22242.68193,16.8,Europe
+Greece,2011,Developing,85,1114899,25916.29353,16.7,Europe
+Greece,2010,Developing,83,11121341,26917.75898,16.4,Europe
+Greece,2009,Developing,80,111717,2971.973,16.2,Europe
+Greece,2008,Developing,79.9,1177841,31997.2821,15.9,Europe
+Greece,2007,Developing,79.4,1148473,28827.32636,16.4,Europe
+Greece,2006,Developing,79.7,112362,2481.15781,16.3,Europe
+Greece,2005,Developing,79.3,1987314,22551.73574,15.6,Europe
+Greece,2004,Developing,79.2,1955141,21955.149,15.3,Europe
+Greece,2003,Developing,79.1,19287,18477.57841,15.2,Europe
+Greece,2002,Developing,79,19222,1411.31339,14.6,Europe
+Greece,2001,Developing,78.7,1862132,12538.17883,14.2,Europe
+Greece,2000,Developing,78.2,18588,1242.95373,13.9,Europe
+Guatemala,2015,Developing,71.9,16252429,3923.573344,10.7,Americas
+Guatemala,2014,Developing,71.7,15923559,3687.763767,10.7,Americas
+Guatemala,2013,Developing,71.4,15596214,3452.828934,10.7,Americas
+Guatemala,2012,Developing,71.3,1527156,3299.65139,10.6,Americas
+Guatemala,2011,Developing,71.1,14948919,3187.845296,10.5,Americas
+Guatemala,2010,Developing,77,1463417,2825.5247,10.5,Americas
+Guatemala,2009,Developing,76,1431628,2635.753474,10.4,Americas
+Guatemala,2008,Developing,79,146366,2794.22189,10.4,Americas
+Guatemala,2007,Developing,75,137286,2489.955836,10.1,Americas
+Guatemala,2006,Developing,69.7,133978,2256.56724,9.8,Americas
+Guatemala,2005,Developing,69.2,139628,277.83438,9.6,Americas
+Guatemala,2004,Developing,69.6,12796925,1872.73783,9.3,Americas
+Guatemala,2003,Developing,69.4,125478,1753.349471,9,Americas
+Guatemala,2002,Developing,69.3,1228848,171.771491,8.8,Americas
+Guatemala,2001,Developing,68.4,11924946,1568.376276,8.5,Americas
+Guatemala,2000,Developing,67.7,1165743,1655.596261,8.2,Americas
+Guinea,2015,Developing,59,1291533,554.48766,8.8,Africa
+Guinea,2014,Developing,58.1,118559,561.997387,8.6,Africa
+Guinea,2013,Developing,58.8,11536615,54.169324,8.5,Africa
+Guinea,2012,Developing,58.4,11281469,52.3485646,8.5,Africa
+Guinea,2011,Developing,58.1,113517,459.2912,8.4,Africa
+Guinea,2010,Developing,57.8,179417,438.7513346,8.3,Africa
+Guinea,2009,Developing,57.3,1556524,436.6895539,8.1,Africa
+Guinea,2008,Developing,56.8,1323142,437.4467238,7.9,Africa
+Guinea,2007,Developing,56.4,196727,49.456775,7.6,Africa
+Guinea,2006,Developing,55.6,9881428,296.68382,7.1,Africa
+Guinea,2005,Developing,54.7,9679745,33.424498,6.6,Africa
+Guinea,2004,Developing,54,949229,386.3288283,5.1,Africa
+Guinea,2003,Developing,53.3,939848,37.1931781,5.9,Africa
+Guinea,2002,Developing,52.9,9137345,322.811171,5.5,Africa
+Guinea,2001,Developing,52.5,8971139,315.83983,5.1,Africa
+Guinea,2000,Developing,52.5,888546,34.516918,4.8,Africa
+Guinea-Bissau,2015,Developing,58.9,177526,596.8717189,9.2,Africa
+Guinea-Bissau,2014,Developing,58.4,1725744,642.6256154,9.2,Africa
+Guinea-Bissau,2013,Developing,58.1,1681495,61.566347,9.1,Africa
+Guinea-Bissau,2012,Developing,57.6,1638139,67.7518833,9.1,Africa
+Guinea-Bissau,2011,Developing,57.1,1596154,692.69989,9,Africa
+Guinea-Bissau,2010,Developing,56.7,155588,543.957418,8.9,Africa
+Guinea-Bissau,2009,Developing,56.3,1517448,544.222779,8.9,Africa
+Guinea-Bissau,2008,Developing,55.6,148841,583.5445622,8.8,Africa
+Guinea-Bissau,2007,Developing,55,1445958,481.694976,8.8,Africa
+Guinea-Bissau,2006,Developing,54.4,1412669,418.94454,8.3,Africa
+Guinea-Bissau,2005,Developing,53.9,138838,424.9534585,8,Africa
+Guinea-Bissau,2004,Developing,53.5,135345,393.3138244,7.7,Africa
+Guinea-Bissau,2003,Developing,53,132122,36.5718585,7.4,Africa
+Guinea-Bissau,2002,Developing,52.8,1293523,321.481324,7.1,Africa
+Guinea-Bissau,2001,Developing,52.5,1267512,39.486749,6.7,Africa
+Guinea-Bissau,2000,Developing,52.1,1243229,297.7519443,6.4,Africa
+Guyana,2015,Developing,66.2,768514,4136.689919,10.3,Americas
+Guyana,2014,Developing,66,763393,43.82321,10.3,Americas
+Guyana,2013,Developing,65.9,75881,3944.178173,10.3,Americas
+Guyana,2012,Developing,65.8,75391,3785.935665,10.6,Americas
+Guyana,2011,Developing,65.6,7491,3439.597513,10.3,Americas
+Guyana,2010,Developing,65.9,746556,326.281212,10.2,Americas
+Guyana,2009,Developing,66.1,745693,2716.35256,10.5,Americas
+Guyana,2008,Developing,66.3,746314,2576.124957,10.7,Americas
+Guyana,2007,Developing,65.7,747869,2327.58324,11.2,Americas
+Guyana,2006,Developing,65.2,74961,1945.6395,11.7,Americas
+Guyana,2005,Developing,65,75946,198.455216,11.4,Americas
+Guyana,2004,Developing,65.1,751652,145.58861,11.2,Americas
+Guyana,2003,Developing,65.3,751857,986.7958173,11.1,Americas
+Guyana,2002,Developing,65.3,751884,96.8674827,11,Americas
+Guyana,2001,Developing,65.4,752263,925.582546,10.9,Americas
+Guyana,2000,Developing,65.4,75331,946.599372,10.9,Americas
+Haiti,2015,Developing,63.5,171161,814.5463952,9.1,Americas
+Haiti,2014,Developing,63.1,1572466,83.1148117,9.1,Americas
+Haiti,2013,Developing,62.7,1431776,81.265673,9.1,Americas
+Haiti,2012,Developing,62.3,128921,766.8437623,8.9,Americas
+Haiti,2011,Developing,62.3,114554,74.9358452,8.7,Americas
+Haiti,2010,Developing,36.3,9999617,662.2795182,8.6,Americas
+Haiti,2009,Developing,62.5,985287,668.297646,8.5,Americas
+Haiti,2008,Developing,62.1,97529,674.7564147,8.4,Americas
+Haiti,2007,Developing,61.8,9556889,615.8198192,8.4,Americas
+Haiti,2006,Developing,61.1,949457,55.47626,8.3,Americas
+Haiti,2005,Developing,65,926344,465.311876,8.2,Americas
+Haiti,2004,Developing,58.7,9119178,387.9429725,8.1,Americas
+Haiti,2003,Developing,59.7,8976552,329.782946,8.1,Americas
+Haiti,2002,Developing,59.3,8834733,393.16327,8,Americas
+Haiti,2001,Developing,58.9,8692567,413.7383164,7.9,Americas
+Haiti,2000,Developing,58.6,85492,462.486524,7.8,Americas
+Honduras,2015,Developing,74.6,896829,2326.15856,11.2,Americas
+Honduras,2014,Developing,74.5,889216,2242.711912,11.4,Americas
+Honduras,2013,Developing,74.3,8657785,2136.77395,11.6,Americas
+Honduras,2012,Developing,74.1,855646,2178.38325,11.6,Americas
+Honduras,2011,Developing,73.9,83516,212.584798,11.7,Americas
+Honduras,2010,Developing,73.6,8194778,1932.85829,11.5,Americas
+Honduras,2009,Developing,73.4,83521,1815.489496,11.3,Americas
+Honduras,2008,Developing,73.2,7872658,1751.595857,11.1,Americas
+Honduras,2007,Developing,73,777972,1592.572182,10.9,Americas
+Honduras,2006,Developing,72.8,754146,1437.628785,10.8,Americas
+Honduras,2005,Developing,72.5,737343,1311.741714,10.6,Americas
+Honduras,2004,Developing,72.2,724153,1217.657961,10.4,Americas
+Honduras,2003,Developing,71.9,733821,1157.3427,10.3,Americas
+Honduras,2002,Developing,71.6,6863157,1132.8721,10.1,Americas
+Honduras,2001,Developing,71.3,669361,113.4546,9.9,Americas
+Honduras,2000,Developing,71,6524283,188.783165,9.8,Americas
+Hungary,2015,Developed,75.8,984328,12365.6263,15.6,Europe
+Hungary,2014,Developed,75.6,9866468,14117.97668,15.8,Europe
+Hungary,2013,Developed,75.5,989382,13613.6147,15.4,Europe
+Hungary,2012,Developed,75,992362,12834.32349,15.4,Europe
+Hungary,2011,Developed,74.8,9971727,1448.87958,15.4,Europe
+Hungary,2010,Developed,74.5,123,1325.53379,15.3,Europe
+Hungary,2009,Developed,74.2,12265,12967.16543,15.3,Europe
+Hungary,2008,Developed,74.1,138188,15669.25929,15.3,Europe
+Hungary,2007,Developed,73.5,15578,13842.6549,15.3,Europe
+Hungary,2006,Developed,73.4,17137,11398.76584,15.2,Europe
+Hungary,2005,Developed,72.9,18765,11161.72441,15,Europe
+Hungary,2004,Developed,72.9,117146,1259.5266,15.3,Europe
+Hungary,2003,Developed,72.5,1129552,8396.25323,14.9,Europe
+Hungary,2002,Developed,72.5,115868,665.6443,14.6,Europe
+Hungary,2001,Developed,72.3,1187576,527.85364,14.2,Europe
+Hungary,2000,Developed,71.7,121971,4623.46712,13.9,Europe
+Iceland,2015,Developed,82.7,33815,5734.4436,19,Europe
+Iceland,2014,Developed,82.5,327386,52473.11356,19,Europe
+Iceland,2013,Developed,82.4,323764,4781.3888,19,Europe
+Iceland,2012,Developed,82.5,32716,44333.8518,18.7,Europe
+Iceland,2011,Developed,82.1,31914,46.217,18.6,Europe
+Iceland,2010,Developed,81.8,31841,41676.44527,18.4,Europe
+Iceland,2009,Developed,81.6,318499,4461.89251,18.4,Europe
+Iceland,2008,Developed,81.4,317414,55575.29196,18.2,Europe
+Iceland,2007,Developed,81.3,311566,68348.31817,18.2,Europe
+Iceland,2006,Developed,81.1,33782,5613.54115,18.1,Europe
+Iceland,2005,Developed,81,296734,56249.7555,17.9,Europe
+Iceland,2004,Developed,88,29274,46917.27216,18.3,Europe
+Iceland,2003,Developed,87,289521,3944.999,17.6,Europe
+Iceland,2002,Developed,84,287523,31996.2172,17.2,Europe
+Iceland,2001,Developed,80,284968,28585.9254,17.1,Europe
+Iceland,2000,Developed,79.7,28125,31813.37344,16.8,Europe
+India,2015,Developing,68.3,1395398,1613.18878,11.6,Asia
+India,2014,Developing,68,1293859294,1573.11889,11.6,Asia
+India,2013,Developing,67.6,127856227,1452.195373,11.5,Asia
+India,2012,Developing,67.3,126365852,1446.98541,11.3,Asia
+India,2011,Developing,66.8,124723629,1461.671957,10.8,Asia
+India,2010,Developing,66.4,12398691,1345.77153,10.4,Asia
+India,2009,Developing,66,121427132,19.317765,10.5,Asia
+India,2008,Developing,65.5,119714696,991.484634,10.2,Asia
+India,2007,Developing,65.2,1179681239,118.166373,9.9,Asia
+India,2006,Developing,64.8,1161977719,792.259698,9.7,Asia
+India,2005,Developing,64.4,1144118674,77.819,9.4,Asia
+India,2004,Developing,64,1126135777,621.3183767,9.2,Asia
+India,2003,Developing,63.7,11827848,541.1352279,8.6,Asia
+India,2002,Developing,63.3,18987112,466.2842,8.4,Asia
+India,2001,Developing,62.9,171477855,447.138966,8.3,Asia
+India,2000,Developing,62.5,1535912,438.864634,8.3,Asia
+Indonesia,2015,Developing,69.1,258162113,3336.16686,12.9,Asia
+Indonesia,2014,Developing,68.9,255131116,3491.595887,12.9,Asia
+Indonesia,2013,Developing,68.7,25232263,362.663981,12.9,Asia
+Indonesia,2012,Developing,68.5,248883232,3687.953996,12.6,Asia
+Indonesia,2011,Developing,68.3,24577511,3634.27685,12.3,Asia
+Indonesia,2010,Developing,68.1,242524123,3113.48635,12.1,Asia
+Indonesia,2009,Developing,67.9,23934478,2254.44566,11.7,Asia
+Indonesia,2008,Developing,67.7,236159276,216.52766,11.7,Asia
+Indonesia,2007,Developing,67.5,232989141,1855.93915,11,Asia
+Indonesia,2006,Developing,67.3,22983822,1586.254,10.9,Asia
+Indonesia,2005,Developing,67.2,22671273,126.928834,11.1,Asia
+Indonesia,2004,Developing,65.3,223614649,1148.56996,11,Asia
+Indonesia,2003,Developing,66.9,22545214,164.59447,10.8,Asia
+Indonesia,2002,Developing,66.7,2175859,899.5556857,10.6,Asia
+Indonesia,2001,Developing,66.5,2145652,747.9817455,10.6,Asia
+Indonesia,2000,Developing,66.3,21154429,78.92744,10.7,Asia
+Iraq,2015,Developing,68.9,36115649,4974.2693,10.1,Asia
+Iraq,2014,Developing,67.9,3568,673.74737,10.1,Asia
+Iraq,2013,Developing,69.5,33883145,6925.22446,10.3,Asia
+Iraq,2012,Developing,76,32776571,6651.12242,10.5,Asia
+Iraq,2011,Developing,77,3172753,5854.614497,10.4,Asia
+Iraq,2010,Developing,76,376271,452.74948,10.4,Asia
+Iraq,2009,Developing,74,29894652,3735.144836,10.3,Asia
+Iraq,2008,Developing,69.3,29111417,4521.3247,10.3,Asia
+Iraq,2007,Developing,65.9,2839433,3129.224922,10.2,Asia
+Iraq,2006,Developing,64.7,27697912,2351.812429,10.2,Asia
+Iraq,2005,Developing,66.8,278426,1849.63911,10.1,Asia
+Iraq,2004,Developing,67.2,2631669,1391.816923,9.8,Asia
+Ireland,2015,Developed,81.4,4676835,6664.144,18.6,Europe
+Ireland,2014,Developed,81.2,4617225,5553.32623,18.6,Europe
+Ireland,2013,Developed,81,4598294,5234.76736,18.6,Europe
+Ireland,2012,Developed,85,4586897,49231.36254,18.5,Europe
+Ireland,2011,Developed,84,4576794,52567.52568,18.5,Europe
+Ireland,2010,Developed,86,456155,48538.58776,18.2,Europe
+Ireland,2009,Developed,79.7,4535375,51983.78892,17.9,Europe
+Ireland,2008,Developed,79.8,4489544,61235.415,17.9,Europe
+Ireland,2007,Developed,79.5,4398942,61388.17457,17.6,Europe
+Ireland,2006,Developed,79,4273591,54326.9713,17.6,Europe
+Ireland,2005,Developed,78.7,4159914,5886.82789,17.5,Europe
+Ireland,2004,Developed,78.3,47262,47631.6377,17.1,Europe
+Ireland,2003,Developed,78,3996521,4117.15532,16.8,Europe
+Ireland,2002,Developed,77.4,3931947,32539.1937,16.5,Europe
+Ireland,2001,Developed,77,3866243,28223.55528,16.4,Europe
+Ireland,2000,Developed,76.4,385174,26241.91883,16.2,Europe
+Israel,2015,Developing,82.5,8381,35729.37253,16,Asia
+Israel,2014,Developing,82.2,82157,37582.84624,16,Asia
+Israel,2013,Developing,82.1,8595,36393.66932,15.9,Asia
+Israel,2012,Developing,81.8,7915,32569.59683,15.9,Asia
+Israel,2011,Developing,81.8,77658,33657.15727,15.8,Asia
+Israel,2010,Developing,81.7,76236,3661.994,15.7,Asia
+Israel,2009,Developing,81.5,74856,27795.87671,15.6,Asia
+Israel,2008,Developing,81,7388,29657.4421,15.8,Asia
+Israel,2007,Developing,84,7181,258.637,15.7,Asia
+Israel,2006,Developing,84,7537,2195.1769,15.7,Asia
+Israel,2005,Developing,80,6931,2611.17931,15.8,Asia
+Israel,2004,Developing,81,689,19888.172,15.9,Asia
+Israel,2003,Developing,79.7,66897,18946.99942,16,Asia
+Israel,2002,Developing,79.3,657,18431.15696,15.3,Asia
+Israel,2001,Developing,79.3,6439,236.19646,15.1,Asia
+Israel,2000,Developing,78.9,6289,2152.1432,15.2,Asia
+Italy,2015,Developed,82.7,673582,349.14755,16.3,Europe
+Italy,2014,Developed,82.5,678914,35396.66517,16.3,Europe
+Italy,2013,Developed,82.3,6233948,3537.27441,16.5,Europe
+Italy,2012,Developed,82,59539717,34814.12436,16.6,Europe
+Italy,2011,Developed,82,59379449,38334.68477,16.4,Europe
+Italy,2010,Developed,81.8,59277417,35849.37364,16.4,Europe
+Italy,2009,Developed,81.6,5995365,36976.84512,16.3,Europe
+Italy,2008,Developed,81.5,58826731,464.18465,16.3,Europe
+Italy,2007,Developed,81.3,5843831,37698.78573,16.1,Europe
+Italy,2006,Developed,81.2,58143979,3341.7482,16,Europe
+Italy,2005,Developed,88,57969484,31959.26215,15.8,Europe
+Italy,2004,Developed,89,57685327,31174.56118,15.6,Europe
+Italy,2003,Developed,79.9,5731323,27387.2258,15.4,Europe
+Italy,2002,Developed,80,57597,22196.5736,15.2,Europe
+Italy,2001,Developed,79.8,569741,24.819,14.9,Europe
+Italy,2000,Developed,79.4,5694218,251.2426,14.8,Europe
+Jamaica,2015,Developing,76.2,2871934,4965.989857,12.8,Americas
+Jamaica,2014,Developing,75.8,286287,4855.743789,12.8,Americas
+Jamaica,2013,Developing,75.6,285187,56.144952,12.8,Americas
+Jamaica,2012,Developing,75.3,284992,521.33363,12.8,Americas
+Jamaica,2011,Developing,75.2,2829493,513.549487,12.8,Americas
+Jamaica,2010,Developing,75,281721,4682.728424,12.7,Americas
+Jamaica,2009,Developing,74.7,28482,4293.383274,12.7,Americas
+Jamaica,2008,Developing,74.5,279122,492.492378,12.6,Americas
+Jamaica,2007,Developing,74.2,2775467,462.517913,12.5,Americas
+Jamaica,2006,Developing,74,276279,4313.1682,12.5,Americas
+Jamaica,2005,Developing,73.5,2744673,482.24762,12.4,Americas
+Jamaica,2004,Developing,73.3,2728777,3719.97351,11.1,Americas
+Jamaica,2003,Developing,73.1,2712511,3465.221998,11.9,Americas
+Jamaica,2002,Developing,73,2695446,3596.496282,11.7,Americas
+Jamaica,2001,Developing,72.7,267711,3394.878,10.9,Americas
+Jamaica,2000,Developing,72.6,2656864,336.8742,11.4,Americas
+Japan,2015,Developed,83.7,127141,34474.13736,15.3,Asia
+Japan,2014,Developed,83.5,127276,3896.21151,15.3,Asia
+Japan,2013,Developed,83.5,127445,4454.44746,15.3,Asia
+Japan,2012,Developed,83.3,127629,4863.47665,15.3,Asia
+Japan,2011,Developed,82.5,127833,48167.99727,15.1,Asia
+Japan,2010,Developed,83,1287,4457.67639,15.1,Asia
+Japan,2009,Developed,83,12847,4855.17564,15,Asia
+Japan,2008,Developed,82.7,12863,39339.29757,15,Asia
+Japan,2007,Developed,82.6,1281,35275.22843,15,Asia
+Japan,2006,Developed,82.4,127854,35433.98896,14.9,Asia
+Japan,2005,Developed,82,127773,37217.64873,14.9,Asia
+Japan,2004,Developed,82.1,127761,37688.72234,14.8,Asia
+Japan,2003,Developed,81.9,127718,3488.3992,14.8,Asia
+Japan,2002,Developed,81.8,127445,32289.3554,14.7,Asia
+Japan,2001,Developed,81.5,127149,33846.46564,14.6,Asia
+Japan,2000,Developed,81.1,126843,38532.488,14.5,Asia
+Jordan,2015,Developing,74.1,915932,496.99275,13.1,Asia
+Jordan,2014,Developing,74,88936,466.94775,13.1,Asia
+Jordan,2013,Developing,73.9,8413464,3992.86717,13.1,Asia
+Jordan,2012,Developing,73.7,7992573,387.753211,12.9,Asia
+Jordan,2011,Developing,73.6,7574943,387.324145,13.1,Asia
+Jordan,2010,Developing,73.4,718239,3679.19275,13.2,Asia
+Jordan,2009,Developing,73.3,6821116,3492.1396,13.6,Asia
+Jordan,2008,Developing,73.1,6489822,3385.69665,13.6,Asia
+Jordan,2007,Developing,73,6193191,2762.86354,13.6,Asia
+Jordan,2006,Developing,72.8,5934232,2537.349,13.7,Asia
+Jordan,2005,Developing,72.4,5714111,223.83787,13.8,Asia
+Jordan,2004,Developing,72.5,5535595,261.456882,13.5,Asia
+Jordan,2003,Developing,72.3,5396774,1889.213962,13.2,Asia
+Jordan,2002,Developing,72.1,5287488,1812.288374,13,Asia
+Jordan,2001,Developing,71.9,5193482,1728.2659,12.7,Asia
+Jordan,2000,Developing,71.7,51313,1657.889256,12.6,Asia
+Kazakhstan,2015,Developing,72,17544126,159.9817,15,Asia
+Kazakhstan,2014,Developing,69.9,17289224,1286.56511,15,Asia
+Kazakhstan,2013,Developing,69.5,1735275,1389.8561,15,Asia
+Kazakhstan,2012,Developing,69.1,16791425,12387.18982,14.7,Asia
+Kazakhstan,2011,Developing,68.5,165566,11634.42422,14.4,Asia
+Kazakhstan,2010,Developing,67.8,16321581,97.649972,14.5,Asia
+Kazakhstan,2009,Developing,67.8,169271,7165.2775,14.6,Asia
+Kazakhstan,2008,Developing,66.6,15674,8513.564645,14.6,Asia
+Kazakhstan,2007,Developing,65.3,15484192,6771.414797,14.7,Asia
+Kazakhstan,2006,Developing,65,153884,5291.57565,14.3,Asia
+Kazakhstan,2005,Developing,64.6,1514729,3771.278957,13.9,Asia
+Kazakhstan,2004,Developing,64.7,1512985,2874.288291,13.5,Asia
+Kazakhstan,2003,Developing,64.4,149918,268.123657,13.1,Asia
+Kazakhstan,2002,Developing,64.7,14858948,1658.31146,12.7,Asia
+Kazakhstan,2001,Developing,64.4,14858335,149.926751,12.3,Asia
+Kazakhstan,2000,Developing,63.9,14883626,1229.958,12.1,Asia
+Kenya,2015,Developing,63.4,47236259,1349.97144,11.1,Africa
+Kenya,2014,Developing,62.9,462425,1335.6458,11.1,Africa
+Kenya,2013,Developing,62.6,44826849,1229.114798,11.1,Africa
+Kenya,2012,Developing,62.1,43646629,1155.2582,11.1,Africa
+Kenya,2011,Developing,61.2,42486839,987.4453967,11.1,Africa
+Kenya,2010,Developing,63,4135152,967.34773,11.1,Africa
+Kenya,2009,Developing,59.1,423724,92.816252,10.7,Africa
+Kenya,2008,Developing,57.9,39148416,916.8992515,10.4,Africa
+Kenya,2007,Developing,56.8,388599,839.181117,10.1,Africa
+Kenya,2006,Developing,55.3,37525,697.66385,9.7,Africa
+Kenya,2005,Developing,54.1,3648288,519.7999346,9.6,Africa
+Kenya,2004,Developing,53,3574931,458.8843551,8.9,Africa
+Kenya,2003,Developing,52.4,3413852,436.6875357,8.2,Africa
+Kenya,2002,Developing,52.1,332149,395.8493511,8.5,Africa
+Kenya,2001,Developing,51.9,32321482,41.7763612,8.4,Africa
+Kenya,2000,Developing,51.9,3145483,43.9797132,8.4,Africa
+Kiribati,2015,Developing,66.3,11247,1424.483611,11.9,Oceania
+Kiribati,2014,Developing,66.1,11458,1684.54274,11.9,Oceania
+Kiribati,2013,Developing,65.8,18535,1724.361737,11.9,Oceania
+Kiribati,2012,Developing,65.7,16613,1763.815497,11.9,Oceania
+Kiribati,2011,Developing,65.5,14656,1692.613277,11.9,Oceania
+Kiribati,2010,Developing,65.3,12652,1493.1651,11.9,Oceania
+Kiribati,2009,Developing,65.2,1568,1297.285141,11.9,Oceania
+Kiribati,2008,Developing,65.1,9844,1413.3234,11.6,Oceania
+Kiribati,2007,Developing,65,96311,1357.632211,11.8,Oceania
+Kiribati,2006,Developing,65,9426,1151.555618,12.1,Oceania
+Kiribati,2005,Developing,64.9,92325,1214.556667,12.2,Oceania
+Kiribati,2004,Developing,64.8,9542,113.6286,12.4,Oceania
+Kiribati,2003,Developing,64.7,88895,115.3865,11.6,Oceania
+Kiribati,2002,Developing,64.6,87343,826.58554,11.7,Oceania
+Kiribati,2001,Developing,64.3,85858,734.9492461,10.4,Oceania
+Kiribati,2000,Developing,64.1,8446,796.7937634,10,Oceania
+Latvia,2015,Developed,74.6,1977527,13666.58336,16,Europe
+Latvia,2014,Developed,74.4,1993782,15725.1374,16,Europe
+Latvia,2013,Developed,74.1,212647,1532.22924,15.4,Europe
+Latvia,2012,Developed,73.8,234319,13822.8559,15.5,Europe
+Latvia,2011,Developed,73.6,25979,1372.68947,15.8,Europe
+Latvia,2010,Developed,72.8,297555,11326.21947,16,Europe
+Latvia,2009,Developed,72.6,2141669,12219.37379,16.4,Europe
+Latvia,2008,Developed,71.9,2177322,16348.53121,16.3,Europe
+Latvia,2007,Developed,78,22325,1444.1589,16.2,Europe
+Latvia,2006,Developed,75,2218357,9667.9757,16.2,Europe
+Latvia,2005,Developed,76,2238799,7558.7426,15.9,Europe
+Latvia,2004,Developed,71,2263122,6351.8125,15.5,Europe
+Latvia,2003,Developed,78,2287955,5134.95694,15.2,Europe
+Latvia,2002,Developed,73,231173,4132.34927,14.8,Europe
+Latvia,2001,Developed,69.9,233717,3572.8513,14.2,Europe
+Latvia,2000,Developed,71,236755,3352.731296,13.7,Europe
+Lebanon,2015,Developing,74.9,5851479,846.632851,13.3,Asia
+Lebanon,2014,Developing,74.8,563279,8161.4614,13.3,Asia
+Lebanon,2013,Developing,74.9,527612,846.285153,13.3,Asia
+Lebanon,2012,Developing,75,491644,8787.94668,13.3,Asia
+Lebanon,2011,Developing,75,4588368,8734.9653,13.2,Asia
+Lebanon,2010,Developing,74.9,4337141,8763.826274,13.3,Asia
+Lebanon,2009,Developing,74.7,4183156,84.268878,13.2,Asia
+Lebanon,2008,Developing,74.5,411147,712.775759,13.1,Asia
+Lebanon,2007,Developing,74.4,486466,614.271115,12.9,Asia
+Lebanon,2006,Developing,74.1,45735,5372.65899,13.2,Asia
+Lebanon,2005,Developing,73.9,3986852,5339.441291,13.7,Asia
+Lebanon,2004,Developing,73.7,3863267,5424.22356,14.2,Asia
+Lebanon,2003,Developing,73.5,371464,5425.6697,14.8,Asia
+Lebanon,2002,Developing,73.2,3522837,5436.595223,15.2,Asia
+Lebanon,2001,Developing,73,3359859,5253.122599,15,Asia
+Lebanon,2000,Developing,72.7,3235366,5334.93329,14.9,Asia
+Lesotho,2015,Developing,53.7,2174645,173.82893,10.7,Africa
+Lesotho,2014,Developing,52.1,2145785,1174.839214,10.8,Africa
+Lesotho,2013,Developing,52.1,2117361,1196.1335,11.1,Africa
+Lesotho,2012,Developing,52.2,289928,1281.516,11,Africa
+Lesotho,2011,Developing,52.3,264166,1352.38433,11,Africa
+Lesotho,2010,Developing,51.1,24551,1173.26212,10.9,Africa
+Lesotho,2009,Developing,49.4,21929,923.136931,10.8,Africa
+Lesotho,2008,Developing,47.8,199993,934.428563,10.7,Africa
+Lesotho,2007,Developing,46.2,1982287,918.432717,10.6,Africa
+Lesotho,2006,Developing,45.3,1965662,915.775754,10.7,Africa
+Lesotho,2005,Developing,44.5,1949543,862.9463118,10.7,Africa
+Lesotho,2004,Developing,44.8,1933728,781.5145936,10.7,Africa
+Lesotho,2003,Developing,45.5,191897,63.636279,10.5,Africa
+Lesotho,2002,Developing,46.4,192312,47.89395,10.4,Africa
+Lesotho,2001,Developing,47.8,1885955,437.819184,10.3,Africa
+Lesotho,2000,Developing,49.3,1868699,474.8197876,9.6,Africa
+Liberia,2015,Developing,61.4,4499621,452.38717,9.9,Africa
+Liberia,2014,Developing,58.1,439737,458.4651734,9.9,Africa
+Liberia,2013,Developing,61.1,4286291,454.1222236,9.8,Africa
+Liberia,2012,Developing,67,4181563,415.361958,9.6,Africa
+Liberia,2011,Developing,62,47167,379.689583,9.5,Africa
+Liberia,2010,Developing,59.7,3948125,327.42597,9.6,Africa
+Liberia,2009,Developing,59.2,3811528,33.667491,9.7,Africa
+Liberia,2008,Developing,58.6,3662993,232.61732,9.8,Africa
+Liberia,2007,Developing,57.9,3512932,21.3733292,9.9,Africa
+Liberia,2006,Developing,56.7,3375838,178.92799,10,Africa
+Liberia,2005,Developing,55.3,326123,168.648254,10.1,Africa
+Liberia,2004,Developing,54,3176414,149.4452549,10.2,Africa
+Liberia,2003,Developing,50,3116233,133.494518,10.3,Africa
+Liberia,2002,Developing,56,362863,177.285187,10.4,Africa
+Liberia,2001,Developing,51.5,2991132,174.1815473,10.5,Africa
+Liberia,2000,Developing,51.9,2884522,183.4149991,8.7,Africa
+Lithuania,2015,Developed,73.6,29491,14252.42853,16.5,Europe
+Lithuania,2014,Developed,73.4,2932367,16554.97139,16.5,Europe
+Lithuania,2013,Developed,73,2957689,15712.82376,16.4,Europe
+Lithuania,2012,Developed,73,2987773,14341.836,16.5,Europe
+Lithuania,2011,Developed,72.8,328115,14357.73679,16.7,Europe
+Lithuania,2010,Developed,72.4,397282,11984.86857,16.8,Europe
+Lithuania,2009,Developed,72.2,3162916,11837.3913,16.6,Europe
+Lithuania,2008,Developed,71.1,3198231,14961.56818,16.5,Europe
+Lithuania,2007,Developed,72,3231294,12297.91535,16.4,Europe
+Lithuania,2006,Developed,76,326999,924.642548,16.4,Europe
+Lithuania,2005,Developed,78,3322528,7863.1629,16.2,Europe
+Lithuania,2004,Developed,71.6,337775,676.966998,16.3,Europe
+Lithuania,2003,Developed,71.6,3415213,555.535669,15.8,Europe
+Lithuania,2002,Developed,71.4,344367,4146.987928,15.3,Europe
+Lithuania,2001,Developed,71.2,347818,353.147337,14.7,Europe
+Lithuania,2000,Developed,71.6,3499536,3297.35471,14,Europe
+Luxembourg,2015,Developed,82,56964,1199.8223,13.9,Europe
+Luxembourg,2014,Developed,81.7,556319,119172.7418,13.9,Europe
+Luxembourg,2013,Developed,81.4,54336,113751.85,13.9,Europe
+Luxembourg,2012,Developed,81.1,53946,16749.136,13.9,Europe
+Luxembourg,2011,Developed,88,518347,115761.577,13.9,Europe
+Luxembourg,2010,Developed,86,56953,14965.361,13.7,Europe
+Luxembourg,2009,Developed,83,497783,13198.6693,13.5,Europe
+Luxembourg,2008,Developed,80,48865,114293.8433,13.5,Europe
+Luxembourg,2007,Developed,79.7,479993,1618.4928,13.5,Europe
+Luxembourg,2006,Developed,79.4,472637,89739.7117,13.5,Europe
+Luxembourg,2005,Developed,78.8,465158,8289.69641,13.5,Europe
+Luxembourg,2004,Developed,78.7,45895,75716.3518,13.5,Europe
+Luxembourg,2003,Developed,78.6,45163,65445.8853,13.6,Europe
+Luxembourg,2002,Developed,78.3,446175,5293.64115,13.5,Europe
+Luxembourg,2001,Developed,78,441525,48179.4285,13.4,Europe
+Luxembourg,2000,Developed,77.8,4363,48735.99549,13.5,Europe
+Madagascar,2015,Developing,65.5,2423488,41.8575951,10.3,Africa
+Madagascar,2014,Developing,65.1,2358981,452.4631926,10.3,Africa
+Madagascar,2013,Developing,64.7,22961146,461.723722,10.3,Africa
+Madagascar,2012,Developing,64.3,22346573,443.9611,10.2,Africa
+Madagascar,2011,Developing,63.8,21743949,454.963464,10.2,Africa
+Madagascar,2010,Developing,63.3,2115164,412.739341,10.2,Africa
+Madagascar,2009,Developing,62.8,2569121,415.6893226,9.7,Africa
+Madagascar,2008,Developing,62.3,19996469,47.733254,9.4,Africa
+Madagascar,2007,Developing,61.9,19433523,377.8482928,9.1,Africa
+Madagascar,2006,Developing,61.4,1888268,292.157443,9,Africa
+Madagascar,2005,Developing,69,18336724,274.819723,8.9,Africa
+Madagascar,2004,Developing,64,1782997,245.1235876,8.7,Africa
+Madagascar,2003,Developing,59.9,17279141,316.7998965,8.5,Africa
+Madagascar,2002,Developing,59.3,16765117,262.2859481,8.3,Africa
+Madagascar,2001,Developing,58.7,1626932,278.555732,8.2,Africa
+Madagascar,2000,Developing,57.9,1576686,245.939659,8,Africa
+Malawi,2015,Developing,58.3,1757367,362.6575444,10.8,Africa
+Malawi,2014,Developing,57.6,1768838,354.7253961,10.7,Africa
+Malawi,2013,Developing,56.7,16577147,332.922339,10.7,Africa
+Malawi,2012,Developing,55.3,169735,374.51882,10.7,Africa
+Malawi,2011,Developing,54.1,15627618,512.125451,10.6,Africa
+Malawi,2010,Developing,52.9,1516795,458.8681744,10.2,Africa
+Malawi,2009,Developing,51.5,1471462,42.7379657,9.9,Africa
+Malawi,2008,Developing,50,14271234,372.842678,9.6,Africa
+Malawi,2007,Developing,48.5,1384969,32.2227274,9.7,Africa
+Malawi,2006,Developing,47.1,13429262,297.6971211,9.6,Africa
+Malawi,2005,Developing,46,1339711,28.3673842,9.7,Africa
+Malawi,2004,Developing,45.1,1267638,274.2256294,10,Africa
+Malawi,2003,Developing,44.6,12336687,26.152517,10.3,Africa
+Malawi,2002,Developing,44,1213711,29.9798977,10.4,Africa
+Malawi,2001,Developing,43.5,11695863,146.7615397,10.1,Africa
+Malawi,2000,Developing,43.1,11376172,153.2594872,10.7,Africa
+Malaysia,2015,Developing,75,3723155,9643.644683,13.1,Asia
+Malaysia,2014,Developing,74.8,322817,11183.96191,13,Asia
+Malaysia,2013,Developing,74.6,2976724,1882.27842,12.9,Asia
+Malaysia,2012,Developing,74.5,2917456,1779.49641,12.9,Asia
+Malaysia,2011,Developing,74.3,28635128,145.1262,13,Asia
+Malaysia,2010,Developing,74.1,28112289,971.356987,12.8,Asia
+Malaysia,2009,Developing,74,2765383,7326.744435,12.6,Asia
+Malaysia,2008,Developing,73.8,2711169,8513.629541,12.5,Asia
+Malaysia,2007,Developing,73.7,26625845,7269.17114,12.3,Asia
+Malaysia,2006,Developing,73.6,26143566,6222.982955,12.7,Asia
+Malaysia,2005,Developing,73.4,25659393,5593.822995,12.9,Asia
+Malaysia,2004,Developing,73.2,2517419,4955.477743,12.7,Asia
+Malaysia,2003,Developing,73.1,2468873,4463.675893,12.1,Asia
+Malaysia,2002,Developing,72.9,24198811,4167.364387,12,Asia
+Malaysia,2001,Developing,72.7,2369897,3915.11546,11.9,Asia
+Malaysia,2000,Developing,72.4,2318568,445.17471,11.6,Asia
+Maldives,2015,Developing,78.5,49163,8395.785198,12.7,Asia
+Maldives,2014,Developing,78.2,41,7716.2415,12.7,Asia
+Maldives,2013,Developing,77.9,393,7112.33575,12.4,Asia
+Maldives,2012,Developing,77.6,385,6541.7465,12.1,Asia
+Maldives,2011,Developing,77.3,377,6497.55443,11.8,Asia
+Maldives,2010,Developing,76.7,367,633.79498,11.6,Asia
+Maldives,2009,Developing,76.3,36,597.1659,11.8,Asia
+Maldives,2008,Developing,75.9,362,5828.621374,11.8,Asia
+Maldives,2007,Developing,75.4,349,52.862285,11.9,Asia
+Maldives,2006,Developing,75,333,4428.522898,12,Asia
+Maldives,2005,Developing,74.3,321,3488.493769,12.1,Asia
+Maldives,2004,Developing,73.4,312,3853.33348,12.2,Asia
+Maldives,2003,Developing,72.7,34,3432.247841,11.8,Asia
+Maldives,2002,Developing,71.8,297,32.37239,12,Asia
+Maldives,2001,Developing,78,292,298.67598,11.8,Asia
+Maldives,2000,Developing,69.6,286,2182.99711,11.3,Asia
+Mali,2015,Developing,58.2,1746795,729.725338,8.4,Africa
+Mali,2014,Developing,57.8,16962846,825.5729915,8.2,Africa
+Mali,2013,Developing,57.3,16477818,777.659139,8,Africa
+Mali,2012,Developing,57.2,16667,777.3476868,7.7,Africa
+Mali,2011,Developing,56.8,1554989,835.88998,7.5,Africa
+Mali,2010,Developing,56.5,157585,78.377632,7.3,Africa
+Mali,2009,Developing,56,1466597,697.153124,7.1,Africa
+Mali,2008,Developing,55.5,14138216,689.6784228,5.8,Africa
+Mali,2007,Developing,55,1367566,595.6368319,6.4,Africa
+Mali,2006,Developing,54.3,1322764,521.6425796,6.1,Africa
+Mali,2005,Developing,53.6,12798763,487.942556,5.8,Africa
+Mali,2004,Developing,52.8,1239196,439.3572924,5.5,Africa
+Mali,2003,Developing,52,125128,391.791281,5.2,Africa
+Mali,2002,Developing,51.2,11638929,334.22416,4.9,Africa
+Mali,2001,Developing,55,11293258,36.8473237,4.6,Africa
+Mali,2000,Developing,49.8,196769,269.3483829,4.4,Africa
+Malta,2015,Developed,81.7,431874,23819.4636,14.6,Europe
+Malta,2014,Developed,81.4,427364,2618.92599,14.3,Europe
+Malta,2013,Developed,81.1,423374,2393.1888,14.2,Europe
+Malta,2012,Developed,81,419455,2193.8836,14.1,Europe
+Malta,2011,Developed,87,416268,22821.847,14.8,Europe
+Malta,2010,Developed,83,41458,2187.79469,14.6,Europe
+Malta,2009,Developed,82,412477,2675.58259,14.4,Europe
+Malta,2008,Developed,80,49379,21928.767,14.6,Europe
+Malta,2007,Developed,79.6,46724,19375.5696,14.4,Europe
+Malta,2006,Developed,79.3,4538,16671.5672,14.8,Europe
+Malta,2005,Developed,79,43834,15835.34667,14.8,Europe
+Malta,2004,Developed,78.7,41268,1519.5497,14.2,Europe
+Malta,2003,Developed,78.5,398582,13689.98999,13.8,Europe
+Malta,2002,Developed,78.2,395969,11843.9392,13.8,Europe
+Malta,2001,Developed,77.8,39328,1121.78636,13.7,Europe
+Malta,2000,Developed,77.5,3987,1139.5651,13.8,Europe
+Mauritania,2015,Developing,63.1,4182341,1158.256469,8.5,Africa
+Mauritania,2014,Developing,63,46392,1326.66882,8.5,Africa
+Mauritania,2013,Developing,62.7,394617,145.57838,8.2,Africa
+Mauritania,2012,Developing,62.5,383239,1364.283745,7.8,Africa
+Mauritania,2011,Developing,62.2,3717672,1393.261593,7.7,Africa
+Mauritania,2010,Developing,62,369543,123.383675,7.6,Africa
+Mauritania,2009,Developing,61.7,356288,146.83851,7.1,Africa
+Mauritania,2008,Developing,61.4,347541,1167.535689,7.2,Africa
+Mauritania,2007,Developing,61.2,3312665,113.3128,7.4,Africa
+Mauritania,2006,Developing,69,322653,944.134851,7.2,Africa
+Mauritania,2005,Developing,66,31372,697.7451989,7.2,Africa
+Mauritania,2004,Developing,64,342823,62.547286,6.7,Africa
+Mauritania,2003,Developing,63,2957117,528.586613,6.6,Africa
+Mauritania,2002,Developing,62,2873228,46.9542322,6.5,Africa
+Mauritania,2001,Developing,61,279729,464.229758,6.5,Africa
+Mauritania,2000,Developing,60,279359,477.476124,6.4,Africa
+Mauritius,2015,Developing,74.6,126265,9252.11724,15.2,Africa
+Mauritius,2014,Developing,74.2,126934,1153.93822,14.7,Africa
+Mauritius,2013,Developing,74.1,1258653,9637.265,14.7,Africa
+Mauritius,2012,Developing,73.9,1255882,9291.227619,14.3,Africa
+Mauritius,2011,Developing,73.6,125244,9197.26972,14.1,Africa
+Mauritius,2010,Developing,73.3,1254,8.376432,14,Africa
+Mauritius,2009,Developing,72.8,1247429,7318.12641,13.8,Africa
+Mauritius,2008,Developing,72.7,1244121,83.635,13.6,Africa
+Mauritius,2007,Developing,72.9,123963,6574.654338,13.5,Africa
+Mauritius,2006,Developing,71.8,1233996,5695.969327,13.4,Africa
+Mauritius,2005,Developing,72.1,1228254,5116.45424,13,Africa
+Mauritius,2004,Developing,71.9,12213,5229.876738,12.8,Africa
+Mauritius,2003,Developing,71.5,121337,4623.347642,12.6,Africa
+Mauritius,2002,Developing,71.5,124621,3957.51296,12.5,Africa
+Mauritius,2001,Developing,71.5,1196287,3792.182152,12.2,Africa
+Mauritius,2000,Developing,71,1186873,3861.32414,12.1,Africa
+Mexico,2015,Developing,76.7,12589949,9143.128494,13.3,Americas
+Mexico,2014,Developing,76.6,1242216,1452.27766,13.1,Americas
+Mexico,2013,Developing,76.6,122535969,1298.86766,12.9,Americas
+Mexico,2012,Developing,76.3,1282837,982.532572,12.7,Americas
+Mexico,2011,Developing,76.1,119917,9834.472689,12.6,Americas
+Mexico,2010,Developing,75.6,117318941,8959.581416,12.5,Americas
+Mexico,2009,Developing,75.7,11555228,7748.12331,12.5,Americas
+Mexico,2008,Developing,75.6,11366189,9689.52887,12.3,Americas
+Mexico,2007,Developing,76,111836346,933.341687,12.3,Americas
+Mexico,2006,Developing,75.8,1192378,8767.92258,12.2,Americas
+Mexico,2005,Developing,75.3,18472228,7986.798439,12.2,Americas
+Mexico,2004,Developing,75.4,16995583,7199.59665,12.1,Americas
+Mexico,2003,Developing,75,1564453,6751.998987,11.9,Americas
+Mexico,2002,Developing,75,1435568,716.8219,11.6,Americas
+Mexico,2001,Developing,75,136768,731.378864,11.6,Americas
+Mexico,2000,Developing,74.8,11719673,672.92113,11.4,Americas
+Mongolia,2015,Developing,68.8,2976877,3944.1839,14.8,Asia
+Mongolia,2014,Developing,68.4,2923896,4181.583321,14.8,Asia
+Mongolia,2013,Developing,68.1,286917,4385.379355,14.7,Asia
+Mongolia,2012,Developing,67.8,2814226,4368.82248,14.7,Asia
+Mongolia,2011,Developing,67.3,2761516,3769.595255,14.6,Asia
+Mongolia,2010,Developing,66.3,271265,265.353659,14.3,Asia
+Mongolia,2009,Developing,66.9,2668289,1717.898761,13.8,Asia
+Mongolia,2008,Developing,67.4,2628131,2139.625631,13.4,Asia
+Mongolia,2007,Developing,65.9,259167,1634.81431,13,Asia
+Mongolia,2006,Developing,65,255812,1334.651896,12.7,Asia
+Mongolia,2005,Developing,64.5,2526446,998.8226671,11.8,Asia
+Mongolia,2004,Developing,64,2496832,797.8377432,11.2,Asia
+Mongolia,2003,Developing,64,2469286,646.561295,10.5,Asia
+Mongolia,2002,Developing,63.8,2443659,571.51883,10.1,Asia
+Mongolia,2001,Developing,63.2,2419776,524.145924,9.4,Asia
+Mongolia,2000,Developing,62.8,2397436,474.2133361,8.9,Asia
+Montenegro,2015,Developing,76.1,622159,6461.192554,15.1,Europe
+Montenegro,2014,Developing,75.9,62181,7378.345289,15.1,Europe
+Montenegro,2013,Developing,75.8,62127,7186.429787,15.1,Europe
+Montenegro,2012,Developing,75.6,6261,6586.71929,15.1,Europe
+Montenegro,2011,Developing,75.4,6279,7318.742449,15.1,Europe
+Montenegro,2010,Developing,75.3,619428,6682.281158,15,Europe
+Montenegro,2009,Developing,75,618294,6698.79439,14.6,Europe
+Montenegro,2008,Developing,74.6,616969,7325.73474,14.2,Europe
+Montenegro,2007,Developing,74.2,615875,5957.145693,13.6,Europe
+Montenegro,2006,Developing,73.8,61525,4383.59597,13.2,Europe
+Montenegro,2005,Developing,73.6,614261,3674.617924,12.8,Europe
+Montenegro,2004,Developing,73.5,613353,338.199535,12.6,Europe
+Montenegro,2003,Developing,73.5,612267,2789.1735,0,Europe
+Montenegro,2002,Developing,73.4,69828,216.243274,0,Europe
+Montenegro,2001,Developing,73.3,67389,199.583957,0,Europe
+Montenegro,2000,Developing,73,6495,1627.42893,0,Europe
+Morocco,2015,Developing,74.3,3483322,2847.285569,12.1,Africa
+Morocco,2014,Developing,74.1,3431882,3154.513484,12.1,Africa
+Morocco,2013,Developing,73.9,33824769,3111.762887,12.1,Africa
+Morocco,2012,Developing,73.6,33333789,294.746728,11.6,Africa
+Morocco,2011,Developing,73.3,32858823,339.91616,11.2,Africa
+Morocco,2010,Developing,72.8,3249639,2834.2472,10.7,Africa
+Morocco,2009,Developing,72.3,31989897,2861.5545,10.5,Africa
+Morocco,2008,Developing,71.8,31596855,2884.94776,10.3,Africa
+Morocco,2007,Developing,71.4,31225881,2494.353552,10,Africa
+Morocco,2006,Developing,71,3869346,2191.478567,10,Africa
+Morocco,2005,Developing,77,35217,213.755559,9.8,Africa
+Morocco,2004,Developing,72,3179285,1948.812275,9.6,Africa
+Morocco,2003,Developing,69.9,29843937,1721.973863,9.3,Africa
+Morocco,2002,Developing,69.5,29512368,1413.757176,8.8,Africa
+Morocco,2001,Developing,69,29181832,1336.775376,8.5,Africa
+Morocco,2000,Developing,68.6,28849621,1332.382358,8,Africa
+Mozambique,2015,Developing,57.6,281691,528.3125597,9.1,Africa
+Mozambique,2014,Developing,56.7,27212382,623.2871141,9.1,Africa
+Mozambique,2013,Developing,55.3,26434372,65.985681,9.1,Africa
+Mozambique,2012,Developing,54.8,2567666,566.513873,9.2,Africa
+Mozambique,2011,Developing,54.3,249395,526.5313517,9.5,Africa
+Mozambique,2010,Developing,54,2422145,419.2258149,9.3,Africa
+Mozambique,2009,Developing,53.8,2352463,463.852618,9.2,Africa
+Mozambique,2008,Developing,53.2,22846758,53.127719,8.8,Africa
+Mozambique,2007,Developing,52.1,22188387,422.1461573,8.2,Africa
+Mozambique,2006,Developing,51.2,21547463,385.7567141,7.9,Africa
+Mozambique,2005,Developing,58,29237,369.1545359,7.3,Africa
+Mozambique,2004,Developing,54,231275,336.3318145,7,Africa
+Mozambique,2003,Developing,51,19716598,283.8911588,6.7,Africa
+Mozambique,2002,Developing,49.8,19139658,262.884551,6.2,Africa
+Mozambique,2001,Developing,49.5,18588758,256.4414872,5.8,Africa
+Mozambique,2000,Developing,49,1867687,277.6486591,5.4,Africa
+Myanmar,2015,Developing,66.6,5243669,1194.59137,9.1,Asia
+Myanmar,2014,Developing,66.4,51924182,1262.893782,9.1,Asia
+Myanmar,2013,Developing,66.2,51448196,1168.83947,9.1,Asia
+Myanmar,2012,Developing,65.9,5986514,1171.58257,9.1,Asia
+Myanmar,2011,Developing,65.6,555331,1186.423937,9.1,Asia
+Myanmar,2010,Developing,65.4,5155896,987.7365832,8.8,Asia
+Myanmar,2009,Developing,65.2,49869,741.777116,8.5,Asia
+Myanmar,2008,Developing,59.2,49479752,643.951373,8.2,Asia
+Myanmar,2007,Developing,64.5,49171586,41.451,8.1,Asia
+Myanmar,2006,Developing,64.2,48846474,296.97284,8,Asia
+Myanmar,2005,Developing,63.9,48482614,247.24276,7.9,Asia
+Myanmar,2004,Developing,63.5,487377,219.8156688,7.8,Asia
+Myanmar,2003,Developing,63.2,47624894,219.782326,7.7,Asia
+Myanmar,2002,Developing,62.8,471422,143.77651,7.6,Asia
+Myanmar,2001,Developing,62.5,46627994,138.9249275,7.6,Asia
+Myanmar,2000,Developing,62.1,4695462,193.187484,7.5,Asia
+Namibia,2015,Developing,65.8,2425561,4737.66996,11.7,Africa
+Namibia,2014,Developing,65.9,237992,5421.343953,11.7,Africa
+Namibia,2013,Developing,66.1,231652,5488.131712,11.6,Africa
+Namibia,2012,Developing,65.8,2263934,5749.44752,11.5,Africa
+Namibia,2011,Developing,64.3,2215621,56.971392,11.5,Africa
+Namibia,2010,Developing,63,217317,5191.58381,11.4,Africa
+Namibia,2009,Developing,62.4,21374,4153.497885,11.4,Africa
+Namibia,2008,Developing,61.7,216375,429.6561,11.3,Africa
+Namibia,2007,Developing,60,279915,422.51968,11.3,Africa
+Namibia,2006,Developing,57,255734,3881.29535,11.4,Africa
+Namibia,2005,Developing,55.1,232196,3573.146387,11.6,Africa
+Namibia,2004,Developing,54.7,29228,3288.257373,11.7,Africa
+Namibia,2003,Developing,55,1986535,2482.36862,11.7,Africa
+Namibia,2002,Developing,55.7,1962147,1713.47594,11.8,Africa
+Namibia,2001,Developing,56.5,1933596,1834.29486,11.7,Africa
+Namibia,2000,Developing,57.4,1899257,257.99557,11.5,Africa
+Nepal,2015,Developing,69.2,28656282,743.7653489,12.2,Asia
+Nepal,2014,Developing,69.6,28323241,76.2386977,12.4,Asia
+Nepal,2013,Developing,69.3,2798531,688.6172788,12.3,Asia
+Nepal,2012,Developing,68.9,27649925,681.7925868,12.3,Asia
+Nepal,2011,Developing,68.4,27327147,692.1166842,12,Asia
+Nepal,2010,Developing,68,2723137,592.1835216,11.1,Asia
+Nepal,2009,Developing,67.5,2674113,48.7299,10.5,Asia
+Nepal,2008,Developing,67,26475859,473.844449,10.1,Asia
+Nepal,2007,Developing,66.6,26214847,393.8843518,10,Asia
+Nepal,2006,Developing,66,2594618,348.6314534,9.6,Asia
+Nepal,2005,Developing,65.4,2564287,317.89198,9.4,Asia
+Nepal,2004,Developing,64.7,2539449,287.4156,9.3,Asia
+Nepal,2003,Developing,64.3,2495623,253.72412,9.2,Asia
+Nepal,2002,Developing,63.1,24566342,246.375621,8.6,Asia
+Nepal,2001,Developing,63.2,24161777,248.6183539,9,Asia
+Nepal,2000,Developing,62.5,2374911,231.42554,8.9,Asia
+Netherlands,2015,Developed,81.9,16939923,44292.88473,18.1,Europe
+Netherlands,2014,Developed,81.7,168658,52157.4687,18.1,Europe
+Netherlands,2013,Developed,81.4,1684432,51574.48942,18.1,Europe
+Netherlands,2012,Developed,81.1,16754962,49474.7561,18.1,Europe
+Netherlands,2011,Developed,81.1,1669374,5354.6536,17.2,Europe
+Netherlands,2010,Developed,88,16615394,5338.25483,17,Europe
+Netherlands,2009,Developed,86,1653388,519.349,16.9,Europe
+Netherlands,2008,Developed,83,16445593,56928.8248,16.8,Europe
+Netherlands,2007,Developed,82,16381696,51241.31562,16.6,Europe
+Netherlands,2006,Developed,79.8,1634611,44453.97119,16.5,Europe
+Netherlands,2005,Developed,79.4,16319868,41577.169,16.4,Europe
+Netherlands,2004,Developed,79.2,16281779,39954.64222,16.5,Europe
+Netherlands,2003,Developed,78.7,1622532,35245.1647,16.5,Europe
+Netherlands,2002,Developed,78.4,16148929,28817.32321,16.9,Europe
+Netherlands,2001,Developed,78.3,164618,26584.12169,16.7,Europe
+Netherlands,2000,Developed,78.1,15925513,25921.12794,16.5,Europe
+Nicaragua,2015,Developing,74.8,68235,295.966488,11.7,Americas
+Nicaragua,2014,Developing,74.5,613997,1975.46477,11.6,Americas
+Nicaragua,2013,Developing,73.9,5945747,1847.19849,11.5,Americas
+Nicaragua,2012,Developing,73.9,587718,1792.3845,11.5,Americas
+Nicaragua,2011,Developing,74.5,58782,1682.957924,11.5,Americas
+Nicaragua,2010,Developing,73.2,5737723,1526.497938,11.4,Americas
+Nicaragua,2009,Developing,73.2,5666581,1464.497754,11.3,Americas
+Nicaragua,2008,Developing,72.5,559456,1518.85386,11.1,Americas
+Nicaragua,2007,Developing,72.5,552216,1344.31871,11,Americas
+Nicaragua,2006,Developing,73,545211,124.992617,11,Americas
+Nicaragua,2005,Developing,71.2,5379328,1175.116225,11,Americas
+Nicaragua,2004,Developing,71,53973,191.55157,11,Americas
+Nicaragua,2003,Developing,76,524879,115.565314,11,Americas
+Nicaragua,2002,Developing,75,5171734,11.147277,10.7,Americas
+Nicaragua,2001,Developing,73,5175,143.6758,10.4,Americas
+Nicaragua,2000,Developing,73,526796,116.2743,10.1,Americas
+Niger,2015,Developing,61.8,19896965,358.99731,5.4,Africa
+Niger,2014,Developing,61.4,19148219,43.646498,5.3,Africa
+Niger,2013,Developing,69,18426372,416.14838,5.3,Africa
+Niger,2012,Developing,63,17731634,391.515524,5.1,Africa
+Niger,2011,Developing,59.4,1764636,375.5819866,4.8,Africa
+Niger,2010,Developing,58.2,16425578,348.151511,4.5,Africa
+Niger,2009,Developing,57.1,15813913,341.2894618,4.2,Africa
+Niger,2008,Developing,56,15228525,354.8185998,4,Africa
+Niger,2007,Developing,55.2,14668338,292.55962,3.8,Africa
+Niger,2006,Developing,54.5,1413264,258.463873,3.7,Africa
+Niger,2005,Developing,53.7,13618449,25.383731,3.5,Africa
+Niger,2004,Developing,52.9,1312712,232.5661574,3.1,Africa
+Niger,2003,Developing,52.1,1265687,215.8548,3,Africa
+Niger,2002,Developing,51.4,12262,177.828384,2.9,Africa
+Niger,2001,Developing,56,11771976,165.257247,2.9,Africa
+Niger,2000,Developing,50,11352973,158.455972,2.8,Africa
+Nigeria,2015,Developing,54.5,181181744,2655.157977,10,Africa
+Nigeria,2014,Developing,53.6,1764652,3221.678128,10,Africa
+Nigeria,2013,Developing,53.2,17182933,2996.96432,9.8,Africa
+Nigeria,2012,Developing,52.7,167297284,2755.297787,9.7,Africa
+Nigeria,2011,Developing,52.3,16287776,2527.9423,9.6,Africa
+Nigeria,2010,Developing,52,158578261,2327.3267,9.5,Africa
+Nigeria,2009,Developing,51.6,15442181,197.661422,9.3,Africa
+Nigeria,2008,Developing,59,1534739,1383.893354,9.2,Africa
+Nigeria,2007,Developing,55,14641724,1136.829645,9.1,Africa
+Nigeria,2006,Developing,49.8,14261494,119.743286,9,Africa
+Nigeria,2005,Developing,49.2,138939478,87.8938738,8.9,Africa
+Nigeria,2004,Developing,48.5,135393616,648.815852,8.5,Africa
+Nigeria,2003,Developing,48.1,131972533,512.65719,8.1,Africa
+Nigeria,2002,Developing,47.7,12866671,459.4572117,7.7,Africa
+Nigeria,2001,Developing,47.4,125463434,351.7996666,8,Africa
+Nigeria,2000,Developing,47.1,1223529,379.1193264,7.6,Africa
+Norway,2015,Developed,81.8,518867,7455.24654,17.7,Europe
+Norway,2014,Developed,81.6,5137232,975.49856,17.7,Europe
+Norway,2013,Developed,81.5,579623,1291.435,17.5,Europe
+Norway,2012,Developed,81.3,518573,11563.727,17.6,Europe
+Norway,2011,Developed,81.1,495388,1574.9861,17.6,Europe
+Norway,2010,Developed,81,4889252,87646.75346,17.4,Europe
+Norway,2009,Developed,89,4828726,817.77681,17.4,Europe
+Norway,2008,Developed,86,4768212,9688.5961,17.6,Europe
+Norway,2007,Developed,85,479153,85128.65759,17.6,Europe
+Norway,2006,Developed,84,466677,74114.69715,17.5,Europe
+Norway,2005,Developed,81,4623291,66775.3944,17.6,Europe
+Norway,2004,Developed,79.8,459191,5757.26916,17.5,Europe
+Norway,2003,Developed,79.4,4564855,5111.65445,17.1,Europe
+Norway,2002,Developed,78.9,4538159,4361.1538,17.1,Europe
+Norway,2001,Developed,78.8,4513751,38549.58934,17.5,Europe
+Norway,2000,Developed,78.5,449967,38146.71539,17.1,Europe
+Pakistan,2015,Developing,66.4,18938513,1431.244865,8.1,Asia
+Pakistan,2014,Developing,66.2,185546257,1316.98966,7.8,Asia
+Pakistan,2013,Developing,66,181712595,1272.44161,7.7,Asia
+Pakistan,2012,Developing,65.7,177911533,1261.28967,7.6,Asia
+Pakistan,2011,Developing,65.5,174184265,1226.215314,7.5,Asia
+Pakistan,2010,Developing,65.1,1756182,14.142268,7.5,Asia
+Pakistan,2009,Developing,64.8,1674958,16.63999,7.3,Asia
+Pakistan,2008,Developing,64.6,16364463,139.31288,7.3,Asia
+Pakistan,2007,Developing,64.4,16332974,95.4327931,6.7,Asia
+Pakistan,2006,Developing,64.2,15793993,873.772727,6.5,Asia
+Pakistan,2005,Developing,62.9,15399667,711.4699463,6.1,Asia
+Pakistan,2004,Developing,63.7,15783,649.848233,5.6,Asia
+Pakistan,2003,Developing,63.5,1477341,563.594342,5.6,Asia
+Pakistan,2002,Developing,63.2,144654143,499.8633,5.5,Asia
+Pakistan,2001,Developing,63,14161437,51.6568157,5.4,Asia
+Pakistan,2000,Developing,62.8,138523285,533.8624114,5.3,Asia
+Panama,2015,Developing,77.8,3969249,13134.4367,13,Americas
+Panama,2014,Developing,77.6,393986,12593.7374,13,Americas
+Panama,2013,Developing,77.5,3838462,11685.97983,12.9,Americas
+Panama,2012,Developing,77.2,3772938,1589.82713,12.8,Americas
+Panama,2011,Developing,77.3,377782,927.723171,12.9,Americas
+Panama,2010,Developing,76.5,3643222,7937.259931,12.8,Americas
+Panama,2009,Developing,76.8,3579385,7429.628274,12.8,Americas
+Panama,2008,Developing,76.5,3516268,6973.9284,12.8,Americas
+Panama,2007,Developing,76.4,345387,668.8667,12.9,Americas
+Panama,2006,Developing,76.2,339195,5348.518399,12.9,Americas
+Panama,2005,Developing,75.8,333465,4916.54886,12.9,Americas
+Panama,2004,Developing,75.8,3269541,4591.892776,12.8,Americas
+Panama,2003,Developing,75.5,329174,4267.13578,12.8,Americas
+Panama,2002,Developing,75.7,3149265,4126.14671,12.6,Americas
+Panama,2001,Developing,75.5,389684,446.372833,12.4,Americas
+Panama,2000,Developing,75.7,33347,46.29935,12.1,Americas
+Papua New Guinea,2014,Developing,62.7,7755785,2182.716565,10,Asia
+Papua New Guinea,2013,Developing,62.4,7592865,229.95364,10,Asia
+Papua New Guinea,2012,Developing,62.2,743836,271.318741,9.9,Asia
+Papua New Guinea,2011,Developing,62,7269348,177.867119,9.9,Asia
+Papua New Guinea,2010,Developing,61.8,718239,1366.879112,9.6,Asia
+Papua New Guinea,2009,Developing,61.6,6947447,1166.66337,9.2,Asia
+Papua New Guinea,2008,Developing,61.4,6787187,1178.72469,8.9,Asia
+Papua New Guinea,2007,Developing,61.1,6627922,956.668952,8.6,Asia
+Papua New Guinea,2006,Developing,68,647272,854.346921,8.2,Asia
+Papua New Guinea,2005,Developing,64,631479,77.5773486,7.9,Asia
+Papua New Guinea,2004,Developing,59.9,6161517,637.3616215,7.6,Asia
+Papua New Guinea,2003,Developing,59.6,61724,588.3582595,7.2,Asia
+Papua New Guinea,2002,Developing,59.3,5862316,511.665773,6.9,Asia
+Papua New Guinea,2001,Developing,59.1,5716152,539.41528,6.6,Asia
+Papua New Guinea,2000,Developing,58.9,5572222,631.9468526,6.2,Asia
+Paraguay,2015,Developing,74,6639119,419.367724,12.3,Americas
+Paraguay,2014,Developing,73.9,6552584,4712.822736,12.3,Americas
+Paraguay,2013,Developing,73.8,646574,4479.95858,12.3,Americas
+Paraguay,2012,Developing,73.6,6379219,3855.537735,12.3,Americas
+Paraguay,2011,Developing,73.4,6293783,3988.11894,12.3,Americas
+Paraguay,2010,Developing,73.2,629877,3225.591754,12.4,Americas
+Paraguay,2009,Developing,73,6127837,2599.596259,12.1,Americas
+Paraguay,2008,Developing,72.7,647117,359.992184,11.9,Americas
+Paraguay,2007,Developing,72.5,5966159,2312.192926,12,Americas
+Paraguay,2006,Developing,72.3,5882796,189.71539,12.1,Americas
+Paraguay,2005,Developing,72.1,5795494,157.145691,12.3,Americas
+Paraguay,2004,Developing,71.9,57374,148.527976,12.1,Americas
+Paraguay,2003,Developing,71.7,56795,1174.779347,12.7,Americas
+Paraguay,2002,Developing,71.5,558611,1148.229882,12.2,Americas
+Paraguay,2001,Developing,71.2,546624,1417.26582,11.8,Americas
+Paraguay,2000,Developing,79,5327,1545.626423,11.6,Americas
+Peru,2015,Developing,75.5,31376671,63.343259,13.4,Americas
+Peru,2014,Developing,75.3,3973354,6491.5245,13.4,Americas
+Peru,2013,Developing,75.3,3565716,6583.116248,13.4,Americas
+Peru,2012,Developing,74.9,3158966,6387.785281,13.4,Americas
+Peru,2011,Developing,74.5,29759989,5771.565878,13.4,Americas
+Peru,2010,Developing,73.7,29373646,522.493191,13.3,Americas
+Peru,2009,Developing,73.8,29157,4166.93387,13.3,Americas
+Peru,2008,Developing,73.9,2864198,428.87811,13.2,Americas
+Peru,2007,Developing,74,28292724,3611.2147,13.2,Americas
+Peru,2006,Developing,74.2,27949944,3171.49856,13,Americas
+Peru,2005,Developing,72.8,276141,2754.7829,13,Americas
+Peru,2004,Developing,72.2,27273194,2448.143899,12.8,Americas
+Peru,2003,Developing,72.1,26937738,218.25997,13.3,Americas
+Peru,2002,Developing,72.6,2661467,259.192958,13.9,Americas
+Peru,2001,Developing,72.4,26261363,1981.243653,13.4,Americas
+Peru,2000,Developing,71.4,25914879,1996.719689,13.5,Americas
+Philippines,2015,Developing,68.5,11716359,2878.33837,11.7,Asia
+Philippines,2014,Developing,68.4,112249,2842.938353,11.7,Asia
+Philippines,2013,Developing,68.1,9848132,276.289146,11.7,Asia
+Philippines,2012,Developing,68.1,96866642,2581.818554,11.6,Asia
+Philippines,2011,Developing,68,9527794,2352.518156,11.5,Asia
+Philippines,2010,Developing,67.9,93726624,2129.499242,11.4,Asia
+Philippines,2009,Developing,68,9222879,1825.341521,11.7,Asia
+Philippines,2008,Developing,67.5,9751864,1919.466195,11.5,Asia
+Philippines,2007,Developing,67.5,8929349,1672.685433,11.4,Asia
+Philippines,2006,Developing,67.3,8789419,1391.772325,11.5,Asia
+Philippines,2005,Developing,67,86274237,1194.697155,11.6,Asia
+Philippines,2004,Developing,67.3,84678493,179.3715,11.6,Asia
+Philippines,2003,Developing,67.2,8331954,11.553196,11.6,Asia
+Philippines,2002,Developing,66.8,813526,1.68135,11.4,Asia
+Philippines,2001,Developing,66.8,79665315,957.287441,11.4,Asia
+Philippines,2000,Developing,66.8,77991569,138.91977,11.4,Asia
+Poland,2015,Developed,77.5,37986412,12565.9876,16.4,Europe
+Poland,2014,Developed,77.3,3811735,14341.675,16.4,Europe
+Poland,2013,Developed,77.1,384196,1378.54911,15.4,Europe
+Poland,2012,Developed,76.8,3863164,13145.1484,15.3,Europe
+Poland,2011,Developed,76.7,3863255,13893.18768,15.4,Europe
+Poland,2010,Developed,76.3,3842794,12599.52486,15.1,Europe
+Poland,2009,Developed,75.7,3815163,11527.59323,15.1,Europe
+Poland,2008,Developed,75.5,38125759,141.44688,15,Europe
+Poland,2007,Developed,75.3,381256,1126.31852,15,Europe
+Poland,2006,Developed,75.2,38141267,94.7726,15,Europe
+Poland,2005,Developed,75,38165445,821.251569,14.8,Europe
+Poland,2004,Developed,74.9,38182222,6681.178818,15.5,Europe
+Poland,2003,Developed,74.7,382457,5693.52416,15.3,Europe
+Poland,2002,Developed,74.5,3823364,5196.932921,15,Europe
+Poland,2001,Developed,74.2,3824876,4981.198619,14.7,Europe
+Poland,2000,Developed,73.7,38258629,4492.72764,14.6,Europe
+Portugal,2015,Developed,81.1,135876,1922.681,16.6,Europe
+Portugal,2014,Developed,89,14162,2277.53613,16.8,Europe
+Portugal,2013,Developed,86,1457295,21618.73534,16.3,Europe
+Portugal,2012,Developed,83,1514844,2577.4264,16.3,Europe
+Portugal,2011,Developed,82,155756,23196.18375,16.2,Europe
+Portugal,2010,Developed,79.6,15731,22538.6548,16,Europe
+Portugal,2009,Developed,79.3,1568247,2363.97161,16,Europe
+Portugal,2008,Developed,79,1558177,24815.6884,15.8,Europe
+Portugal,2007,Developed,78.7,1542964,2278.5845,15.4,Europe
+Portugal,2006,Developed,78.5,1522288,19821.44463,15.4,Europe
+Portugal,2005,Developed,77.7,15333,18784.9485,15.4,Europe
+Portugal,2004,Developed,78,1483861,1845.5881,15.9,Europe
+Portugal,2003,Developed,77.3,1458821,15772.7334,15.8,Europe
+Portugal,2002,Developed,77.2,1419631,12882.28897,15.9,Europe
+Portugal,2001,Developed,76.9,1362722,11729.14616,15.7,Europe
+Portugal,2000,Developed,76.6,1289898,1152.39681,15.5,Europe
+Romania,2015,Developed,75,19815481,8958.788593,14.7,Europe
+Romania,2014,Developed,74.8,1998979,12.27733,14.7,Europe
+Romania,2013,Developed,74.6,19983693,9585.266593,14.7,Europe
+Romania,2012,Developed,74.4,25835,8558.39766,15.3,Europe
+Romania,2011,Developed,74.3,2147528,92.277825,15.7,Europe
+Romania,2010,Developed,73.4,2246871,8297.483621,15.8,Europe
+Romania,2009,Developed,73.1,2367487,822.18329,15.4,Europe
+Romania,2008,Developed,73.1,2537875,1136.47356,14.7,Europe
+Romania,2007,Developed,72.9,2882982,8214.185378,14.1,Europe
+Romania,2006,Developed,72.5,2119376,5828.745662,13.7,Europe
+Romania,2005,Developed,71.9,21319685,4676.315183,13.4,Europe
+Romania,2004,Developed,71.7,21451748,3552.92452,12.9,Europe
+Romania,2003,Developed,71.1,21574326,2774.95586,12.5,Europe
+Romania,2002,Developed,77,2173496,2124.873613,12,Europe
+Romania,2001,Developed,78,2213197,1839.72945,11.7,Europe
+Romania,2000,Developed,77,22442971,1668.162731,11.5,Europe
+Russian Federation,2015,Developing,75,1449687,9329.298351,15,Asia
+Russian Federation,2014,Developing,73,143819666,14125.961,14.9,Asia
+Russian Federation,2013,Developing,70,14356911,15543.67653,14.6,Asia
+Russian Federation,2012,Developing,69.6,14321676,15154.45687,14.3,Asia
+Russian Federation,2011,Developing,69.4,14296868,14212.687,14,Asia
+Russian Federation,2010,Developing,68.4,142849449,1674.98771,13.7,Asia
+Russian Federation,2009,Developing,68.2,142785342,8562.89598,14,Asia
+Russian Federation,2008,Developing,67.5,14274235,11635.2637,13.9,Asia
+Russian Federation,2007,Developing,67.3,1428588,911.25385,13.8,Asia
+Russian Federation,2006,Developing,66.4,14349528,692.194398,13.8,Asia
+Russian Federation,2005,Developing,65,143518523,5323.473877,13.7,Asia
+Russian Federation,2004,Developing,64.9,1446754,412.372294,13.6,Asia
+Russian Federation,2003,Developing,64.6,144648257,2975.132778,13.2,Asia
+Russian Federation,2002,Developing,64.8,1453646,2375.5944,12.8,Asia
+Russian Federation,2001,Developing,65.1,14597683,21.362386,12.5,Asia
+Russian Federation,2000,Developing,65,146596557,1771.58662,12.1,Asia
+Rwanda,2015,Developing,66.1,11629553,71.348397,10.8,Africa
+Rwanda,2014,Developing,65.7,11345357,76.5699517,10.8,Africa
+Rwanda,2013,Developing,65.2,1165151,688.8768557,10.8,Africa
+Rwanda,2012,Developing,64.6,1788853,678.796973,10.5,Africa
+Rwanda,2011,Developing,63.8,151671,617.317648,10.2,Africa
+Rwanda,2010,Developing,62.8,1246842,563.491487,10,Africa
+Rwanda,2009,Developing,61,9977446,539.1538211,10.2,Africa
+Rwanda,2008,Developing,68,978169,5.6687264,10.4,Africa
+Rwanda,2007,Developing,59.6,944742,44.853339,10.1,Africa
+Rwanda,2006,Developing,57.6,92658,342.3656294,9.3,Africa
+Rwanda,2005,Developing,55.3,8991735,287.931877,8.8,Africa
+Rwanda,2004,Developing,53.4,8818438,236.9114381,8.2,Africa
+Rwanda,2003,Developing,52,868346,212.6619491,7.6,Africa
+Rwanda,2002,Developing,57,853625,196.59778,7.2,Africa
+Rwanda,2001,Developing,48.6,832946,21.569654,7.1,Africa
+Rwanda,2000,Developing,48.3,82573,216.172747,6.6,Africa
+Samoa,2015,Developing,74,193759,4149.363444,12.9,Oceania
+Samoa,2014,Developing,73.8,19229,4178.973369,12.9,Oceania
+Samoa,2013,Developing,73.6,19757,4219.65123,12.9,Oceania
+Samoa,2012,Developing,73.2,189194,4234.554443,12.9,Oceania
+Samoa,2011,Developing,73,187665,3942.9827,12.9,Oceania
+Samoa,2010,Developing,72.6,18625,3453.487434,12.9,Oceania
+Samoa,2009,Developing,76,184826,335.112838,12.9,Oceania
+Samoa,2008,Developing,72.5,183526,359.82223,12.9,Oceania
+Samoa,2007,Developing,72.2,182286,322.543121,12.9,Oceania
+Samoa,2006,Developing,72,18194,287.963899,12.7,Oceania
+Samoa,2005,Developing,71.6,179929,2571.262348,12.6,Oceania
+Samoa,2004,Developing,71.4,178781,2351.33814,12.4,Oceania
+Samoa,2003,Developing,79,177662,197.29417,12.3,Oceania
+Samoa,2002,Developing,76,176582,1631.41727,12.1,Oceania
+Samoa,2001,Developing,75,175566,1555.47451,12,Oceania
+Samoa,2000,Developing,72,17461,154.68923,12.1,Oceania
+Sao Tome and Principe,2015,Developing,67.5,195553,1624.63963,11.2,Africa
+Sao Tome and Principe,2014,Developing,67.3,191266,1821.878734,11.1,Africa
+Sao Tome and Principe,2013,Developing,67.1,18745,1619.532678,11,Africa
+Sao Tome and Principe,2012,Developing,66.9,182889,138.949959,10.8,Africa
+Sao Tome and Principe,2011,Developing,66.6,1788,134.326189,10.6,Africa
+Sao Tome and Principe,2010,Developing,66.2,174776,1129.754961,10.6,Africa
+Sao Tome and Principe,2009,Developing,65.8,17813,199.57146,10.1,Africa
+Sao Tome and Principe,2008,Developing,65.4,166913,1126.46212,10.4,Africa
+Sao Tome and Principe,2007,Developing,65.1,16311,894.927988,10.3,Africa
+Sao Tome and Principe,2006,Developing,64.7,159328,843.89447,10.2,Africa
+Sao Tome and Principe,2005,Developing,64.3,15563,81.86157,10,Africa
+Sao Tome and Principe,2004,Developing,63.8,151969,693.345683,9.8,Africa
+Sao Tome and Principe,2003,Developing,63.4,148372,649.342153,9.7,Africa
+Sao Tome and Principe,2002,Developing,63.1,144889,555.8185378,9.6,Africa
+Sao Tome and Principe,2001,Developing,62.8,141622,51.216381,9.4,Africa
+Senegal,2015,Developing,66.7,14976994,98.7256145,9.5,Africa
+Senegal,2014,Developing,66.4,14546111,152.443873,9.1,Africa
+Senegal,2013,Developing,66,141232,148.912351,8.7,Africa
+Senegal,2012,Developing,65.6,1373513,136.4518,8.3,Africa
+Senegal,2011,Developing,64.9,13391,18.25321,7.9,Africa
+Senegal,2010,Developing,64.3,12916229,11.631377,7.7,Africa
+Senegal,2009,Developing,63.5,1255917,12.566464,7.5,Africa
+Senegal,2008,Developing,62.8,1223957,11.33678,7.1,Africa
+Senegal,2007,Developing,62.1,11873557,95.3978522,6.8,Africa
+Senegal,2006,Developing,61.3,11556763,89.838296,6.6,Africa
+Senegal,2005,Developing,65,11251266,773.8698713,6.4,Africa
+Senegal,2004,Developing,59.7,1955944,733.581811,6.2,Africa
+Senegal,2003,Developing,59,16799,642.7663113,5.9,Africa
+Senegal,2002,Developing,58.4,1396861,513.26227,5.7,Africa
+Senegal,2001,Developing,57.9,1134497,481.287397,5.4,Africa
+Senegal,2000,Developing,57.5,988452,473.45338,5.2,Africa
+Serbia,2015,Developing,75.6,795383,5237.255334,14.4,Europe
+Serbia,2014,Developing,75.4,713576,62.173221,14.3,Europe
+Serbia,2013,Developing,75.3,7164132,6353.826383,14.1,Europe
+Serbia,2012,Developing,74.9,719977,5659.3824,14,Europe
+Serbia,2011,Developing,74.6,723499,6423.291783,13.5,Europe
+Serbia,2010,Developing,74.4,7291436,5411.87744,13.6,Europe
+Serbia,2009,Developing,74.1,73287,5821.35397,13.6,Europe
+Serbia,2008,Developing,74,735222,671.773913,13.5,Europe
+Serbia,2007,Developing,73.8,7381579,5458.121718,13.5,Europe
+Serbia,2006,Developing,73.6,7411569,4129.758741,13.4,Europe
+Serbia,2005,Developing,73,744769,3528.1318,13.2,Europe
+Serbia,2004,Developing,73,7463157,3331.228766,13.1,Europe
+Serbia,2003,Developing,73,748591,2832.49652,13,Europe
+Serbia,2002,Developing,72.9,7496522,2149.9944,13.2,Europe
+Serbia,2001,Developing,73.1,753433,1634.87561,13.1,Europe
+Serbia,2000,Developing,72.6,7516346,87.1365252,13,Europe
+Seychelles,2015,Developing,73.2,93419,1539.464,14.1,Europe
+Seychelles,2014,Developing,73,91359,1557.77892,13.2,Europe
+Seychelles,2013,Developing,72.9,89949,15687.34795,13.5,Europe
+Seychelles,2012,Developing,72.7,8833,12845.17363,13.5,Europe
+Seychelles,2011,Developing,72.6,87441,12189.9516,13.3,Europe
+Seychelles,2010,Developing,72.4,8977,184.68447,13.2,Europe
+Seychelles,2009,Developing,72.3,87298,976.9566,13.2,Europe
+Seychelles,2008,Developing,72.2,86956,11122.8627,13.2,Europe
+Seychelles,2007,Developing,72.2,8533,12154.82994,13.1,Europe
+Seychelles,2006,Developing,72.2,846,1214.39987,13.1,Europe
+Seychelles,2005,Developing,72.2,82858,1192.5174,12.1,Europe
+Seychelles,2004,Developing,72.1,82475,1176.65871,12.3,Europe
+Seychelles,2003,Developing,72.1,82781,8524.961236,12.1,Europe
+Seychelles,2002,Developing,72.1,83723,8331.261997,12.1,Europe
+Seychelles,2001,Developing,72,8122,7663.1378,12.2,Europe
+Seychelles,2000,Developing,71.8,81131,7578.85153,12.3,Europe
+Sierra Leone,2015,Developing,51,723725,587.538233,9.5,Africa
+Sierra Leone,2014,Developing,48.1,779162,78.4394757,9.5,Africa
+Sierra Leone,2013,Developing,54,692279,71.8186998,9.3,Africa
+Sierra Leone,2012,Developing,49.7,676613,561.8984239,9.1,Africa
+Sierra Leone,2011,Developing,48.9,6611692,445.525,8.9,Africa
+Sierra Leone,2010,Developing,48.1,645872,45.128418,8.7,Africa
+Sierra Leone,2009,Developing,47.1,63126,394.5932439,8.5,Africa
+Sierra Leone,2008,Developing,46.2,6165372,46.3759178,8.3,Africa
+Sierra Leone,2007,Developing,45.3,615417,358.8274716,8.2,Africa
+Sierra Leone,2006,Developing,44.3,5848692,322.313468,8,Africa
+Sierra Leone,2005,Developing,43.3,5658379,287.6891942,7.8,Africa
+Sierra Leone,2004,Developing,42.3,5439695,263.145817,7.6,Africa
+Sierra Leone,2003,Developing,41.5,5199549,263.7618312,7.4,Africa
+Sierra Leone,2002,Developing,48,4957216,249.939542,7.2,Africa
+Sierra Leone,2001,Developing,41,4739147,227.779471,7,Africa
+Sierra Leone,2000,Developing,39,4564297,139.3147734,6.7,Africa
+Slovenia,2015,Developed,88,263531,2729.86383,17.3,Europe
+Slovenia,2014,Developed,87,26198,242.67286,17.6,Europe
+Slovenia,2013,Developed,85,259953,2315.31799,16.8,Europe
+Slovenia,2012,Developed,82,257159,22486.47167,16.8,Europe
+Slovenia,2011,Developed,79.8,252843,24985.24827,17,Europe
+Slovenia,2010,Developed,79.5,248583,23437.4722,16.9,Europe
+Slovenia,2009,Developed,79.1,239669,24633.79785,16.9,Europe
+Slovenia,2008,Developed,78.9,221316,2751.8127,16.9,Europe
+Slovenia,2007,Developed,78.3,218122,23841.31792,16.8,Europe
+Slovenia,2006,Developed,78.1,26868,19726.1265,16.7,Europe
+Slovenia,2005,Developed,77.5,2474,18169.1891,16.3,Europe
+Slovenia,2004,Developed,77.2,199712,1726.9151,16.6,Europe
+Slovenia,2003,Developed,76.5,1995733,1488.47154,16.1,Europe
+Slovenia,2002,Developed,76.6,199453,11814.9994,15.6,Europe
+Slovenia,2001,Developed,76.2,19926,1479.29634,14.7,Europe
+Slovenia,2000,Developed,76,1988925,1227.73677,14.6,Europe
+Solomon Islands,2015,Developing,69.2,587482,1922.41388,9.6,Oceania
+Solomon Islands,2014,Developing,68.8,57554,29.652622,9.6,Oceania
+Solomon Islands,2013,Developing,68.8,563513,188.5159,9.5,Oceania
+Solomon Islands,2012,Developing,68.7,551531,1858.689868,9.4,Oceania
+Solomon Islands,2011,Developing,68.5,539614,1642.837974,9.4,Oceania
+Solomon Islands,2010,Developing,68.3,52779,1272.44825,9.3,Oceania
+Solomon Islands,2009,Developing,68.1,51679,1158.282672,9.3,Oceania
+Solomon Islands,2008,Developing,68,54477,125.79167,9.2,Oceania
+Solomon Islands,2007,Developing,67.6,49294,146.931125,9,Oceania
+Solomon Islands,2006,Developing,67.6,481422,948.6592511,8.4,Oceania
+Solomon Islands,2005,Developing,67.4,469885,88.874858,8.3,Oceania
+Solomon Islands,2004,Developing,67.1,458324,818.442619,8.1,Oceania
+Solomon Islands,2003,Developing,66.8,446769,744.7657423,8,Oceania
+Solomon Islands,2002,Developing,66.5,435262,784.9562874,7.3,Oceania
+Solomon Islands,2001,Developing,66.2,423853,944.81684,6.6,Oceania
+Solomon Islands,2000,Developing,65.8,41269,154.518572,7.2,Oceania
+South Africa,2015,Developing,62.9,5511976.68,5769.77258,13,Africa
+South Africa,2014,Developing,62,54146734.74,6479.625659,13,Africa
+South Africa,2013,Developing,69,53311955.61,6876.953821,12.8,Africa
+South Africa,2012,Developing,59.2,5256515.8,7548.163698,12.8,Africa
+South Africa,2011,Developing,58.9,51729345.36,849.954224,12.8,Africa
+South Africa,2010,Developing,58,5979432.36,7362.76139,12.8,Africa
+South Africa,2009,Developing,56.5,5255813.11,5888.6284,12.8,Africa
+South Africa,2008,Developing,55.3,49557573.3,5786.59972,12.9,Africa
+South Africa,2007,Developing,54.5,48883844.99,6125.39984,12.9,Africa
+South Africa,2006,Developing,54,4823384.48,5631.73485,12.9,Africa
+South Africa,2005,Developing,53.8,476667.24,5414.634326,12.9,Africa
+South Africa,2004,Developing,53.7,4717.99,4863.51688,12.9,Africa
+South Africa,2003,Developing,54,46418193.9,3775.68275,12.9,Africa
+South Africa,2002,Developing,54.9,45855482.88,2518.398261,12.9,Africa
+South Africa,2001,Developing,56,45312937,2681.781,13,Africa
+South Africa,2000,Developing,57.3,44896856,337.2253,13,Africa
+South Sudan,2015,Developing,57.3,11882136,758.725782,4.9,Africa
+South Sudan,2014,Developing,56.6,1153971,1151.861715,4.9,Africa
+South Sudan,2013,Developing,56.4,1117749,1186.11325,4.9,Africa
+South Sudan,2012,Developing,56,1818258,958.45581,4.9,Africa
+South Sudan,2011,Developing,55.4,1448857,176.9713,4.9,Africa
+South Sudan,2010,Developing,55,167192,1562.239346,0,Africa
+South Sudan,2009,Developing,54.3,967667,1264.78998,0,Africa
+South Sudan,2008,Developing,53.6,9263136,1678.711862,0,Africa
+Spain,2015,Developed,82.8,46447697,25683.84565,17.7,Europe
+Spain,2014,Developed,82.6,4648882,296.47225,17.6,Europe
+Spain,2013,Developed,82.4,466245,2921.9342,17.5,Europe
+Spain,2012,Developed,82,4677355,28562.29324,17.2,Europe
+Spain,2011,Developed,82.1,46742697,31834.21816,16.9,Europe
+Spain,2010,Developed,81.9,46576897,3736.228,16.4,Europe
+Spain,2009,Developed,81.6,46362946,32333.4661,16.3,Europe
+Spain,2008,Developed,81.3,4595416,35578.73619,16.1,Europe
+Spain,2007,Developed,89,4522683,3279.414,16,Europe
+Spain,2006,Developed,88,44397319,28482.6948,15.9,Europe
+Spain,2005,Developed,81,43653155,2651.71745,15.8,Europe
+Spain,2004,Developed,81,42921895,24918.64584,15.6,Europe
+Spain,2003,Developed,79.4,42187645,21495.7741,15.6,Europe
+Spain,2002,Developed,79.5,41431558,1719.53541,15.7,Europe
+Spain,2001,Developed,79.4,485412,15323.6114,15.7,Europe
+Spain,2000,Developed,79.1,4567864,14676.769,15.7,Europe
+Sri Lanka,2015,Developing,74.9,2966,3844.89123,14,Asia
+Sri Lanka,2014,Developing,74.7,2771,382.54994,14,Asia
+Sri Lanka,2013,Developing,74.6,2585,361.289374,13.8,Asia
+Sri Lanka,2012,Developing,74.5,2425,335.521375,13.7,Asia
+Sri Lanka,2011,Developing,74.5,2271,322.992615,13.6,Asia
+Sri Lanka,2010,Developing,74.5,2119,2819.511161,13.5,Asia
+Sri Lanka,2009,Developing,71.8,19968,216.681584,13.4,Asia
+Sri Lanka,2008,Developing,72.3,19817,254.489192,13.3,Asia
+Sri Lanka,2007,Developing,73.7,19668,1644.816372,13.2,Asia
+Sri Lanka,2006,Developing,73.8,1952,1448.7611,13.1,Asia
+Sri Lanka,2005,Developing,74.2,19373,1259.87591,12.9,Asia
+Sri Lanka,2004,Developing,69.1,19228,174.6692,12.8,Asia
+Sri Lanka,2003,Developing,73.9,1983,989.4547732,12.7,Asia
+Sri Lanka,2002,Developing,73.7,18939,873.1472436,12.6,Asia
+Sri Lanka,2001,Developing,72.7,18797,837.699787,12.5,Asia
+Sri Lanka,2000,Developing,71.5,18655,875.412178,12.4,Asia
+Sudan,2015,Developing,64.1,3864783,2513.884661,7.2,Africa
+Sudan,2014,Developing,63.8,37737913,2176.89829,7.2,Africa
+Sudan,2013,Developing,63.5,36849918,1955.66799,7,Africa
+Sudan,2012,Developing,63.2,3599192,1892.894352,6.8,Africa
+Sudan,2011,Developing,62.7,35167314,1666.857757,7,Africa
+Sudan,2010,Developing,62.5,34385963,1476.47887,7,Africa
+Sudan,2009,Developing,62,3365619,1226.884381,6.8,Africa
+Sudan,2008,Developing,61.8,32955496,1291.528826,6.3,Africa
+Sudan,2007,Developing,61.4,32282526,1115.6952,6.4,Africa
+Sudan,2006,Developing,61,316764,893.8793645,6.2,Africa
+Sudan,2005,Developing,67,3911914,679.7539949,6.1,Africa
+Sudan,2004,Developing,59.7,3186341,565.569459,5.7,Africa
+Sudan,2003,Developing,59.6,29435944,477.738478,5.6,Africa
+Sudan,2002,Developing,59.4,28679565,412.1517561,5.6,Africa
+Sudan,2001,Developing,58.9,279455,377.5254454,5.6,Africa
+Sudan,2000,Developing,58.6,2725535,361.35843,5.5,Africa
+Suriname,2015,Developing,71.6,55328,8818.982566,12.7,Americas
+Suriname,2014,Developing,71.4,547928,9564.46383,12.7,Americas
+Suriname,2013,Developing,71.2,54254,9484.56898,12.7,Americas
+Suriname,2012,Developing,71.3,53777,9272.413453,12.7,Americas
+Suriname,2011,Developing,76,531589,8318.97692,12.5,Americas
+Suriname,2010,Developing,73,52613,833.31332,12.3,Americas
+Suriname,2009,Developing,70,52619,7443.85178,12.1,Americas
+Suriname,2008,Developing,69.8,515148,6858.163158,11.9,Americas
+Suriname,2007,Developing,69.5,5975,5761.39536,11.7,Americas
+Suriname,2006,Developing,69.3,5437,527.92,11.5,Americas
+Suriname,2005,Developing,68.9,498946,3595.8855,11.3,Americas
+Suriname,2004,Developing,68.3,49363,36.48773,11.1,Americas
+Suriname,2003,Developing,68,488332,263.1399,10.9,Americas
+Suriname,2002,Developing,67.9,48344,2232.513244,11,Americas
+Suriname,2001,Developing,67.7,47774,1598.77512,11,Americas
+Suriname,2000,Developing,67.4,47239,1888.61829,11.1,Americas
+Swaziland,2015,Developing,58.9,131911,3136.92511,11.4,Africa
+Swaziland,2014,Developing,58.4,129597,3464.35169,11.4,Africa
+Swaziland,2013,Developing,57.6,1271456,3598.75972,11.4,Africa
+Swaziland,2012,Developing,56.5,1248158,3851.51547,11.3,Africa
+Swaziland,2011,Developing,55,1225258,3934.27325,11.2,Africa
+Swaziland,2010,Developing,53.6,122843,369.239336,11,Africa
+Swaziland,2009,Developing,52.6,118675,332.517125,10.8,Africa
+Swaziland,2008,Developing,51.4,1158897,2842.438422,10.6,Africa
+Swaziland,2007,Developing,50,1138434,347.48798,10.5,Africa
+Swaziland,2006,Developing,47.8,112514,2937.36723,9.9,Africa
+Swaziland,2005,Developing,46,115873,2873.862141,9.7,Africa
+Swaziland,2004,Developing,45.6,19553,2529.633557,9.4,Africa
+Swaziland,2003,Developing,45.9,187392,22.99449,9.1,Africa
+Swaziland,2002,Developing,46.4,1893,1324.996228,9.2,Africa
+Swaziland,2001,Developing,47.1,172927,1437.634951,9.3,Africa
+Swaziland,2000,Developing,48.4,161468,1637.4567,9.4,Africa
+Sweden,2015,Developed,82.4,9799186,5585.25847,15.9,Europe
+Sweden,2014,Developed,82.3,969611,5918.19898,15.8,Europe
+Sweden,2013,Developed,81.9,96379,6283.24522,15.8,Europe
+Sweden,2012,Developed,81.7,9519374,57134.777,15.8,Europe
+Sweden,2011,Developed,81.7,9449213,59593.28711,16,Europe
+Sweden,2010,Developed,81.5,9378126,5276.25591,15.8,Europe
+Sweden,2009,Developed,81.4,9298515,4627.592,15.8,Europe
+Sweden,2008,Developed,81.1,9219637,55746.84238,15.7,Europe
+Sweden,2007,Developed,89,914892,53324.37937,15.8,Europe
+Sweden,2006,Developed,88,9855,46256.4716,15.9,Europe
+Sweden,2005,Developed,85,929572,4385.35315,16,Europe
+Sweden,2004,Developed,83,8993531,42442.2245,16,Europe
+Sweden,2003,Developed,82,8958229,36961.42537,15.9,Europe
+Sweden,2002,Developed,79.9,8924958,29571.7446,15.9,Europe
+Sweden,2001,Developed,79.8,889596,26969.24457,15.9,Europe
+Sweden,2000,Developed,79.6,887219,29283.55,15.9,Europe
+Switzerland,2015,Developed,83.4,8282396,8989.8424,16,Europe
+Switzerland,2014,Developed,83.2,8188649,85814.58857,15.9,Europe
+Switzerland,2013,Developed,83,889346,84658.88768,15.8,Europe
+Switzerland,2012,Developed,82.7,7996861,83164.38795,15.7,Europe
+Switzerland,2011,Developed,82.6,7912398,87998.44468,15.6,Europe
+Switzerland,2010,Developed,82.3,782499,74276.71842,15.4,Europe
+Switzerland,2009,Developed,82.1,7743831,69672.471,15.3,Europe
+Switzerland,2008,Developed,82,7647675,72119.5687,15.3,Europe
+Switzerland,2007,Developed,81.7,7551117,63223.46778,15.3,Europe
+Switzerland,2006,Developed,81.5,7483934,57348.92788,15.2,Europe
+Switzerland,2005,Developed,81.1,7437115,54797.54663,15.2,Europe
+Switzerland,2004,Developed,81,7389625,53255.97631,15.1,Europe
+Switzerland,2003,Developed,85,73391,4796.56497,15,Europe
+Switzerland,2002,Developed,84,7284753,41336.72192,15.2,Europe
+Switzerland,2001,Developed,82,7229854,38538.64447,15.2,Europe
+Switzerland,2000,Developed,79.7,718425,37813.23426,15.1,Europe
+Syrian Arab Republic,2007,Developing,73.8,1963286,258.3529,11.5,Asia
+Syrian Arab Republic,2006,Developing,73.7,18914977,1762.24617,11.4,Asia
+Syrian Arab Republic,2005,Developing,73.5,18294611,1577.457182,11,Asia
+Syrian Arab Republic,2004,Developing,73.2,1786638,148.852738,10.6,Asia
+Syrian Arab Republic,2003,Developing,73,17415266,1253.39143,10.3,Asia
+Syrian Arab Republic,2002,Developing,72.8,178791,1263.13455,10.2,Asia
+Syrian Arab Republic,2001,Developing,72.7,16766899,1258.421953,10.1,Asia
+Syrian Arab Republic,2000,Developing,72.6,1641848,1177.629268,10,Asia
+Tajikistan,2015,Developing,69.7,8548651,918.6771543,11.3,Asia
+Tajikistan,2014,Developing,69.6,8362745,114.45919,11.3,Asia
+Tajikistan,2013,Developing,69.3,817789,14.214412,11.2,Asia
+Tajikistan,2012,Developing,68.8,799562,954.725253,11.1,Asia
+Tajikistan,2011,Developing,68.1,7815949,834.5412953,11.1,Asia
+Tajikistan,2010,Developing,67.3,764163,738.3475227,11.1,Asia
+Tajikistan,2009,Developing,66.7,7472819,666.3458569,11.1,Asia
+Tajikistan,2008,Developing,66.4,739728,76.914128,10.8,Asia
+Tajikistan,2007,Developing,66.1,7152385,52.35956,10.9,Asia
+Tajikistan,2006,Developing,65.9,7557,44.2872665,10.7,Asia
+Tajikistan,2005,Developing,65.5,6854176,337.359236,10.6,Asia
+Tajikistan,2004,Developing,65.9,6712841,39.281834,10.5,Asia
+Tajikistan,2003,Developing,65.2,6576877,236.314438,10.1,Asia
+Tajikistan,2002,Developing,64.3,6447688,189.3878519,9.8,Asia
+Tajikistan,2001,Developing,64,6327125,17.8159721,9.7,Asia
+Tajikistan,2000,Developing,63.7,621625,138.436633,9.6,Asia
+Thailand,2015,Developing,74.9,686576,5814.863134,13.6,Asia
+Thailand,2014,Developing,74.6,68416772,5941.8471,13.6,Asia
+Thailand,2013,Developing,74.5,6814365,6171.262444,13.6,Asia
+Thailand,2012,Developing,74.3,67843979,5859.915622,13.7,Asia
+Thailand,2011,Developing,74.1,675313,5491.159981,13.3,Asia
+Thailand,2010,Developing,73.9,672888,575.32176,13.1,Asia
+Thailand,2009,Developing,73.7,66881867,4212.5492,13,Asia
+Thailand,2008,Developing,73.5,6654576,4378.68746,12.9,Asia
+Thailand,2007,Developing,73.3,66195615,3972.26475,12.3,Asia
+Thailand,2006,Developing,73,65824164,3368.952576,12.4,Asia
+Thailand,2005,Developing,72.5,6542547,2893.651356,12,Asia
+Thailand,2004,Developing,71.6,652231,2659.83918,11.9,Asia
+Thailand,2003,Developing,71.7,64554952,2358.93629,11.8,Asia
+Thailand,2002,Developing,71.4,6473164,296.54617,11.5,Asia
+Thailand,2001,Developing,71.2,63543322,1893.145377,11.2,Asia
+Thailand,2000,Developing,71.1,6295821,27.564826,10.9,Asia
+Timor-Leste,2015,Developing,68.3,124977,1161.76935,12.5,Asia
+Timor-Leste,2014,Developing,68,1212814,1153.51578,12.5,Asia
+Timor-Leste,2013,Developing,67.7,1184366,117.765674,12.5,Asia
+Timor-Leste,2012,Developing,67.4,115676,1117.77724,12.5,Asia
+Timor-Leste,2011,Developing,67.2,1131523,114.56179,12.5,Asia
+Timor-Leste,2010,Developing,66.9,119591,849.8626972,12.4,Asia
+Timor-Leste,2009,Developing,66.6,19221,757.3114436,12.1,Asia
+Timor-Leste,2008,Developing,66.2,17811,643.71911,11.7,Asia
+Timor-Leste,2007,Developing,65.8,164973,524.8959363,11.3,Asia
+Timor-Leste,2006,Developing,64.9,148621,441.53226,11,Asia
+Timor-Leste,2005,Developing,63.7,126484,478.331859,10.6,Asia
+Timor-Leste,2004,Developing,62.3,996698,467.5438297,10.2,Asia
+Timor-Leste,2003,Developing,61,96852,471.4565823,9.8,Asia
+Timor-Leste,2002,Developing,62,923825,48.61552,9.8,Asia
+Timor-Leste,2001,Developing,59.4,892531,56.4249869,9.8,Asia
+Timor-Leste,2000,Developing,58.7,87167,422.28633,0,Asia
+Togo,2015,Developing,59.9,741682,551.138346,12,Africa
+Togo,2014,Developing,59.7,7228915,62.1318489,12,Africa
+Togo,2013,Developing,59.4,742948,579.43485,12,Africa
+Togo,2012,Developing,58.9,6859482,563.6894247,12,Africa
+Togo,2011,Developing,58.3,6679282,562.3393592,11.5,Africa
+Togo,2010,Developing,57.4,652952,487.9238913,11,Africa
+Togo,2009,Developing,56.7,633472,499.6468713,10.6,Africa
+Togo,2008,Developing,56.2,6161796,513.391914,10.1,Africa
+Togo,2007,Developing,55.9,5997385,42.764743,10.6,Africa
+Togo,2006,Developing,55.7,5837792,377.33629,10.2,Africa
+Togo,2005,Developing,55,5683268,372.1721837,10.1,Africa
+Togo,2004,Developing,54.9,5534598,349.9937253,10,Africa
+Togo,2003,Developing,54.7,539141,31.437144,9.9,Africa
+Togo,2002,Developing,54.7,5251472,28.832123,9.7,Africa
+Togo,2001,Developing,54.6,511177,26.6394652,9.4,Africa
+Togo,2000,Developing,54.6,497367,26.3932935,9.3,Africa
+Tonga,2015,Developing,73.5,16364,493.775387,14.3,Oceania
+Tonga,2014,Developing,73.3,15782,4192.349758,14.3,Oceania
+Tonga,2013,Developing,73.2,15328,4266.557174,14.3,Oceania
+Tonga,2012,Developing,73,14951,451.542462,14.4,Oceania
+Tonga,2011,Developing,72.9,14577,445.18866,14.4,Oceania
+Tonga,2010,Developing,72.8,14137,3547.59975,14.4,Oceania
+Tonga,2009,Developing,72.5,1364,37.846563,14.5,Oceania
+Tonga,2008,Developing,72.6,135,3392.64743,14.5,Oceania
+Tonga,2007,Developing,72.5,12357,2932.315883,14.5,Oceania
+Tonga,2006,Developing,72.4,11689,2892.522663,14.6,Oceania
+Tonga,2005,Developing,72.3,1141,2594.74999,14.6,Oceania
+Tonga,2004,Developing,72.2,146,2284.37858,14.6,Oceania
+Tonga,2003,Developing,72,99789,229.714718,13.7,Oceania
+Tonga,2002,Developing,71.9,99184,1842.44421,13.5,Oceania
+Tonga,2001,Developing,71.8,98611,1837.977391,13.2,Oceania
+Tonga,2000,Developing,71.6,9882,263.27236,13.7,Oceania
+Trinidad and Tobago,2015,Developing,71.2,13692,17321.83373,12.7,Americas
+Trinidad and Tobago,2014,Developing,71.1,1354493,19325.24283,12.7,Americas
+Trinidad and Tobago,2013,Developing,71,1348248,1967.83283,12.7,Americas
+Trinidad and Tobago,2012,Developing,78,1341588,19152.531,12.6,Americas
+Trinidad and Tobago,2011,Developing,76,1334788,1953.9767,12.6,Americas
+Trinidad and Tobago,2010,Developing,74,13281,16683.94578,12.5,Americas
+Trinidad and Tobago,2009,Developing,71,1321618,1458.8796,12.5,Americas
+Trinidad and Tobago,2008,Developing,69.9,1315372,21188.11857,12.4,Americas
+Trinidad and Tobago,2007,Developing,69.7,13926,1653.1844,12.4,Americas
+Trinidad and Tobago,2006,Developing,69.6,133144,1495.96337,12.3,Americas
+Trinidad and Tobago,2005,Developing,69.5,1296934,12323.1275,12.3,Americas
+Trinidad and Tobago,2004,Developing,69.4,129535,129.51914,12.2,Americas
+Trinidad and Tobago,2003,Developing,69.3,128452,884.518666,12,Americas
+Trinidad and Tobago,2002,Developing,69.2,1277837,749.626612,11.9,Americas
+Trinidad and Tobago,2001,Developing,69.1,127238,6935.721451,11.8,Americas
+Trinidad and Tobago,2000,Developing,69.1,1267984,643.947262,11.7,Americas
+Tunisia,2015,Developing,75.3,11273661,3828.91589,14.6,Africa
+Tunisia,2014,Developing,75.1,1114398,4271.68172,14.7,Africa
+Tunisia,2013,Developing,74.9,1114558,4199.47253,14.7,Africa
+Tunisia,2012,Developing,74.9,1886668,4137.55421,14.6,Africa
+Tunisia,2011,Developing,74.8,1761467,4256.91279,14.5,Africa
+Tunisia,2010,Developing,74.8,1639931,414.15177,14.4,Africa
+Tunisia,2009,Developing,74.7,1521834,4129.977335,14.4,Africa
+Tunisia,2008,Developing,74.7,147336,431.9326,14.3,Africa
+Tunisia,2007,Developing,74.6,129887,3778.184171,14.3,Africa
+Tunisia,2006,Developing,74.4,1196136,3371.71231,14.2,Africa
+Tunisia,2005,Developing,74.2,112482,3194.562243,13.9,Africa
+Tunisia,2004,Developing,74,11761,3112.83529,13.6,Africa
+Tunisia,2003,Developing,73.7,9939678,2761.969249,13.5,Africa
+Tunisia,2002,Developing,73.5,9864326,2346.5937,13.3,Africa
+Tunisia,2001,Developing,73.2,978571,2254.933126,13.1,Africa
+Tunisia,2000,Developing,72.9,9699197,2213.91488,12.8,Africa
+Turkey,2015,Developing,75.8,78271472,1979.52569,14.5,Europe
+Turkey,2014,Developing,75.5,773628,12127.22522,14.5,Europe
+Turkey,2013,Developing,75.2,75787333,12542.93565,14.4,Europe
+Turkey,2012,Developing,74.8,74569867,1172.3843,14.3,Europe
+Turkey,2011,Developing,74.5,7349455,11341.13395,13.8,Europe
+Turkey,2010,Developing,74.2,72326914,1672.5693,13,Europe
+Turkey,2009,Developing,73.9,71339185,936.499911,12.5,Europe
+Turkey,2008,Developing,73.5,74432,185.68975,12.5,Europe
+Turkey,2007,Developing,73.2,69597281,979.49246,12.3,Europe
+Turkey,2006,Developing,72.8,6876345,834.869161,11.9,Europe
+Turkey,2005,Developing,72.4,679346,7384.354661,11.9,Europe
+Turkey,2004,Developing,72,677855,64.72953,12,Europe
+Turkey,2003,Developing,71.6,668583,4718.51291,11.9,Europe
+Turkey,2002,Developing,71.2,6514354,366.57,11.5,Europe
+Turkey,2001,Developing,78,64191474,3119.63716,11.1,Europe
+Turkey,2000,Developing,74,6324121,4316.553895,10.7,Europe
+Turkmenistan,2015,Developing,66.3,5565284,6432.668768,10.8,Asia
+Turkmenistan,2014,Developing,66,5466241,7962.365824,10.8,Asia
+Turkmenistan,2013,Developing,65.4,5366277,734.42525,10.7,Asia
+Turkmenistan,2012,Developing,65.6,5267839,6675.262954,10.7,Asia
+Turkmenistan,2011,Developing,65.6,517461,5649.978486,10.6,Asia
+Turkmenistan,2010,Developing,65.8,58721,4439.23,10.6,Asia
+Turkmenistan,2009,Developing,65.6,5795,436.459223,10.5,Asia
+Turkmenistan,2008,Developing,64.5,4935762,394.467675,10.5,Asia
+Turkmenistan,2007,Developing,64.1,487137,26.371428,10.4,Asia
+Turkmenistan,2006,Developing,63.7,48115,2136.66815,10.4,Asia
+Turkmenistan,2005,Developing,63.3,4754641,174.51475,10.3,Asia
+Turkmenistan,2004,Developing,63.5,473398,1453.917166,10.3,Asia
+Turkmenistan,2003,Developing,63.4,4655741,1283.885977,10.3,Asia
+Turkmenistan,2002,Developing,63.3,4612,967.917468,10.2,Asia
+Turkmenistan,2001,Developing,64,45648,774.4763388,10.2,Asia
+Turkmenistan,2000,Developing,63.8,4516131,643.17518,0,Asia
+Uganda,2015,Developing,62.3,414487,693.8963829,10,Africa
+Uganda,2014,Developing,61.5,38833338,719.172669,10,Africa
+Uganda,2013,Developing,67,37553726,662.492293,10,Africa
+Uganda,2012,Developing,60,3636796,647.74741,10,Africa
+Uganda,2011,Developing,59.3,3593648,584.3962137,10.7,Africa
+Uganda,2010,Developing,58.4,33915133,594.9972557,10.9,Africa
+Uganda,2009,Developing,57.5,32771895,647.17732,10.8,Africa
+Uganda,2008,Developing,56.3,31663896,449.6928183,10.6,Africa
+Uganda,2007,Developing,55.5,359487,41.858631,10.3,Africa
+Uganda,2006,Developing,54.9,2955662,336.4593923,10.6,Africa
+Uganda,2005,Developing,53.2,2854394,315.788227,10.9,Africa
+Uganda,2004,Developing,51.3,27568436,288.236949,11.6,Africa
+Uganda,2003,Developing,51,2662482,237.9995917,11.5,Africa
+Uganda,2002,Developing,48.8,2571848,24.2423229,11,Africa
+Uganda,2001,Developing,47.7,24854892,234.984775,10.8,Africa
+Uganda,2000,Developing,46.6,2439274,257.63369,9.8,Africa
+Ukraine,2015,Developing,71.3,4515429,2124.662666,15.3,Europe
+Ukraine,2014,Developing,78,45271947,314.658296,15.2,Europe
+Ukraine,2013,Developing,71,454896,429.71554,15.2,Europe
+Ukraine,2012,Developing,77,455933,3855.42128,15.1,Europe
+Ukraine,2011,Developing,75,45761,3569.75727,14.9,Europe
+Ukraine,2010,Developing,69.8,45877,2965.142365,14.9,Europe
+Ukraine,2009,Developing,69.2,46533,2545.48341,14.9,Europe
+Ukraine,2008,Developing,67.7,462582,3891.37823,14.9,Europe
+Ukraine,2007,Developing,67.5,465935,368.68998,14.8,Europe
+Ukraine,2006,Developing,67.7,4678775,233.18831,14.7,Europe
+Ukraine,2005,Developing,67,471515,1828.717626,14.5,Europe
+Ukraine,2004,Developing,67.4,474516,1367.352433,14.6,Europe
+Ukraine,2003,Developing,67.6,4781295,148.522488,14.3,Europe
+Ukraine,2002,Developing,67.6,48225,879.475486,13.9,Europe
+Ukraine,2001,Developing,67.7,48683865,78.738243,13.2,Europe
+Ukraine,2000,Developing,67.5,49175848,635.789635,13.3,Europe
+Uruguay,2015,Developing,77,3431552,15524.84247,15.5,Americas
+Uruguay,2014,Developing,76.8,3419546,16737.89827,15.5,Americas
+Uruguay,2013,Developing,76.8,3485,16881.2568,15.5,Americas
+Uruguay,2012,Developing,76.5,3396777,1592.6819,15.5,Americas
+Uruguay,2011,Developing,77,3385624,14166.4998,15.5,Americas
+Uruguay,2010,Developing,76.3,3374415,11938.212,15.6,Americas
+Uruguay,2009,Developing,76.6,3362755,9415.17386,15.5,Americas
+Uruguay,2008,Developing,76.4,335824,962.312164,15.7,Americas
+Uruguay,2007,Developing,75.4,3339741,79.69746,15.3,Americas
+Uruguay,2006,Developing,76.2,333143,5877.87678,15.2,Americas
+Uruguay,2005,Developing,75.7,3325612,522.951116,15.5,Americas
+Uruguay,2004,Developing,75.4,332496,4117.38853,15.5,Americas
+Uruguay,2003,Developing,75.4,3325637,3622.52284,15,Americas
+Uruguay,2002,Developing,75.4,3327773,488.768855,14.7,Americas
+Uruguay,2001,Developing,75.2,332713,6281.37747,14.2,Americas
+Uruguay,2000,Developing,75.1,3321245,6871.897677,14,Americas
+Uzbekistan,2015,Developing,69.4,312989,2137.576852,12.1,Asia
+Uzbekistan,2014,Developing,69.2,37577,25.448414,12.1,Asia
+Uzbekistan,2013,Developing,69.1,32432,197.551233,12,Asia
+Uzbekistan,2012,Developing,68.8,297745,174.468298,12,Asia
+Uzbekistan,2011,Developing,68.5,293394,1564.966945,12,Asia
+Uzbekistan,2010,Developing,68.3,285624,1377.8214,11.9,Asia
+Uzbekistan,2009,Developing,68,277674,1213.265328,11.8,Asia
+Uzbekistan,2008,Developing,67.9,27328,182.28625,11.9,Asia
+Uzbekistan,2007,Developing,67.8,26868,83.476942,11.8,Asia
+Uzbekistan,2006,Developing,67.6,2648825,654.2838373,11.8,Asia
+Uzbekistan,2005,Developing,67.3,26167,546.776852,11.7,Asia
+Uzbekistan,2004,Developing,67.8,2586435,465.1198869,11.6,Asia
+Uzbekistan,2003,Developing,67.2,2556765,396.129969,11.3,Asia
+Uzbekistan,2002,Developing,67.1,2527185,383.3494997,11,Asia
+Uzbekistan,2001,Developing,67.4,2496445,456.734892,10.7,Asia
+Uzbekistan,2000,Developing,67.1,24654,558.221144,10.6,Asia
+Vanuatu,2015,Developing,72,26463,285.83414,10.8,Oceania
+Vanuatu,2014,Developing,71.7,25885,3148.36513,10.8,Oceania
+Vanuatu,2013,Developing,71.6,253142,3167.34356,10.8,Oceania
+Vanuatu,2012,Developing,71.4,247485,3158.58688,10.8,Oceania
+Vanuatu,2011,Developing,71.2,241871,3275.91684,10.8,Oceania
+Vanuatu,2010,Developing,71,236295,2965.82434,10.8,Oceania
+Vanuatu,2009,Developing,78,23785,2643.441423,10.7,Oceania
+Vanuatu,2008,Developing,75,22534,2697.961375,10.7,Oceania
+Vanuatu,2007,Developing,73,219953,2393.367265,10.7,Oceania
+Vanuatu,2006,Developing,71,214634,247.97823,10.6,Oceania
+Vanuatu,2005,Developing,69.9,2937,1886.433359,10.6,Oceania
+Vanuatu,2004,Developing,69.6,24143,1787.94723,10.7,Oceania
+Vanuatu,2003,Developing,69.4,198964,158.52724,10.4,Oceania
+Vanuatu,2002,Developing,69.3,193956,1353.934819,10.2,Oceania
+Vanuatu,2001,Developing,69.1,18929,1362.61731,10.1,Oceania
+Vanuatu,2000,Developing,69,18563,1469.849149,9.6,Oceania
+Zambia,2015,Developing,61.8,161587,1313.889646,12.5,Africa
+Zambia,2014,Developing,61.1,1562974,1738.8822,12.5,Africa
+Zambia,2013,Developing,63,1515321,185.793359,12.5,Africa
+Zambia,2012,Developing,59.2,14699937,1734.93612,12.3,Africa
+Zambia,2011,Developing,58.2,14264756,1644.619672,12,Africa
+Zambia,2010,Developing,58,138533,1463.213573,11.8,Africa
+Zambia,2009,Developing,57.4,13456417,1139.11233,11.6,Africa
+Zambia,2008,Developing,55.7,1382517,1369.68249,11.4,Africa
+Zambia,2007,Developing,52.6,12725974,114.587985,11.1,Africa
+Zambia,2006,Developing,58,12383446,13.154199,10.9,Africa
+Zambia,2005,Developing,49.3,1252156,691.3178164,10.7,Africa
+Zambia,2004,Developing,47.9,11731746,53.2772217,10.5,Africa
+Zambia,2003,Developing,46.4,11421984,429.1583434,10.2,Africa
+Zambia,2002,Developing,45.5,111249,377.135244,10,Africa
+Zambia,2001,Developing,44.6,1824125,378.2736238,9.8,Africa
+Zambia,2000,Developing,43.8,1531221,341.955625,9.6,Africa
+Zimbabwe,2015,Developing,67,15777451,118.69383,10.3,Africa
+Zimbabwe,2014,Developing,59.2,15411675,127.47462,10.3,Africa
+Zimbabwe,2013,Developing,58,155456,111.227396,10.4,Africa
+Zimbabwe,2012,Developing,56.6,1471826,955.648466,9.8,Africa
+Zimbabwe,2011,Developing,54.9,14386649,839.927936,10.1,Africa
+Zimbabwe,2010,Developing,52.4,1486317,713.63562,10,Africa
+Zimbabwe,2009,Developing,50,1381599,65.824121,9.9,Africa
+Zimbabwe,2008,Developing,48.2,13558469,325.678573,9.7,Africa
+Zimbabwe,2007,Developing,46.6,1332999,396.9982166,9.6,Africa
+Zimbabwe,2006,Developing,45.4,13124267,414.796232,9.5,Africa
+Zimbabwe,2005,Developing,44.6,129432,444.76575,9.3,Africa
+Zimbabwe,2004,Developing,44.3,12777511,454.366654,9.2,Africa
+Zimbabwe,2003,Developing,44.5,12633897,453.3511552,9.5,Africa
+Zimbabwe,2002,Developing,44.8,125525,57.34834,10,Africa
+Zimbabwe,2001,Developing,45.3,12366165,548.587312,9.8,Africa
+Zimbabwe,2000,Developing,46,12222251,547.3588785,9.8,Africa

@@ -65,7 +65,10 @@ def create_output_directory(all_outputs, test_id_without_timestamp, timestamp):
     
 def convert(input, project, test_set, test, load):
     all_outputs = os.path.abspath(os.path.join("../../executed"))
-    
+    if not os.path.isdir(all_outputs):
+        logging.debug(f"Creating {all_outputs}, since it does not exist.")
+        os.makedirs(all_outputs)
+
     data_frame = pandas.read_csv(input)
     test_id_without_timestamp = f"{test_set}-{test}-{load}"
     timestamp_in_millis = math.trunc(data_frame.iloc[0]["timeStamp"]/1000)
