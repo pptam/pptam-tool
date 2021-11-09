@@ -6,6 +6,7 @@ import logging
 import sqlite3
 import contextlib
 import dash
+from dash import dash_table
 from dash import dcc
 from dash import html
 import plotly.express as px
@@ -50,6 +51,8 @@ def create_dashboard(project):
                 params=(project_id,),
             )
 
+            tests = pd.unique(all_data.users)
+
             # scale users in operational profile to users in tests
             max_no_of_users = np.max(all_data.users)
             min_no_of_users = np.min(all_data.users)
@@ -61,14 +64,29 @@ def create_dashboard(project):
 
             # calculate the relative frequencies in the operational profile
             total_number_of_accesses = np.sum(operational_profile.frequency)
-            calculate_frequency = lambda x: x / total_number_of_accesses
+            
+            def calculate_frequency(x):
+                return x / total_number_of_accesses
+
             scaled_operational_profile["relative_frequency"] = scaled_operational_profile["frequency"].apply(calculate_frequency)
 
-            # calculate bins and sum relative frequencies for each bin
-            number_of_bins = 10
+            # calculate bins and sum relative frequencies for each bin            
             scaled_operational_profile = insert_zero_users_record_at_the_beginning(scaled_operational_profile)
-            scaled_operational_profile["workload_range"] = pd.cut(scaled_operational_profile.users, number_of_bins)
-            scaled_operational_profile["workload"] = scaled_operational_profile["workload_range"].apply(lambda range: int(range.right))
+
+            # assign a fixed number of bins, this is Barbara's technique in the R script
+            # number_of_bins = 10
+            # scaled_operational_profile["workload_range"] = pd.cut(scaled_operational_profile.users, number_of_bins)
+            # scaled_operational_profile["workload"] = scaled_operational_profile["workload_range"].apply(lambda range: int(range.right))
+            
+            # assign bins according to the present tests 
+            def assign_test(users):
+                for x in tests:
+                    if x>=users:
+                        return x
+
+                return max(tests)
+            
+            scaled_operational_profile["workload"] = scaled_operational_profile["users"].apply(assign_test)
             bins = scaled_operational_profile[["workload", "relative_frequency"]].groupby(by=["workload"], as_index=False).sum()  
 
             # calculate threshold
@@ -80,15 +98,22 @@ def create_dashboard(project):
 
             # list_of_microservices = pd.unique(all_data.item_name)
             tests = pd.pivot_table(all_data[all_data.users != min_no_of_users], values="item_value", index=["test_id", "test_set_id", "users", "item_name"], columns=["metric"], aggfunc=np.mean, fill_value=np.Infinity)
-            tests = pd.DataFrame(tests.to_records())             
-            tests["relative_mass"] = tests.apply(lambda row: row["mix"] if np.max(threshold[threshold.item_name==row["item_name"]].threshold) > row["art"] else 0, axis = 1)
+            tests = pd.DataFrame(tests.to_records())   
+
+            def verify_if_response_time_is_above_threshold(row):
+                if np.max(threshold[threshold.item_name==row["item_name"]].threshold) > row["art"]:
+                    return row["mix"] 
+                else: 0
+
+            tests["relative_mass"] = tests.apply(verify_if_response_time_is_above_threshold, axis = 1)
             tests = tests[["test_id", "test_set_id", "users", "relative_mass"]].groupby(by=["test_id", "test_set_id", "users"], as_index=False).sum()
-            tests["absolute_mass"] = tests.apply(lambda row: row["relative_mass"] * np.max(bins[bins.workload==row["users"]].relative_frequency), axis = 1)
+            
+            def calculate_absolute_mass(row):
+                return row["relative_mass"] * np.max(bins[bins.workload==row["users"]].relative_frequency)
+            
+            tests["absolute_mass"] = tests.apply(calculate_absolute_mass, axis = 1)
             tests=tests.sort_values(by=["test_set_id", "users"])
-
-            # this should be added as a table
-            domain_metric_per_test_set = tests[["test_set_id", "absolute_mass"]].groupby(by=["test_set_id"], as_index=False).sum()
-
+            
             app = dash.Dash()
             fig = go.Figure()
 
@@ -104,10 +129,25 @@ def create_dashboard(project):
 
             for id, group in tests.groupby(by=["test_set_id"]):
                 test_set_name=test_sets[test_sets.id==id].name.squeeze()
-                print(test_set_name)
                 fig.add_trace(go.Scatter(name=test_set_name, x=group["users"], y=group["absolute_mass"], fill='tozeroy'))
 
-            app.layout = html.Div([dcc.Graph(id="polygon-plot", figure=fig)])
+            def get_test_set_name(id):
+                return test_sets[test_sets.id==id].name.squeeze()
+
+            domain_metric_per_test_set = tests[["test_set_id", "absolute_mass"]].groupby(by=["test_set_id"], as_index=False).sum()
+            domain_metric_per_test_set["test_set_name"] = domain_metric_per_test_set["test_set_id"].apply(get_test_set_name)
+
+            app.layout = html.Div(
+            [                   
+                html.Div(dcc.Graph(id="polygon-plot", figure=fig)),
+
+                html.Div(dash_table.DataTable(
+                    id='table',
+                    columns=[{"name": "Test set", "id": "test_set_name"}, {"name": "Absolute mass", "id": "absolute_mass"}],
+                    data=domain_metric_per_test_set.to_dict('records'),
+                ))
+            ])
+
             app.run_server(debug=False)
 
 
