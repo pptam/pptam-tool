@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import os
 import argparse
 import logging
 import sqlite3
@@ -9,10 +8,10 @@ import dash
 from dash import dash_table
 from dash import dcc
 from dash import html
-import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
+
 from lib import init_db, get_scalar, execute_statement
 
 def insert_zero_users_record_at_the_beginning(scaled_operational_profile):
@@ -51,7 +50,9 @@ def create_dashboard(project):
                 params=(project_id,),
             )
 
-            tests = pd.unique(all_data.users)
+            tests = pd.unique(all_data.sort_values(by="users").users)
+
+            logging.debug(f"Found {len(tests)} tests.")
 
             # scale users in operational profile to users in tests
             max_no_of_users = np.max(all_data.users)
