@@ -78,7 +78,7 @@ def store_test(test_path):
                                 execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, create_or_get_item(connection, project_id, row["Name"]), get_metric(connection, "rps"), float(row["Requests/s"]), created_at))
                             if "Failures/s" in row and row["Failures/s"] != "N/A":
                                 execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, create_or_get_item(connection, project_id, row["Name"]), get_metric(connection, "fps"), float(row["Failures/s"]), created_at))
-                            if "Standard Deviation" in row and row["Standard Deviation Response Time"] != "N/A":
+                            if "Standard Deviation Response Time" in row and row["Standard Deviation Response Time"] != "N/A":
                                 execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, create_or_get_item(connection, project_id, row["Name"]), get_metric(connection, "sdrt"), float(row["Standard Deviation Response Time"]), created_at))
                             else:
                                 if row["25%"] != "N/A" and row["75%"] != "N/A":

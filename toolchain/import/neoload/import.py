@@ -73,7 +73,7 @@ def convert(input, project, test_set, test, timestamp, load):
     
     header = "Type,Name,Request Count,Failure Count,Median Response Time,Average Response Time,Min Response Time,Max Response Time,Requests/s,Failures/s,Standard Deviation Response Time"
 
-    with open(os.path.join(output, "results.csv"), "w") as results:
+    with open(os.path.join(output, "result_stats.csv"), "w") as results:
         results.write(f"{header}\n")
         for key, value in groups.items():
             results.write(f"{get_line(key, value)}\n")
