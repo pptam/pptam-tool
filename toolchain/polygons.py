@@ -45,7 +45,7 @@ def create_dashboard(project):
                 INNER JOIN metrics ON results.metric = metrics.id 
                 INNER JOIN test_set_tests ON (test_set_tests.test = tests.id)
                 INNER JOIN test_sets ON (test_sets.id = test_set_tests.test_set AND test_sets.project = tests.project)
-                WHERE tests.project = :project AND metrics.abbreviation IN ('art', 'sdrt', 'mix')""",
+                WHERE tests.project = :project AND metrics.abbreviation IN ('art', 'sdrt', 'mix','maxrt')""",
                 connection,
                 params=(project_id,),
             )
@@ -102,7 +102,7 @@ def create_dashboard(project):
             tests = pd.DataFrame(tests.to_records())   
 
             def verify_if_response_time_is_above_threshold(row):
-                if np.max(threshold[threshold.item_name==row["item_name"]].threshold) > row["art"]:
+                if np.max(threshold[threshold.item_name==row["item_name"]].threshold) > row["maxrt"]:
                     return row["mix"] 
                 else: 0
 
@@ -149,7 +149,7 @@ def create_dashboard(project):
                 ))
             ])
 
-            app.run_server(debug=False)
+            app.run_server(debug=False,port=8888)
 
 
 if __name__ == "__main__":
