@@ -11,6 +11,7 @@ from dash import html
 import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
+from scipy.stats import poisson
 
 from lib import init_db, get_scalar, execute_statement
 
@@ -20,21 +21,13 @@ def insert_zero_users_record_at_the_beginning(scaled_operational_profile):
     scaled_operational_profile.sort_index(inplace=True)
     return scaled_operational_profile
 
-def create_dashboard(project):
+def create_dashboard(project, threshold_metric, operational_profile_type):
     with contextlib.closing(sqlite3.connect("pptam.db")) as connection:
         with connection:
             project_id = get_scalar(connection, "SELECT id FROM projects WHERE name = ?", (project,))
             if project_id is None:
                 print("Cannot find project.")
                 return
-
-            operational_profile = pd.read_sql(
-                """SELECT users, frequency 
-                FROM operational_profile_observations 
-                WHERE operational_profile = (SELECT id FROM operational_profiles WHERE project = :project) order by users""",
-                connection,
-                params=(project_id,),
-            )
 
             all_data = pd.read_sql(
                 """SELECT tests.id AS test_id, test_sets.id AS test_set_id, CAST(test_properties.value as integer) AS users, metrics.abbreviation AS metric, items.name AS item_name, results.value AS item_value
@@ -58,37 +51,61 @@ def create_dashboard(project):
             max_no_of_users = np.max(all_data.users)
             min_no_of_users = np.min(all_data.users)
 
-            max_no_of_requests = np.max(operational_profile.users)
-            scale_factor = max_no_of_users / max_no_of_requests
-            scaled_user_load = np.floor(operational_profile.users * scale_factor)
-            scaled_operational_profile = pd.DataFrame({"users": scaled_user_load, "frequency": operational_profile.frequency})
+            bins = None
 
-            # calculate the relative frequencies in the operational profile
-            total_number_of_accesses = np.sum(operational_profile.frequency)
-            
-            def calculate_frequency(x):
-                return x / total_number_of_accesses
+            if operational_profile_type==1:
+                average_no_of_users = np.average(all_data.users)
 
-            scaled_operational_profile["relative_frequency"] = scaled_operational_profile["frequency"].apply(calculate_frequency)
+                frequencies = []
+                for i in range(len(tests)):    
+                    if i==0:
+                        frequencies.append(poisson.cdf(tests[i], average_no_of_users))
+                    else:
+                        frequencies.append(poisson.cdf(tests[i], average_no_of_users) - poisson.cdf(tests[i-1], average_no_of_users))
+                        
+                bins = pd.DataFrame({"workload": tests, "relative_frequency": frequencies})
 
-            # calculate bins and sum relative frequencies for each bin            
-            scaled_operational_profile = insert_zero_users_record_at_the_beginning(scaled_operational_profile)
 
-            # assign a fixed number of bins, this is Barbara's technique in the R script
-            # number_of_bins = 10
-            # scaled_operational_profile["workload_range"] = pd.cut(scaled_operational_profile.users, number_of_bins)
-            # scaled_operational_profile["workload"] = scaled_operational_profile["workload_range"].apply(lambda range: int(range.right))
-            
-            # assign bins according to the present tests 
-            def assign_test(users):
-                for x in tests:
-                    if x>=users:
-                        return x
+            if operational_profile_type==2:
+                operational_profile = pd.read_sql(
+                    """SELECT users, frequency 
+                    FROM operational_profile_observations 
+                    WHERE operational_profile = (SELECT id FROM operational_profiles WHERE project = :project) order by users""",
+                    connection,
+                    params=(project_id,)
+                )
 
-                return max(tests)
-            
-            scaled_operational_profile["workload"] = scaled_operational_profile["users"].apply(assign_test)
-            bins = scaled_operational_profile[["workload", "relative_frequency"]].groupby(by=["workload"], as_index=False).sum()  
+                max_no_of_requests = np.max(operational_profile.users)
+                scale_factor = max_no_of_users / max_no_of_requests
+                scaled_user_load = np.floor(operational_profile.users * scale_factor)
+                scaled_operational_profile = pd.DataFrame({"users": scaled_user_load, "frequency": operational_profile.frequency})
+
+                # calculate the relative frequencies in the operational profile
+                total_number_of_accesses = np.sum(operational_profile.frequency)
+                
+                def calculate_frequency(x):
+                    return x / total_number_of_accesses
+
+                scaled_operational_profile["relative_frequency"] = scaled_operational_profile["frequency"].apply(calculate_frequency)
+
+                # calculate bins and sum relative frequencies for each bin            
+                scaled_operational_profile = insert_zero_users_record_at_the_beginning(scaled_operational_profile)
+
+                # assign a fixed number of bins, this is Barbara's technique in the R script
+                # number_of_bins = 10
+                # scaled_operational_profile["workload_range"] = pd.cut(scaled_operational_profile.users, number_of_bins)
+                # scaled_operational_profile["workload"] = scaled_operational_profile["workload_range"].apply(lambda range: int(range.right))
+                
+                # assign bins according to the present tests 
+                def assign_test(users):
+                    for x in tests:
+                        if x>=users:
+                            return x
+
+                    return max(tests)
+                
+                scaled_operational_profile["workload"] = scaled_operational_profile["users"].apply(assign_test)
+                bins = scaled_operational_profile[["workload", "relative_frequency"]].groupby(by=["workload"], as_index=False).sum()                   
 
             # calculate threshold
             data_of_min_user = all_data[all_data.users == min_no_of_users]
@@ -102,9 +119,15 @@ def create_dashboard(project):
             tests = pd.DataFrame(tests.to_records())   
 
             def verify_if_response_time_is_above_threshold(row):
-                if np.max(threshold[threshold.item_name==row["item_name"]].threshold) > row["maxrt"]:
-                    return row["mix"] 
-                else: 0
+                if threshold_metric==1:
+                    if np.max(threshold[threshold.item_name==row["item_name"]].threshold) > row["maxrt"]:
+                        return row["mix"] 
+
+                if threshold_metric==2:
+                    if np.max(threshold[threshold.item_name==row["item_name"]].threshold) > row["art"]:
+                        return row["mix"] 
+
+                return 0
 
             tests["relative_mass"] = tests.apply(verify_if_response_time_is_above_threshold, axis = 1)
             tests = tests[["test_id", "test_set_id", "users", "relative_mass"]].groupby(by=["test_id", "test_set_id", "users"], as_index=False).sum()
@@ -155,9 +178,11 @@ def create_dashboard(project):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("project", help="Name of the project to analyze")
+    parser.add_argument("--threshold", help="Use maximum (1) or average (2) response time", type=int, choices=range(1, 3), default=1)
+    parser.add_argument("--profile", help="Use poisson (1) or predefined (2) operational profile", type=int, choices=range(1, 3), default=1)
     parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=1)
     args = parser.parse_args()
 
     logging.basicConfig(format="%(message)s", level=args.logging * 10)
 
-    create_dashboard(args.project)
+    create_dashboard(args.project, args.threshold, args.profile)
