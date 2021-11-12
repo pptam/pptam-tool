@@ -66,7 +66,7 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
                         frequencies.append(poisson.cdf(tests[i], average_no_of_users) - poisson.cdf(tests[i-1], average_no_of_users))
                         
                 bins = pd.DataFrame({"workload": tests, "relative_frequency": frequencies})
-
+                print(bins)
 
             if operational_profile_type==2:
                 operational_profile = pd.read_sql(
