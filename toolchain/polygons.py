@@ -181,7 +181,7 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
 
                 html.Div(dash_table.DataTable(
                     id='table',
-                    columns=[{"name": "Test set", "id": "test_set_name"}, {"name": "Scalability metric (should be > 95%)", "id": "absolute_mass"}],
+                    columns=[{"name": "Test set", "id": "test_set_name"}, {"name": "Scalability metric (should be > .95)", "id": "absolute_mass"}],
                     data=domain_metric_per_test_set.to_dict('records'),
                 ))
             ])
