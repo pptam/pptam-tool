@@ -135,8 +135,8 @@ dmypy.json
 cython_debug/
 
 # Application specific paths to ignore
-/ui/grafana*
 /toolchain/executed*
 /design_trainticket/modified_images*
 .vagrant
 workspace.code-workspace
+toolchain/pptam.db
