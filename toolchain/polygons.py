@@ -52,12 +52,12 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
             min_no_of_users = np.min(all_data.users)
 
             bins = None
-
-            if operational_profile_type==1:
+            plot = None
+            if operational_profile_type==1:                
                 arrival_rate_per_second = 0.017
                 time_in_seconds = 3600
                 average_no_of_users = arrival_rate_per_second * time_in_seconds
-
+                        
                 frequencies = []
                 for i in range(len(tests)):    
                     if i==0:
@@ -66,7 +66,18 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
                         frequencies.append(poisson.cdf(tests[i], average_no_of_users) - poisson.cdf(tests[i-1], average_no_of_users))
                         
                 bins = pd.DataFrame({"workload": tests, "relative_frequency": frequencies})
-                print(bins)
+                
+                steps = 10
+                plot_workload = []
+                plot_frequency = []
+                for i in range(int(max(tests)/steps)+1):
+                    plot_workload.append(i*steps)
+                    if i==0:
+                        plot_frequency.append(poisson.cdf(i*steps, average_no_of_users))                        
+                    else:
+                        plot_frequency.append(poisson.cdf(i*steps, average_no_of_users) - poisson.cdf((i-1)*steps, average_no_of_users))
+
+                plot = pd.DataFrame({"workload": plot_workload, "relative_frequency": plot_frequency})
 
             if operational_profile_type==2:
                 operational_profile = pd.read_sql(
@@ -143,6 +154,7 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
             app = dash.Dash()
             fig = go.Figure()
 
+            fig.add_trace(go.Scatter(name="Plot", x=plot["workload"], y=plot["relative_frequency"], fill='tozeroy'))
             fig.add_trace(go.Scatter(name="Operational Profile", x=bins["workload"], y=bins["relative_frequency"], fill='tozeroy'))
 
             test_sets = pd.read_sql(
