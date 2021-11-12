@@ -154,8 +154,8 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
             app = dash.Dash()
             fig = go.Figure()
 
-            fig.add_trace(go.Scatter(name="Plot", x=plot["workload"], y=plot["relative_frequency"], fill='tozeroy'))
-            fig.add_trace(go.Scatter(name="Operational Profile", x=bins["workload"], y=bins["relative_frequency"], fill='tozeroy'))
+            fig.add_trace(go.Scatter(name="Operational Profile", x=plot["workload"], y=plot["relative_frequency"], fill='tozeroy'))
+            fig.add_trace(go.Scatter(name="Test Operational Profile", x=bins["workload"], y=bins["relative_frequency"], fill='tozeroy'))
 
             test_sets = pd.read_sql(
                 """SELECT id, name 
