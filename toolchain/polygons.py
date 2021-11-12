@@ -54,7 +54,9 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
             bins = None
 
             if operational_profile_type==1:
-                average_no_of_users = np.average(all_data.users)
+                arrival_rate_per_second = 0.017
+                time_in_seconds = 3600
+                average_no_of_users = arrival_rate_per_second * time_in_seconds
 
                 frequencies = []
                 for i in range(len(tests)):    
