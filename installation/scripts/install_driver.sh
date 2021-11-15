@@ -14,9 +14,9 @@ docker swarm init --advertise-addr $1 --listen-addr $1
 docker swarm join-token -q worker > /vagrant/.join-token-worker
 
 # Python installation
-apt install -y python3.8 python3.8-dev python3-pip 
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
-sudo update-alternatives --set python /usr/bin/python3.8
+apt install -y python3.9 python3.9-dev python3-pip 
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1
+sudo update-alternatives --set python /usr/bin/python3.9
 
 sudo pip install -r /home/vagrant/requirements.txt
 
@@ -24,10 +24,6 @@ sudo pip install -r /home/vagrant/requirements.txt
 sudo add-apt-repository ppa:git-core/ppa -y
 sudo apt-get update
 sudo apt-get install git -y
-
-# Create Docker images / MIGHT NOT BE NECESSARY ANYMORE
-# cd /vagrant/scripts/docker/
-# ./build.sh 
 
 # Install Docker Compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
