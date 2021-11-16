@@ -158,8 +158,8 @@ class Requests:
         self.client.put(url="/api/v1/consignservice/consigns", name=req_label, json={"accountId": self.user_id, "handleDate": DEP_DATE, "from": "Shang Hai", "to": "Su Zhou", "orderId": self.order_id, "consignee": self.order_id, "phone": "123", "weight": "1", "id": "", "isWithin": "false"}, headers=head)
 
     def perform_task(self, name):
-        task = getattr(self)
-        task(name)
+        task = getattr(self, name)
+        task()
 
 
 class UserNoLogin(HttpUser):
