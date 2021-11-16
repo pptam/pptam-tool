@@ -64,7 +64,7 @@ class Requests:
         self.client.get("/client_login.html", name=req_label)
 
     def login(self):
-        self._create_user(True)
+        self._create_user()
 
         self._navigate_to_client_login()
         req_label = sys._getframe().f_code.co_name
