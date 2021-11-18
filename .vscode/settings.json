@@ -1,6 +1,9 @@
-{
-  "python.pythonPath": "/usr/local/bin/python",
+{  
   "python.envFile": "${workspaceFolder}/.env",
   "python.formatting.provider": "black",
-  "python.formatting.blackArgs": ["--line-length", "1000"]
+  "python.formatting.blackArgs": [
+    "--line-length",
+    "80"
+  ],
+  "jupyter.jupyterServerType": "local"
 }

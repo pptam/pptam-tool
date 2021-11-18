@@ -136,6 +136,7 @@ cython_debug/
 
 # Application specific paths to ignore
 /toolchain/executed*
+/toolchain/exported*
 /design_trainticket/modified_images*
 .vagrant
 workspace.code-workspace

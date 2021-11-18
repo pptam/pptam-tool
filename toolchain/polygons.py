@@ -2,20 +2,13 @@
 
 import argparse
 import logging
-from os import X_OK
 import sqlite3
 import contextlib
-# import dash
-# from dash import dash_table
-# from dash import dcc
-# from dash import html
-# from dash import Input, Output, State
-# import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
 from scipy.stats import poisson
-# import dash_bootstrap_components as dbc
-
+import logging
+import os
 from lib import init_db, get_scalar, execute_statement
 
 
@@ -31,7 +24,7 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
         with connection:
             project_id = get_scalar(connection, "SELECT id FROM projects WHERE name = ?", (project,))
             if project_id is None:
-                print("Cannot find project.")
+                logging.error(f"Cannot find project {project}.")
                 return
 
             all_data = pd.read_sql(
@@ -48,39 +41,15 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
                 params=(project_id,),
             )
 
-            tests = pd.unique(all_data.sort_values(by="users").users)
-
-            # scale users in operational profile to users in tests
-            max_no_of_users = np.max(all_data.users)
-            min_no_of_users = np.min(all_data.users)
-
-            bins = None
-            plot = None
+            workloads = pd.unique(all_data.sort_values(by="users").users)
+            
+            binned_operational_profile = None
+            
             if operational_profile_type == 1:
                 arrival_rate_per_second = 0.017
                 time_in_seconds = 3600
-                average_no_of_users = arrival_rate_per_second * time_in_seconds
-
-                frequencies = []
-                for i in range(len(tests)):
-                    if i == 0:
-                        frequencies.append(poisson.cdf(tests[i], average_no_of_users))
-                    else:
-                        frequencies.append(poisson.cdf(tests[i], average_no_of_users) - poisson.cdf(tests[i - 1], average_no_of_users))
-
-                bins = pd.DataFrame({"workload": tests, "relative_frequency": frequencies})
-
                 steps = 5
-                plot_workload = []
-                plot_frequency = []
-                for i in range(int(max(tests) / steps) + 1):
-                    plot_workload.append(i * steps)
-                    if i == 0:
-                        plot_frequency.append(poisson.cdf(i * steps, average_no_of_users))
-                    else:
-                        plot_frequency.append(poisson.cdf(i * steps, average_no_of_users) - poisson.cdf((i - 1) * steps, average_no_of_users))
-
-                plot = pd.DataFrame({"workload": plot_workload, "relative_frequency": plot_frequency})
+                binned_operational_profile = get_poisson_operational_profile(workloads, arrival_rate_per_second, time_in_seconds, steps)
 
             if operational_profile_type == 2:
                 operational_profile = pd.read_sql(
@@ -90,40 +59,10 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
                     connection,
                     params=(project_id,),
                 )
-
-                max_no_of_requests = np.max(operational_profile.users)
-                scale_factor = max_no_of_users / max_no_of_requests
-                scaled_user_load = np.floor(operational_profile.users * scale_factor)
-                scaled_operational_profile = pd.DataFrame({"users": scaled_user_load, "frequency": operational_profile.frequency})
-
-                # calculate the relative frequencies in the operational profile
-                total_number_of_accesses = np.sum(operational_profile.frequency)
-
-                def calculate_frequency(x):
-                    return x / total_number_of_accesses
-
-                scaled_operational_profile["relative_frequency"] = scaled_operational_profile["frequency"].apply(calculate_frequency)
-
-                # calculate bins and sum relative frequencies for each bin
-                scaled_operational_profile = insert_zero_users_record_at_the_beginning(scaled_operational_profile)
-
-                # assign a fixed number of bins, this is Barbara's technique in the R script
-                # number_of_bins = 10
-                # scaled_operational_profile["workload_range"] = pd.cut(scaled_operational_profile.users, number_of_bins)
-                # scaled_operational_profile["workload"] = scaled_operational_profile["workload_range"].apply(lambda range: int(range.right))
-
-                # assign bins according to the present tests
-                def assign_test(users):
-                    for x in tests:
-                        if x >= users:
-                            return x
-
-                    return max(tests)
-
-                scaled_operational_profile["workload"] = scaled_operational_profile["users"].apply(assign_test)
-                bins = scaled_operational_profile[["workload", "relative_frequency"]].groupby(by=["workload"], as_index=False).sum()
-
+                binned_operational_profile = get_predifined_operational_profile(operational_profile, all_data, workloads)
+            
             # calculate threshold
+            min_no_of_users = np.min(all_data.users)
             data_of_min_user = all_data[all_data.users == min_no_of_users]
             threshold = pd.pivot_table(data_of_min_user[["metric", "item_name", "item_value"]], values="item_value", index=["item_name"], columns=["metric"])
             threshold = pd.DataFrame(threshold.to_records())
@@ -131,8 +70,8 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
             threshold = threshold[["item_name", "threshold"]]
 
             # list_of_microservices = pd.unique(all_data.item_name)
-            tests = pd.pivot_table(all_data[all_data.users != min_no_of_users], values="item_value", index=["test_id", "test_set_id", "users", "item_name"], columns=["metric"], aggfunc=np.mean, fill_value=np.Infinity)
-            tests = pd.DataFrame(tests.to_records())
+            workloads = pd.pivot_table(all_data[all_data.users != min_no_of_users], values="item_value", index=["test_id", "test_set_id", "users", "item_name"], columns=["metric"], aggfunc=np.mean, fill_value=np.Infinity)
+            workloads = pd.DataFrame(workloads.to_records())
 
             def verify_if_response_time_is_above_threshold(row):
                 if threshold_metric == 1:
@@ -145,83 +84,110 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
 
                 return 0
 
-            tests["relative_mass"] = tests.apply(verify_if_response_time_is_above_threshold, axis=1)
-            tests = tests[["test_id", "test_set_id", "users", "relative_mass"]].groupby(by=["test_id", "test_set_id", "users"], as_index=False).sum()
+            workloads["relative_mass"] = workloads.apply(verify_if_response_time_is_above_threshold, axis=1)
+            workloads = workloads[["test_id", "test_set_id", "users", "relative_mass"]].groupby(by=["test_id", "test_set_id", "users"], as_index=False).sum()
 
             def calculate_absolute_mass(row):
-                return row["relative_mass"] * np.max(bins[bins.workload == row["users"]].relative_frequency)
+                return row["relative_mass"] * np.max(binned_operational_profile[binned_operational_profile.workload == row["users"]].relative_frequency)
 
-            tests["absolute_mass"] = tests.apply(calculate_absolute_mass, axis=1)
-            tests = tests.sort_values(by=["test_set_id", "users"])
-
-            # fig = go.Figure(layout={"height": 700})
-            # fig.add_trace(go.Scatter(name="Operational Profile", x=plot["workload"], y=plot["relative_frequency"], fill="tozeroy"))
-            # fig.add_trace(go.Scatter(name="Test Operational Profile", x=bins["workload"], y=bins["relative_frequency"], fill="tozeroy"))
-
-            print("Operational profile")
-            print(plot)
-
-            print("\nTest Operational Profile")
-            print(bins)
+            workloads["absolute_mass"] = workloads.apply(calculate_absolute_mass, axis=1)
+            workloads = workloads.sort_values(by=["test_set_id", "users"])
 
             test_sets = pd.read_sql(
                 """SELECT id, name 
                 FROM test_sets 
                 WHERE project = :project""",
                 connection,
-                params=(project_id,),
+                params=(project_id,)
             )
 
-            for id, group in tests.groupby(by=["test_set_id"]):
-                test_set_name = test_sets[test_sets.id == id].name.squeeze()
-                print(f"Polygon: {test_set_name}")
-                print(group)
-                # fig.add_trace(go.Scatter(name=test_set_name, x=group["users"], y=group["absolute_mass"], fill="tozeroy"))
-
-            print("Domain metric")
-            domain_metric_per_test_set = tests[["test_set_id", "absolute_mass"]].groupby(by=["test_set_id"], as_index=False).sum()
+            domain_metric_per_test_set = workloads[["test_set_id", "absolute_mass"]].groupby(by=["test_set_id"], as_index=False).sum()
             domain_metric_per_test_set["test_set_name"] = domain_metric_per_test_set["test_set_id"].apply(lambda id: test_sets[test_sets.id == id].name.squeeze())
             domain_metric_per_test_set["absolute_mass"] = domain_metric_per_test_set["absolute_mass"].apply(lambda x: "{:.2f}".format(x))
-            print(domain_metric_per_test_set)
-            # app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP], external_scripts=["https://unpkg.com/feather-icons"])
-            # app.layout = dbc.Col(dcc.Graph(id="polygon-plot", figure=fig), md=8)
 
-            # app.clientside_callback(
-            #     """
-            #     function(id) {
-            #         feather.replace();
-            #         return window.dash_clientside.no_update
-            #     }
-            #     """,
-            #     Output("content", "className"),
-            #     Input("content", "id"),
-            # )
+            export_folder = os.path.abspath(os.path.join("./exported"))
+            if not os.path.isdir(export_folder):
+                logging.debug(f"Creating {export_folder}, since it does not exist.")
+                os.makedirs(export_folder)
 
-            # app.layout = dbc.Container(
-            # [
-            #     dbc.Row(
-            #         [
-            #             html.Div(
-            #                 className="app-header",
-            #                 children=[
-            #                     html.Div('Polygons', className="display-6")
-            #                 ]
-            #             ),
-            #             dbc.Col(dcc.Graph(id="polygon-plot", figure=fig), md=8),
-            #         ],
-            #         align="left",
-            #     ),
-            # ],
-            # fluid=True
-            #     # html.Div(dash_table.DataTable(
-            #     #     id='table',
-            #     #     columns=[{"name": "Test set", "id": "test_set_name"}, {"name": "Scalability metric (should be > .95)", "id": "absolute_mass"}],
-            #     #     data=domain_metric_per_test_set.to_dict('records'),
-            #     # ))
-            # )
+            export_results(export_folder, workloads, binned_operational_profile, test_sets)
+            export_domain_metric(domain_metric_per_test_set, export_folder)
+            
+            logging.info(f"Exported data to {export_folder}.")
 
-            # app.run_server(debug=False, port=8888)
+def export_domain_metric(domain_metric_per_test_set, export_folder):
+    export = domain_metric_per_test_set.drop(["test_set_id"], axis=1).loc[:, ["test_set_name", "absolute_mass"]].rename(columns={"test_set_name": "group"})
+    file_to_export = os.path.join(export_folder, "polygons_domain_metric.json")
+    with open(file_to_export, "w") as f:
+        f.write(export.to_json(orient="records"))
 
+def export_results(export_folder, workloads, binned_operational_profile, test_sets):
+    data_to_export = workloads.drop(["test_id"], axis=1).rename(columns={"users": "x", "test_set_id": "group"})
+
+    for _, row in test_sets.iterrows():
+        data_to_export = data_to_export.replace(row["id"], row["name"])
+
+    operational_profile_to_export = binned_operational_profile.rename(columns={"workload": "x"})
+    operational_profile_to_export["group"] = "operational_profile"
+
+    export = pd.concat([operational_profile_to_export, data_to_export]).reset_index(drop=True)
+
+    file_to_export = os.path.join(export_folder, "polygons.json")
+    with open(file_to_export, "w") as f:
+        f.write(export.to_json(orient="records"))
+            
+
+def get_predifined_operational_profile(operational_profile, all_data, workloads):
+    # scale users in operational profile to users in tests
+    max_no_of_users = np.max(all_data.users)
+
+    max_no_of_requests = np.max(operational_profile.users)
+    scale_factor = max_no_of_users / max_no_of_requests
+    scaled_user_load = np.floor(operational_profile.users * scale_factor)
+    scaled_operational_profile = pd.DataFrame({"users": scaled_user_load, "frequency": operational_profile.frequency})
+
+    # calculate the relative frequencies in the operational profile
+    total_number_of_accesses = np.sum(operational_profile.frequency)
+
+    def calculate_frequency(x):
+        return x / total_number_of_accesses
+
+    scaled_operational_profile["relative_frequency"] = scaled_operational_profile["frequency"].apply(calculate_frequency)
+
+    # calculate bins and sum relative frequencies for each bin
+    scaled_operational_profile = insert_zero_users_record_at_the_beginning(scaled_operational_profile)
+
+    # assign a fixed number of bins, this is Barbara's technique in the R script
+    # number_of_bins = 10
+    # scaled_operational_profile["workload_range"] = pd.cut(scaled_operational_profile.users, number_of_bins)
+    # scaled_operational_profile["workload"] = scaled_operational_profile["workload_range"].apply(lambda range: int(range.right))
+
+    # assign bins according to the present tests
+
+    def assign_test(users):
+        for x in workloads:
+            if x >= users:
+                return x
+
+        return max(workloads)
+
+    scaled_operational_profile["workload"] = scaled_operational_profile["users"].apply(assign_test)
+    bins = scaled_operational_profile[["workload", "relative_frequency"]].groupby(by=["workload"], as_index=False).sum()
+    return bins
+
+def get_poisson_operational_profile(workloads, arrival_rate_per_second, time_in_seconds, steps):
+    average_no_of_users = arrival_rate_per_second * time_in_seconds
+
+    frequencies = []
+    for i in range(len(workloads)):
+        if i == 0:
+            frequencies.append(poisson.cdf(workloads[i], average_no_of_users))
+        else:
+            frequencies.append(poisson.cdf(workloads[i], average_no_of_users) - poisson.cdf(workloads[i - 1], average_no_of_users))
+
+    bins = pd.DataFrame({"workload": workloads, "relative_frequency": frequencies})
+                
+    return bins
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
