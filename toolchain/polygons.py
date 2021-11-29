@@ -10,7 +10,8 @@ from scipy.stats import poisson
 import logging
 import os
 from lib import init_db, get_scalar, execute_statement
-
+import csv
+from datetime import datetime
 
 def insert_zero_users_record_at_the_beginning(scaled_operational_profile):
     scaled_operational_profile.loc[-1] = [0, 0, 0]
@@ -60,7 +61,7 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
                     params=(project_id,),
                 )
                 binned_operational_profile = get_predifined_operational_profile(operational_profile, all_data, workloads)
-            
+
             # calculate threshold
             min_no_of_users = np.min(all_data.users)
             data_of_min_user = all_data[all_data.users == min_no_of_users]
@@ -101,6 +102,7 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
                 params=(project_id,)
             )
 
+
             domain_metric_per_test_set = workloads[["test_set_id", "absolute_mass"]].groupby(by=["test_set_id"], as_index=False).sum()
             domain_metric_per_test_set["test_set_name"] = domain_metric_per_test_set["test_set_id"].apply(lambda id: test_sets[test_sets.id == id].name.squeeze())
             domain_metric_per_test_set["absolute_mass"] = domain_metric_per_test_set["absolute_mass"].apply(lambda x: "{:.2f}".format(x))
@@ -110,31 +112,51 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
                 logging.debug(f"Creating {export_folder}, since it does not exist.")
                 os.makedirs(export_folder)
 
-            export_results(export_folder, workloads, binned_operational_profile, test_sets)
-            export_domain_metric(domain_metric_per_test_set, export_folder)
+            export_results(export_folder, workloads, binned_operational_profile, test_sets, domain_metric_per_test_set)
             
             logging.info(f"Exported data to {export_folder}.")
 
-def export_domain_metric(domain_metric_per_test_set, export_folder):
-    export = domain_metric_per_test_set.drop(["test_set_id"], axis=1).loc[:, ["test_set_name", "absolute_mass"]].rename(columns={"test_set_name": "group"})
-    file_to_export = os.path.join(export_folder, "polygons_domain_metric.json")
-    with open(file_to_export, "w") as f:
-        f.write(export.to_json(orient="records"))
-
-def export_results(export_folder, workloads, binned_operational_profile, test_sets):
+def export_results(export_folder, workloads, binned_operational_profile, test_sets, domain_metric_per_test_set):
     data_to_export = workloads.drop(["test_id"], axis=1).rename(columns={"users": "x", "test_set_id": "group"})
-
+    
     for _, row in test_sets.iterrows():
         data_to_export = data_to_export.replace(row["id"], row["name"])
 
-    operational_profile_to_export = binned_operational_profile.rename(columns={"workload": "x"})
+    operational_profile_to_export = binned_operational_profile.rename(columns={"workload": "x", "relative_frequency": "y"})
     operational_profile_to_export["group"] = "operational_profile"
 
-    export = pd.concat([operational_profile_to_export, data_to_export]).reset_index(drop=True)
-
-    file_to_export = os.path.join(export_folder, "polygons.json")
+    data_to_export1 = data_to_export.drop(["relative_mass"], axis=1).rename(columns={ "absolute_mass": "y"})
+    data_to_export1 = pd.concat([operational_profile_to_export, data_to_export1]).reset_index(drop=True)
+    data_to_export1 = np.round(data_to_export1, decimals=3)
+    data_to_export1 = data_to_export1.fillna(0).to_dict(orient="records")
+    
+    file_to_export = os.path.join(export_folder, "polygons.csv")
     with open(file_to_export, "w") as f:
-        f.write(export.to_json(orient="records"))
+        w = csv.DictWriter(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL, fieldnames=["group", "x", "y"])
+        w.writeheader()
+        for row in data_to_export1:
+            w.writerow(row)
+
+    data_to_export2 = data_to_export.drop(["absolute_mass"], axis=1).rename(columns={ "relative_mass": "y"})
+    data_to_export2 = np.round(data_to_export2, decimals=3)
+    data_to_export2 = data_to_export2.fillna(0).to_dict(orient="records")    
+    file_to_export = os.path.join(export_folder, "tests.csv")
+    with open(file_to_export, "w") as f:
+        w = csv.DictWriter(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL, fieldnames=["group", "x", "y"])
+        w.writeheader()
+        for row in data_to_export2:
+            w.writerow(row)
+
+    data_to_export3 = domain_metric_per_test_set.drop(["test_set_id"], axis=1).loc[:, ["test_set_name", "absolute_mass"]].rename(columns={"test_set_name": "group"})
+    data_to_export3 = np.round(data_to_export3, decimals=3)
+    data_to_export3 = data_to_export3.fillna(0).to_dict(orient="records")
+    
+    file_to_export = os.path.join(export_folder, "domain_metric.csv")
+    with open(file_to_export, "w") as f:
+        w = csv.DictWriter(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL, fieldnames=["group", "absolute_mass"])
+        w.writeheader()
+        for row in data_to_export3:
+            w.writerow(row)
             
 
 def get_predifined_operational_profile(operational_profile, all_data, workloads):
