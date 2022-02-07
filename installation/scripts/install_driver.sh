@@ -18,6 +18,9 @@ apt install -y python3.9 python3.9-dev python3-pip
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1
 sudo update-alternatives --set python /usr/bin/python3.9
 
+sudo update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip3.9 1
+sudo update-alternatives --set pip /usr/local/bin/pip3.9
+
 sudo pip install -r /home/vagrant/requirements.txt
 
 # Update to the last version of Git and configure it
