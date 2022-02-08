@@ -6,6 +6,8 @@ import logging
 import sys
 import time
 import logging
+import uuid
+import json
 from requests.adapters import HTTPAdapter
 
 import locust.stats
@@ -14,7 +16,7 @@ locust.stats.CONSOLE_STATS_INTERVAL_SEC = 1
 locust.stats.CSV_STATS_FLUSH_INTERVAL_SEC = 10
 locust.stats.PERCENTILES_TO_REPORT = [0.25, 0.50, 0.75, 0.80, 0.90, 0.95, 0.98, 0.99, 0.999, 0.9999, 1.0]
 
-DEP_DATE = "2021-01-08"
+DEP_DATE = "2022-02-11"
 
 def random_date_generator():
     temp = randint(0, 4)
@@ -27,6 +29,10 @@ def random_date_generator():
 class Requests:
     def __init__(self, client):
         self.client = client
+        self.bearer = None
+        self.user_id = None
+        self.order_id = None
+        self.request_id = str(uuid.uuid4())
 
     def home(self):
         req_label = sys._getframe().f_code.co_name
@@ -54,23 +60,34 @@ class Requests:
     def search_return(self):
         self.search_ticket(date.today().strftime(random_date_generator()), "Su Zhou", "Shang Hai")
 
-    def _create_user(self):
+    def create_user(self):
         req_label = sys._getframe().f_code.co_name
-        document_num = None
-        self.client.post(url="/api/v1/adminuserservice/users", headers={"Authorization": self.bearer, "Accept": "application/json", "Content-Type": "application/json"}, json={"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": self.user_name, "userName": self.user_name}, name=req_label)
+        document_num = str(uuid.uuid4())
+        user_name = str(uuid.uuid4())
 
-    def _navigate_to_client_login(self):
+        with self.client.post(url="/api/v1/users/login", json={"username": "admin", "password": "222222"}, name = req_label) as response1:
+            response_as_json1 = json.loads(response1.content)["data"]
+            token = response_as_json1["token"]
+            admin_bearer = "Bearer " + token
+            user_id = response_as_json1["userId"]
+
+            self.client.post(url="/api/v1/adminuserservice/users", headers={"Authorization": admin_bearer, "Accept": "application/json", "Content-Type": "application/json"}, 
+                json={"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": user_name, "userName": user_name}, name=req_label)
+
+        return user_name
+
+    def navigate_to_client_login(self):
         req_label = sys._getframe().f_code.co_name
         self.client.get("/client_login.html", name=req_label)
 
     def login(self):
-        # self._create_user()
+        user_name = self.create_user()
 
-        self._navigate_to_client_login()
+        self.navigate_to_client_login()
         req_label = sys._getframe().f_code.co_name
         start_time = time.time()
         head = {"Accept": "application/json", "Content-Type": "application/json"}
-        response = self.client.post(url="/api/v1/users/login", headers=head, json={"username": self.user_name, "password": self.user_name}, name=req_label)
+        response = self.client.post(url="/api/v1/users/login", headers=head, json={"username": user_name, "password": user_name}, name=req_label)
 
         response_as_json = response.json()["data"]
         if response_as_json is not None:
@@ -78,28 +95,19 @@ class Requests:
             self.bearer = "Bearer " + token
             self.user_id = response_as_json["userId"]
 
-    # purchase ticket
-
-    def start_booking(self):
+    def book(self):
         departure_date = DEP_DATE
         head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
         req_label = sys._getframe().f_code.co_name
         self.client.get(url="/client_ticket_book.html?tripId=D1345&from=Shang%20Hai&to=Su%20Zhou&seatType=2&seat_price=50.0&date=" + departure_date, headers=head, name=req_label)
 
-    def get_assurance_types(self):
-        head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        req_label = sys._getframe().f_code.co_name
+        # get assurance types 
         self.client.get(url="/api/v1/assuranceservice/assurances/types", headers=head, name=req_label)
 
-    def get_foods(self):
-        departure_date = DEP_DATE
-        head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        req_label = sys._getframe().f_code.co_name
+        # get food 
         self.client.get(url="/api/v1/foodservice/foods/" + departure_date + "/Shang%20Hai/Su%20Zhou/D1345", headers=head, name=req_label)
 
-    def select_contact(self):
-        head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        req_label = sys._getframe().f_code.co_name
+        # select contact
         response_contacts = self.client.get(url="/api/v1/contactservice/contacts/account/" + self.user_id, headers=head, name=req_label)
         response_as_json_contacts = response_contacts.json()["data"]
 
@@ -108,56 +116,40 @@ class Requests:
             response_contacts = self.client.post(url="/api/v1/contactservice/contacts", headers=head, json={"name": self.user_id, "accountId": self.user_id, "documentType": "1", "documentNumber": self.user_id, "phoneNumber": "123456"}, name=req_label)
 
             response_as_json_contacts = response_contacts.json()["data"]
-            self.contactid = response_as_json_contacts["id"]
+            contact_id = response_as_json_contacts["id"]
         else:
-            self.contactid = response_as_json_contacts[0]["id"]
+            contact_id = response_as_json_contacts[0]["id"]
 
-    def finish_booking(self):
-        departure_date = DEP_DATE
-        head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        req_label = sys._getframe().f_code.co_name
-        body_for_reservation = {"accountId": self.user_id, "contactsId": self.contactid, "tripId": "D1345", "seatType": "2", "date": departure_date, "from": "Shang Hai", "to": "Su Zhou", "assurance": "0", "foodType": 1, "foodName": "Bone Soup", "foodPrice": 2.5, "stationName": "", "storeName": ""}
+        # reserve
+        body_for_reservation = {"accountId": self.user_id, "contactsId": contact_id, "tripId": "D1345", "seatType": "2", "date": departure_date, "from": "Shang Hai", "to": "Su Zhou", "assurance": "0", "foodType": 1, "foodName": "Bone Soup", "foodPrice": 2.5, "stationName": "", "storeName": ""}
         self.client.post(url="/api/v1/preserveservice/preserve", headers=head, json=body_for_reservation, catch_response=True, name=req_label)
 
-    def select_order(self):
-        head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        req_label = sys._getframe().f_code.co_name
+        # Select order
         response_order_refresh = self.client.post(url="/api/v1/orderservice/order/refresh", name=req_label, headers=head, json={"loginId": self.user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"})
         response_as_json = response_order_refresh.json()["data"]
         self.order_id = response_as_json[0]["id"]
 
-    def pay(self):
-        head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        req_label = sys._getframe().f_code.co_name
+        # Pay
         self.client.post(url="/api/v1/inside_pay_service/inside_payment", headers=head, json={"orderId": self.order_id, "tripId": "D1345"}, name=req_label)
 
-    # cancelNoRefund
-
-    def cancel_with_no_refund(self):
+    def cancel_last_order_with_no_refund(self):
         head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
         req_label = sys._getframe().f_code.co_name
         self.client.get(url="/api/v1/cancelservice/cancel/" + self.order_id + "/" + self.user_id, headers=head, name=req_label)
 
-    # user refund with voucher
-
-    def get_voucher(self):
+    def get_voucher_of_last_order(self):
         head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
         req_label = sys._getframe().f_code.co_name
         self.client.post(url="/getVoucher", headers=head, json={"orderId": self.order_id, "type": 1}, name=req_label)
 
-    # consign ticket
-
-    def get_consigns(self):
+    def pick_up_ticket(self):
         head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
         req_label = sys._getframe().f_code.co_name
         self.client.get(url="/api/v1/consignservice/consigns/order/" + self.order_id, headers=head, name=req_label)
-
-    def confirm_consign(self):
-        head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        req_label = sys._getframe().f_code.co_name
         self.client.put(url="/api/v1/consignservice/consigns", name=req_label, json={"accountId": self.user_id, "handleDate": DEP_DATE, "from": "Shang Hai", "to": "Su Zhou", "orderId": self.order_id, "consignee": self.order_id, "phone": "123", "weight": "1", "id": "", "isWithin": "false"}, headers=head)
 
     def perform_task(self, name):
+        logging.debug(f"""Performing task "{name}" for user {self.request_id}...""")
         task = getattr(self, name)
         task()
 
@@ -173,9 +165,9 @@ class UserNoLogin(HttpUser):
 
     @task
     def perfom_task(self):
-        logging.debug("Running user 'no login'...")
-
         requests = Requests(self.client)
+        logging.debug(f"""Running user "no login" with id {requests.request_id}...""")
+
         requests.perform_task("home")
         requests.perform_task("search_departure")
         requests.perform_task("search_return")
@@ -192,23 +184,16 @@ class UserBooking(HttpUser):
 
     @task
     def perform_task(self):
-        logging.debug("Running user 'booking'...")
-
         requests = Requests(self.client)
+        logging.debug(f"""Running user "no booking" with id {requests.request_id}...""")
+
         requests.perform_task("home")
         requests.perform_task("login")
         requests.perform_task("search_departure")
-        requests.perform_task("start_booking")
-        requests.perform_task("get_assurance_types")
-        requests.perform_task("get_foods")
-        requests.perform_task("select_contact")
-        requests.perform_task("finish_booking")
-        requests.perform_task("select_order")
-        requests.perform_task("pay")
-
+        requests.perform_task("book")
 
 class UserConsignTicket(HttpUser):
-    weight = 0
+    weight = 1
     wait_time = constant(1)
 
     def __init__(self, *args, **kwargs):
@@ -218,21 +203,14 @@ class UserConsignTicket(HttpUser):
 
     @task
     def perform_task(self):
-        logging.debug("Running user 'consign ticket'...")
-
         requests = Requests(self.client)
+        logging.debug(f"""Running user "consign ticket" with id {requests.request_id}...""")
+
         requests.perform_task("home")
         requests.perform_task("login")
         requests.perform_task("search_departure")
-        requests.perform_task("start_booking")
-        requests.perform_task("get_assurance_types")
-        requests.perform_task("get_foods")
-        requests.perform_task("select_contact")
-        requests.perform_task("finish_booking")
-        requests.perform_task("select_order")
-        requests.perform_task("pay")
-        requests.perform_task("get_consigns")
-        requests.perform_task("confirm_consign")
+        requests.perform_task("book")
+        requests.perform_task("pick_up_ticket")
         
 
 class UserCancelNoRefund(HttpUser):
@@ -246,23 +224,17 @@ class UserCancelNoRefund(HttpUser):
 
     @task
     def perform_task(self):
-        logging.debug("Running user 'cancel no refund'...")
-
         requests = Requests(self.client)
+        logging.debug(f"""Running user "cancel no refund" with id {requests.request_id}...""")
+
         requests.perform_task("home")
         requests.perform_task("login")
         requests.perform_task("search_departure")
-        requests.perform_task("start_booking")
-        requests.perform_task("get_assurance_types")
-        requests.perform_task("get_foods")
-        requests.perform_task("select_contact")
-        requests.perform_task("finish_booking")
-        requests.perform_task("select_order")
-        requests.perform_task("pay")
-        requests.perform_task("cancel_with_no_refund")
+        requests.perform_task("book")
+        requests.perform_task("cancel_last_order_with_no_refund")
 
 class UserRefundVoucher(HttpUser):
-    weight = 0
+    weight = 1
     wait_time = constant(1)
 
     def __init__(self, *args, **kwargs):
@@ -272,17 +244,11 @@ class UserRefundVoucher(HttpUser):
 
     @task
     def perform_task(self):
-        logging.debug("Running user 'refound voucher'...")
-
         requests = Requests(self.client)
+        logging.debug(f"""Running user "refound voucher" with id {requests.request_id}...""")
+
         requests.perform_task("home")
         requests.perform_task("login")
         requests.perform_task("search_departure")
-        requests.perform_task("start_booking")
-        requests.perform_task("get_assurance_types")
-        requests.perform_task("get_foods")
-        requests.perform_task("select_contact")
-        requests.perform_task("finish_booking")
-        requests.perform_task("select_order")
-        requests.perform_task("pay")
-        requests.perform_task("get_voucher")
+        requests.perform_task("book")
+        requests.perform_task("get_voucher_of_last_order")
