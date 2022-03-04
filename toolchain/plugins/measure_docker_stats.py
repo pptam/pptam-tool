@@ -12,7 +12,8 @@ class CollectionTask:
         self.docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
         self.containers_to_watch = current_configuration["docker_stats_containers"].split()
         self.is_verbose = current_configuration["docker_stats_verbose"] == "1"
-        self.sleep_between_stats_reading_in_seconds = int(current_configuration["docker_stats_sleep_between_stats_reading_in_seconds"])
+        self.docker_stats_run_every_number_of_seconds = int(current_configuration["docker_stats_run_every_number_of_seconds"])
+        self.run_time_in_seconds = int(current_configuration["run_time_in_seconds"])
 
         self.logging = logging
         self.docker = docker
@@ -89,15 +90,12 @@ class CollectionTask:
         self.logging.info(f"Collecting Docker stats #{iteration} in background.")
         s = sched.scheduler()
         
-        s.enter(5, 1, print_time)
-        s.enter(6, 1, print_time)
-        s.enter(7, 1, print_time)
-
+        number_of_calls = 1 + (self.run_time_in_seconds // self.docker_stats_run_every_number_of_seconds)
+        for i in range(number_of_calls)
+            self.logging.info(f"Scheduling Docker stats after #{i*self.docker_stats_run_every_number_of_seconds} seconds.")
+            s.enter(i*self.docker_stats_run_every_number_of_seconds, 1, print_time)
+ 
         s.run()
-
-            
-
-            
 
 data_collection = None
 
