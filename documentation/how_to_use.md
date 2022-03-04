@@ -99,7 +99,7 @@ The following settings are used if the `8_measure_docker_stats.py` plugin is use
 - DOCKER_STATS_HOSTNAME: host to contact to obtain docker stats.
 - DOCKER_STATS_CONTAINERS: either choose 'all' or indicate the containers, separated by a space.
 - DOCKER_STATS_VERBOSE: use 0 or 1 to disable or enable verbose mode.
-- DOCKER_STATS_SLEEP_BETWEEN_STATS_READING_IN_SECONDS: time to wait between reading stats.
+- DOCKER_STATS_RUN_EVERY_NUMBER_OF_SECONDS: every how many seconds should docker stats be collected.
 
 The following settings are used if the `9_measure_jaeger.py` plugin is used:
 - JAEGER_HOST_URL: host to contact to obtain Jaeger traces.
