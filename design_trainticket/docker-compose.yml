@@ -36,6 +36,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
 
+  # nginx
   ts-ui-dashboard:
     image: codewisdom/ts-ui-dashboard-with-jaeger:v1
     restart: always
@@ -534,6 +535,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
 
+  # Written in JavaScript
   ts-ticket-office-service:
     image: codewisdom/ts-ticket-office-service-with-jaeger:v1
     restart: always
@@ -555,6 +557,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
 
+  # Written in GO
   ts-news-service:
     image: codewisdom/ts-news-service-with-jaeger:v1
     restart: always
@@ -566,7 +569,7 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-
+    
   ts-news-mongo:
     image: mongo
     networks:
@@ -580,7 +583,7 @@ services:
     image: mysql
     expose:
       - "3306"
-    environment:
+
       MYSQL_ROOT_PASSWORD: root
     networks:
       - my-network
@@ -589,6 +592,7 @@ services:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
 
+  # Written in Python
   ts-voucher-service:
     image: codewisdom/ts-voucher-service-with-jaeger:v1
     restart: always
@@ -792,7 +796,4 @@ networks:
     my-network:
       driver: overlay
       # driver: bridge
-
-
-
 

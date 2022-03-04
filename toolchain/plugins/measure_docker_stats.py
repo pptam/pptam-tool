@@ -70,17 +70,11 @@ class CollectionTask:
                 except Exception as e:
                     self.logging.critical(f"Exception in Docker stats: {e}")
 
-        iteration = 1
-
-        while self._running:
-            self.logging.info(f"Collecting Docker stats #{iteration} in background.")
-            iteration = iteration + 1
+        def measure():
+            print("Collecting Docker stats at ", datetime.now().strftime("%H:%M:%S"))
 
             try:
                 for container in self.docker_client.containers.list():
-                    if not self._running:
-                        break
-                        
                     service_name = extract_service_name(container.name, test_id)
 
                     if ("all" in self.containers_to_watch) or (service_name in self.containers_to_watch):
@@ -92,7 +86,18 @@ class CollectionTask:
             except Exception as e:
                 self.logging.critical(f"Exception in Docker stats: {e}")
 
-            self.time.sleep(self.sleep_between_stats_reading_in_seconds)
+        self.logging.info(f"Collecting Docker stats #{iteration} in background.")
+        s = sched.scheduler()
+        
+        s.enter(5, 1, print_time)
+        s.enter(6, 1, print_time)
+        s.enter(7, 1, print_time)
+
+        s.run()
+
+            
+
+            
 
 data_collection = None
 
