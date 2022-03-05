@@ -28,12 +28,17 @@ def measure_worker(configuration, output, test_id, write_queue):
         # try:
         stats = container_to_analyze.stats(stream=False) 
         if (stats != None):
-            timestamp = stats["read"]
+            reading_timestamp = stats["read"]
             cpu_usage_in_percent = calculate_cpu_percent_norm(stats)
-            mem_usage_in_percent = int(stats["memory_stats"]["usage"]) / int(stats["memory_stats"]["limit"]) * 100
-            cpu_usage_in_percent_as_string = "{:.2f}".format(cpu_usage_in_percent)
-            mem_usage_in_percent_as_string = "{:.2f}".format(mem_usage_in_percent)
-            write_queue.put(f"{collection_timestamp},{timestamp},{service_name},{cpu_usage_in_percent_as_string},{mem_usage_in_percent_as_string}\n")
+            mem_usage = int(stats["memory_stats"]["usage"])
+            mem_limit = int(stats["memory_stats"]["limit"])
+            mem_usage_in_percent = mem_usage / mem_limit * 100
+
+            a = "{:.2f}".format(cpu_usage_in_percent)
+            b = "{:.2f}".format(mem_usage_in_percent)
+            c = "{:.2f}".format(mem_usage)
+            d = "{:.2f}".format(mem_limit)
+            write_queue.put(f"{collection_timestamp},{reading_timestamp},{service_name},{a},{b},{c},{d}\n")
             # f.write(f"{json.dumps(stats, indent=2)}\n")
 
         # except Exception as e:
@@ -77,7 +82,7 @@ def queue_worker(write_queue, output):
 
     file_to_write = os.path.join(output, f"docker_stats.csv")
     with open(file_to_write, "w") as f:
-        f.write("collected,timestamp,service,cpu,memory\n")
+        f.write("collected,timestamp,service,cpu_usage_percent,memory_usage_percent,memory_usage,memory_limit\n")
 
     with open(file_to_write, "a") as f:
         while True:
