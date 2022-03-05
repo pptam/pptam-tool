@@ -6,8 +6,9 @@ import time
 import sched
 import threading
 from queue import Queue
+from datetime import datetime
 
-def run(configuration, output, test_id, write_queue):
+def measure_worker(configuration, output, test_id, write_queue):
     logging.info(f"Collecting Docker stats in background.")
 
     def calculate_cpu_percent_norm(d):
@@ -22,15 +23,17 @@ def run(configuration, output, test_id, write_queue):
             cpu_percent = cpu_delta / system_delta * 100.0 #* cpu_count
         return cpu_percent
 
-    def collect_stats_of_single_container(write_queue, service_name, container_to_analyze):
+    def collect_stats_of_single_container(write_queue, service_name, container_to_analyze, collection_timestamp):
         stats = None
         # try:
         stats = container_to_analyze.stats(stream=False) 
         if (stats != None):
             timestamp = stats["read"]
-            cpu_perc = calculate_cpu_percent_norm(stats)
-            mem_perc = int(stats["memory_stats"]["usage"]) / int(stats["memory_stats"]["limit"]) * 100
-            write_queue.put(f"{timestamp},{service_name},{str(cpu_perc)},{str(mem_perc)}\n")
+            cpu_usage_in_percent = calculate_cpu_percent_norm(stats)
+            mem_usage_in_percent = int(stats["memory_stats"]["usage"]) / int(stats["memory_stats"]["limit"]) * 100
+            cpu_usage_in_percent_as_string = "{:.2f}".format(cpu_usage_in_percent)
+            mem_usage_in_percent_as_string = "{:.2f}".format(mem_usage_in_percent)
+            write_queue.put(f"{collection_timestamp},{timestamp},{service_name},{cpu_usage_in_percent_as_string},{mem_usage_in_percent_as_string}\n")
             # f.write(f"{json.dumps(stats, indent=2)}\n")
 
         # except Exception as e:
@@ -39,9 +42,11 @@ def run(configuration, output, test_id, write_queue):
     def collect_stats(write_queue):
         logging.info(f"Running Docker stats.")
 
+        collection_timestamp = datetime.utcnow().isoformat()
+
         containers_to_watch = configuration["docker_stats_containers"].split()
         sut_hostname = configuration["docker_stats_hostname"]
-        docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375", max_pool_size=int(len(containers_to_watch))+1)
+        docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
         for container in docker_client.containers.list():
             service_name = container.name[len(test_id)+1:]
             last_dot = service_name.rfind(".")
@@ -53,7 +58,7 @@ def run(configuration, output, test_id, write_queue):
                     logging.debug(f"Skipping container {container.name}.")
                 else:
                     logging.debug(f"Collecting stats of container {container.name}.")
-                    data_collection_of_one_container = threading.Thread(target = collect_stats_of_single_container, args=(write_queue, service_name, container), daemon=True)
+                    data_collection_of_one_container = threading.Thread(target = collect_stats_of_single_container, args=(write_queue, service_name, container, collection_timestamp), daemon=True)
                     data_collection_of_one_container.start()
 
     docker_stats_run_every_number_of_seconds = int(configuration["docker_stats_run_every_number_of_seconds"])
@@ -72,7 +77,7 @@ def queue_worker(write_queue, output):
 
     file_to_write = os.path.join(output, f"docker_stats.csv")
     with open(file_to_write, "w") as f:
-        f.write("timestamp, service, cpu_perc, mem_perc\n")
+        f.write("collected,timestamp,service,cpu,memory\n")
 
     with open(file_to_write, "a") as f:
         while True:
@@ -83,7 +88,7 @@ def queue_worker(write_queue, output):
 def before(current_configuration, output, test_id):    
     write_queue = Queue()
     threading.Thread(target=queue_worker, args=(write_queue, output), daemon=True).start()
-    threading.Thread(target=run, args=(current_configuration, output, test_id, write_queue), daemon=True).start()
+    threading.Thread(target=measure_worker, args=(current_configuration, output, test_id, write_queue), daemon=True).start()
     
 def after(current_configuration, output, test_id):  
     logging.info(f"Stopping Docker stats.")
