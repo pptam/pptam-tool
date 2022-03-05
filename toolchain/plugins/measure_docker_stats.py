@@ -1,111 +1,93 @@
 import logging
 import docker
-import threading
 import os
 import json
 import time
+import sched
+import threading
+from queue import Queue
 
-class CollectionTask:
-    def __init__(self, current_configuration, logging, docker, threading, os, json, time):
-        self._running = True
-        sut_hostname = current_configuration["docker_stats_hostname"]
-        self.docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
-        self.containers_to_watch = current_configuration["docker_stats_containers"].split()
-        self.is_verbose = current_configuration["docker_stats_verbose"] == "1"
-        self.docker_stats_run_every_number_of_seconds = int(current_configuration["docker_stats_run_every_number_of_seconds"])
-        self.run_time_in_seconds = int(current_configuration["run_time_in_seconds"])
+def run(configuration, output, test_id, write_queue):
+    logging.info(f"Collecting Docker stats in background.")
 
-        self.logging = logging
-        self.docker = docker
-        self.threading = threading
-        self.os = os
-        self.json = json
-        self.time = time
+    def calculate_cpu_percent_norm(d):
+        # The field cpu_count is not always present. If used, we need to check that it is present.
+        # cpu_count = len(d["cpu_stats"]["cpu_usage"]["percpu_usage"])
+        cpu_percent = 0.0
+        cpu_delta = float(d["cpu_stats"]["cpu_usage"]["total_usage"]) - \
+                    float(d["precpu_stats"]["cpu_usage"]["total_usage"])
+        system_delta = float(d["cpu_stats"]["system_cpu_usage"]) - \
+                        float(d["precpu_stats"]["system_cpu_usage"])
+        if system_delta > 0.0:
+            cpu_percent = cpu_delta / system_delta * 100.0 #* cpu_count
+        return cpu_percent
 
-    def terminate(self):
-        self._running = False
+    def collect_stats_of_single_container(write_queue, service_name, container_to_analyze):
+        stats = None
+        # try:
+        stats = container_to_analyze.stats(stream=False) 
+        if (stats != None):
+            timestamp = stats["read"]
+            cpu_perc = calculate_cpu_percent_norm(stats)
+            mem_perc = int(stats["memory_stats"]["usage"]) / int(stats["memory_stats"]["limit"]) * 100
+            write_queue.put(f"{timestamp},{service_name},{str(cpu_perc)},{str(mem_perc)}\n")
+            # f.write(f"{json.dumps(stats, indent=2)}\n")
 
-    def run(self, output, test_id):
+        # except Exception as e:
+        #     logging.critical(f"Exception in Docker stats: {e}")
 
-        def calculate_cpu_percent_norm(d):
-            # The field cpu_count is not always present. If used, we need to check that it is present.
-            # cpu_count = len(d["cpu_stats"]["cpu_usage"]["percpu_usage"])
-            cpu_percent = 0.0
-            cpu_delta = float(d["cpu_stats"]["cpu_usage"]["total_usage"]) - \
-                        float(d["precpu_stats"]["cpu_usage"]["total_usage"])
-            system_delta = float(d["cpu_stats"]["system_cpu_usage"]) - \
-                           float(d["precpu_stats"]["system_cpu_usage"])
-            if system_delta > 0.0:
-                cpu_percent = cpu_delta / system_delta * 100.0 #* cpu_count
-            return cpu_percent
+    def collect_stats(write_queue):
+        logging.info(f"Running Docker stats.")
 
-        def extract_service_name(container, test_id):
-            service_name = container[len(test_id)+1:]
+        containers_to_watch = configuration["docker_stats_containers"].split()
+        sut_hostname = configuration["docker_stats_hostname"]
+        docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375", max_pool_size=int(len(containers_to_watch))+1)
+        for container in docker_client.containers.list():
+            service_name = container.name[len(test_id)+1:]
             last_dot = service_name.rfind(".")
             if last_dot > 0:
                 service_name = service_name[0:last_dot-2]
-            return service_name
 
-        def collect_stats(output, service_name, container):
-            file_to_write = self.os.path.join(output, f"docker_stats.csv")
+            if ("all" in containers_to_watch) or (service_name in containers_to_watch):
+                if f"!{service_name}" in containers_to_watch:
+                    logging.debug(f"Skipping container {container.name}.")
+                else:
+                    logging.debug(f"Collecting stats of container {container.name}.")
+                    data_collection_of_one_container = threading.Thread(target = collect_stats_of_single_container, args=(write_queue, service_name, container), daemon=True)
+                    data_collection_of_one_container.start()
 
-            if not self.os.path.isfile(file_to_write) and not self.is_verbose:
-                with open(file_to_write, "w") as f:
-                    f.write("timestamp, service, cpu_perc, mem_perc\n")
+    docker_stats_run_every_number_of_seconds = int(configuration["docker_stats_run_every_number_of_seconds"])
+    run_time_in_seconds = int(configuration["run_time_in_seconds"])
+    number_of_calls = 1 + (run_time_in_seconds // docker_stats_run_every_number_of_seconds)
+    
+    scheduler_for_docker_stats = sched.scheduler()        
+    for i in range(number_of_calls):
+        logging.info(f"Scheduling Docker stats after #{i*docker_stats_run_every_number_of_seconds} seconds.")
+        scheduler_for_docker_stats.enter(i*docker_stats_run_every_number_of_seconds, 1, collect_stats, argument=(write_queue,))
 
-            with open(file_to_write, "a") as f:
-                self.logging.debug(f"Collecting Docker stats of {container.name}.")
+    scheduler_for_docker_stats.run()
 
-                stats = None
-                try:
-                    stats = container.stats(stream=False) # takes about 2s
-                    if (stats != None):
-                        if not self.is_verbose:
-                            timestamp = stats["read"]
-                            cpu_perc = calculate_cpu_percent_norm(stats)
-                            mem_perc = int(stats["memory_stats"]["usage"]) / int(stats["memory_stats"]["limit"]) * 100
-                            f.write(f"{timestamp},{service_name},{str(cpu_perc)},{str(mem_perc)}\n")
-                        else:
-                            f.write(f"{self.json.dumps(stats, indent=2)}\n")
+def queue_worker(write_queue, output):
+    logging.info(f"Waiting for Docker stats results.")
 
-                except Exception as e:
-                    self.logging.critical(f"Exception in Docker stats: {e}")
+    file_to_write = os.path.join(output, f"docker_stats.csv")
+    with open(file_to_write, "w") as f:
+        f.write("timestamp, service, cpu_perc, mem_perc\n")
 
-        def measure():
-            print("Collecting Docker stats at ", datetime.now().strftime("%H:%M:%S"))
-
-            try:
-                for container in self.docker_client.containers.list():
-                    service_name = extract_service_name(container.name, test_id)
-
-                    if ("all" in self.containers_to_watch) or (service_name in self.containers_to_watch):
-                        if f"!{service_name}" in self.containers_to_watch:
-                            logging.debug(f"Skipping container {container.name}.")
-                        else:
-                            collect_stats(output, service_name, container)
-
-            except Exception as e:
-                self.logging.critical(f"Exception in Docker stats: {e}")
-
-        self.logging.info(f"Collecting Docker stats #{iteration} in background.")
-        s = sched.scheduler()
-        
-        number_of_calls = 1 + (self.run_time_in_seconds // self.docker_stats_run_every_number_of_seconds)
-        for i in range(number_of_calls)
-            self.logging.info(f"Scheduling Docker stats after #{i*self.docker_stats_run_every_number_of_seconds} seconds.")
-            s.enter(i*self.docker_stats_run_every_number_of_seconds, 1, print_time)
- 
-        s.run()
-
-data_collection = None
+    with open(file_to_write, "a") as f:
+        while True:
+            item = write_queue.get()
+            f.write(item)
+            f.flush()
 
 def before(global_plugin_state, current_configuration, output, test_id):    
-    data_collection = CollectionTask(current_configuration, logging, docker, threading, os, json, time)
-    t = threading.Thread(target = data_collection.run, args =(output, test_id), daemon=True)
-    t.start()
+    write_queue = Queue()
+    threading.Thread(target=queue_worker, args=(write_queue, output), daemon=True).start()
+    threading.Thread(target=run, args=(current_configuration, output, test_id, write_queue), daemon=True).start()
+    
+def after(global_plugin_state, current_configuration, output, test_id):  
+    logging.info(f"Stopping Docker stats.")
+    
+    
 
-    global_plugin_state["docker_stats_data_collection_class"] = data_collection
 
-def after(global_plugin_state, current_configuration, output, test_id):    
-    global_plugin_state["docker_stats_data_collection_class"].terminate()
-    del global_plugin_state["docker_stats_data_collection_class"]

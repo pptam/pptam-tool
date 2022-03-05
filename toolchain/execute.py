@@ -13,15 +13,20 @@ from pluginbase import PluginBase
 from lib import run_external_applicaton, replace_values_in_file
 
 global_plugin_state = {}
+plugin_source = None
 
 def run_plugins(configuration, section, output, test_id, func):
     result = []
     plugin_list = configuration[section]["enabled_plugins"].split()    
-    plugin_base = PluginBase(package='plugins')
-    plugin_source = plugin_base.make_plugin_source(searchpath=['./plugins'])
+    global plugin_source
+    
+    if plugin_source==None:
+        plugin_base = PluginBase(package='plugins')
+        plugin_source = plugin_base.make_plugin_source(searchpath=['./plugins'])
 
     for plugin_name in plugin_list:        
         logging.debug(f"Executing {func} of plugin {plugin_name}.")
+        
         plugin = plugin_source.load_plugin(plugin_name)
         try:
             function_to_call = getattr(plugin, func, None)
