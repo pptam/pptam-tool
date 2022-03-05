@@ -2,10 +2,10 @@ import logging
 import os
 from lib import run_external_applicaton
 
-def get_configuration_files(global_plugin_state, current_configuration, output, test_id):
+def get_configuration_files(current_configuration, output, test_id):
     return ["locustfile.py"]
 
-def run(global_plugin_state, current_configuration, output, test_id):
+def run(current_configuration, output, test_id):
     driver = f"{output}/locustfile.py"
     host = current_configuration["locust_host_url"]
     load = current_configuration["load"]

@@ -4,7 +4,7 @@ import json
 import os
 import time
 
-def after(global_plugin_state, current_configuration, output, test_id): 
+def after(current_configuration, output, test_id): 
     jaeger_host = current_configuration["jaeger_host_url"]
     jaeger_services = current_configuration["jaeger_services"].split(" ")
     service_to_test = current_configuration["jaeger_test_if_service_is_present"]

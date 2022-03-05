@@ -80,12 +80,12 @@ def queue_worker(write_queue, output):
             f.write(item)
             f.flush()
 
-def before(global_plugin_state, current_configuration, output, test_id):    
+def before(current_configuration, output, test_id):    
     write_queue = Queue()
     threading.Thread(target=queue_worker, args=(write_queue, output), daemon=True).start()
     threading.Thread(target=run, args=(current_configuration, output, test_id, write_queue), daemon=True).start()
     
-def after(global_plugin_state, current_configuration, output, test_id):  
+def after(current_configuration, output, test_id):  
     logging.info(f"Stopping Docker stats.")
     
     

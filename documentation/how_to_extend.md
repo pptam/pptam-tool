@@ -6,7 +6,6 @@ When the user calls the `execute.py` script, the following steps are performed:
 
 1. the argument `--design` is used to find the design folder;
 2. the function `setup_all` is invoked in all the plugins; at this point tests are not executed, yet, therefore the parameters of `setup_all` are:
-    - global_plugin_state: an array of global variables that can contain variables that need to be kept during the execution; plugins can add or remove values there;
     - current_configuration: configuration items can be read using current_configuration["name_of_configuration_item"];
     - design_path: path to the design folder;
     - test_id: the id of the test.
@@ -22,7 +21,6 @@ When the user calls the `execute.py` script, the following steps are performed:
     - `teardown`: steps to cleanup after executing a test.
 
     All these methods are called with the following parameters:
-    - global_plugin_state: an array of global variables that can contain variables that need to be kept during the execution; plugins can add or remove values there;
     - current_configuration: configuration items can be read using current_configuration["name_of_configuration_item"];
     - output: path to the *output* folder;
     - test_id: the id of the test.
@@ -34,22 +32,22 @@ To start extending PPTAM, you can copy an existing plugin and modify it, or you 
 ```
 import logging
 
-def setup_all(global_plugin_state, current_configuration, design_path, test_id):
+def setup_all(current_configuration, design_path, test_id):
     logging.info(f"Running setup_all")
 
-def deploy(global_plugin_state, current_configuration, output, test_id):
+def deploy(current_configuration, output, test_id):
     logging.info(f"Running deploy")
 
-def before(global_plugin_state, current_configuration, output, test_id):
+def before(current_configuration, output, test_id):
     logging.info(f"Running before")
 
-def after(global_plugin_state, current_configuration, output, test_id):
+def after(current_configuration, output, test_id):
     logging.info(f"Running after")
 
-def undeploy(global_plugin_state, current_configuration, output, test_id):
+def undeploy(current_configuration, output, test_id):
     logging.info(f"Running undeploy")
 
-def teardown_all(global_plugin_state, current_configuration, design_path, test_id):
+def teardown_all(current_configuration, design_path, test_id):
     logging.info(f"Running teardown_all")
 ```
 
