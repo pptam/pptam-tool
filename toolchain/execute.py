@@ -181,8 +181,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
-    logging.getLogger("requests").setLevel(logging.WARNING)
-    logging.getLogger("urllib3").setLevel(logging.WARNING)
+    logging.getLogger("requests").setLevel(logging.ERROR)
+    logging.getLogger("urllib3").setLevel(logging.ERROR)
         
     if args.design is None or args.design == "" or (not os.path.exists(args.design)):
         logging.fatal(f"Cannot find the design folder. Please indicate one.")

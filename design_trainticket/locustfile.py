@@ -16,7 +16,8 @@ locust.stats.CONSOLE_STATS_INTERVAL_SEC = 30
 locust.stats.CSV_STATS_FLUSH_INTERVAL_SEC = 10
 locust.stats.PERCENTILES_TO_REPORT = [0.25, 0.50, 0.75, 0.80, 0.90, 0.95, 0.98, 0.99, 0.999, 0.9999, 1.0]
 
-DEP_DATE = "2022-02-11"
+# Must be some days in the future.
+DEP_DATE = "2022-03-11"
 
 def random_date_generator():
     temp = randint(0, 4)
@@ -65,14 +66,17 @@ class Requests:
         document_num = str(uuid.uuid4())
         user_name = str(uuid.uuid4())
 
-        with self.client.post(url="/api/v1/users/login", json={"username": "admin", "password": "222222"}, name = req_label) as response1:
-            response_as_json1 = json.loads(response1.content)["data"]
-            token = response_as_json1["token"]
-            admin_bearer = "Bearer " + token
-            user_id = response_as_json1["userId"]
+        response_as_json1 = None
+        while response_as_json1==None or response_as_json1["status"]==0:
+            time.sleep(1)
+            response_as_json1 = self.client.post(url="/api/v1/users/login", json={"username": "admin", "password": "222222"}, name = req_label).json()
 
-            self.client.post(url="/api/v1/adminuserservice/users", headers={"Authorization": admin_bearer, "Accept": "application/json", "Content-Type": "application/json"}, 
-                json={"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": user_name, "userName": user_name}, name=req_label)
+        token = response_as_json1["data"]["token"]
+        admin_bearer = "Bearer " + token
+        user_id = response_as_json1["data"]["userId"]
+
+        self.client.post(url="/api/v1/adminuserservice/users", headers={"Authorization": admin_bearer, "Accept": "application/json", "Content-Type": "application/json"}, 
+            json={"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": user_name, "userName": user_name}, name=req_label)
 
         return user_name
 
@@ -88,7 +92,6 @@ class Requests:
         start_time = time.time()
         head = {"Accept": "application/json", "Content-Type": "application/json"}
         response = self.client.post(url="/api/v1/users/login", headers=head, json={"username": user_name, "password": user_name}, name=req_label)
-
         response_as_json = response.json()["data"]
         if response_as_json is not None:
             token = response_as_json["token"]
