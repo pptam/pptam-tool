@@ -50,8 +50,9 @@ def create_output_directory(configuration, section):
         
     if any(x.endswith(test_id_without_timestamp) for x in os.listdir(all_outputs)):
         name_of_existing_folder = next(x for x in os.listdir(all_outputs) if x.endswith(test_id_without_timestamp))
-        logging.warning(f"Deleting {name_of_existing_folder}, since it already exists.")
-        shutil.rmtree(os.path.join(all_outputs, name_of_existing_folder))
+        logging.warning(f"Skipping {name_of_existing_folder}, since it already exists.")
+        # shutil.rmtree(os.path.join(all_outputs, name_of_existing_folder))
+        return None, None, None
 
     output = os.path.join(all_outputs, test_id)
     os.makedirs(output)

@@ -48,6 +48,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-auth-service:
     image: codewisdom/ts-auth-service-with-jaeger:v1
@@ -60,6 +63,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-auth-mongo:
     image: mongo
@@ -69,6 +75,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-user-service:
     image: codewisdom/ts-user-service-with-jaeger:v1
@@ -81,6 +90,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-user-mongo:
     image: mongo
@@ -90,6 +102,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-verification-code-service:
     image: codewisdom/ts-verification-code-service-with-jaeger:v1
@@ -102,6 +117,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-account-mongo:
     image: mongo
@@ -111,6 +129,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-route-service:
     image: codewisdom/ts-route-service-with-jaeger:v1
@@ -123,6 +144,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-route-mongo:
     image: mongo
@@ -132,6 +156,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-contacts-service:
     image: codewisdom/ts-contacts-service-with-jaeger:v1
@@ -144,6 +171,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-contacts-mongo:
     image: mongo
@@ -153,6 +183,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-order-service:
     image: codewisdom/ts-order-service-with-jaeger:v1
@@ -165,6 +198,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-order-mongo:
     image: mongo
@@ -174,6 +210,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-order-other-service:
     image: codewisdom/ts-order-other-service-with-jaeger:v1
@@ -186,6 +225,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-order-other-mongo:
     image: mongo
@@ -195,6 +237,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-config-service:
     image: codewisdom/ts-config-service-with-jaeger:v1
@@ -207,6 +252,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-config-mongo:
     image: mongo
@@ -216,6 +264,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-station-service:
     image: codewisdom/ts-station-service-with-jaeger:v1
@@ -228,6 +279,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-station-mongo:
     image: mongo
@@ -237,6 +291,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-train-service:
     image: codewisdom/ts-train-service-with-jaeger:v1
@@ -249,6 +306,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-train-mongo:
     image: mongo
@@ -258,6 +318,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-travel-service:
     image: codewisdom/ts-travel-service-with-jaeger:v1
@@ -270,6 +333,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-travel-mongo:
     image: mongo
@@ -279,6 +345,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-travel2-service:
     image: codewisdom/ts-travel2-service-with-jaeger:v1
@@ -291,6 +360,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-travel2-mongo:
     image: mongo
@@ -300,6 +372,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-preserve-service:
     image: codewisdom/ts-preserve-service-with-jaeger:v1
@@ -312,6 +387,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-preserve-other-service:
     image: codewisdom/ts-preserve-other-service-with-jaeger:v1
@@ -324,6 +402,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-basic-service:
     image: codewisdom/ts-basic-service-with-jaeger:v1
@@ -336,6 +417,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-ticketinfo-service:
     image: codewisdom/ts-ticketinfo-service-with-jaeger:v1
@@ -348,6 +432,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-price-service:
     image: codewisdom/ts-price-service-with-jaeger:v1
@@ -360,6 +447,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-price-mongo:
     image: mongo
@@ -369,6 +459,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-notification-service:
     image: codewisdom/ts-notification-service-with-jaeger:v1
@@ -381,6 +474,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-security-service:
     image: codewisdom/ts-security-service-with-jaeger:v1
@@ -393,6 +489,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-security-mongo:
     image: mongo
@@ -402,6 +501,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-inside-payment-service:
     image: codewisdom/ts-inside-payment-service-with-jaeger:v1
@@ -414,6 +516,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-inside-payment-mongo:
     image: mongo
@@ -423,6 +528,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-execute-service:
     image: codewisdom/ts-execute-service-with-jaeger:v1
@@ -435,6 +543,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-payment-service:
     image: codewisdom/ts-payment-service-with-jaeger:v1
@@ -447,6 +558,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-payment-mongo:
     image: mongo
@@ -456,6 +570,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-rebook-service:
     image: codewisdom/ts-rebook-service-with-jaeger:v1
@@ -468,6 +585,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-rebook-mongo:
     image: mongo
@@ -477,6 +597,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-cancel-service:
     image: codewisdom/ts-cancel-service-with-jaeger:v1
@@ -489,6 +612,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-assurance-service:
     image: codewisdom/ts-assurance-service-with-jaeger:v1
@@ -501,6 +627,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-assurance-mongo:
     image: mongo
@@ -510,6 +639,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-seat-service:
     image: codewisdom/ts-seat-service-with-jaeger:v1
@@ -522,6 +654,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-travel-plan-service:
     image: codewisdom/ts-travel-plan-service-with-jaeger:v1
@@ -534,6 +669,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   # Written in JavaScript
   ts-ticket-office-service:
@@ -547,6 +685,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-ticket-office-mongo:
     image: mongo
@@ -556,6 +697,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   # Written in GO
   ts-news-service:
@@ -569,7 +713,10 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-    
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+
   ts-news-mongo:
     image: mongo
     networks:
@@ -578,11 +725,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-voucher-mysql:
     image: mysql
-    expose:
-      - "3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
     networks:
@@ -591,6 +739,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   # Written in Python
   ts-voucher-service:
@@ -608,6 +759,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-food-map-service:
     image: codewisdom/ts-food-map-service-with-jaeger:v1
@@ -620,6 +774,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-food-map-mongo:
     image: mongo
@@ -629,6 +786,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-route-plan-service:
     image: codewisdom/ts-route-plan-service-with-jaeger:v1
@@ -641,6 +801,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-food-service:
     image: codewisdom/ts-food-service-with-jaeger:v1
@@ -653,6 +816,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-consign-service:
     image: codewisdom/ts-consign-service-with-jaeger:v1
@@ -665,6 +831,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-consign-mongo:
     image: mongo
@@ -674,6 +843,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-consign-price-service:
     image: codewisdom/ts-consign-price-service-with-jaeger:v1
@@ -686,6 +858,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-consign-price-mongo:
     image: mongo
@@ -695,6 +870,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-food-mongo:
     image: mongo
@@ -704,6 +882,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-admin-basic-info-service:
     image: codewisdom/ts-admin-basic-info-service-with-jaeger:v1
@@ -716,6 +897,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-admin-order-service:
     image: codewisdom/ts-admin-order-service-with-jaeger:v1
@@ -728,6 +912,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-admin-route-service:
     image: codewisdom/ts-admin-route-service-with-jaeger:v1
@@ -744,6 +931,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-admin-travel-service:
     image: codewisdom/ts-admin-travel-service-with-jaeger:v1
@@ -760,6 +950,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-admin-user-service:
     image: codewisdom/ts-admin-user-service-with-jaeger:v1
@@ -776,6 +969,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   jaeger:
     image: jaegertracing/all-in-one:1.15
