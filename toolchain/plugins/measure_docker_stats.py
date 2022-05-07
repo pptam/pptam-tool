@@ -7,6 +7,7 @@ import sched
 import threading
 from queue import Queue
 from datetime import datetime
+import dateutil.parser
 
 def measure_worker(configuration, output, test_id, write_queue):
     logging.info(f"Collecting Docker stats in background.")
@@ -28,7 +29,10 @@ def measure_worker(configuration, output, test_id, write_queue):
         # try:
         stats = container_to_analyze.stats(stream=False) 
         if (stats != None):
-            reading_timestamp = stats["read"]
+            reading_timestamp_as_iso_date = stats["read"]
+            reading_timestamp_as_datetime = dateutil.parser.isoparse(reading_timestamp_as_iso_date)
+            reading_timestamp = datetime.timestamp(reading_timestamp_as_datetime)
+
             cpu_usage_in_percent = calculate_cpu_percent_norm(stats)
             mem_usage = int(stats["memory_stats"]["usage"])
             mem_limit = int(stats["memory_stats"]["limit"])
@@ -47,7 +51,7 @@ def measure_worker(configuration, output, test_id, write_queue):
     def collect_stats(write_queue):
         logging.info(f"Running Docker stats.")
 
-        collection_timestamp = datetime.utcnow().isoformat()
+        collection_timestamp = datetime.timestamp(datetime.utcnow())
 
         containers_to_watch = configuration["docker_stats_containers"].split()
         sut_hostname = configuration["docker_stats_hostname"]

@@ -159,7 +159,7 @@ def perform_test(configuration, section, design_path):
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
-def execute_test(design_path):
+def execute_tests(design_path):
     configuration = configparser.ConfigParser()
     configuration.read([os.path.join(design_path, "configuration.ini"), os.path.join(design_path, "test_plan.ini")])
     
@@ -189,4 +189,5 @@ if __name__ == "__main__":
         logging.fatal(f"Cannot find the design folder. Please indicate one.")
         quit()
 
-    execute_test(args.design)
+    execute_tests(args.design)  
+        

@@ -117,6 +117,19 @@ def store_test(test_path):
                             if "Failures/s" in row and row["Failures/s"] != "N/A":
                                 execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, create_or_get_item(connection, project_id, row["Name"]), get_metric(connection, "ifps"), float(row["Failures/s"]), created_at))
 
+            docker_stats_path = os.path.join(test_path, "docker_stats.csv")
+            if os.path.exists(docker_stats_path):
+                logging.debug(f"Reading {docker_stats_path}.")
+                with open(docker_stats_path, newline="") as csvfile:
+                    reader = csv.DictReader(csvfile, delimiter=",", quotechar='"')
+                    for row in reader:
+                        created_at = datetime.fromtimestamp(float(row["timestamp"]))
+                        item = create_or_get_item(connection, project_id, row["service"])
+                        execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, item, get_metric(connection, "cup"), float(row["cpu_usage_percent"]), created_at))
+                        execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, item, get_metric(connection, "mup"), float(row["memory_usage_percent"]), created_at))
+                        execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, item, get_metric(connection, "mut"), float(row["memory_usage"]), created_at))
+                        execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, item, get_metric(connection, "mel"), float(row["memory_limit"]), created_at))
+
             if test_set_name != "":
                 logging.debug(f"Assigning test to test set {test_set_name}.")
                 test_set_id = create_or_get_test_set(connection, project_id, test_set_name)

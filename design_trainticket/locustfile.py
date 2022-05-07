@@ -9,23 +9,11 @@ import logging
 import uuid
 import json
 from requests.adapters import HTTPAdapter
-
 import locust.stats
 
-locust.stats.CONSOLE_STATS_INTERVAL_SEC = 30
-locust.stats.CSV_STATS_FLUSH_INTERVAL_SEC = 10
 locust.stats.PERCENTILES_TO_REPORT = [0.25, 0.50, 0.75, 0.80, 0.90, 0.95, 0.98, 0.99, 0.999, 0.9999, 1.0]
 
-# Must be some days in the future.
-DEP_DATE = "2022-06-01"
-
-def random_date_generator():
-    temp = randint(0, 4)
-    random_y = 2000 + temp * 10 + randint(0, 9)
-    random_m = randint(1, 12)
-    random_d = randint(1, 28)  # to have only reasonable dates
-    return str(random_y) + "-" + str(random_m) + "-" + str(random_d)
-
+LOG_STATISTICS_IN_HALF_MINUTE_CHUNKS = (${LOG_STATISTICS_IN_HALF_MINUTE_CHUNKS}==1)
 
 class Requests:
     def __init__(self, client):
@@ -35,63 +23,49 @@ class Requests:
         self.order_id = None
         self.request_id = str(uuid.uuid4())
 
+        def next_weekday(d, weekday):
+            days_ahead = weekday - d.weekday()
+            if days_ahead <= 0: # Target day already happened this week
+                days_ahead += 7
+            return d + datetime.timedelta(days_ahead)
+
+        tomorrow = datetime.now() + datetime.timedelta(1)
+        next_monday = next_weekday(tomorrow, 0)
+        self.departure_date = next_monday
+
+    def get_name(name):
+        if LOG_STATISTICS_IN_HALF_MINUTE_CHUNKS:
+            now = datetime.now()
+            now = datetime(now.year, now.month, now.day, now.hour, now.minute, 0 if tm.second < 30 else 30, 0)
+            now_as_timestamp = int(tm.timestamp())
+            return f"{name};{now_as_timestamp}"
+        else:
+            return name
+
     def home(self):
-        req_label = sys._getframe().f_code.co_name
-        self.client.get("/index.html", name=req_label)
+        self.client.get("/index.html", name=get_name("home"))
 
-    def try_to_read_response_as_json(self, response):
-        try:
-            return response.json()
-        except:
-            try:
-                return response.content.decode("utf-8")
-            except:
-                return response.content
-
-    def search_ticket(self, departure_date, from_station, to_station):
+    def get_trip_information(self, start_at, from_station, to_station):
         head = {"Accept": "application/json", "Content-Type": "application/json"}
-        body_start = {"startingPlace": from_station, "endPlace": to_station, "departureTime": departure_date}
+        body_start = {"startingPlace": from_station, "endPlace": to_station, "departureTime": start_at}
 
-        req_label = sys._getframe().f_code.co_name
-        self.client.post(url="/api/v1/travelservice/trips/left", headers=head, json=body_start, catch_response=True, name=req_label)
+        self.client.post(url="/api/v1/travelservice/trips/left", headers=head, json=body_start, catch_response=True, name=get_name("get_trip_information"))
 
     def search_departure(self):
-        self.search_ticket(date.today().strftime(random_date_generator()), "Shang Hai", "Su Zhou")
+        self.get_trip_information(self.departure_date, "Shang Hai", "Su Zhou")
 
     def search_return(self):
-        self.search_ticket(date.today().strftime(random_date_generator()), "Su Zhou", "Shang Hai")
+        self.get_trip_information(self.departure_date, "Su Zhou", "Shang Hai")
 
-    def create_user(self):
-        req_label = sys._getframe().f_code.co_name
-        document_num = str(uuid.uuid4())
-        user_name = str(uuid.uuid4())
-
-        response_as_json1 = None
-        while response_as_json1==None or response_as_json1["status"]==0:
-            time.sleep(1)
-            response_as_json1 = self.client.post(url="/api/v1/users/login", json={"username": "admin", "password": "222222"}, name = req_label).json()
-
-        token = response_as_json1["data"]["token"]
-        admin_bearer = "Bearer " + token
-        user_id = response_as_json1["data"]["userId"]
-
-        self.client.post(url="/api/v1/adminuserservice/users", headers={"Authorization": admin_bearer, "Accept": "application/json", "Content-Type": "application/json"}, 
-            json={"documentNum": document_num, "documentType": 0, "email": "string", "gender": 0, "password": user_name, "userName": user_name}, name=req_label)
-
-        return user_name
-
-    def navigate_to_client_login(self):
-        req_label = sys._getframe().f_code.co_name
-        self.client.get("/client_login.html", name=req_label)
+    # def navigate_to_client_login(self):
+    #     self.client.get("/client_login.html", name=get_name(sys._getframe().f_code.co_name))
 
     def login(self):
-        user_name = self.create_user()
+        # self.navigate_to_client_login()
 
-        self.navigate_to_client_login()
-        req_label = sys._getframe().f_code.co_name
         start_time = time.time()
         head = {"Accept": "application/json", "Content-Type": "application/json"}
-        response = self.client.post(url="/api/v1/users/login", headers=head, json={"username": user_name, "password": user_name}, name=req_label)
+        response = self.client.post(url="/api/v1/users/login", headers=head, json={"username": "fdse_microservice", "password": "111111"}, name=get_name("login"))
         response_as_json = response.json()["data"]
         if response_as_json is not None:
             token = response_as_json["token"]
@@ -99,24 +73,22 @@ class Requests:
             self.user_id = response_as_json["userId"]
 
     def book(self):
-        departure_date = DEP_DATE
         head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        req_label = sys._getframe().f_code.co_name
-        self.client.get(url="/client_ticket_book.html?tripId=D1345&from=Shang%20Hai&to=Su%20Zhou&seatType=2&seat_price=50.0&date=" + departure_date, headers=head, name=req_label)
+        # self.client.get(url="/client_ticket_book.html?tripId=D1345&from=Shang%20Hai&to=Su%20Zhou&seatType=2&seat_price=50.0&date=" + self.departure_date, headers=head, name=get_name("book_ticket"))
 
         # get assurance types 
-        self.client.get(url="/api/v1/assuranceservice/assurances/types", headers=head, name=req_label)
+        self.client.get(url="/api/v1/assuranceservice/assurances/types", headers=head, name=get_name("book-get_assurance_types"))
 
         # get food 
-        self.client.get(url="/api/v1/foodservice/foods/" + departure_date + "/Shang%20Hai/Su%20Zhou/D1345", headers=head, name=req_label)
+        self.client.get(url="/api/v1/foodservice/foods/" + self.departure_date + "/Shang%20Hai/Su%20Zhou/D1345", headers=head, name=get_name("book-get_foods"))
 
         # select contact
-        response_contacts = self.client.get(url="/api/v1/contactservice/contacts/account/" + self.user_id, headers=head, name=req_label)
+        response_contacts = self.client.get(url="/api/v1/contactservice/contacts/account/" + self.user_id, headers=head, name=get_name("book-query_contacts"))
         response_as_json_contacts = response_contacts.json()["data"]
 
         if len(response_as_json_contacts) == 0:
             req_label = "set_new_contact"
-            response_contacts = self.client.post(url="/api/v1/contactservice/contacts", headers=head, json={"name": self.user_id, "accountId": self.user_id, "documentType": "1", "documentNumber": self.user_id, "phoneNumber": "123456"}, name=req_label)
+            response_contacts = self.client.post(url="/api/v1/contactservice/contacts", headers=head, json={"name": self.user_id, "accountId": self.user_id, "documentType": "1", "documentNumber": self.user_id, "phoneNumber": "123456"}, name=get_name("book-set_new_contact"))
 
             response_as_json_contacts = response_contacts.json()["data"]
             contact_id = response_as_json_contacts["id"]
@@ -124,47 +96,43 @@ class Requests:
             contact_id = response_as_json_contacts[0]["id"]
 
         # reserve
-        body_for_reservation = {"accountId": self.user_id, "contactsId": contact_id, "tripId": "D1345", "seatType": "2", "date": departure_date, "from": "Shang Hai", "to": "Su Zhou", "assurance": "0", "foodType": 1, "foodName": "Bone Soup", "foodPrice": 2.5, "stationName": "", "storeName": ""}
-        self.client.post(url="/api/v1/preserveservice/preserve", headers=head, json=body_for_reservation, catch_response=True, name=req_label)
+        body_for_reservation = {"accountId": self.user_id, "contactsId": contact_id, "tripId": "D1345", "seatType": "2", "date": self.departure_date, "from": "Shang Hai", "to": "Su Zhou", "assurance": "0", "foodType": 1, "foodName": "Bone Soup", "foodPrice": 2.5, "stationName": "", "storeName": ""}
+        self.client.post(url="/api/v1/preserveservice/preserve", headers=head, json=body_for_reservation, catch_response=True, name=get_name("book-preserve_ticket"))
 
         # Select order
-        response_order_refresh = self.client.post(url="/api/v1/orderservice/order/refresh", name=req_label, headers=head, json={"loginId": self.user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"})
+        response_order_refresh = self.client.post(url="/api/v1/orderservice/order/refresh", name=get_name("book-get_order_information"), headers=head, json={"loginId": self.user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"})
         response_as_json = response_order_refresh.json()["data"]
         self.order_id = response_as_json[0]["id"]
 
         # Pay
-        self.client.post(url="/api/v1/inside_pay_service/inside_payment", headers=head, json={"orderId": self.order_id, "tripId": "D1345"}, name=req_label)
+        self.client.post(url="/api/v1/inside_pay_service/inside_payment", headers=head, json={"orderId": self.order_id, "tripId": "D1345"}, name=get_name("book-pay_order"))
 
     def cancel_last_order_with_no_refund(self):
         head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        req_label = sys._getframe().f_code.co_name
-        self.client.get(url="/api/v1/cancelservice/cancel/" + self.order_id + "/" + self.user_id, headers=head, name=req_label)
+        self.client.get(url="/api/v1/cancelservice/cancel/" + self.order_id + "/" + self.user_id, headers=head, name=get_name("cancel_ticket"))
 
-    def get_voucher_of_last_order(self):
+    def get_voucher(self):
+        head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
+        self.client.post(url="/getVoucher", headers=head, json={"orderId": self.order_id, "type": 1}, name=get_name("get_voucher"))
+
+    def consign_ticket(self):
         head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
         req_label = sys._getframe().f_code.co_name
-        self.client.post(url="/getVoucher", headers=head, json={"orderId": self.order_id, "type": 1}, name=req_label)
-
-    def pick_up_ticket(self):
-        head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        req_label = sys._getframe().f_code.co_name
-        self.client.get(url="/api/v1/consignservice/consigns/order/" + self.order_id, headers=head, name=req_label)
-        self.client.put(url="/api/v1/consignservice/consigns", name=req_label, json={"accountId": self.user_id, "handleDate": DEP_DATE, "from": "Shang Hai", "to": "Su Zhou", "orderId": self.order_id, "consignee": self.order_id, "phone": "123", "weight": "1", "id": "", "isWithin": "false"}, headers=head)
+        self.client.get(url="/api/v1/consignservice/consigns/order/" + self.order_id, headers=head, name=get_name("consign_ticket-query"))
+        self.client.put(url="/api/v1/consignservice/consigns", name=get_name("consign_ticket-create_consign"), json={"accountId": self.user_id, "handleDate": self.departure_date, "from": "Shang Hai", "to": "Su Zhou", "orderId": self.order_id, "consignee": self.order_id, "phone": "123", "weight": "1", "id": "", "isWithin": "false"}, headers=head)
 
     def perform_task(self, name):
         logging.debug(f"""Performing task "{name}" for user {self.request_id}...""")
         task = getattr(self, name)
         task()
 
+# class MyHttpUser(HttpUser):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.client.mount("https://", HTTPAdapter(pool_maxsize=50))
+#         self.client.mount("http://", HTTPAdapter(pool_maxsize=50))
 
 class UserNoLogin(HttpUser):
-    weight = 1
-    wait_time = constant(1)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.client.mount("https://", HTTPAdapter(pool_maxsize=50))
-        self.client.mount("http://", HTTPAdapter(pool_maxsize=50))
 
     @task
     def perfom_task(self):
@@ -177,13 +145,6 @@ class UserNoLogin(HttpUser):
 
 
 class UserBooking(HttpUser):
-    weight = 1
-    wait_time = constant(1)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.client.mount("https://", HTTPAdapter(pool_maxsize=50))
-        self.client.mount("http://", HTTPAdapter(pool_maxsize=50))
 
     @task
     def perform_task(self):
@@ -196,13 +157,6 @@ class UserBooking(HttpUser):
         requests.perform_task("book")
 
 class UserConsignTicket(HttpUser):
-    weight = 1
-    wait_time = constant(1)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.client.mount("https://", HTTPAdapter(pool_maxsize=50))
-        self.client.mount("http://", HTTPAdapter(pool_maxsize=50))
 
     @task
     def perform_task(self):
@@ -213,17 +167,10 @@ class UserConsignTicket(HttpUser):
         requests.perform_task("login")
         requests.perform_task("search_departure")
         requests.perform_task("book")
-        requests.perform_task("pick_up_ticket")
+        requests.perform_task("consign_ticket")
         
 
 class UserCancelNoRefund(HttpUser):
-    weight = 1
-    wait_time = constant(1)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.client.mount("https://", HTTPAdapter(pool_maxsize=50))
-        self.client.mount("http://", HTTPAdapter(pool_maxsize=50))
 
     @task
     def perform_task(self):
@@ -237,13 +184,6 @@ class UserCancelNoRefund(HttpUser):
         requests.perform_task("cancel_last_order_with_no_refund")
 
 class UserRefundVoucher(HttpUser):
-    weight = 1
-    wait_time = constant(1)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.client.mount("https://", HTTPAdapter(pool_maxsize=50))
-        self.client.mount("http://", HTTPAdapter(pool_maxsize=50))
 
     @task
     def perform_task(self):
@@ -254,4 +194,4 @@ class UserRefundVoucher(HttpUser):
         requests.perform_task("login")
         requests.perform_task("search_departure")
         requests.perform_task("book")
-        requests.perform_task("get_voucher_of_last_order")
+        requests.perform_task("get_voucher")
