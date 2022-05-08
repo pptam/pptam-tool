@@ -21,27 +21,26 @@ def on_spawning_complete(user_count, **kwargs):
     global spawning_complete
     spawning_complete = True
 
-def get_data_from_response(response):
+def get_json_from_response(response):
     response_as_text = response.content.decode('UTF-8')
     response_as_json = json.loads(response_as_text)
-    data = response_as_json["data"]            
-    return data
+    return response_as_json
 
 def login(client):
-    for attempt in range(10):
-        logging.debug(f"Attempt {attempt} to login...")
-
+    while True:
         try:
-            headers = {"Accept": "application/json", "Content-Type": "application/json"}
+            logging.debug(f"Logging in.")
             body = {"username": "fdse_microservice", "password": "111111"}
-            response = client.post(url="/api/v1/users/login", headers=headers, json=body, name=get_name_suffix("login"))
-            data = get_data_from_response(response)      
-            user_id = data["userId"]
-            token = data["token"]
-            return user_id, token
+            response = client.post(url="/api/v1/users/login", json=body, name=get_name_suffix("login"))
+            response_as_json = get_json_from_response(response)
+
+            if response_as_json["status"] == 1:
+                data = response_as_json["data"]
+                user_id = data["userId"]
+                token = data["token"]
+                return user_id, token
         except:
-            logging.debug(f"Attempt failed, retrying in 1 second...")
-            time.sleep(1)
+            pass
 
 def next_weekday(d, weekday):
     days_ahead = weekday - d.weekday()
@@ -71,8 +70,17 @@ def get_trip_information(client, from_station, to_station):
     next_monday = next_weekday(tomorrow, 0)
     departure_date = next_monday.strftime("%Y-%m-%d")
 
-    body_start = {"startingPlace": from_station, "endPlace": to_station, "departureTime": departure_date}
-    client.post(url="/api/v1/travelservice/trips/left", json=body_start, catch_response=True, name=get_name_suffix("get_trip_information"))
+    while True:
+        try:
+            logging.debug(f"Getting trip information...")
+            body = {"startingPlace": from_station, "endPlace": to_station, "departureTime": departure_date}
+            response = client.post(url="/api/v1/travelservice/trips/left", json=body, catch_response=True, name=get_name_suffix("get_trip_information"))
+            response_as_json = get_json_from_response(response)
+
+            if response_as_json["status"] == 1:
+                break
+        except:
+            pass
 
 def search_departure(client):
     get_trip_information(client, "Shang Hai", "Su Zhou")
@@ -86,30 +94,80 @@ def book(client, user_id):
     next_monday = next_weekday(tomorrow, 0)
     departure_date = next_monday.strftime("%Y-%m-%d")
 
-    # http://socks4.inf.unibz.it:8080/api/v1/assuranceservice/assurances/types
-    response_assurances = client.get(url="/api/v1/assuranceservice/assurances/types", name=get_name_suffix("book-get_assurance_types"))
-    # http://socks4.inf.unibz.it:8080/api/v1/foodservice/foods/2022-05-09/Shang%20Hai/Su%20Zhou/D1345
-    response_food = client.get(url="/api/v1/foodservice/foods/" + departure_date + "/Shang%20Hai/Su%20Zhou/D1345", name=get_name_suffix("book-get_foods"))
+    while True:
+        try:
+            logging.debug(f"Getting insurance types...")
+            response = client.get(url="/api/v1/assuranceservice/assurances/types", name=get_name_suffix("book-get_assurance_types"))
+            response_as_json = get_json_from_response(response)
 
-    # http://socks4.inf.unibz.it:8080/api/v1/contactservice/contacts/account/4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f
-    response_contacts = client.get(url="/api/v1/contactservice/contacts/account/" + user_id, name=get_name_suffix("book-query_contacts"))
-    data = get_data_from_response(response_contacts)      
-    contact_id = data[0]["id"] #4607ca48-3352-4f72-a5ee-9aa95b5f7419
+            if response_as_json["status"] == 1:
+                break
+        except:
+            pass
 
-    body_for_reservation = {"accountId": user_id, "contactsId": contact_id, "tripId": "D1345", "seatType": "2", "date": departure_date, "from": "Shang Hai", "to": "Su Zhou", "assurance": "0", "foodType": 1, "foodName": "Bone Soup", "foodPrice": 2.5, "stationName": "", "storeName": ""}
-    response_preserve = client.post(url="/api/v1/preserveservice/preserve", json=body_for_reservation, catch_response=True, name=get_name_suffix("book-preserve_ticket"))
+    while True:
+        try:
+            logging.debug(f"Getting food types...")
+            response = client.get(url="/api/v1/foodservice/foods/" + departure_date + "/Shang%20Hai/Su%20Zhou/D1345", name=get_name_suffix("book-get_foods"))
+            response_as_json = get_json_from_response(response)
+
+            if response_as_json["status"] == 1:
+                break
+        except:
+            pass
+    
+    while True:
+        try:
+            logging.debug(f"Getting contacts...")
+            response = client.get(url="/api/v1/contactservice/contacts/account/" + user_id, name=get_name_suffix("book-query_contacts"))
+            response_as_json = get_json_from_response(response)
+
+            if response_as_json["status"] == 1:
+                data = response_as_json["data"]
+                contact_id = data[0]["id"] 
+                break
+        except:
+            pass
+    
+    while True:
+        try:
+            logging.debug(f"Reserving ticket...")
+            body = {"accountId": user_id, "contactsId": contact_id, "tripId": "D1345", "seatType": "2", "date": departure_date, "from": "Shang Hai", "to": "Su Zhou", "assurance": "0", "foodType": 1, "foodName": "Bone Soup", "foodPrice": 2.5, "stationName": "", "storeName": ""}
+            response = client.post(url="/api/v1/preserveservice/preserve", json=body, catch_response=True, name=get_name_suffix("book-preserve_ticket"))
+            response_as_json = get_json_from_response(response)
+
+            if response_as_json["status"] == 1:
+                break
+        except:
+            pass
 
 def pay(client, user_id):
-    # http://socks4.inf.unibz.it:8080/api/v1/orderservice/order/refresh
-    # {"loginId": "4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f", "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"}
-    body_for_query = {"loginId": user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"}
-    response_order = client.post(url="/api/v1/orderservice/order/refresh", json=body_for_query, name=get_name_suffix("pay-get_order_information"))
-    data = get_data_from_response(response_order)      
-    order_id = data[0]["id"]
+    while True:
+        try:
+            body = {"loginId": user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"}
+            response = client.post(url="/api/v1/orderservice/order/refresh", json=body, name=get_name_suffix("pay-get_order_information"))
+            response_as_json = get_json_from_response(response)
 
-    body_for_payment = {"orderId": order_id, "tripId": "D1345"}
-    client.post(url="/api/v1/inside_pay_service/inside_payment", json=body_for_payment, name=self.get_name_suffix("book-pay_order"))
+            if response_as_json["status"] == 1:
+                data = response_as_json["data"]
+                order_id = data[0]["id"]
+                break
+        except:
+            pass
+    
+    while True:
+        try:
+            body = {"orderId": order_id, "tripId": "D1345"}
+            response = client.post(url="/api/v1/inside_pay_service/inside_payment", json=body, name=self.get_name_suffix("book-pay_order"))
+            response_as_json = get_json_from_response(response)
 
+            if response_as_json["status"] == 1:
+                break
+        except:
+            pass
+    
+        
+    
 
 # class Requests:
 #     def __init__(self, client):
@@ -142,6 +200,7 @@ class UserNoLogin(HttpUser):
 
     def on_start(self):
         self.client.headers.update({"Content-Type": "application/json"})    
+        self.client.headers.update({"Accept": "application/json"})    
 
     @task
     def perfom_task(self):
@@ -151,23 +210,25 @@ class UserNoLogin(HttpUser):
         search_departure(self.client)
         search_return(self.client)
 
-class UserBooking(HttpUser):
+# class UserBooking(HttpUser):
 
-    def on_start(self):
-        user_id, token = login(self.client)
-        self.client.headers.update({"Authorization": f"Bearer {token}"})
-        self.client.headers.update({"Content-Type": "application/json"})    
-        self.user_id = user_id
+#     def on_start(self):
+#         user_id, token = login(self.client)
+#         self.client.headers.update({"Authorization": f"Bearer {token}"})
+#         self.client.headers.update({"Content-Type": "application/json"})    
+#         self.client.headers.update({"Accept": "application/json"})  
+#         self.user_id = user_id
 
-    @task
-    def perform_task(self):
-        requests = Requests(self.client)
-        logging.debug(f"""Running user "booking" with id {requests.request_id}...""")
+#     @task
+#     def perform_task(self):
+#         requests = Requests(self.client)
+#         logging.debug(f"""Running user "booking" with id {requests.request_id}...""")
 
-        home(self.client)
-        search_departure(self.client)
-        search_return(self.client)
-        book(self.client, self.user_id)
+#         home(self.client)
+#         search_departure(self.client)
+#         search_return(self.client)
+#         book(self.client, self.user_id)
+#         pay(self.client, self.user_id)
         
 
 # class UserConsignTicket(HttpUser):
@@ -175,7 +236,8 @@ class UserBooking(HttpUser):
 #     def on_start(self):
 #         user_id, token = login(self.client)
 #         self.client.headers.update({"Authorization": f"Bearer {token}"})
-#         self.client.headers.update({"Content-Type": "application/json"})    
+#         self.client.headers.update({"Content-Type": "application/json"})   
+#         self.client.headers.update({"Accept": "application/json"})   
 
 #     @task
 #     def perform_task(self):
@@ -193,6 +255,7 @@ class UserBooking(HttpUser):
 #         user_id, token = login(self.client)
 #         self.client.headers.update({"Authorization": f"Bearer {token}"})
 #         self.client.headers.update({"Content-Type": "application/json"})    
+#         self.client.headers.update({"Accept": "application/json"})   
 
 #     @task
 #     def perform_task(self):
@@ -210,6 +273,7 @@ class UserBooking(HttpUser):
 #         user_id, token = login(self.client)
 #         self.client.headers.update({"Authorization": f"Bearer {token}"})
 #         self.client.headers.update({"Content-Type": "application/json"})    
+#         self.client.headers.update({"Accept": "application/json"})   
 
 #     @task
 #     def perform_task(self):
