@@ -1,4 +1,5 @@
-from locust import HttpUser, task, between, constant
+from locust import HttpUser, task, between, constant, events
+from requests.adapters import HTTPAdapter
 from datetime import datetime, timedelta, date
 from random import randint
 import numpy as np
@@ -8,123 +9,128 @@ import time
 import logging
 import uuid
 import json
-from requests.adapters import HTTPAdapter
 import locust.stats
+import time
 
 locust.stats.PERCENTILES_TO_REPORT = [0.25, 0.50, 0.75, 0.80, 0.90, 0.95, 0.98, 0.99, 0.999, 0.9999, 1.0]
-
 LOG_STATISTICS_IN_HALF_MINUTE_CHUNKS = (${LOG_STATISTICS_IN_HALF_MINUTE_CHUNKS}==1)
 
-class Requests:
-    def __init__(self, client):
-        self.client = client
-        self.bearer = None
-        self.user_id = None
-        self.order_id = None
-        self.request_id = str(uuid.uuid4())
+spawning_complete = False
+@events.spawning_complete.add_listener
+def on_spawning_complete(user_count, **kwargs):
+    global spawning_complete
+    spawning_complete = True
 
-        def next_weekday(d, weekday):
-            days_ahead = weekday - d.weekday()
-            if days_ahead <= 0: # Target day already happened this week
-                days_ahead += 7
-            return d + datetime.timedelta(days_ahead)
+def get_data_from_response(response):
+    response_as_text = response.content.decode('UTF-8')
+    response_as_json = json.loads(response_as_text)
+    data = response_as_json["data"]            
+    return data
 
-        tomorrow = datetime.now() + datetime.timedelta(1)
-        next_monday = next_weekday(tomorrow, 0)
-        self.departure_date = next_monday
+def login(client):
+    for attempt in range(10):
+        logging.debug(f"Attempt {attempt} to login...")
 
-    def get_name(name):
-        if LOG_STATISTICS_IN_HALF_MINUTE_CHUNKS:
-            now = datetime.now()
-            now = datetime(now.year, now.month, now.day, now.hour, now.minute, 0 if tm.second < 30 else 30, 0)
-            now_as_timestamp = int(tm.timestamp())
-            return f"{name};{now_as_timestamp}"
-        else:
-            return name
+        try:
+            headers = {"Accept": "application/json", "Content-Type": "application/json"}
+            body = {"username": "fdse_microservice", "password": "111111"}
+            response = client.post(url="/api/v1/users/login", headers=headers, json=body, name=get_name_suffix("login"))
+            data = get_data_from_response(response)      
+            user_id = data["userId"]
+            token = data["token"]
+            return user_id, token
+        except:
+            logging.debug(f"Attempt failed, retrying in 1 second...")
+            time.sleep(1)
 
-    def home(self):
-        self.client.get("/index.html", name=get_name("home"))
+def next_weekday(d, weekday):
+    days_ahead = weekday - d.weekday()
+    if days_ahead <= 0: # Target day already happened this week
+        days_ahead += 7
+    return d + timedelta(days_ahead)
 
-    def get_trip_information(self, start_at, from_station, to_station):
-        head = {"Accept": "application/json", "Content-Type": "application/json"}
-        body_start = {"startingPlace": from_station, "endPlace": to_station, "departureTime": start_at}
+def get_name_suffix(name):
+    global spawning_complete
+    if not spawning_complete:
+        name = name + "_spawning"
 
-        self.client.post(url="/api/v1/travelservice/trips/left", headers=head, json=body_start, catch_response=True, name=get_name("get_trip_information"))
+    if LOG_STATISTICS_IN_HALF_MINUTE_CHUNKS:
+        now = datetime.now()
+        now = datetime(now.year, now.month, now.day, now.hour, now.minute, 0 if now.second < 30 else 30, 0)
+        now_as_timestamp = int(now.timestamp())
+        return f"{name}@{now_as_timestamp}"
+    else:
+        return name
+        
+def home(client):
+    client.get("/index.html", name=get_name_suffix("home"))
 
-    def search_departure(self):
-        self.get_trip_information(self.departure_date, "Shang Hai", "Su Zhou")
+def get_trip_information(client, from_station, to_station):
+    # we always start next Monday
+    tomorrow = datetime.now() + timedelta(1)
+    next_monday = next_weekday(tomorrow, 0)
+    departure_date = next_monday.strftime("%Y-%m-%d")
 
-    def search_return(self):
-        self.get_trip_information(self.departure_date, "Su Zhou", "Shang Hai")
+    body_start = {"startingPlace": from_station, "endPlace": to_station, "departureTime": departure_date}
+    client.post(url="/api/v1/travelservice/trips/left", json=body_start, catch_response=True, name=get_name_suffix("get_trip_information"))
 
-    # def navigate_to_client_login(self):
-    #     self.client.get("/client_login.html", name=get_name(sys._getframe().f_code.co_name))
+def search_departure(client):
+    get_trip_information(client, "Shang Hai", "Su Zhou")
 
-    def login(self):
-        # self.navigate_to_client_login()
+def search_return(client):
+    get_trip_information(client, "Su Zhou", "Shang Hai")
 
-        start_time = time.time()
-        head = {"Accept": "application/json", "Content-Type": "application/json"}
-        response = self.client.post(url="/api/v1/users/login", headers=head, json={"username": "fdse_microservice", "password": "111111"}, name=get_name("login"))
-        response_as_json = response.json()["data"]
-        if response_as_json is not None:
-            token = response_as_json["token"]
-            self.bearer = "Bearer " + token
-            self.user_id = response_as_json["userId"]
+def book(client, user_id):
+    # we always start next Monday
+    tomorrow = datetime.now() + timedelta(1)
+    next_monday = next_weekday(tomorrow, 0)
+    departure_date = next_monday.strftime("%Y-%m-%d")
 
-    def book(self):
-        head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        # self.client.get(url="/client_ticket_book.html?tripId=D1345&from=Shang%20Hai&to=Su%20Zhou&seatType=2&seat_price=50.0&date=" + self.departure_date, headers=head, name=get_name("book_ticket"))
+    # http://socks4.inf.unibz.it:8080/api/v1/assuranceservice/assurances/types
+    response_assurances = client.get(url="/api/v1/assuranceservice/assurances/types", name=get_name_suffix("book-get_assurance_types"))
+    # http://socks4.inf.unibz.it:8080/api/v1/foodservice/foods/2022-05-09/Shang%20Hai/Su%20Zhou/D1345
+    response_food = client.get(url="/api/v1/foodservice/foods/" + departure_date + "/Shang%20Hai/Su%20Zhou/D1345", name=get_name_suffix("book-get_foods"))
 
-        # get assurance types 
-        self.client.get(url="/api/v1/assuranceservice/assurances/types", headers=head, name=get_name("book-get_assurance_types"))
+    # http://socks4.inf.unibz.it:8080/api/v1/contactservice/contacts/account/4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f
+    response_contacts = client.get(url="/api/v1/contactservice/contacts/account/" + user_id, name=get_name_suffix("book-query_contacts"))
+    data = get_data_from_response(response_contacts)      
+    contact_id = data[0]["id"] #4607ca48-3352-4f72-a5ee-9aa95b5f7419
 
-        # get food 
-        self.client.get(url="/api/v1/foodservice/foods/" + self.departure_date + "/Shang%20Hai/Su%20Zhou/D1345", headers=head, name=get_name("book-get_foods"))
+    body_for_reservation = {"accountId": user_id, "contactsId": contact_id, "tripId": "D1345", "seatType": "2", "date": departure_date, "from": "Shang Hai", "to": "Su Zhou", "assurance": "0", "foodType": 1, "foodName": "Bone Soup", "foodPrice": 2.5, "stationName": "", "storeName": ""}
+    response_preserve = client.post(url="/api/v1/preserveservice/preserve", json=body_for_reservation, catch_response=True, name=get_name_suffix("book-preserve_ticket"))
 
-        # select contact
-        response_contacts = self.client.get(url="/api/v1/contactservice/contacts/account/" + self.user_id, headers=head, name=get_name("book-query_contacts"))
-        response_as_json_contacts = response_contacts.json()["data"]
+def pay(client, user_id):
+    # http://socks4.inf.unibz.it:8080/api/v1/orderservice/order/refresh
+    # {"loginId": "4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f", "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"}
+    body_for_query = {"loginId": user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"}
+    response_order = client.post(url="/api/v1/orderservice/order/refresh", json=body_for_query, name=get_name_suffix("pay-get_order_information"))
+    data = get_data_from_response(response_order)      
+    order_id = data[0]["id"]
 
-        if len(response_as_json_contacts) == 0:
-            req_label = "set_new_contact"
-            response_contacts = self.client.post(url="/api/v1/contactservice/contacts", headers=head, json={"name": self.user_id, "accountId": self.user_id, "documentType": "1", "documentNumber": self.user_id, "phoneNumber": "123456"}, name=get_name("book-set_new_contact"))
+    body_for_payment = {"orderId": order_id, "tripId": "D1345"}
+    client.post(url="/api/v1/inside_pay_service/inside_payment", json=body_for_payment, name=self.get_name_suffix("book-pay_order"))
 
-            response_as_json_contacts = response_contacts.json()["data"]
-            contact_id = response_as_json_contacts["id"]
-        else:
-            contact_id = response_as_json_contacts[0]["id"]
 
-        # reserve
-        body_for_reservation = {"accountId": self.user_id, "contactsId": contact_id, "tripId": "D1345", "seatType": "2", "date": self.departure_date, "from": "Shang Hai", "to": "Su Zhou", "assurance": "0", "foodType": 1, "foodName": "Bone Soup", "foodPrice": 2.5, "stationName": "", "storeName": ""}
-        self.client.post(url="/api/v1/preserveservice/preserve", headers=head, json=body_for_reservation, catch_response=True, name=get_name("book-preserve_ticket"))
+# class Requests:
+#     def __init__(self, client):
+#         self.client = client
+#         self.request_id = str(uuid.uuid4())
 
-        # Select order
-        response_order_refresh = self.client.post(url="/api/v1/orderservice/order/refresh", name=get_name("book-get_order_information"), headers=head, json={"loginId": self.user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"})
-        response_as_json = response_order_refresh.json()["data"]
-        self.order_id = response_as_json[0]["id"]
+#     def cancel_last_order_with_no_refund(self):
+#         head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
+#         self.client.get(url="/api/v1/cancelservice/cancel/" + self.order_id + "/" + self.user_id, headers=head, name=self.get_name_suffix("cancel_ticket"))
 
-        # Pay
-        self.client.post(url="/api/v1/inside_pay_service/inside_payment", headers=head, json={"orderId": self.order_id, "tripId": "D1345"}, name=get_name("book-pay_order"))
+#     def get_voucher(self):
+#         head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
+#         self.client.post(url="/getVoucher", headers=head, json={"orderId": self.order_id, "type": 1}, name=self.get_name_suffix("get_voucher"))
 
-    def cancel_last_order_with_no_refund(self):
-        head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        self.client.get(url="/api/v1/cancelservice/cancel/" + self.order_id + "/" + self.user_id, headers=head, name=get_name("cancel_ticket"))
+#     def consign_ticket(self):
+#         head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
+#         req_label = sys._getframe().f_code.co_name
+#         self.client.get(url="/api/v1/consignservice/consigns/order/" + self.order_id, headers=head, name=self.get_name_suffix("consign_ticket-query"))
+#         self.client.put(url="/api/v1/consignservice/consigns", name=self.get_name_suffix("consign_ticket-create_consign"), json={"accountId": self.user_id, "handleDate": self.departure_date, "from": "Shang Hai", "to": "Su Zhou", "orderId": self.order_id, "consignee": self.order_id, "phone": "123", "weight": "1", "id": "", "isWithin": "false"}, headers=head)
 
-    def get_voucher(self):
-        head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        self.client.post(url="/getVoucher", headers=head, json={"orderId": self.order_id, "type": 1}, name=get_name("get_voucher"))
 
-    def consign_ticket(self):
-        head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-        req_label = sys._getframe().f_code.co_name
-        self.client.get(url="/api/v1/consignservice/consigns/order/" + self.order_id, headers=head, name=get_name("consign_ticket-query"))
-        self.client.put(url="/api/v1/consignservice/consigns", name=get_name("consign_ticket-create_consign"), json={"accountId": self.user_id, "handleDate": self.departure_date, "from": "Shang Hai", "to": "Su Zhou", "orderId": self.order_id, "consignee": self.order_id, "phone": "123", "weight": "1", "id": "", "isWithin": "false"}, headers=head)
-
-    def perform_task(self, name):
-        logging.debug(f"""Performing task "{name}" for user {self.request_id}...""")
-        task = getattr(self, name)
-        task()
 
 # class MyHttpUser(HttpUser):
 #     def __init__(self, *args, **kwargs):
@@ -134,64 +140,83 @@ class Requests:
 
 class UserNoLogin(HttpUser):
 
+    def on_start(self):
+        self.client.headers.update({"Content-Type": "application/json"})    
+
     @task
     def perfom_task(self):
-        requests = Requests(self.client)
         logging.debug(f"""Running user "no login" with id {requests.request_id}...""")
 
-        requests.perform_task("home")
-        requests.perform_task("search_departure")
-        requests.perform_task("search_return")
-
+        home(self.client)
+        search_departure(self.client)
+        search_return(self.client)
 
 class UserBooking(HttpUser):
 
-    @task
-    def perform_task(self):
-        requests = Requests(self.client)
-        logging.debug(f"""Running user "no booking" with id {requests.request_id}...""")
-
-        requests.perform_task("home")
-        requests.perform_task("login")
-        requests.perform_task("search_departure")
-        requests.perform_task("book")
-
-class UserConsignTicket(HttpUser):
+    def on_start(self):
+        user_id, token = login(self.client)
+        self.client.headers.update({"Authorization": f"Bearer {token}"})
+        self.client.headers.update({"Content-Type": "application/json"})    
+        self.user_id = user_id
 
     @task
     def perform_task(self):
         requests = Requests(self.client)
-        logging.debug(f"""Running user "consign ticket" with id {requests.request_id}...""")
+        logging.debug(f"""Running user "booking" with id {requests.request_id}...""")
 
-        requests.perform_task("home")
-        requests.perform_task("login")
-        requests.perform_task("search_departure")
-        requests.perform_task("book")
-        requests.perform_task("consign_ticket")
+        home(self.client)
+        search_departure(self.client)
+        search_return(self.client)
+        book(self.client, self.user_id)
         
 
-class UserCancelNoRefund(HttpUser):
+# class UserConsignTicket(HttpUser):
 
-    @task
-    def perform_task(self):
-        requests = Requests(self.client)
-        logging.debug(f"""Running user "cancel no refund" with id {requests.request_id}...""")
+#     def on_start(self):
+#         user_id, token = login(self.client)
+#         self.client.headers.update({"Authorization": f"Bearer {token}"})
+#         self.client.headers.update({"Content-Type": "application/json"})    
 
-        requests.perform_task("home")
-        requests.perform_task("login")
-        requests.perform_task("search_departure")
-        requests.perform_task("book")
-        requests.perform_task("cancel_last_order_with_no_refund")
+#     @task
+#     def perform_task(self):
+#         requests = Requests(self.client)
+#         logging.debug(f"""Running user "consign ticket" with id {requests.request_id}...""")
 
-class UserRefundVoucher(HttpUser):
+#         requests.perform_task("home")
+#         requests.perform_task("search_departure")
+#         requests.perform_task("book")
+#         requests.perform_task("consign_ticket")
+        
+# class UserCancelNoRefund(HttpUser):
 
-    @task
-    def perform_task(self):
-        requests = Requests(self.client)
-        logging.debug(f"""Running user "refound voucher" with id {requests.request_id}...""")
+#     def on_start(self):
+#         user_id, token = login(self.client)
+#         self.client.headers.update({"Authorization": f"Bearer {token}"})
+#         self.client.headers.update({"Content-Type": "application/json"})    
 
-        requests.perform_task("home")
-        requests.perform_task("login")
-        requests.perform_task("search_departure")
-        requests.perform_task("book")
-        requests.perform_task("get_voucher")
+#     @task
+#     def perform_task(self):
+#         requests = Requests(self.client)
+#         logging.debug(f"""Running user "cancel no refund" with id {requests.request_id}...""")
+
+#         requests.perform_task("home")
+#         requests.perform_task("search_departure")
+#         requests.perform_task("book")
+#         requests.perform_task("cancel_last_order_with_no_refund")
+
+# class UserRefundVoucher(HttpUser):
+
+#     def on_start(self):
+#         user_id, token = login(self.client)
+#         self.client.headers.update({"Authorization": f"Bearer {token}"})
+#         self.client.headers.update({"Content-Type": "application/json"})    
+
+#     @task
+#     def perform_task(self):
+#         requests = Requests(self.client)
+#         logging.debug(f"""Running user "refound voucher" with id {requests.request_id}...""")
+
+#         requests.perform_task("home")
+#         requests.perform_task("search_departure")
+#         requests.perform_task("book")
+#         requests.perform_task("get_voucher")

@@ -77,7 +77,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-user-service:
     image: codewisdom/ts-user-service-with-jaeger:v1
@@ -104,7 +104,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-verification-code-service:
     image: codewisdom/ts-verification-code-service-with-jaeger:v1
@@ -131,7 +131,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-route-service:
     image: codewisdom/ts-route-service-with-jaeger:v1
@@ -158,7 +158,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-contacts-service:
     image: codewisdom/ts-contacts-service-with-jaeger:v1
@@ -185,7 +185,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-order-service:
     image: codewisdom/ts-order-service-with-jaeger:v1
@@ -212,7 +212,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-order-other-service:
     image: codewisdom/ts-order-other-service-with-jaeger:v1
@@ -239,7 +239,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-config-service:
     image: codewisdom/ts-config-service-with-jaeger:v1
@@ -266,7 +266,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-station-service:
     image: codewisdom/ts-station-service-with-jaeger:v1
@@ -293,7 +293,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-train-service:
     image: codewisdom/ts-train-service-with-jaeger:v1
@@ -320,7 +320,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-travel-service:
     image: codewisdom/ts-travel-service-with-jaeger:v1
@@ -347,7 +347,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-travel2-service:
     image: codewisdom/ts-travel2-service-with-jaeger:v1
@@ -374,7 +374,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-preserve-service:
     image: codewisdom/ts-preserve-service-with-jaeger:v1
@@ -461,7 +461,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-notification-service:
     image: codewisdom/ts-notification-service-with-jaeger:v1
@@ -503,7 +503,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-inside-payment-service:
     image: codewisdom/ts-inside-payment-service-with-jaeger:v1
@@ -530,7 +530,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-execute-service:
     image: codewisdom/ts-execute-service-with-jaeger:v1
@@ -572,7 +572,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-rebook-service:
     image: codewisdom/ts-rebook-service-with-jaeger:v1
@@ -599,7 +599,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-cancel-service:
     image: codewisdom/ts-cancel-service-with-jaeger:v1
@@ -641,7 +641,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-seat-service:
     image: codewisdom/ts-seat-service-with-jaeger:v1
@@ -699,7 +699,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # Written in GO
   ts-news-service:
@@ -727,7 +727,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-voucher-mysql:
     image: mysql
@@ -788,7 +788,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-route-plan-service:
     image: codewisdom/ts-route-plan-service-with-jaeger:v1
@@ -845,7 +845,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-consign-price-service:
     image: codewisdom/ts-consign-price-service-with-jaeger:v1
@@ -872,7 +872,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-food-mongo:
     image: mongo
@@ -884,7 +884,7 @@ services:
           - node.hostname == ${DOCKER_NODE_NAME}
       resources:
         limits:
-          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-admin-basic-info-service:
     image: codewisdom/ts-admin-basic-info-service-with-jaeger:v1
