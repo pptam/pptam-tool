@@ -1,5 +1,6 @@
 
 @baseUrl = http://socks4.inf.unibz.it:8080
+@departure_date = "2022-05-09"
 
 # @name login
 POST {{baseUrl}}/api/v1/users/login
@@ -14,11 +15,47 @@ content-type: application/json
 @authToken = {{login.response.body.data.token}}
 @user_id = {{login.response.body.data.userId}}
 
+
+# @name login_as_admin
+POST {{baseUrl}}/api/v1/users/login
+content-type: application/json
+
+{
+    "username": "admin", 
+    "password": "222222"
+}
+### 
+
+@admin_authToken = {{login_as_admin.response.body.data.token}}
+
+# @name create_user
+POST {{baseUrl}}/api/v1/adminuserservice/users
+content-type: application/json
+Authorization: Bearer {{admin_authToken}}
+
+{
+   "documentNum":"None",
+   "documentType":0,
+   "email":"string",
+   "gender":0,
+   "password":"12345678",
+   "userName":"test"
+}
+### 
+
+# @name create_contact
+POST {{baseUrl}}/api/v1/contactservice/contacts
+content-type: application/json
+Authorization: Bearer {{authToken}}
+
+{"name": "Main contact", "accountId": "{{user_id}}", "documentType": "1", "documentNumber": "123456", "phoneNumber": "123456"}
+### 
+
 # @name get_trip_information
 POST {{baseUrl}}/api/v1/travelservice/trips/left
 content-type: application/json
 
-{"startingPlace": "Shang Hai", "endPlace": "Su Zhou", "departureTime": "2022-05-09"}
+{"startingPlace": "Shang Hai", "endPlace": "Su Zhou", "departureTime": {{departure_date}}}
 ###
 
 # @name get_assurance_types
@@ -38,6 +75,16 @@ content-type: application/json
 Authorization: Bearer {{authToken}}
 ###
 
+@contact_id = {{get_contacts.response.body.data[0].id}}
+
+# @name preserve
+POST {{baseUrl}}/api/v1/preserveservice/preserve
+content-type: application/json
+Authorization: Bearer {{authToken}}
+
+{"accountId": "{{user_id}}", "contactsId": "{{contact_id}}", "tripId": "D1345", "seatType": "2", "date": "2022-05-09", "from": "Shang Hai", "to": "Su Zhou", "assurance": "0", "foodType": 1, "foodName": "Bone Soup", "foodPrice": 2.5, "stationName": "", "storeName": ""}
+###
+
 # @name get_orders
 POST {{baseUrl}}/api/v1/orderservice/order/refresh
 content-type: application/json
@@ -47,14 +94,12 @@ content-type: application/json
 
 @order_id = {{get_orders.response.body.data[1].id}}
 
-# Pay order
+# @name pay_order
 POST {{baseUrl}}/api/v1/inside_pay_service/inside_payment
 content-type: application/json
 Authorization: Bearer {{authToken}}
 
 {"orderId": "{{order_id}}", "tripId": "D1345"}
 ###
- 
-GET {{baseUrl}}/api/v1/userservice/users
-content-type: application/json
-Authorization: Bearer {{authToken}}
+
+GET {{baseURL}}/api/v1/orderservice/order/refresh/welcome
