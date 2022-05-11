@@ -14,6 +14,14 @@ import time
 
 locust.stats.PERCENTILES_TO_REPORT = [0.25, 0.50, 0.75, 0.80, 0.90, 0.95, 0.98, 0.99, 0.999, 0.9999, 1.0]
 LOG_STATISTICS_IN_HALF_MINUTE_CHUNKS = (${LOG_STATISTICS_IN_HALF_MINUTE_CHUNKS}==1)
+RETRY_ON_ERROR = True
+MAX_RETRIES = 200
+
+STATUS_BOOKED = 0
+STATUS_PAID = 1
+STATUS_COLLECTED = 2
+STATUS_CANCELLED = 4
+STATUS_EXECUTED = 6
 
 spawning_complete = False
 @events.spawning_complete.add_listener
@@ -27,20 +35,25 @@ def get_json_from_response(response):
     return response_as_json
 
 def try_until_success(f):
-    for attempt in range(100):   
-        logging.debug(f"Calling function, attempt {attempt}...")
+    for attempt in range(MAX_RETRIES):   
+        logging.debug(f"Calling function {f.__name__}, attempt {attempt}...")
         
         try:
             result, status = f()
+            result_as_string = str(result)
+            logging.debug(f"Result of calling function {f.__name__} was: {result_as_string}.")
             if status == 1:                
                 return result
             else:
-                logging.debug(f"Failed, response was: {result}, trying again.")
+                logging.debug(f"Failed calling function {f.__name__}, response was {result_as_string}, trying again:")
                 time.sleep(1)
         except Exception as e:
             exception_as_text = str(e)
-            logging.debug(f"Failed, exception was: {exception_as_text}, trying again.")
+            logging.debug(f"Failed calling function {f.__name__}, exception was: {exception_as_text}, trying again.")
             time.sleep(1)
+
+        if not RETRY_ON_ERROR:
+            break
         
     raise Exception("Weird... Cannot call endpoint.") 
             
@@ -111,19 +124,23 @@ def get_name_suffix(name):
 def home(client):
     client.get("/index.html", name=get_name_suffix("home"))
 
-def get_trip_information(client, from_station, to_station):
-    # we always start next Monday
+def get_departure_date():
+    # We always start next Monday because there a train from Shang Hai to Su Zhou starts. 
     tomorrow = datetime.now() + timedelta(1)
     next_monday = next_weekday(tomorrow, 0)
     departure_date = next_monday.strftime("%Y-%m-%d")
+    return departure_date
 
-    def api_call():        
+def get_trip_information(client, from_station, to_station):
+    departure_date = get_departure_date()
+
+    def api_call_get_trip_information():        
         body = {"startingPlace": from_station, "endPlace": to_station, "departureTime": departure_date}
         response = client.post(url="/api/v1/travelservice/trips/left", json=body, catch_response=True, name=get_name_suffix("get_trip_information"))
         response_as_json = get_json_from_response(response)
         return response_as_json, response_as_json["status"]
 
-    try_until_success(api_call)
+    try_until_success(api_call_get_trip_information)
 
 def search_departure(client):
     get_trip_information(client, "Shang Hai", "Su Zhou")
@@ -138,20 +155,17 @@ def book(client, user_id):
     departure_date = next_monday.strftime("%Y-%m-%d")
 
     def api_call_insurance():
-        logging.debug(f"Getting insurance types...")
-        response = client.get(url="/api/v1/assuranceservice/assurances/types", name=get_name_suffix("book-get_assurance_types"))
+        response = client.get(url="/api/v1/assuranceservice/assurances/types", name=get_name_suffix("get_assurance_types"))
         response_as_json = get_json_from_response(response)
         return response_as_json, response_as_json["status"]
 
     def api_call_food():
-        logging.debug(f"Getting food types...")
-        response = client.get(url="/api/v1/foodservice/foods/" + departure_date + "/Shang%20Hai/Su%20Zhou/D1345", name=get_name_suffix("book-get_foods"))
+        response = client.get(url=f"/api/v1/foodservice/foods/{departure_date}/Shang%20Hai/Su%20Zhou/D1345", name=get_name_suffix("get_food_types"))
         response_as_json = get_json_from_response(response)
         return response_as_json, response_as_json["status"]
 
     def api_call_contacts():
-        logging.debug(f"Getting contacts...")
-        response = client.get(url="/api/v1/contactservice/contacts/account/" + user_id, name=get_name_suffix("book-query_contacts"))
+        response = client.get(url=f"/api/v1/contactservice/contacts/account/{user_id}", name=get_name_suffix("query_contacts"))
         response_as_json = get_json_from_response(response)
         return response_as_json, response_as_json["status"]
 
@@ -162,64 +176,129 @@ def book(client, user_id):
     contact_id = data[0]["id"] 
     
     def api_call_ticket():
-        logging.debug(f"Reserving ticket...")
         body = {"accountId": user_id, "contactsId": contact_id, "tripId": "D1345", "seatType": "2", "date": departure_date, "from": "Shang Hai", "to": "Su Zhou", "assurance": "0", "foodType": 1, "foodName": "Bone Soup", "foodPrice": 2.5, "stationName": "", "storeName": ""}
-        response = client.post(url="/api/v1/preserveservice/preserve", json=body, catch_response=True, name=get_name_suffix("book-preserve_ticket"))
+        response = client.post(url="/api/v1/preserveservice/preserve", json=body, catch_response=True, name=get_name_suffix("preserve_ticket"))
         response_as_json = get_json_from_response(response)
         return response_as_json, response_as_json["status"]
 
     try_until_success(api_call_ticket)
 
-def pay(client, user_id):
+def get_last_order(client, user_id, expected_status):
     def api_call_query():
-        logging.debug(f"Getting order...")
         body = {"loginId": user_id, "enableStateQuery": "false", "enableTravelDateQuery": "false", "enableBoughtDateQuery": "false", "travelDateStart": "null", "travelDateEnd": "null", "boughtDateStart": "null", "boughtDateEnd": "null"}
-        response = client.post(url="/api/v1/orderservice/order/refresh", json=body, name=get_name_suffix("pay-get_order_information"))
+        response = client.post(url="/api/v1/orderservice/order/refresh", json=body, name=get_name_suffix("get_order_information"))
         response_as_json = get_json_from_response(response)
         return response_as_json, response_as_json["status"]
 
     response_as_json = try_until_success(api_call_query)
     data = response_as_json["data"]
     
-    # find order that has not been paid yet
     order_id = None
     for entry in data:
-        if entry["status"]==0:
-            order_id = entry["id"]
-            break
+        if entry["status"]==expected_status:
+            return entry
 
+    return None
+
+def get_last_order_id(client, user_id, expected_status):
+    order = get_last_order(client, user_id, expected_status)
+    
+    if order!=None:
+        order_id = order["id"]
+        return order_id
+
+    return None
+
+def pay(client, user_id):
+    order_id = get_last_order_id(client, user_id, STATUS_BOOKED)
     if order_id == None:
         raise Exception("Weird... There is no order to pay.") 
 
     def api_call_pay():
-        logging.debug(f"Paying order...")
         body = {"orderId": order_id, "tripId": "D1345"}
-        response = client.post(url="/api/v1/inside_pay_service/inside_payment", json=body, name=get_name_suffix("book-pay_order"))
+        response = client.post(url="/api/v1/inside_pay_service/inside_payment", json=body, name=get_name_suffix("pay_order"))
         response_as_json = get_json_from_response(response)
         return response_as_json, response_as_json["status"]
 
     try_until_success(api_call_pay)
         
-    
+def cancel(client, user_id):
+    order_id = get_last_order_id(client, user_id, STATUS_BOOKED)
 
-# class Requests:
-#     def __init__(self, client):
-#         self.client = client
-#         self.request_id = str(uuid.uuid4())
+    if order_id == None:
+        raise Exception("Weird... There is no order to cancel.") 
 
-#     def cancel_last_order_with_no_refund(self):
-#         head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-#         self.client.get(url="/api/v1/cancelservice/cancel/" + self.order_id + "/" + self.user_id, headers=head, name=self.get_name_suffix("cancel_ticket"))
+    def api_call_cancel():
+        response = client.get(url=f"/api/v1/cancelservice/cancel/{order_id}/{user_id}", name=get_name_suffix("cancel_order"))
+        response_as_json = get_json_from_response(response)
+        return response_as_json, response_as_json["status"]
 
-#     def get_voucher(self):
-#         head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-#         self.client.post(url="/getVoucher", headers=head, json={"orderId": self.order_id, "type": 1}, name=self.get_name_suffix("get_voucher"))
+    try_until_success(api_call_cancel)
 
-#     def consign_ticket(self):
-#         head = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": self.bearer}
-#         req_label = sys._getframe().f_code.co_name
-#         self.client.get(url="/api/v1/consignservice/consigns/order/" + self.order_id, headers=head, name=self.get_name_suffix("consign_ticket-query"))
-#         self.client.put(url="/api/v1/consignservice/consigns", name=self.get_name_suffix("consign_ticket-create_consign"), json={"accountId": self.user_id, "handleDate": self.departure_date, "from": "Shang Hai", "to": "Su Zhou", "orderId": self.order_id, "consignee": self.order_id, "phone": "123", "weight": "1", "id": "", "isWithin": "false"}, headers=head)
+def consign(client, user_id):
+    departure_date = get_departure_date()
+    order_id = get_last_order_id(client, user_id, STATUS_BOOKED)
+    if order_id == None:
+        raise Exception("Weird... There is no order to consign.") 
+
+    # def api_call_consign_order():
+    #     response = client.get(url="/api/v1/consignservice/consigns/order/" + order_id, name=get_name_suffix("consign_ticket"))
+    #     response_as_json = get_json_from_response(response)
+    #     return response_as_json, response_as_json["status"]
+
+    # try_until_success(api_call_consign_order)
+
+    def api_call_consign():
+        body={"accountId": user_id, "handleDate": departure_date, "from": "Shang Hai", "to": "Su Zhou", "orderId": order_id, "consignee": order_id, "phone": "123", "weight": "1", "id": "", "isWithin": "false"}
+        response = client.put(url="/api/v1/consignservice/consigns", json=body, name=get_name_suffix("create_consign"))
+        response_as_json = get_json_from_response(response)
+        return response_as_json, response_as_json["status"]
+        
+    try_until_success(api_call_consign)
+       
+def voucher(client, user_id):
+    order_id = get_last_order_id(client, user_id, STATUS_BOOKED)
+    if order_id == None:
+        raise Exception("Weird... There is no order to pay.") 
+
+    def api_call_pay():
+        body = {"orderId": order_id, "tripId": "D1345"}
+        response = client.post(url="/api/v1/inside_pay_service/inside_payment", json=body, name=get_name_suffix("pay_order"))
+        response_as_json = get_json_from_response(response)
+        return response_as_json, response_as_json["status"]
+
+    try_until_success(api_call_pay)
+    order_id = get_last_order_id(client, user_id, STATUS_PAID)
+    if order_id == None:
+        raise Exception("Weird... There is no order to collect.") 
+
+    def api_call_collect_ticket():
+        response = client.get(url=f"/api/v1/executeservice/execute/collected/{orderId}", name=get_name_suffix("collect_ticket"))
+        response_as_json = get_json_from_response(response)
+        return response_as_json, response_as_json["status"]
+
+    try_until_success(api_call_collect_ticket)
+    order_id = get_last_order_id(client, user_id, STATUS_COLLECTED)
+    if order_id == None:
+        raise Exception("Weird... There is no order to execute.") 
+
+    def api_call_enter_station():
+        response = client.get(url=f"/api/v1/executeservice/execute/execute/{orderId}", name=get_name_suffix("enter_station"))
+        response_as_json = get_json_from_response(response)
+        return response_as_json, response_as_json["status"]
+
+    try_until_success(api_call_enter_station)
+    order_id = get_last_order_id(client, user_id, STATUS_EXECUTED)
+    if order_id == None:
+        raise Exception("Weird... There is no order that was used.") 
+
+    def api_call_get_voucher():
+        body = {"orderId": order_id, "type": 1}
+        response = client.post(url=f"/getVoucher", name=get_name_suffix("get_voucher"))
+        response_as_json = get_json_from_response(response)
+        return response_as_json, response_as_json["status"]
+
+    try_until_success(api_call_get_voucher)
 
 
 
@@ -229,25 +308,50 @@ def pay(client, user_id):
 #         self.client.mount("https://", HTTPAdapter(pool_maxsize=50))
 #         self.client.mount("http://", HTTPAdapter(pool_maxsize=50))
 
-class UserNoLogin(HttpUser):
+# class UserNoLogin(HttpUser):
 
-    def on_start(self):
-        self.client.headers.update({"Content-Type": "application/json"})    
-        self.client.headers.update({"Accept": "application/json"})    
+#     def on_start(self):
+#         self.client.headers.update({"Content-Type": "application/json"})    
+#         self.client.headers.update({"Accept": "application/json"})    
 
-    @task
-    def perfom_task(self):
-        request_id = str(uuid.uuid4())
-        logging.debug(f'Running user "no login" with request id {request_id}...')
+#     @task
+#     def perfom_task(self):
+#         request_id = str(uuid.uuid4())
+#         logging.debug(f'Running user "no login" with request id {request_id}...')
 
-        logging.debug(f'home ({request_id})...')
-        home(self.client)
-        logging.debug(f'search_departure ({request_id})...')
-        search_departure(self.client)
-        logging.debug(f'search_return ({request_id})...')
-        search_return(self.client)
+#         logging.debug(f'home ({request_id})...')
+#         home(self.client)
+#         logging.debug(f'search_departure ({request_id})...')
+#         search_departure(self.client)
+#         logging.debug(f'search_return ({request_id})...')
+#         search_return(self.client)
 
-class UserBooking(HttpUser):
+# class UserBooking(HttpUser):
+
+#     def on_start(self):
+#         user_id, token = login(self.client)
+#         self.client.headers.update({"Authorization": f"Bearer {token}"})
+#         self.client.headers.update({"Content-Type": "application/json"})    
+#         self.client.headers.update({"Accept": "application/json"})  
+#         self.user_id = user_id
+
+#     @task
+#     def perform_task(self):
+#         request_id = str(uuid.uuid4())
+#         logging.debug(f'Running user "booking" with request id {request_id}...')
+
+#         logging.debug(f'home ({request_id})...')
+#         home(self.client)
+#         logging.debug(f'search_departure ({request_id})...')
+#         search_departure(self.client)
+#         logging.debug(f'search_return ({request_id})...')
+#         search_return(self.client)
+#         logging.debug(f'book ({request_id})...')
+#         book(self.client, self.user_id)
+#         logging.debug(f'pay ({request_id})...')
+#         pay(self.client, self.user_id)
+        
+class UserConsignTicket(HttpUser):
 
     def on_start(self):
         user_id, token = login(self.client)
@@ -259,7 +363,7 @@ class UserBooking(HttpUser):
     @task
     def perform_task(self):
         request_id = str(uuid.uuid4())
-        logging.debug(f'Running user "booking" with request id {request_id}...')
+        logging.debug(f'Running user "consign ticket" with request id {request_id}...')
 
         logging.debug(f'home ({request_id})...')
         home(self.client)
@@ -269,63 +373,56 @@ class UserBooking(HttpUser):
         search_return(self.client)
         logging.debug(f'book ({request_id})...')
         book(self.client, self.user_id)
-        logging.debug(f'pay ({request_id})...')
-        pay(self.client, self.user_id)
+        logging.debug(f'cancel ({request_id})...')
+        consign(self.client, self.user_id)
         
+class UserCancelNoRefund(HttpUser):
 
-# class UserConsignTicket(HttpUser):
+    def on_start(self):
+        user_id, token = login(self.client)
+        self.client.headers.update({"Authorization": f"Bearer {token}"})
+        self.client.headers.update({"Content-Type": "application/json"})    
+        self.client.headers.update({"Accept": "application/json"})  
+        self.user_id = user_id
 
-#     def on_start(self):
-#         user_id, token = login(self.client)
-#         self.client.headers.update({"Authorization": f"Bearer {token}"})
-#         self.client.headers.update({"Content-Type": "application/json"})   
-#         self.client.headers.update({"Accept": "application/json"})   
+    @task
+    def perform_task(self):
+        request_id = str(uuid.uuid4())
+        logging.debug(f'Running user "cancel no refund" with request id {request_id}...')
 
-#     @task
-#     def perform_task(self):
-#         requests = Requests(self.client)
-#         logging.debug(f'Running user "consign ticket"')
+        logging.debug(f'home ({request_id})...')
+        home(self.client)
+        logging.debug(f'search_departure ({request_id})...')
+        search_departure(self.client)
+        logging.debug(f'search_return ({request_id})...')
+        search_return(self.client)
+        logging.debug(f'book ({request_id})...')
+        book(self.client, self.user_id)
+        logging.debug(f'cancel ({request_id})...')
+        cancel(self.client, self.user_id)
 
-#         requests.perform_task("home")
-#         requests.perform_task("search_departure")
-#         requests.perform_task("book")
-#         requests.perform_task("consign_ticket")
-        
-# class UserCancelNoRefund(HttpUser):
+class UserRefundVoucher(HttpUser):
 
-#     def on_start(self):
-#         user_id, token = login(self.client)
-#         self.client.headers.update({"Authorization": f"Bearer {token}"})
-#         self.client.headers.update({"Content-Type": "application/json"})    
-#         self.client.headers.update({"Accept": "application/json"})   
+    def on_start(self):
+        user_id, token = login(self.client)
+        self.client.headers.update({"Authorization": f"Bearer {token}"})
+        self.client.headers.update({"Content-Type": "application/json"})    
+        self.client.headers.update({"Accept": "application/json"})  
+        self.user_id = user_id
 
-#     @task
-#     def perform_task(self):
-#         requests = Requests(self.client)
-#         logging.debug(f'Running user "cancel no refund"')
+    @task
+    def perform_task(self):
+        request_id = str(uuid.uuid4())
+        logging.debug(f'Running user "cancel no refund" with request id {request_id}...')
 
-#         requests.perform_task("home")
-#         requests.perform_task("search_departure")
-#         requests.perform_task("book")
-#         requests.perform_task("cancel_last_order_with_no_refund")
-
-# class UserRefundVoucher(HttpUser):
-
-#     def on_start(self):
-#         user_id, token = login(self.client)
-#         self.client.headers.update({"Authorization": f"Bearer {token}"})
-#         self.client.headers.update({"Content-Type": "application/json"})    
-#         self.client.headers.update({"Accept": "application/json"})   
-
-#     @task
-#     def perform_task(self):
-#         requests = Requests(self.client)
-#         logging.debug(f'Running user "voucher"')
-
-#         requests.perform_task("home")
-#         requests.perform_task("search_departure")
-#         requests.perform_task("book")
-#         requests.perform_task("get_voucher")
+        logging.debug(f'home ({request_id})...')
+        home(self.client)
+        logging.debug(f'search_departure ({request_id})...')
+        search_departure(self.client)
+        logging.debug(f'search_return ({request_id})...')
+        search_return(self.client)
+        logging.debug(f'book ({request_id})...')
+        book(self.client, self.user_id)
 
 # class StagesShape(LoadTestShape):
 #     """

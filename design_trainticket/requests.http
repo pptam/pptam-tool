@@ -1,6 +1,6 @@
 
 @baseUrl = http://socks4.inf.unibz.it:8080
-@departure_date = "2022-05-09"
+@departure_date = "2022-05-16"
 
 # @name login
 POST {{baseUrl}}/api/v1/users/login
@@ -82,7 +82,21 @@ POST {{baseUrl}}/api/v1/preserveservice/preserve
 content-type: application/json
 Authorization: Bearer {{authToken}}
 
-{"accountId": "{{user_id}}", "contactsId": "{{contact_id}}", "tripId": "D1345", "seatType": "2", "date": "2022-05-09", "from": "Shang Hai", "to": "Su Zhou", "assurance": "0", "foodType": 1, "foodName": "Bone Soup", "foodPrice": 2.5, "stationName": "", "storeName": ""}
+{
+   "accountId":"{{user_id}}",
+   "contactsId":"{{contact_id}}",
+   "tripId":"D1345",
+   "seatType":"2",
+   "date":"{{departure_date}}",
+   "from":"Shang Hai",
+   "to":"Su Zhou",
+   "assurance":"0",
+   "foodType":1,
+   "foodName":"Bone Soup",
+   "foodPrice":2.5,
+   "stationName":"",
+   "storeName":""
+}
 ###
 
 # @name get_orders
