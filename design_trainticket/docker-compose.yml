@@ -52,6 +52,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
+  # java, default Xmx200m
   ts-auth-service:
     image: codewisdom/ts-auth-service-with-jaeger:v1
     restart: always
@@ -66,6 +67,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-auth-mongo:
     image: mongo
@@ -79,6 +82,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-user-service:
     image: codewisdom/ts-user-service-with-jaeger:v1
     restart: always
@@ -93,6 +97,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-user-mongo:
     image: mongo
@@ -106,6 +112,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-verification-code-service:
     image: codewisdom/ts-verification-code-service-with-jaeger:v1
     restart: always
@@ -120,6 +127,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-account-mongo:
     image: mongo
@@ -133,6 +142,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-route-service:
     image: codewisdom/ts-route-service-with-jaeger:v1
     restart: always
@@ -147,6 +157,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-route-mongo:
     image: mongo
@@ -160,6 +172,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-contacts-service:
     image: codewisdom/ts-contacts-service-with-jaeger:v1
     restart: always
@@ -174,6 +187,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-contacts-mongo:
     image: mongo
@@ -187,6 +202,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-order-service:
     image: codewisdom/ts-order-service-with-jaeger:v1
     restart: always
@@ -201,6 +217,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-order-mongo:
     image: mongo
@@ -214,6 +232,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-order-other-service:
     image: codewisdom/ts-order-other-service-with-jaeger:v1
     restart: always
@@ -228,6 +247,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-order-other-mongo:
     image: mongo
@@ -241,6 +262,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-config-service:
     image: codewisdom/ts-config-service-with-jaeger:v1
     restart: always
@@ -255,6 +277,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-config-mongo:
     image: mongo
@@ -268,6 +292,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-station-service:
     image: codewisdom/ts-station-service-with-jaeger:v1
     restart: always
@@ -282,6 +307,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-station-mongo:
     image: mongo
@@ -295,6 +322,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-train-service:
     image: codewisdom/ts-train-service-with-jaeger:v1
     restart: always
@@ -309,6 +337,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-train-mongo:
     image: mongo
@@ -322,6 +352,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-travel-service:
     image: codewisdom/ts-travel-service-with-jaeger:v1
     restart: always
@@ -336,6 +367,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-travel-mongo:
     image: mongo
@@ -349,6 +382,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-travel2-service:
     image: codewisdom/ts-travel2-service-with-jaeger:v1
     restart: always
@@ -363,6 +397,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-travel2-mongo:
     image: mongo
@@ -376,6 +412,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-preserve-service:
     image: codewisdom/ts-preserve-service-with-jaeger:v1
     restart: always
@@ -390,7 +427,10 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
+  # java, default Xmx200m
   ts-preserve-other-service:
     image: codewisdom/ts-preserve-other-service-with-jaeger:v1
     restart: always
@@ -405,7 +445,10 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
+  # java, default Xmx200m
   ts-basic-service:
     image: codewisdom/ts-basic-service-with-jaeger:v1
     restart: always
@@ -420,7 +463,10 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
+  # java, default Xmx200m
   ts-ticketinfo-service:
     image: codewisdom/ts-ticketinfo-service-with-jaeger:v1
     restart: always
@@ -435,7 +481,10 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
+  # java, default Xmx200m
   ts-price-service:
     image: codewisdom/ts-price-service-with-jaeger:v1
     restart: always
@@ -450,6 +499,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-price-mongo:
     image: mongo
@@ -463,6 +514,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-notification-service:
     image: codewisdom/ts-notification-service-with-jaeger:v1
     restart: always
@@ -477,7 +529,10 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
+  # java, default Xmx200m
   ts-security-service:
     image: codewisdom/ts-security-service-with-jaeger:v1
     restart: always
@@ -492,6 +547,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-security-mongo:
     image: mongo
@@ -505,6 +562,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-inside-payment-service:
     image: codewisdom/ts-inside-payment-service-with-jaeger:v1
     restart: always
@@ -519,6 +577,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-inside-payment-mongo:
     image: mongo
@@ -532,6 +592,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-execute-service:
     image: codewisdom/ts-execute-service-with-jaeger:v1
     restart: always
@@ -546,7 +607,10 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
+  # java, default Xmx200m
   ts-payment-service:
     image: codewisdom/ts-payment-service-with-jaeger:v1
     restart: always
@@ -561,6 +625,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-payment-mongo:
     image: mongo
@@ -574,6 +640,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-rebook-service:
     image: codewisdom/ts-rebook-service-with-jaeger:v1
     restart: always
@@ -588,6 +655,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-rebook-mongo:
     image: mongo
@@ -601,6 +670,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-cancel-service:
     image: codewisdom/ts-cancel-service-with-jaeger:v1
     restart: always
@@ -615,7 +685,10 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
+  # java, default Xmx200m
   ts-assurance-service:
     image: codewisdom/ts-assurance-service-with-jaeger:v1
     restart: always
@@ -630,6 +703,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-assurance-mongo:
     image: mongo
@@ -643,6 +718,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-seat-service:
     image: codewisdom/ts-seat-service-with-jaeger:v1
     restart: always
@@ -657,7 +733,10 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
+  # java, default Xmx200m
   ts-travel-plan-service:
     image: codewisdom/ts-travel-plan-service-with-jaeger:v1
     restart: always
@@ -672,6 +751,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   # Written in JavaScript
   ts-ticket-office-service:
@@ -763,6 +844,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
+  # java, default Xmx200m
   ts-food-map-service:
     image: codewisdom/ts-food-map-service-with-jaeger:v1
     restart: always
@@ -777,6 +859,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-food-map-mongo:
     image: mongo
@@ -790,6 +874,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-route-plan-service:
     image: codewisdom/ts-route-plan-service-with-jaeger:v1
     restart: always
@@ -804,7 +889,10 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
+  # java, default Xmx200m
   ts-food-service:
     image: codewisdom/ts-food-service-with-jaeger:v1
     restart: always
@@ -819,7 +907,10 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
+  # java, default Xmx200m
   ts-consign-service:
     image: codewisdom/ts-consign-service-with-jaeger:v1
     restart: always
@@ -834,6 +925,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-consign-mongo:
     image: mongo
@@ -847,6 +940,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # java, default Xmx200m
   ts-consign-price-service:
     image: codewisdom/ts-consign-price-service-with-jaeger:v1
     restart: always
@@ -861,6 +955,8 @@ services:
       resources:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
 
   ts-consign-price-mongo:
     image: mongo
@@ -886,6 +982,7 @@ services:
         limits:
           memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
+  # ADMIN SERVICES ------------------------------------------------
   ts-admin-basic-info-service:
     image: codewisdom/ts-admin-basic-info-service-with-jaeger:v1
     restart: always
