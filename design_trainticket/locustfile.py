@@ -15,7 +15,7 @@ import time
 locust.stats.PERCENTILES_TO_REPORT = [0.25, 0.50, 0.75, 0.80, 0.90, 0.95, 0.98, 0.99, 0.999, 0.9999, 1.0]
 LOG_STATISTICS_IN_HALF_MINUTE_CHUNKS = (1==1)
 RETRY_ON_ERROR = True
-MAX_RETRIES = 10
+MAX_RETRIES = 100
 
 STATUS_BOOKED = 0
 STATUS_PAID = 1
@@ -290,22 +290,24 @@ def get_voucher(client, user_id):
 #         self.client.mount("https://", HTTPAdapter(pool_maxsize=50))
 #         self.client.mount("http://", HTTPAdapter(pool_maxsize=50))
 
-class UserNoLogin(HttpUser):
+# class UserNoLogin(HttpUser):
+#     wait_time = between(1, 5)
 
-    def on_start(self):
-        self.client.headers.update({"Content-Type": "application/json"})    
-        self.client.headers.update({"Accept": "application/json"})    
+#     def on_start(self):
+#         self.client.headers.update({"Content-Type": "application/json"})    
+#         self.client.headers.update({"Accept": "application/json"})    
 
-    @task
-    def perfom_task(self):
-        request_id = str(uuid.uuid4())
-        logging.debug(f'Running user "no login" with request id {request_id}...')
+#     @task
+#     def perfom_task(self):
+#         request_id = str(uuid.uuid4())
+#         logging.debug(f'Running user "no login" with request id {request_id}...')
 
-        home(self.client)
-        search_departure(self.client)
-        search_return(self.client)
+#         home(self.client)
+#         search_departure(self.client)
+#         search_return(self.client)
 
 class UserBooking(HttpUser):
+    wait_time = between(1, 5)
 
     def on_start(self):
         user_id, token = login(self.client)
@@ -326,67 +328,70 @@ class UserBooking(HttpUser):
         pay(self.client, self.user_id)
         collect_and_use(self.client, self.user_id)
         
-class UserConsignTicket(HttpUser):
+# class UserConsignTicket(HttpUser):
+#     wait_time = between(1, 5)
 
-    def on_start(self):
-        user_id, token = login(self.client)
-        self.client.headers.update({"Authorization": f"Bearer {token}"})
-        self.client.headers.update({"Content-Type": "application/json"})    
-        self.client.headers.update({"Accept": "application/json"})  
-        self.user_id = user_id
+#     def on_start(self):
+#         user_id, token = login(self.client)
+#         self.client.headers.update({"Authorization": f"Bearer {token}"})
+#         self.client.headers.update({"Content-Type": "application/json"})    
+#         self.client.headers.update({"Accept": "application/json"})  
+#         self.user_id = user_id
 
-    @task
-    def perform_task(self):
-        request_id = str(uuid.uuid4())
-        logging.debug(f'Running user "consign ticket" with request id {request_id}...')
+#     @task
+#     def perform_task(self):
+#         request_id = str(uuid.uuid4())
+#         logging.debug(f'Running user "consign ticket" with request id {request_id}...')
 
-        home(self.client)
-        search_departure(self.client)
-        search_return(self.client)
-        book(self.client, self.user_id)
-        consign(self.client, self.user_id)
+#         home(self.client)
+#         search_departure(self.client)
+#         search_return(self.client)
+#         book(self.client, self.user_id)
+#         consign(self.client, self.user_id)
         
-class UserCancelNoRefund(HttpUser):
+# class UserCancelNoRefund(HttpUser):
+#     wait_time = between(1, 5)
 
-    def on_start(self):
-        user_id, token = login(self.client)
-        self.client.headers.update({"Authorization": f"Bearer {token}"})
-        self.client.headers.update({"Content-Type": "application/json"})    
-        self.client.headers.update({"Accept": "application/json"})  
-        self.user_id = user_id
+#     def on_start(self):
+#         user_id, token = login(self.client)
+#         self.client.headers.update({"Authorization": f"Bearer {token}"})
+#         self.client.headers.update({"Content-Type": "application/json"})    
+#         self.client.headers.update({"Accept": "application/json"})  
+#         self.user_id = user_id
 
-    @task
-    def perform_task(self):
-        request_id = str(uuid.uuid4())
-        logging.debug(f'Running user "cancel no refund" with request id {request_id}...')
+#     @task
+#     def perform_task(self):
+#         request_id = str(uuid.uuid4())
+#         logging.debug(f'Running user "cancel no refund" with request id {request_id}...')
 
-        home(self.client)
-        search_departure(self.client)
-        search_return(self.client)
-        book(self.client, self.user_id)
-        cancel(self.client, self.user_id)
+#         home(self.client)
+#         search_departure(self.client)
+#         search_return(self.client)
+#         book(self.client, self.user_id)
+#         cancel(self.client, self.user_id)
 
-class UserRefundVoucher(HttpUser):
+# class UserRefundVoucher(HttpUser):
+#     wait_time = between(1, 5)
+    
+#     def on_start(self):
+#         user_id, token = login(self.client)
+#         self.client.headers.update({"Authorization": f"Bearer {token}"})
+#         self.client.headers.update({"Content-Type": "application/json"})    
+#         self.client.headers.update({"Accept": "application/json"})  
+#         self.user_id = user_id
 
-    def on_start(self):
-        user_id, token = login(self.client)
-        self.client.headers.update({"Authorization": f"Bearer {token}"})
-        self.client.headers.update({"Content-Type": "application/json"})    
-        self.client.headers.update({"Accept": "application/json"})  
-        self.user_id = user_id
+#     @task
+#     def perform_task(self):
+#         request_id = str(uuid.uuid4())
+#         logging.debug(f'Running user "cancel no refund" with request id {request_id}...')
 
-    @task
-    def perform_task(self):
-        request_id = str(uuid.uuid4())
-        logging.debug(f'Running user "cancel no refund" with request id {request_id}...')
-
-        home(self.client)
-        search_departure(self.client)
-        search_return(self.client)
-        book(self.client, self.user_id)
-        pay(self.client, self.user_id)
-        collect_and_use(self.client, self.user_id)
-        get_voucher(self.client, self.user_id)
+#         home(self.client)
+#         search_departure(self.client)
+#         search_return(self.client)
+#         book(self.client, self.user_id)
+#         pay(self.client, self.user_id)
+#         collect_and_use(self.client, self.user_id)
+#         get_voucher(self.client, self.user_id)
 
 # class StagesShape(LoadTestShape):
 #     """

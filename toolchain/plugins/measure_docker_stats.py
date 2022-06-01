@@ -57,10 +57,10 @@ def measure_worker(configuration, output, test_id, write_queue):
         sut_hostname = configuration["docker_stats_hostname"]
         docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
         for container in docker_client.containers.list():
-            service_name = container.name[len(test_id)+1:]
-            last_dot = service_name.rfind(".")
-            if last_dot > 0:
-                service_name = service_name[0:last_dot-2]
+            service_name = container.name[len(test_id)+2:]
+            first_dot = service_name.find(".")
+            if first_dot > 0:
+                service_name = service_name[0:first_dot]
 
             if ("all" in containers_to_watch) or (service_name in containers_to_watch):
                 if f"!{service_name}" in containers_to_watch:
@@ -73,7 +73,8 @@ def measure_worker(configuration, output, test_id, write_queue):
     docker_stats_run_every_number_of_seconds = int(configuration["docker_stats_run_every_number_of_seconds"])
     run_time_in_seconds = int(configuration["run_time_in_seconds"])
     number_of_calls = 1 + (run_time_in_seconds // docker_stats_run_every_number_of_seconds)
-    
+    logging.info(f"Scheduling Docker stats for #{number_of_calls} times.")
+
     scheduler_for_docker_stats = sched.scheduler()        
     for i in range(number_of_calls):
         logging.info(f"Scheduling Docker stats after #{i*docker_stats_run_every_number_of_seconds} seconds.")

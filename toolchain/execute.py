@@ -9,6 +9,7 @@ import configparser
 import datetime
 import csv
 import json
+import jinja2
 from pluginbase import PluginBase
 from lib import run_external_applicaton, replace_values_in_file
 
@@ -160,6 +161,15 @@ def perform_test(configuration, section, design_path):
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
 def execute_tests(design_path):
+    if os.path.exists(os.path.join(design_path, "test_plan.ini.jinja")):
+        template_loader = jinja2.FileSystemLoader(searchpath=design_path)
+        template_environment = jinja2.Environment(loader=template_loader)
+        template_file = "test_plan.ini.jinja"
+        template = template_environment.get_template(template_file)
+        outputText = template.render()
+        with open(os.path.join(design_path, "test_plan.ini"), "w") as f:
+            f.write(outputText)
+
     configuration = configparser.ConfigParser()
     configuration.read([os.path.join(design_path, "configuration.ini"), os.path.join(design_path, "test_plan.ini")])
     
