@@ -1,11 +1,21 @@
 import logging
 import os
+import jinja2
 from lib import run_external_applicaton
 
-def get_configuration_files(current_configuration, output, test_id):
+def get_configuration_files(current_configuration, design_path, output, test_id):
+    if os.path.exists(os.path.join(design_path, "locustfile.py.jinja")):
+        template_loader = jinja2.FileSystemLoader(searchpath=design_path)
+        template_environment = jinja2.Environment(loader=template_loader)
+        template_file = "locustfile.py.jinja"
+        template = template_environment.get_template(template_file)
+        outputText = template.render()
+        with open(os.path.join(design_path, "locustfile.py"), "w") as f:
+            f.write(outputText)
+
     return ["locustfile.py"]
 
-def run(current_configuration, output, test_id):
+def run(current_configuration, design_path, output, test_id):
     driver = f"{output}/locustfile.py"
     host = current_configuration["locust_host_url"]
     load = current_configuration["load"]

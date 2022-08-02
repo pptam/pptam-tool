@@ -57,11 +57,12 @@ def measure_worker(configuration, output, test_id, write_queue):
         sut_hostname = configuration["docker_stats_hostname"]
         docker_client = docker.DockerClient(base_url=f"{sut_hostname}:2375")
         for container in docker_client.containers.list():
-            service_name = container.name[len(test_id)+2:]
+            service_name = container.name[len(test_id)+1:]
             first_dot = service_name.find(".")
             if first_dot > 0:
                 service_name = service_name[0:first_dot]
 
+            logging.debug(f"Verifying if {service_name} should be measured.")
             if ("all" in containers_to_watch) or (service_name in containers_to_watch):
                 if f"!{service_name}" in containers_to_watch:
                     logging.debug(f"Skipping container {container.name}.")
@@ -95,12 +96,12 @@ def queue_worker(write_queue, output):
             f.write(item)
             f.flush()
 
-def before(current_configuration, output, test_id):    
+def before(current_configuration, design_path, output, test_id):
     write_queue = Queue()
     threading.Thread(target=queue_worker, args=(write_queue, output), daemon=True).start()
     threading.Thread(target=measure_worker, args=(current_configuration, output, test_id, write_queue), daemon=True).start()
     
-def after(current_configuration, output, test_id):  
+def after(current_configuration, design_path, output, test_id):
     logging.info(f"Stopping Docker stats.")
     
     

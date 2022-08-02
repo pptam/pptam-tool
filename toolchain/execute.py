@@ -9,13 +9,12 @@ import configparser
 import datetime
 import csv
 import json
-import jinja2
 from pluginbase import PluginBase
 from lib import run_external_applicaton, replace_values_in_file
 
 plugin_source = None
 
-def run_plugins(configuration, section, output, test_id, func):
+def run_plugins(configuration, section, design_path, output, test_id, func):
     result = []
     plugin_list = configuration[section]["enabled_plugins"].split()    
     global plugin_source
@@ -31,7 +30,7 @@ def run_plugins(configuration, section, output, test_id, func):
         try:
             function_to_call = getattr(plugin, func, None)
             if function_to_call!=None:
-                call_result = function_to_call(configuration[section], output, test_id)
+                call_result = function_to_call(configuration[section], design_path, output, test_id)
                 result.append(call_result)
                 
         except Exception as e:
@@ -67,7 +66,7 @@ def perform_test(configuration, section, design_path):
         
     logging.debug(f"Created a folder name {test_id} in {output}.")
 
-    plugin_files = run_plugins(configuration, section, output, test_id, "get_configuration_files")
+    plugin_files = run_plugins(configuration, section, design_path, output, test_id, "get_configuration_files")
     plugin_files = [item for sublist in plugin_files for item in sublist]
     for plugin_file in plugin_files:
         if os.path.exists(os.path.join(design_path, plugin_file)):
@@ -113,16 +112,16 @@ def perform_test(configuration, section, design_path):
     if enable_phase_setup:
         logging.debug(f"Waiting for {seconds_to_wait_before_setup} seconds.")
         time.sleep(seconds_to_wait_before_setup)
-        run_plugins(configuration, section, output, test_id, "setup")
+        run_plugins(configuration, section, design_path, output, test_id, "setup")
     
     if enable_phase_deploy:
         logging.debug(f"Waiting for {seconds_to_wait_before_deploy} seconds.")
         time.sleep(seconds_to_wait_before_deploy)
-        run_plugins(configuration, section, output, test_id, "deploy")
+        run_plugins(configuration, section, design_path, output, test_id, "deploy")
 
     plugins_are_ready = None
     for _ in range(10):   
-        plugins_are_ready = run_plugins(configuration, section, output, test_id, "ready")
+        plugins_are_ready = run_plugins(configuration, section, design_path, output, test_id, "ready")
 
         if not (False in plugins_are_ready):
             break
@@ -136,44 +135,35 @@ def perform_test(configuration, section, design_path):
         if enable_phase_before:
             logging.debug(f"Waiting for {seconds_to_wait_before_before} seconds.")
             time.sleep(seconds_to_wait_before_before)
-            run_plugins(configuration, section, output, test_id, "before")
+            run_plugins(configuration, section, design_path, output, test_id, "before")
 
         if enable_phase_run:
             logging.debug(f"Waiting for {seconds_to_wait_before_run} seconds.")
             time.sleep(seconds_to_wait_before_run)
-            run_plugins(configuration, section, output, test_id, "run")
+            run_plugins(configuration, section, design_path, output, test_id, "run")
 
         if enable_phase_after:
             logging.debug(f"Waiting for {seconds_to_wait_before_after} seconds.")
             time.sleep(seconds_to_wait_before_after)
-            run_plugins(configuration, section, output, test_id, "after")
+            run_plugins(configuration, section, design_path, output, test_id, "after")
 
     if enable_phase_undeploy:
         logging.debug(f"Waiting for {seconds_to_wait_before_undeploy} seconds.")
         time.sleep(seconds_to_wait_before_undeploy)
-        run_plugins(configuration, section, output, test_id, "undeploy")
+        run_plugins(configuration, section, design_path, output, test_id, "undeploy")
 
     if enable_phase_teardown:
         logging.debug(f"Waiting for {seconds_to_wait_before_teardown} seconds.")
         time.sleep(seconds_to_wait_before_teardown)
-        run_plugins(configuration, section, output, test_id, "teardown")
+        run_plugins(configuration, section, design_path, output, test_id, "teardown")
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
 def execute_tests(design_path):
-    if os.path.exists(os.path.join(design_path, "test_plan.ini.jinja")):
-        template_loader = jinja2.FileSystemLoader(searchpath=design_path)
-        template_environment = jinja2.Environment(loader=template_loader)
-        template_file = "test_plan.ini.jinja"
-        template = template_environment.get_template(template_file)
-        outputText = template.render()
-        with open(os.path.join(design_path, "test_plan.ini"), "w") as f:
-            f.write(outputText)
-
     configuration = configparser.ConfigParser()
     configuration.read([os.path.join(design_path, "configuration.ini"), os.path.join(design_path, "test_plan.ini")])
     
-    run_plugins(configuration, "DEFAULT", design_path, None, "setup_all")
+    run_plugins(configuration, "DEFAULT", design_path, None, None, "setup_all")
 
     for section in configuration.sections():
         if section.lower().startswith("test"):
@@ -181,7 +171,7 @@ def execute_tests(design_path):
             if enabled:
                 perform_test(configuration, section, design_path)
 
-    run_plugins(configuration, "DEFAULT", design_path, None, "teardown_all")
+    run_plugins(configuration, "DEFAULT", design_path, None, None, "teardown_all")
 
     logging.info(f"Done.")
 

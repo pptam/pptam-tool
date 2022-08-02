@@ -48,7 +48,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   # java, default Xmx200m
   ts-auth-service:
@@ -62,7 +64,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-auth-mongo:
     image: mongo
     networks:
@@ -71,6 +78,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-user-service:
@@ -84,7 +94,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-user-mongo:
     image: mongo
     networks:
@@ -93,6 +108,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-verification-code-service:
@@ -106,7 +124,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-account-mongo:
     image: mongo
     networks:
@@ -115,6 +138,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-route-service:
@@ -128,7 +154,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-route-mongo:
     image: mongo
     networks:
@@ -137,6 +168,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-contacts-service:
@@ -150,7 +184,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-contacts-mongo:
     image: mongo
     networks:
@@ -159,6 +198,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-order-service:
@@ -172,7 +214,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-order-mongo:
     image: mongo
     networks:
@@ -181,6 +228,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-order-other-service:
@@ -194,7 +244,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-order-other-mongo:
     image: mongo
     networks:
@@ -203,6 +258,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-config-service:
@@ -216,7 +274,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-config-mongo:
     image: mongo
     networks:
@@ -225,6 +288,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-station-service:
@@ -238,7 +304,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-station-mongo:
     image: mongo
     networks:
@@ -247,6 +318,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-train-service:
@@ -260,7 +334,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-train-mongo:
     image: mongo
     networks:
@@ -269,6 +348,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-travel-service:
@@ -282,7 +364,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-travel-mongo:
     image: mongo
     networks:
@@ -291,6 +378,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-travel2-service:
@@ -304,7 +394,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-travel2-mongo:
     image: mongo
     networks:
@@ -313,6 +408,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-preserve-service:
@@ -326,7 +424,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   # java, default Xmx200m
   ts-preserve-other-service:
     image: codewisdom/ts-preserve-other-service-with-jaeger:v1
@@ -339,7 +442,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   # java, default Xmx200m
   ts-basic-service:
     image: codewisdom/ts-basic-service-with-jaeger:v1
@@ -352,7 +460,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   # java, default Xmx200m
   ts-ticketinfo-service:
     image: codewisdom/ts-ticketinfo-service-with-jaeger:v1
@@ -365,7 +478,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   # java, default Xmx200m
   ts-price-service:
     image: codewisdom/ts-price-service-with-jaeger:v1
@@ -378,7 +496,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-price-mongo:
     image: mongo
     networks:
@@ -387,6 +510,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-notification-service:
@@ -400,7 +526,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   # java, default Xmx200m
   ts-security-service:
     image: codewisdom/ts-security-service-with-jaeger:v1
@@ -413,7 +544,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-security-mongo:
     image: mongo
     networks:
@@ -422,6 +558,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-inside-payment-service:
@@ -435,7 +574,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-inside-payment-mongo:
     image: mongo
     networks:
@@ -444,6 +588,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-execute-service:
@@ -457,7 +604,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   # java, default Xmx200m
   ts-payment-service:
     image: codewisdom/ts-payment-service-with-jaeger:v1
@@ -470,7 +622,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-payment-mongo:
     image: mongo
     networks:
@@ -479,6 +636,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-rebook-service:
@@ -492,7 +652,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-rebook-mongo:
     image: mongo
     networks:
@@ -501,6 +666,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-cancel-service:
@@ -514,7 +682,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   # java, default Xmx200m
   ts-assurance-service:
     image: codewisdom/ts-assurance-service-with-jaeger:v1
@@ -527,7 +700,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-assurance-mongo:
     image: mongo
     networks:
@@ -536,6 +714,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-seat-service:
@@ -549,7 +730,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   # java, default Xmx200m
   ts-travel-plan-service:
     image: codewisdom/ts-travel-plan-service-with-jaeger:v1
@@ -562,7 +748,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   # Written in JavaScript
   ts-ticket-office-service:
     image: codewisdom/ts-ticket-office-service-with-jaeger:v1
@@ -575,7 +766,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-ticket-office-mongo:
     image: mongo
@@ -585,6 +778,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # Written in GO
   ts-news-service:
@@ -598,7 +794,10 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+
   ts-news-mongo:
     image: mongo
     networks:
@@ -607,6 +806,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-voucher-mysql:
     image: mysql
@@ -618,7 +820,10 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+
   # Written in Python
   ts-voucher-service:
     image: codewisdom/ts-voucher-service-with-jaeger:v1
@@ -635,7 +840,10 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+
   # java, default Xmx200m
   ts-food-map-service:
     image: codewisdom/ts-food-map-service-with-jaeger:v1
@@ -648,7 +856,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-food-map-mongo:
     image: mongo
     networks:
@@ -657,6 +870,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-route-plan-service:
@@ -670,7 +886,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   # java, default Xmx200m
   ts-food-service:
     image: codewisdom/ts-food-service-with-jaeger:v1
@@ -683,7 +904,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   # java, default Xmx200m
   ts-consign-service:
     image: codewisdom/ts-consign-service-with-jaeger:v1
@@ -696,7 +922,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-consign-mongo:
     image: mongo
     networks:
@@ -705,6 +936,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # java, default Xmx200m
   ts-consign-price-service:
@@ -718,7 +952,12 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+    environment:
+      _JAVA_OPTIONS: "-Xms${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m -Xmx${DOCKER_JAVA_MEMORY_LIMIT_IN_MEGABYTES}m"
+
   ts-consign-price-mongo:
     image: mongo
     networks:
@@ -727,6 +966,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   ts-food-mongo:
     image: mongo
@@ -736,6 +978,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES_OF_DATABASES}M
 
   # ADMIN SERVICES ------------------------------------------------
   ts-admin-basic-info-service:
@@ -749,7 +994,10 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+
   ts-admin-order-service:
     image: codewisdom/ts-admin-order-service-with-jaeger:v1
     restart: always
@@ -761,7 +1009,9 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
 
   ts-admin-route-service:
     image: codewisdom/ts-admin-route-service-with-jaeger:v1
@@ -778,7 +1028,10 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+
   ts-admin-travel-service:
     image: codewisdom/ts-admin-travel-service-with-jaeger:v1
     restart: always
@@ -794,7 +1047,10 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+
   ts-admin-user-service:
     image: codewisdom/ts-admin-user-service-with-jaeger:v1
     restart: always
@@ -810,7 +1066,10 @@ services:
       placement:
         constraints:
           - node.hostname == ${DOCKER_NODE_NAME}
-          
+      resources:
+        limits:
+          memory: ${DOCKER_MEMORY_LIMIT_IN_MEGABYTES}M
+
   jaeger:
     image: jaegertracing/all-in-one:1.15
     ports:

@@ -13,7 +13,7 @@ import locust.stats
 import time
 
 locust.stats.PERCENTILES_TO_REPORT = [0.25, 0.50, 0.75, 0.80, 0.90, 0.95, 0.98, 0.99, 0.999, 0.9999, 1.0]
-LOG_STATISTICS_IN_HALF_MINUTE_CHUNKS = (1==1)
+LOG_STATISTICS_IN_HALF_MINUTE_CHUNKS = (${LOG_STATISTICS_IN_HALF_MINUTE_CHUNKS}==1)
 RETRY_ON_ERROR = True
 MAX_RETRIES = 100
 
@@ -169,11 +169,13 @@ def book(client, user_id):
         response_as_json = get_json_from_response(response)
         return response_as_json, response_as_json["status"]
 
-    try_until_success(api_call_insurance)
-    try_until_success(api_call_food)
+    # inverted order
     response_as_json = try_until_success(api_call_contacts)
     data = response_as_json["data"]
     contact_id = data[0]["id"] 
+
+    try_until_success(api_call_food)
+    try_until_success(api_call_insurance)
     
     def api_call_ticket():
         body = {"accountId": user_id, "contactsId": contact_id, "tripId": "D1345", "seatType": "2", "date": departure_date, "from": "Shang Hai", "to": "Su Zhou", "assurance": "0", "foodType": 1, "foodName": "Bone Soup", "foodPrice": 2.5, "stationName": "", "storeName": ""}

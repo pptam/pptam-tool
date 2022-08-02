@@ -1,7 +1,7 @@
 import logging
 import docker
 
-def ready(current_configuration, output, test_id): 
+def ready(current_configuration, design_path, output, test_id):
     logging.debug(f"Testing if SUT is correctly deployed.")
 
     sut_hostname = current_configuration["docker_test_hostname"]
