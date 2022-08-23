@@ -141,3 +141,5 @@ cython_debug/
 .vagrant
 workspace.code-workspace
 toolchain/pptam.db
+toolchain/archive
+toolchain/playground
