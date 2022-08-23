@@ -13,7 +13,7 @@ from lib import init_db, execute_statement, create_or_get_item, create_or_get_pr
 import math
 
 
-def store_test(test_path):
+def store_test(test_path, skip_history):
     logging.info(f"Storing test {test_path}.")
 
     configuration = configparser.ConfigParser()
@@ -89,7 +89,7 @@ def store_test(test_path):
                                     execute_statement(connection, f"INSERT INTO results (id, test, item, metric, value, created_at) VALUES (?, ?, ?, ?, ?, ?);", (str(uuid.uuid4()), test_id, create_or_get_item(connection, project_id, row["Name"]), get_metric(connection, "sdrt"), estimated_sd, created_at))
 
             history_statistics_path = os.path.join(test_path, "result_stats_history.csv")
-            if os.path.exists(history_statistics_path):
+            if (not skip_history) and os.path.exists(history_statistics_path):
                 logging.debug(f"Reading {history_statistics_path}.")
                 with open(history_statistics_path, newline="") as csvfile:
                     reader = csv.DictReader(csvfile, delimiter=",", quotechar='"')
@@ -140,6 +140,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Stores performed tests in the database.")
     parser.add_argument("test", metavar="path_to_test_results_folder", help="Test results folder")
     parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=1)
+    parser.add_argument("--skip-history", help="Do not store result_stats_history.csv files", action='store_true', default=False)
     args = parser.parse_args()
 
     logging.basicConfig(format="%(message)s", level=args.logging * 10)
@@ -148,4 +149,4 @@ if __name__ == "__main__":
         logging.fatal(f"Cannot find the test results folder. Please indicate one.")
         quit()
 
-    store_test(args.test)
+    store_test(args.test, args.skip_history)

@@ -1,0 +1,28 @@
+change order of buy
+
+2 test
+- first
+- follow up
+
+we inject mutations (cambi minimi) - > check with followup tests to
+se il nostro sistema ci permette di trovare una certa quantità di errori injettati
+
+
+===============
+
+2 user
+UserBooking
+30 min
+
+100 user
+UserBooking
+30 min
+
+100 users
+UserBooking_Swapped all combinations
+30 min
+
+raccolta response time over time
+
+
+check if insert mutation test
