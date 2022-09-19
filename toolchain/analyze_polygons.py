@@ -27,7 +27,7 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
             if project_id is None:
                 logging.error(f"Cannot find project {project}.")
                 return
-
+            
             all_data = pd.read_sql(
                 """SELECT tests.id AS test_id, test_sets.id AS test_set_id, CAST(test_properties.value as integer) AS users, metrics.abbreviation AS metric, items.name AS item_name, results.value AS item_value
                 FROM results 
@@ -37,7 +37,7 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
                 INNER JOIN metrics ON results.metric = metrics.id 
                 INNER JOIN test_set_tests ON (test_set_tests.test = tests.id)
                 INNER JOIN test_sets ON (test_sets.id = test_set_tests.test_set AND test_sets.project = tests.project)
-                WHERE tests.project = :project AND metrics.abbreviation IN ('art', 'sdrt', 'mix','maxrt')""",
+                WHERE tests.project = :project AND metrics.abbreviation IN ('art', 'sdrt', 'mix', 'maxrt')""",
                 connection,
                 params=(project_id,),
             )
@@ -76,11 +76,11 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
 
             def verify_if_response_time_is_above_threshold(row):
                 if threshold_metric == 1:
-                    if np.max(threshold[threshold.item_name == row["item_name"]].threshold) > row["maxrt"]:
+                    if np.max(threshold[threshold.item_name == row["item_name"]].threshold) > row["art"]:
                         return row["mix"]
 
                 if threshold_metric == 2:
-                    if np.max(threshold[threshold.item_name == row["item_name"]].threshold) > row["art"]:
+                    if np.max(threshold[threshold.item_name == row["item_name"]].threshold) > row["maxrt"]:
                         return row["mix"]
 
                 return 0
@@ -214,7 +214,7 @@ def get_poisson_operational_profile(workloads, arrival_rate_per_second, time_in_
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("project", help="Name of the project to analyze")
-    parser.add_argument("--threshold", help="Use maximum (1) or average (2) response time", type=int, choices=range(1, 3), default=1)
+    parser.add_argument("--threshold", help="Use average (1) or maximum (2) response time", type=int, choices=range(1, 3), default=1)
     parser.add_argument("--profile", help="Use poisson (1) or predefined (2) operational profile", type=int, choices=range(1, 3), default=1)
     parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=1)
     args = parser.parse_args()
