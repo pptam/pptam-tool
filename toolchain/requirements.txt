@@ -1,1 +1,7 @@
-python-dateutil
+tabulate
+pandas
+scipy
+matplotlib
+pluginbase
+jinja2
+locust

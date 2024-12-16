@@ -143,3 +143,7 @@ workspace.code-workspace
 toolchain/pptam.db
 toolchain/archive
 toolchain/playground
+toolchain/share
+toolchain/pyvenv.cfg
+toolchain/lib/python3.12
+toolchain/bin

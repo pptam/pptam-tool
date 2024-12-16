@@ -71,7 +71,7 @@ def create_dashboard(project, threshold_metric, operational_profile_type):
             threshold = threshold[["item_name", "threshold"]]
 
             # list_of_microservices = pd.unique(all_data.item_name)
-            workloads = pd.pivot_table(all_data[all_data.users != min_no_of_users], values="item_value", index=["test_id", "test_set_id", "users", "item_name"], columns=["metric"], aggfunc=np.mean, fill_value=np.Infinity)
+            workloads = pd.pivot_table(all_data[all_data.users != min_no_of_users], values="item_value", index=["test_id", "test_set_id", "users", "item_name"], columns=["metric"], aggfunc=np.mean, fill_value=np.inf)
             workloads = pd.DataFrame(workloads.to_records())
 
             def verify_if_response_time_is_above_threshold(row):
