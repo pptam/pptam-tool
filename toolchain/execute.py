@@ -39,12 +39,12 @@ def run_plugins(configuration, section, design_path, output, test_id, func):
     
     return result
 
-def create_output_directory(configuration, section):
+def create_output_directory(configuration, section, out_folder):
     now = datetime.datetime.now()
     test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower()
     test_id = now.strftime("%Y%m%d%H%M") + "-" + test_id_without_timestamp
 
-    all_outputs = os.path.abspath(os.path.join("./executed"))
+    all_outputs = os.path.abspath(os.path.join("./executed" + "/" + out_folder))
     if not os.path.isdir(all_outputs):
         logging.debug(f"Creating {all_outputs}, since it does not exist.")
         os.makedirs(all_outputs)
@@ -60,8 +60,8 @@ def create_output_directory(configuration, section):
 
     return output, test_id, now
 
-def perform_test(configuration, section, design_path):
-    output, test_id, now = create_output_directory(configuration, section)
+def perform_test(configuration, section, design_path,out_folder):
+    output, test_id, now = create_output_directory(configuration, section, out_folder)
     if output==None:
         return
         
@@ -160,7 +160,7 @@ def perform_test(configuration, section, design_path):
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
-def execute_tests(design_path):
+def execute_tests(design_path,out_folder):
     if os.path.exists(os.path.join(design_path, "test_plan.ini.jinja")):
         template_loader = jinja2.FileSystemLoader(searchpath=design_path)
         template_environment = jinja2.Environment(loader=template_loader)
@@ -179,7 +179,7 @@ def execute_tests(design_path):
         if section.lower().startswith("test"):
             enabled = (configuration[section]["enabled"] == "1")
             if enabled:
-                perform_test(configuration, section, design_path)
+                perform_test(configuration, section, design_path,out_folder)
 
     run_plugins(configuration, "DEFAULT", design_path, None, None, "teardown_all")
 
@@ -189,15 +189,25 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("design", metavar="path_to_design_folder", help="Design folder")
     parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=1)
+    # From CDCI -> #CI_PROJECT_NAME
+    parser.add_argument("--projectname", help="Write the name", type=str, default="")
+    # From CDCI -> #$CI_COMMIT_SHA
+    parser.add_argument("--commit", help="Logging level from 1 (everything) to 5 (nothing)", type=str,  default="")
+    # 1 Agg argument con dati git e poi si passa per cartella e commit ecc.
+    # 2 design_folder deve esistere e essere copiata di qua
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
     logging.getLogger("requests").setLevel(logging.ERROR)
     logging.getLogger("urllib3").setLevel(logging.ERROR)
+
+    output_folder = ""
+    if args.projectname != "" & args.commit != "":
+        output_folder = args.projectname + "/" + args.commit
         
     if args.design is None or args.design == "" or (not os.path.exists(args.design)):
         logging.fatal(f"Cannot find the design folder. Please indicate one.")
         quit()
 
-    execute_tests(args.design)  
+    execute_tests(args.design,output_folder)  
         

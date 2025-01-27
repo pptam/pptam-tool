@@ -42,11 +42,12 @@ Please carry out the following steps *on your computer*:
     Removing service 202102120945-json-test1_server
     Removing network 202102120945-json-test1_default
     Waiting for 5 seconds to allow the application to undeploy.
-    Test 202102120945-json-test1 completed. Test results can be found in /home/vagrant/pptam-tool/toolchain/executed/202102120945-json-test1.
+    Test 202102120945-json-test1 completed. Test results can be found in /home/vagrant/pptam-tool/toolchain/executed/undefined/00000000/202102120945-json-test1.
     Done.
     ```
 
     If you now check the `~/pptam-tool/toolchain/executed` folder, you will find a folder of the just executed experiment, and in this folder the results of the experiment. You can find out more about what the various output files mean [here](./how_to_use.md).
+    If the --projectname if defined you will find everything in a folder like this: `~/pptam-tool/toolchain/executed/projectname/commit`
 
     This should be the output of `locustfile.out`:
     ```

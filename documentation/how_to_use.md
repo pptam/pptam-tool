@@ -132,7 +132,7 @@ Depending on your configuration, you need to use `sudo` to execute tests. This c
 
 ## Analysis
 
-The results of an experiment will be written in the `toolchain/executed` folder. The folder name have the format `yyyyMMddHHmm-prefix-test`, where the single parts have the following meaning:
+The results of an experiment will be written in the `toolchain/executed` folder. If you specify --projectname the folder will have also `toolchain/executed/projectname/commit`. The final folder name have the format `yyyyMMddHHmm-prefix-test`, where the single parts have the following meaning:
 
 - yyyyMMddHHmm is the current date and time, e.g., 202102111435 means 11th of February, 2021 at 2:35pm;
 - prefix is the text configured in the setting TEST_CASE_PREFIX;
