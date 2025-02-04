@@ -202,7 +202,7 @@ if __name__ == "__main__":
     logging.getLogger("urllib3").setLevel(logging.ERROR)
 
     output_folder = ""
-    if args.projectname != "" & args.commit != "":
+    if args.projectname != "" and args.commit != "":
         output_folder = args.projectname + "/" + args.commit
         
     if args.design is None or args.design == "" or (not os.path.exists(args.design)):
