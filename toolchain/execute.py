@@ -189,10 +189,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
     parser.add_argument("design", metavar="path_to_design_folder", help="Design folder")
     parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=1)
-    # From CDCI -> #CI_PROJECT_NAME
-    parser.add_argument("--projectname", help="Write the name", type=str, default="")
-    # From CDCI -> #$CI_COMMIT_SHA
-    parser.add_argument("--commit", help="Logging level from 1 (everything) to 5 (nothing)", type=str,  default="")
+    parser.add_argument("--projectname", help="Name of the project", type=str, default="")
+    parser.add_argument("--commit", help="Link execution to specific commit identifier", type=str, default="")
     # 1 Agg argument con dati git e poi si passa per cartella e commit ecc.
     # 2 design_folder deve esistere e essere copiata di qua
     args = parser.parse_args()

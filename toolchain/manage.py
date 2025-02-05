@@ -11,6 +11,7 @@ from tabulate import tabulate
 import contextlib
 import sqlite3
 from lib import init_db, get_scalar, execute_statement, create_or_get_item, create_or_get_project, create_or_get_test, create_or_get_test_set, get_metric
+import csv
 
 
 def execute_statement_and_display_result(connection, command, headers, parameters=()):
@@ -76,8 +77,36 @@ def profile_rename(connection, args):
     query = f"UPDATE operational_profiles SET name = ? WHERE name = ? AND project = (SELECT id FROM projects WHERE name = ?)"
     execute_statement(connection, query, (args.name2, args.name1, args.project))
 
+
 def profile_delete(connection, args):
-    execute_statement(connection, "DELETE FROM operational_profiles WHERE name = ?", (args.name, ))
+    execute_statement(connection, "DELETE FROM operational_profiles WHERE name = ?", (args.name,))
+
+
+def profile_add(connection, args):
+    with contextlib.closing(sqlite3.connect("pptam.db")) as connection:
+        with connection:
+            project_id = get_scalar(connection, "SELECT id FROM projects WHERE name = ?", (args.project,))
+            if project_id is None:
+                print("Cannot find project.")
+            else:
+                id = str(uuid.uuid4())
+                execute_statement(connection, "INSERT INTO operational_profiles (id, project, name) VALUES (?, ?, ?)", (id, project_id, args.name))
+
+                insert_sql = """
+                    INSERT INTO operational_profile_observations (id, operational_profile, users, frequency)
+                    VALUES (?, ?, ?, ?)
+                """
+
+                with open(args.file, newline="") as csvfile:
+                    reader = csv.DictReader(csvfile)
+                    for row in reader:
+                        users = int(row["users"])
+                        frequency = int(row["frequency"])
+                        new_id = str(uuid.uuid4())
+
+                        connection.execute(insert_sql, (new_id, id, users, frequency))
+
+                connection.commit()
 
 
 def sets_list(connection, args):
@@ -87,122 +116,27 @@ def sets_list(connection, args):
 
 
 def set_create(connection, args):
-    project_id = get_scalar(connection, "SELECT id FROM projects WHERE name = ?", (args.project, ))
+    project_id = get_scalar(connection, "SELECT id FROM projects WHERE name = ?", (args.project,))
     if project_id is None:
         print("Cannot find project.")
     else:
         query = "INSERT INTO test_sets (id, project, name) VALUES (?, ?, ?)"
         execute_statement(connection, query, (str(uuid.uuid4()), project_id, args.name))
 
+
 def set_rename(connection, args):
     query = "UPDATE test_sets SET name = ? WHERE name = ? AND project = (SELECT id FROM projects WHERE name = ?)"
     execute_statement(connection, query, (args.name2, args.name1, args.project))
 
+
 def set_delete(connection, args):
-    execute_statement(connection, "DELETE FROM test_sets WHERE name = ?", (args.name, ))
+    execute_statement(connection, "DELETE FROM test_sets WHERE name = ?", (args.name,))
+
 
 def set_show(connection, args):
     query = "SELECT tests.id, tests.name FROM tests INNER JOIN projects ON tests.project = projects.id INNER JOIN test_set_tests ON test_set_tests.test = tests.id INNER JOIN test_sets ON test_set_tests.test_set = test_sets.id WHERE projects.name = ? AND test_sets.name = ? ORDER BY tests.name"
     headers = ["ID", "Name"]
     execute_statement_and_display_result(connection, query, headers, (args.project, args.set))
-
-
-def add_sample_operational_profile(connection, args):
-    with contextlib.closing(sqlite3.connect("pptam.db")) as connection:
-        with connection:
-            project_id = get_scalar(connection, "SELECT id FROM projects WHERE name = ?", (args.project,))
-            if project_id is None:
-                print("Cannot find project.")
-            else:
-                id = str(uuid.uuid4())
-                execute_statement(connection, "INSERT INTO operational_profiles (id, project, name) VALUES (?, ?, ?)", (id, project_id, "Operational profile"))
-
-                if args.number == 1:
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 0, 3))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 1, 11))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 2, 6))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 3, 6))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 4, 6))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 5, 8))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 10, 2))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 11, 4))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 12, 2))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 13, 2))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 15, 4))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 16, 4))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 17, 8))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 18, 7))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 19, 7))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 20, 7))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 21, 7))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 22, 6))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 23, 5))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 24, 1))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 25, 4))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 26, 3))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 27, 3))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 28, 4))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 30, 10))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 35, 13))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 40, 21))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 42, 10))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 45, 20))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 50, 12))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 55, 19))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 60, 25))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 65, 28))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 70, 26))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 75, 18))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 80, 16))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 105, 1))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 85, 17))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 90, 15))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 95, 6))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 100, 1))
-
-                if args.number == 2:
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 10, 0))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 11, 0))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 12, 0))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 13, 0))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 14, 0))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 15, 3))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 16, 11))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 17, 6))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 18, 6))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 19, 6))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 20, 8))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 25, 2))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 26, 4))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 27, 2))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 28, 2))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 30, 4))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 31, 4))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 32, 8))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 33, 7))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 34, 7))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 35, 7))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 36, 7))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 37, 6))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 38, 5))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 39, 1))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 40, 4))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 41, 3))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 42, 3))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 43, 4))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 45, 10))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 50, 13))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 55, 21))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 57, 10))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 60, 20))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 65, 12))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 70, 19))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 75, 25))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 80, 28))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 85, 26))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 90, 18))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 95, 16))
-                    execute_statement(connection, "INSERT INTO operational_profile_observations (id, operational_profile, users, frequency) VALUES (?, ?, ?, ?)", (str(uuid.uuid4()), id, 100, 17))
 
 
 if __name__ == "__main__":
@@ -233,6 +167,10 @@ if __name__ == "__main__":
     subparser_profiles_subparser_delete.add_argument("name", help="The name of the operational profile")
     subparser_profiles_subparser_list = subparser_profiles_subparser.add_parser("list", help="List operational profiles")
     subparser_profiles_subparser_list.add_argument("project", help="The name of the project")
+    subparser_profiles_subparser_add = subparser_profiles_subparser.add_parser("add", help="Add operational profile")
+    subparser_profiles_subparser_add.add_argument("project", help="The name of the project")
+    subparser_profiles_subparser_add.add_argument("name", help="The name of the operational profile")
+    subparser_profiles_subparser_add.add_argument("file", help="The csv file to import")
 
     subparser_sets = subparsers.add_parser("sets", help="Manage test sets")
     subparser_sets_subparser = subparser_sets.add_subparsers(dest="action", required=True, help="One of the following actions:")
@@ -268,34 +206,11 @@ if __name__ == "__main__":
     subparser_tests_subparser_link.add_argument("test", help="The name of the test")
     subparser_tests_subparser_link.add_argument("set", help="The name of the test set")
 
-    subparser_sample = subparsers.add_parser("sample", help="Manage sample data")
-    subparser_sample_subparser = subparser_sample.add_subparsers(dest="action", required=True, help="One of the following actions:")
-    subparser_sample_subparser_add = subparser_sample_subparser.add_parser("profile", help="Add sample operational profile")
-    subparser_sample_subparser_add.add_argument("project", help="The name of the project")
-    subparser_sample_subparser_add.add_argument("number", help="The number of the operational profile", type=int, choices=[1, 2])
-
     args = parser.parse_args()
 
     logging.basicConfig(format="%(message)s", level=args.logging * 10)
 
-    switcher = {
-        "projects_list": projects_list,
-        "projects_create": project_create,
-        "projects_delete": project_delete,
-        "profiles_list": profiles_list,
-        "profiles_rename": profile_rename,
-        "profiles_delete": profile_delete,
-        "sets_list": sets_list,
-        "sets_rename": set_rename,
-        "sets_delete": set_delete,
-        "sets_create": set_create,
-        "sets_show": set_show,
-        "tests_list": tests_list,
-        "tests_rename": test_rename,
-        "tests_delete": test_delete,
-        "tests_link": test_link,
-        "sample_profile": add_sample_operational_profile,
-    }
+    switcher = {"projects_list": projects_list, "projects_create": project_create, "projects_delete": project_delete, "profiles_list": profiles_list, "profiles_rename": profile_rename, "profiles_delete": profile_delete, "profiles_add": profile_add, "sets_list": sets_list, "sets_rename": set_rename, "sets_delete": set_delete, "sets_create": set_create, "sets_show": set_show, "tests_list": tests_list, "tests_rename": test_rename, "tests_delete": test_delete, "tests_link": test_link}
 
     with contextlib.closing(sqlite3.connect("pptam.db")) as connection:
         with connection:
