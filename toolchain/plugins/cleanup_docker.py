@@ -14,7 +14,7 @@ def setup_all(current_configuration, design_path, output, test_id):
 def setup(current_configuration, design_path, output, test_id):
     logging.info(f"Preparing Docker for test {test_id}...")
     if current_configuration["docker_undeploy"]=="1":
-        run_external_applicaton("/etc/init.d/docker restart")
+        run_external_applicaton("sudo snap restart docker")
     
 # def teardown_all(current_configuration, design_path, output, test_id):
 #     if current_configuration["docker_undeploy"]=="1":
