@@ -204,7 +204,7 @@ if __name__ == "__main__":
         output_folder = args.projectname + "/" + args.commit
         
     if args.design is None or args.design == "" or (not os.path.exists(args.design)):
-        logging.fatal(f"Cannot find the design folder. Please indicate one.")
+        logging.fatal(f"Cannot find the design folder {args.design}. Please indicate one.")
         quit()
 
     execute_tests(args.design,output_folder)  
