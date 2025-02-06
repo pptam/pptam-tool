@@ -147,3 +147,5 @@ toolchain/share
 toolchain/pyvenv.cfg
 toolchain/lib/python3.12
 toolchain/bin
+
+/design_pipeline
