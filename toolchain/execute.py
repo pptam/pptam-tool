@@ -39,12 +39,12 @@ def run_plugins(configuration, section, design_path, output, test_id, func):
     
     return result
 
-def create_output_directory(configuration, section, out_folder):
+def create_output_directory(configuration, section):
     now = datetime.datetime.now()
     test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower()
     test_id = now.strftime("%Y%m%d%H%M") + "-" + test_id_without_timestamp
 
-    all_outputs = os.path.abspath(os.path.join("./executed" + "/" + out_folder))
+    all_outputs = os.path.abspath(os.path.join("./executed"))
     if not os.path.isdir(all_outputs):
         logging.debug(f"Creating {all_outputs}, since it does not exist.")
         os.makedirs(all_outputs)
@@ -60,8 +60,8 @@ def create_output_directory(configuration, section, out_folder):
 
     return output, test_id, now
 
-def perform_test(configuration, section, design_path,out_folder):
-    output, test_id, now = create_output_directory(configuration, section, out_folder)
+def perform_test(configuration, section, design_path,project,commit):
+    output, test_id, now = create_output_directory(configuration, section)
     if output==None:
         return
         
@@ -91,6 +91,9 @@ def perform_test(configuration, section, design_path,out_folder):
             f.write(f"{option.upper()}={configuration[section][option]}\n")
         f.write(f"TIMESTAMP={now.timestamp()}\n")
         f.write(f"TEST_NAME={test_id}\n")
+        f.write(f"GIT_PROJECT={project}\n")
+        f.write(f"GIT_COMMIT={commit}\n")
+
 
     logging.info(f"Executing test case {test_id}.")
 
@@ -160,7 +163,7 @@ def perform_test(configuration, section, design_path,out_folder):
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
-def execute_tests(design_path,out_folder):
+def execute_tests(design_path,project,commit):
     if os.path.exists(os.path.join(design_path, "test_plan.ini.jinja")):
         template_loader = jinja2.FileSystemLoader(searchpath=design_path)
         template_environment = jinja2.Environment(loader=template_loader)
@@ -179,7 +182,7 @@ def execute_tests(design_path,out_folder):
         if section.lower().startswith("test"):
             enabled = (configuration[section]["enabled"] == "1")
             if enabled:
-                perform_test(configuration, section, design_path,out_folder)
+                perform_test(configuration, section, design_path,project,commit)
 
     run_plugins(configuration, "DEFAULT", design_path, None, None, "teardown_all")
 
@@ -199,13 +202,10 @@ if __name__ == "__main__":
     logging.getLogger("requests").setLevel(logging.ERROR)
     logging.getLogger("urllib3").setLevel(logging.ERROR)
 
-    output_folder = ""
-    if args.projectname != "" and args.commit != "":
-        output_folder = args.projectname + "/" + args.commit
         
     if args.design is None or args.design == "" or (not os.path.exists(args.design)):
         logging.fatal(f"Cannot find the design folder {args.design}. Please indicate one.")
         quit()
 
-    execute_tests(args.design,output_folder)  
+    execute_tests(args.design,args.projectname,args.commit )  
         
