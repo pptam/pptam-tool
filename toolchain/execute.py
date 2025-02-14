@@ -35,24 +35,25 @@ def run_plugins(configuration, section, design_path, output, test_id, func):
                 result.append(call_result)
                 
         except Exception as e:
-            logging.critical(f"Cannot invoke plugin {plugin_name}: {e}")
+            logging.critical(f"Cannot invoke plugin {plugin_name}: {repr(e)}")
     
     return result
 
-def create_output_directory(configuration, section):
+def create_output_directory(configuration, section, commit):
     now = datetime.datetime.now()
     test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower()
+    if commit is not None:
+        test_id_without_timestamp = test_id_without_timestamp + "-" + commit[:8]
     test_id = now.strftime("%Y%m%d%H%M") + "-" + test_id_without_timestamp
 
     all_outputs = os.path.abspath(os.path.join("./executed"))
     if not os.path.isdir(all_outputs):
         logging.debug(f"Creating {all_outputs}, since it does not exist.")
         os.makedirs(all_outputs)
-        
+    
     if any(x.endswith(test_id_without_timestamp) for x in os.listdir(all_outputs)):
         name_of_existing_folder = next(x for x in os.listdir(all_outputs) if x.endswith(test_id_without_timestamp))
         logging.warning(f"Skipping {name_of_existing_folder}, since it already exists.")
-        # shutil.rmtree(os.path.join(all_outputs, name_of_existing_folder))
         return None, None, None
 
     output = os.path.join(all_outputs, test_id)
@@ -60,8 +61,8 @@ def create_output_directory(configuration, section):
 
     return output, test_id, now
 
-def perform_test(configuration, section, design_path,project,commit):
-    output, test_id, now = create_output_directory(configuration, section)
+def perform_test(configuration, section, design_path, project, commit):
+    output, test_id, now = create_output_directory(configuration, section, commit)
     if output==None:
         return
         
@@ -207,5 +208,5 @@ if __name__ == "__main__":
         logging.fatal(f"Cannot find the design folder {args.design}. Please indicate one.")
         quit()
 
-    execute_tests(args.design,args.projectname,args.commit )  
+    execute_tests(args.design, args.projectname, args.commit)  
         
