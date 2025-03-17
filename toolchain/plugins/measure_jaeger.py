@@ -1,54 +1,88 @@
 import logging
 import requests
+import networkx as nx
 import json
 import os
-import time
+import pandas as pd
+from datetime import datetime, timedelta, timezone
+
+def fetch_services(jaeger_api_url):
+    response = requests.get(f"{jaeger_api_url}/services")
+    response.raise_for_status()
+    return response.json().get("data", [])
+
+
+def fetch_dependencies(jaeger_api_url):
+    response = requests.get(f"{jaeger_api_url}/dependencies")
+    response.raise_for_status()
+    return response.json()
+
+
+def fetch_traces(jaeger_api_url, service_name, last_seconds=600):
+    end_time = int(datetime.now(tz=timezone.utc).timestamp() * 1000000)
+    start_time = end_time - (last_seconds * 1000000)
+    params = {
+        "service": service_name,
+        "start": start_time,
+        "end": end_time,
+        "limit": 1000000
+    }
+    response = requests.get(f"{jaeger_api_url}/traces", params=params)
+    response.raise_for_status()
+    return response.json()
+
+
+def build_dag(dependencies_data):
+    G = nx.DiGraph()
+    
+    if "data" not in dependencies_data:
+        return G
+
+    for entry in dependencies_data["data"]:
+        parent = entry["parent"]
+        child = entry["child"]
+        G.add_edge(parent, child, weight=entry.get("callCount", 1))
+    
+    return G
+
+
+def save_dag_as_json(output, G):
+    dag_data = nx.node_link_data(G, edges="edges")
+    file_to_write = os.path.join(output, "dag.json")
+    with open(file_to_write, "w") as f:
+        json.dump(dag_data, f, indent=4)
+
+
+def save_dag_as_csv(output, G):
+    file_to_write = os.path.join(output, "dag.csv")
+    edges = [(u, v, G[u][v].get("weight", 1)) for u, v in G.edges]
+    df = pd.DataFrame(edges, columns=["Parent", "Child", "Weight"])
+    df.to_csv(file_to_write, index=False)
+
 
 def after(current_configuration, design_path, output, test_id):
-    jaeger_host = current_configuration["jaeger_host_url"]
-    jaeger_services = current_configuration["jaeger_services"].split(" ")
-    service_to_test = current_configuration["jaeger_test_if_service_is_present"]
+    jaeger_api_url = current_configuration["jaeger_api_url"]
+    seconds_to_wait_before_after = int(current_configuration["seconds_to_wait_before_after"])
+    run_time_in_seconds = int(current_configuration["run_time_in_seconds"])
+    run_time = run_time_in_seconds + seconds_to_wait_before_after
 
-    all_services = []
-    for _ in range(60):   
-        try:
-            session = requests.Session()
-            session.headers.update({'accept': 'application/json'})
-            session.headers.update({'content-type': 'application/json'})
-    
-            logging.info(f"Contacting Jaeger host {jaeger_host}/api/services")
-            service_request = session.get(f"{jaeger_host}/api/services")
-            all_services = service_request.json()["data"]
-            
-            if all_services is None:
-                logging.critical(f"Cannot determine Jaeger services.")
-            else:
-                if (service_to_test != "") and not (service_to_test in all_services):
-                    logging.critical(f"Service {service_to_test} is not in the list of services.")
-                else:
-                    break
+    try:
+        dependencies_data = fetch_dependencies(jaeger_api_url)
+        dag = build_dag(dependencies_data)
+        save_dag_as_json(output, dag)
+        save_dag_as_csv(output, dag)
 
-        except Exception as e:
-            logging.critical(f"Exception while determining Jaeger services: {e}")
-
-        time.sleep(60)
-    
-    if (all_services != None) and ((service_to_test == "") or (service_to_test in all_services)):
-        for service in all_services:
-            if ("all" in jaeger_services) or (service in jaeger_services):
-                if f"!{service}" in jaeger_services:
-                    logging.debug(f"Skipping service {service}.")
-                else:
-                    file_to_write = os.path.join(output, f"jaeger_{service}.log")  
-
-                    try:
-                        logging.info(f"Wrinting Jaeger data for service {service}.")
-                        with open(file_to_write, "a") as f:
-                            request = session.get(f"{jaeger_host}/api/traces?service=" + service)
-                            data = json.loads(request.content)["data"]
-                            f.write(json.dumps(data, indent=2))
-           
-                    except Exception as e2:
-                        logging.critical(f"Exception while reading Jaeger data for service {service}: {e2}")   
-    else:
-        logging.critical(f"Cannot store Jaeger service data.")   
+        services = fetch_services(jaeger_api_url)
+        
+        for service in services:
+            try:
+                trace_data = fetch_traces(jaeger_api_url, service, run_time)
+                if trace_data and "data" in trace_data:
+                    file_to_write = os.path.join(output, f"traces_{service}.json")
+                    with open(file_to_write, "w") as f:
+                        json.dump(trace_data, f, indent=4)
+            except requests.exceptions.RequestException as e:
+                logging.error(f"Error fetching traces for service {service}: {e}")
+                
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Error fetching data from Jaeger: {e}")

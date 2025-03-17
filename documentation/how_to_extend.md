@@ -10,7 +10,7 @@ When the user calls the `execute.py` script, the following steps are performed:
     - design_path: path to the design folder;
     - test_id: the id of the test.
 3. tests are run according to the tests specified in `test_plan.ini` of the current design folder. Now, the plugins are all invoked running the following methods:
-    - `get_configuration_files`: retrieves an array of files that should be included in the output folder;
+    - `get_files`: retrieves an array of files that should be included in the output folder;
     - `setup`: steps to prepare the test;
     - `deploy`: steps to deploy the system under test;
     - `ready`: retrieves a boolean that confirms if the test is ready to start;

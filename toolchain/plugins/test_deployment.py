@@ -2,20 +2,19 @@ import logging
 import docker
 
 def ready(current_configuration, design_path, output, test_id):
-    logging.debug(f"Testing if SUT is correctly deployed.")
-
-    sut_hostname = current_configuration["docker_test_hostname"]
-    logging.info("01")
-    client = docker.DockerClient(base_url=f"tcp://{sut_hostname}:2375")
-    logging.info("02")
+    docker_daemon_base_url = current_configuration["docker_daemon_base_url"]
+    logging.debug(f"Testing if SUT is correctly deployed connecting to {docker_daemon_base_url}.")
+    
+    # The docker url is often tcp://localhost:2375 on Windows or unix:///var/run/docker.sock on Linux or Mac
+    client = docker.DockerClient(base_url=docker_daemon_base_url)
     tests = current_configuration["docker_test_if_image_is_present"].split()
-    logging.info("03")
 
     for container_name in tests:
         logging.info(f"Checking if any running container contains '{container_name}' in its name.")            
 
         try:
             running_containers = client.containers.list()
+            logging.info(f"Running containers: {[c.name for c in running_containers]}.")   
 
             matching_containers = [
                 container for container in running_containers if container_name in container.name
@@ -31,5 +30,4 @@ def ready(current_configuration, design_path, output, test_id):
             logging.critical(f"Docker API error: {repr(e)}")
             return False
 
-    logging.info("3")
     return True

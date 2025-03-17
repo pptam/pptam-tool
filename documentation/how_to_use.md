@@ -40,7 +40,7 @@ In this case, test_plan.ini overwrites SECONDS_TO_WAIT_BEFORE_SETUP for all test
 
 `configuration.ini` contains the parameters below. Please bear in mind that each test passes the following phases:
 
-1. Phase "get_configuration_files": in this phase, all plugins are asked to return an array of files that should be copied into the test output folder. Typically, these files are needed in later phases.
+1. Phase "get_files": in this phase, all plugins are asked to return an array of files that should be copied into the test output folder. Typically, these files are needed in later phases.
 2. Phase "setup": tells all plugins to perform necessary preparation steps. Can be disabled setting the `ENABLE_PHASE_SETUP` configuration setting to 0. The configuration setting `SECONDS_TO_WAIT_BEFORE_SETUP` configures the time to wait before starting this phase.
 3. Phase "deploy": tells all plugins to deploy the software under test. Can be disabled setting the `ENABLE_PHASE_DEPLOY` configuration setting to 0. The configuration setting `SECONDS_TO_WAIT_BEFORE_DEPLOY` configures the time to wait before starting this phase.
 4. Phase "ready": asks all plugins if they are ready. If one plugin returns false, the execution script waits for 1 minute and tries again for 9 more times. If then one plugin is still not ready, the execution script terminates. 
@@ -90,26 +90,24 @@ The following settings are used if the `load_test_locust.py` plugin is used:
 - SPAWN_RATE_PER_SECOND: Speed at which new users are launched.
 - RUN_TIME_IN_SECONDS: Duration of the overall test.
 
-The following settings are used if the `0_deploy_docker.py` plugin is used:
+The following settings are used if the `deploy_docker.py` plugin is used:
 - DOCKER_NODE_NAME: the node on which the system under test (SUT) must be deployed.
 - DOCKER_WAITING_FOR_DEPLOYMENT_IN_SECONDS: seconds to wait till a system is deployed.
 - DOCKER_WAITING_FOR_UNDEPLOYMENT_IN_SECONDS: seconds to wait till a system is undeployed.
 
-The following settings are used if the `8_measure_docker_stats.py` plugin is used:
+The following settings are used if the `measure_docker_stats.py` plugin is used:
 - DOCKER_STATS_HOSTNAME: host to contact to obtain docker stats.
 - DOCKER_STATS_CONTAINERS: either choose 'all' or indicate the containers, separated by a space.
 - DOCKER_STATS_RUN_EVERY_NUMBER_OF_SECONDS: every how many seconds should docker stats be collected.
 
-The following settings are used if the `9_measure_jaeger.py` plugin is used:
-- JAEGER_HOST_URL: host to contact to obtain Jaeger traces.
-- JAEGER_SERVICES: either choose 'all' or indicate the services, separated by a space.
-- JAEGER_TEST_IF_SERVICE_IS_PRESENT: specify a service that should be present to start collecting Jaeger data
+The following settings are used if the `measure_jaeger.py` plugin is used:
+- JAEGER_API_URL: url to contact to access the Jaeger API.
 
 The following settings are used if the `test_deployment.py` plugin is used:
 - DOCKER_TEST_HOSTNAME: host to contact to contact Docker
 - DOCKER_TEST_IF_IMAGE_IS_PRESENT: either choose 'all' or indicate the services, separated by a space.
 
-The following settings are used if the `2_deploy_files.py` plugin is used:
+The following settings are used if the `deploy_files.py` plugin is used:
 - FILES_TO_INCLUDE: the list of files, separated by space, to include in the output folder
 
 ### Typical setups

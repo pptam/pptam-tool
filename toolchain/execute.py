@@ -12,10 +12,11 @@ import json
 from pluginbase import PluginBase
 from lib import run_external_applicaton, replace_values_in_file
 import jinja2
+import sys
 
 plugin_source = None
 
-def run_plugins(configuration, section, design_path, output, test_id, func):
+def run_plugins(configuration, section, design_path, output, test_id, func, haltiferror):
     result = []
     plugin_list = configuration[section]["enabled_plugins"].split()    
     global plugin_source
@@ -36,13 +37,15 @@ def run_plugins(configuration, section, design_path, output, test_id, func):
                 
         except Exception as e:
             logging.critical(f"Cannot invoke plugin {plugin_name}: {repr(e)}")
+            if haltiferror==True:
+                sys.exit(1)
     
     return result
 
 def create_output_directory(configuration, section, commit):
     now = datetime.datetime.now()
     test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower()
-    if commit is not None:
+    if commit != "":
         test_id_without_timestamp = test_id_without_timestamp + "-" + commit[:8]
     test_id = now.strftime("%Y%m%d%H%M") + "-" + test_id_without_timestamp
 
@@ -61,14 +64,14 @@ def create_output_directory(configuration, section, commit):
 
     return output, test_id, now
 
-def perform_test(configuration, section, design_path, project, commit):
+def perform_test(configuration, section, design_path, project, commit, haltiferror):
     output, test_id, now = create_output_directory(configuration, section, commit)
     if output==None:
         return
         
     logging.debug(f"Created a folder name {test_id} in {output}.")
 
-    plugin_files = run_plugins(configuration, section, design_path, output, test_id, "get_configuration_files")
+    plugin_files = run_plugins(configuration, section, design_path, output, test_id, "get_files", haltiferror)
     plugin_files = [item for sublist in plugin_files for item in sublist]
     for plugin_file in plugin_files:
         if os.path.exists(os.path.join(design_path, plugin_file)):
@@ -93,7 +96,8 @@ def perform_test(configuration, section, design_path, project, commit):
         f.write(f"TIMESTAMP={now.timestamp()}\n")
         f.write(f"TEST_NAME={test_id}\n")
         f.write(f"GIT_PROJECT={project}\n")
-        f.write(f"GIT_COMMIT={commit}\n")
+        if commit != "":
+            f.write(f"GIT_COMMIT={commit}\n")
 
 
     logging.info(f"Executing test case {test_id}.")
@@ -117,16 +121,16 @@ def perform_test(configuration, section, design_path, project, commit):
     if enable_phase_setup:
         logging.debug(f"Waiting for {seconds_to_wait_before_setup} seconds.")
         time.sleep(seconds_to_wait_before_setup)
-        run_plugins(configuration, section, design_path, output, test_id, "setup")
+        run_plugins(configuration, section, design_path, output, test_id, "setup", haltiferror)
     
     if enable_phase_deploy:
         logging.debug(f"Waiting for {seconds_to_wait_before_deploy} seconds.")
         time.sleep(seconds_to_wait_before_deploy)
-        run_plugins(configuration, section, design_path, output, test_id, "deploy")
+        run_plugins(configuration, section, design_path, output, test_id, "deploy", haltiferror)
 
     plugins_are_ready = None
     for _ in range(10):   
-        plugins_are_ready = run_plugins(configuration, section, design_path, output, test_id, "ready")
+        plugins_are_ready = run_plugins(configuration, section, design_path, output, test_id, "ready", haltiferror)
 
         if not (False in plugins_are_ready):
             break
@@ -140,52 +144,52 @@ def perform_test(configuration, section, design_path, project, commit):
         if enable_phase_before:
             logging.debug(f"Waiting for {seconds_to_wait_before_before} seconds.")
             time.sleep(seconds_to_wait_before_before)
-            run_plugins(configuration, section, design_path, output, test_id, "before")
+            run_plugins(configuration, section, design_path, output, test_id, "before", haltiferror)
 
         if enable_phase_run:
             logging.debug(f"Waiting for {seconds_to_wait_before_run} seconds.")
             time.sleep(seconds_to_wait_before_run)
-            run_plugins(configuration, section, design_path, output, test_id, "run")
+            run_plugins(configuration, section, design_path, output, test_id, "run", haltiferror)
 
         if enable_phase_after:
             logging.debug(f"Waiting for {seconds_to_wait_before_after} seconds.")
             time.sleep(seconds_to_wait_before_after)
-            run_plugins(configuration, section, design_path, output, test_id, "after")
+            run_plugins(configuration, section, design_path, output, test_id, "after", haltiferror)
 
     if enable_phase_undeploy:
         logging.debug(f"Waiting for {seconds_to_wait_before_undeploy} seconds.")
         time.sleep(seconds_to_wait_before_undeploy)
-        run_plugins(configuration, section, design_path, output, test_id, "undeploy")
+        run_plugins(configuration, section, design_path, output, test_id, "undeploy", haltiferror)
 
     if enable_phase_teardown:
         logging.debug(f"Waiting for {seconds_to_wait_before_teardown} seconds.")
         time.sleep(seconds_to_wait_before_teardown)
-        run_plugins(configuration, section, design_path, output, test_id, "teardown")
+        run_plugins(configuration, section, design_path, output, test_id, "teardown", haltiferror)
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
-def execute_tests(design_path,project,commit):
+def execute_tests(design_path, project, commit, haltiferror):
     if os.path.exists(os.path.join(design_path, "test_plan.ini.jinja")):
         template_loader = jinja2.FileSystemLoader(searchpath=design_path)
         template_environment = jinja2.Environment(loader=template_loader)
         template_file = "test_plan.ini.jinja"
         template = template_environment.get_template(template_file)
-        outputText = template.render()
+        outputText = template.render(design_path=os.path.abspath(design_path))
         with open(os.path.join(design_path, "test_plan.ini"), "w") as f:
             f.write(outputText)
 
     configuration = configparser.ConfigParser()
     configuration.read([os.path.join(design_path, "configuration.ini"), os.path.join(design_path, "test_plan.ini")])
     
-    run_plugins(configuration, "DEFAULT", design_path, None, None, "setup_all")
+    run_plugins(configuration, "DEFAULT", design_path, None, None, "setup_all", haltiferror)
 
     for section in configuration.sections():
         if section.lower().startswith("test"):
             enabled = (configuration[section]["enabled"] == "1")
             if enabled:
-                perform_test(configuration, section, design_path,project,commit)
+                perform_test(configuration, section, design_path, project, commit, haltiferror)
 
-    run_plugins(configuration, "DEFAULT", design_path, None, None, "teardown_all")
+    run_plugins(configuration, "DEFAULT", design_path, None, None, "teardown_all", haltiferror)
 
     logging.info(f"Done.")
 
@@ -195,18 +199,16 @@ if __name__ == "__main__":
     parser.add_argument("--logging", help="Logging level from 1 (everything) to 5 (nothing)", type=int, choices=range(1, 6), default=1)
     parser.add_argument("--projectname", help="Name of the project", type=str, default="")
     parser.add_argument("--commit", help="Link execution to specific commit identifier", type=str, default="")
-    # 1 Agg argument con dati git e poi si passa per cartella e commit ecc.
-    # 2 design_folder deve esistere e essere copiata di qua
+    parser.add_argument("--haltiferror", help="Halt execution if an error occurs", action="store_true")
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
     logging.getLogger("requests").setLevel(logging.ERROR)
     logging.getLogger("urllib3").setLevel(logging.ERROR)
 
-        
     if args.design is None or args.design == "" or (not os.path.exists(args.design)):
         logging.fatal(f"Cannot find the design folder {args.design}. Please indicate one.")
         quit()
 
-    execute_tests(args.design, args.projectname, args.commit)  
+    execute_tests(args.design, args.projectname, args.commit, args.haltiferror)  
         

@@ -3,13 +3,13 @@ import os
 import jinja2
 from lib import run_external_applicaton
 
-def get_configuration_files(current_configuration, design_path, output, test_id):
+def get_files(current_configuration, design_path, output, test_id):
     if os.path.exists(os.path.join(design_path, "locustfile.py.jinja")):
         template_loader = jinja2.FileSystemLoader(searchpath=design_path)
         template_environment = jinja2.Environment(loader=template_loader)
         template_file = "locustfile.py.jinja"
         template = template_environment.get_template(template_file)
-        outputText = template.render()
+        outputText = template.render(design_path=os.path.abspath(design_path))
         with open(os.path.join(design_path, "locustfile.py"), "w") as f:
             f.write(outputText)
 

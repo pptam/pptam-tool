@@ -5,3 +5,5 @@ matplotlib
 pluginbase
 jinja2
 locust
+docker
+networkx

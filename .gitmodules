@@ -1,0 +1,6 @@
+[submodule "design_hotelreservation/DeathStarBench"]
+	path = design_hotelreservation/DeathStarBench
+	url = https://github.com/delimitrou/DeathStarBench.git
+[submodule "design_otel_demo/opentelemetry-demo"]
+	path = design_otel_demo/opentelemetry-demo
+	url = https://github.com/open-telemetry/opentelemetry-demo.git

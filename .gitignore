@@ -135,17 +135,17 @@ dmypy.json
 cython_debug/
 
 # Application specific paths to ignore
+workspace.code-workspace
+.vagrant
 /toolchain/executed*
 /toolchain/exported*
-/design_trainticket/modified_images*
-.vagrant
-workspace.code-workspace
-toolchain/pptam.db
-toolchain/archive
-toolchain/playground
-toolchain/share
-toolchain/pyvenv.cfg
-toolchain/lib/python3.12
-toolchain/bin
+/toolchain/pptam.db
+/toolchain/archive
+/toolchain/playground
+/toolchain/share
+/toolchain/pyvenv.cfg
+/toolchain/lib/python3.12
+/toolchain/bin
 
 /design_pipeline
+/design_hotelreservation/docker-compose.yml
