@@ -5,5 +5,6 @@
     "--line-length",
     "80"
   ],
-  "jupyter.jupyterServerType": "local"
+  "jupyter.jupyterServerType": "local",
+  "java.compile.nullAnalysis.mode": "disabled"
 }
