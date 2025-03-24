@@ -4,3 +4,6 @@
 [submodule "design_otel_demo/opentelemetry-demo"]
 	path = design_otel_demo/opentelemetry-demo
 	url = https://github.com/open-telemetry/opentelemetry-demo.git
+[submodule "design_trainticket/train-ticket"]
+	path = design_trainticket/train-ticket
+	url = https://github.com/CUHK-SE-Group/train-ticket.git
