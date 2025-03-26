@@ -24,7 +24,7 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
     build: {{ design_path }}/DeathStarBench/hotelReservation/.
-    image: deathstarbench/hotel-reservation:latest
+    image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: frontend
     ports:
       - "5000:5000"
@@ -48,7 +48,7 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
     build: {{ design_path }}/DeathStarBench/hotelReservation/.
-    image: deathstarbench/hotel-reservation:latest
+    image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: profile
     depends_on:
       - mongodb-profile
@@ -72,7 +72,7 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
     build: {{ design_path }}/DeathStarBench/hotelReservation/.
-    image: deathstarbench/hotel-reservation:latest
+    image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: search
     depends_on:
       - consul
@@ -94,7 +94,7 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
     build: {{ design_path }}/DeathStarBench/hotelReservation/.
-    image: deathstarbench/hotel-reservation:latest
+    image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: geo
     depends_on:
       - mongodb-geo
@@ -117,7 +117,7 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
     build: {{ design_path }}/DeathStarBench/hotelReservation/.
-    image: deathstarbench/hotel-reservation:latest
+    image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: rate
     depends_on:
       - mongodb-rate
@@ -139,7 +139,7 @@ services:
       - MEMC_TIMEOUT
       - LOG_LEVEL
     build: {{ design_path }}/DeathStarBench/hotelReservation/.
-    image: hotel_reserv_review_single_node
+    image: pptam_hotel_reserv_review_single_node
     entrypoint: review
     container_name: 'hotel_reserv_review'
     depends_on:
@@ -158,7 +158,7 @@ services:
       - MEMC_TIMEOUT
       - LOG_LEVEL
     build: {{ design_path }}/DeathStarBench/hotelReservation/.
-    image: hotel_reserv_attractions_single_node
+    image: pptam_hotel_reserv_attractions_single_node
     entrypoint: attractions
     container_name: 'hotel_reserv_attractions'
     depends_on:
@@ -178,7 +178,7 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
     build: {{ design_path }}/DeathStarBench/hotelReservation/.
-    image: deathstarbench/hotel-reservation:latest
+    image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: recommendation
     depends_on:
       - mongodb-recommendation
@@ -201,7 +201,7 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
     build: {{ design_path }}/DeathStarBench/hotelReservation/.
-    image: deathstarbench/hotel-reservation:latest
+    image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: user
     depends_on:
       - mongodb-user
@@ -224,7 +224,7 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
     build: {{ design_path }}/DeathStarBench/hotelReservation/.
-    image: deathstarbench/hotel-reservation:latest
+    image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: reservation
     depends_on:
       - mongodb-reservation
@@ -270,7 +270,6 @@ services:
 
   memcached-review:
     image: memcached
-    # hostname: user-memcached
     container_name: 'hotel_reserv_review_mmc'
     restart: always
     environment:
