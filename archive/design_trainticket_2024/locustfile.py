@@ -288,6 +288,7 @@ class UserBooking(MyHttpUser):
         search_return(self.client)
         book(self.client, self.user_id)
         pay(self.client, self.user_id)
+        #put some delay here?
         collect_and_use(self.client, self.user_id)
 
 

@@ -19,22 +19,16 @@ def fetch_dependencies(jaeger_api_url):
     return response.json()
 
 
-def to_rfc3339nano(dt):
-    return dt.isoformat(timespec='microseconds').replace("+00:00", "Z")
-
 def fetch_traces(jaeger_api_url, service_name, last_seconds=600):
-    end_dt = datetime.now(tz=timezone.utc) + timedelta(hours=1)
-    start_dt = end_dt - timedelta(seconds=last_seconds) + timedelta(hours=1)
-
-    print(start_dt)
-    print(end_dt)
-
+    end_time = int(datetime.now(tz=timezone.utc).timestamp() * 1000000)
+    start_time = end_time - (last_seconds * 1000000)
     params = {
-        "query.start_time_min": to_rfc3339nano(start_dt),
-        "query.start_time_max": to_rfc3339nano(end_dt),
+        "service": service_name,
+        "start": start_time,
+        "end": end_time,
         "limit": 1000000
     }
-    response = requests.get(f"{jaeger_api_url}/v1/traces", params=params)
+    response = requests.get(f"{jaeger_api_url}/traces", params=params)
     response.raise_for_status()
     return response.json()
 
@@ -86,28 +80,23 @@ def after(current_configuration, design_path, output, test_id):
     run_time = run_time_in_seconds + seconds_to_wait_before_after
 
     try:
-        trace_data = fetch_traces(jaeger_api_url, None, run_time)
-        file_to_write = os.path.join(output, f"traces.json")
-        with open(file_to_write, "w") as f:
-            json.dump(trace_data, f, indent=4)
-
-        # services = fetch_services(jaeger_api_url)
+        services = fetch_services(jaeger_api_url)
         
-        # for service in services:
-        #     try:
-        #         trace_data = fetch_traces(jaeger_api_url, service, run_time)
-        #         if trace_data and "data" in trace_data:
-        #             file_to_write = os.path.join(output, f"traces_{service}.json")
-        #             with open(file_to_write, "w") as f:
-        #                 json.dump(trace_data, f, indent=4)
-        #     except requests.exceptions.RequestException as e:
-        #         logging.error(f"Error fetching traces for service {service}: {e}")
+        for service in services:
+            try:
+                trace_data = fetch_traces(jaeger_api_url, service, run_time)
+                if trace_data and "data" in trace_data:
+                    file_to_write = os.path.join(output, f"traces_{service}.json")
+                    with open(file_to_write, "w") as f:
+                        json.dump(trace_data, f, indent=4)
+            except requests.exceptions.RequestException as e:
+                logging.error(f"Error fetching traces for service {service}: {e}")
                 
-        # dependencies_data = fetch_dependencies(jaeger_api_url)
-        # dag = build_dag(dependencies_data)
-        # save_dag_as_json(output, dag)
-        # save_dag_as_csv(output, dag)
-        # save_dag_as_pdf(output, dag)
+        dependencies_data = fetch_dependencies(jaeger_api_url)
+        dag = build_dag(dependencies_data)
+        save_dag_as_json(output, dag)
+        save_dag_as_csv(output, dag)
+        save_dag_as_pdf(output, dag)
     except requests.exceptions.RequestException as e:
         logging.error(f"Error fetching data from Jaeger: {e}")
 
