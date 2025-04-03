@@ -10,3 +10,6 @@
 [submodule "design_trainticket_FUDAN/train-ticket"]
 	path = design_trainticket_FUDAN/train-ticket
 	url = https://github.com/FudanSELab/train-ticket.git
+[submodule "design_trainticket_SEALAB/train-ticket"]
+	path = design_trainticket_SEALAB/train-ticket
+	url = https://github.com/SEALABQualityGroup/train-ticket
