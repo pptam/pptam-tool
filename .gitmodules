@@ -7,3 +7,6 @@
 [submodule "design_trainticket_CUHK-SE/train-ticket"]
 	path = design_trainticket_CUHK-SE/train-ticket
 	url = https://github.com/CUHK-SE-Group/train-ticket.git
+[submodule "design_trainticket_FUDAN/train-ticket"]
+	path = design_trainticket_FUDAN/train-ticket
+	url = https://github.com/FudanSELab/train-ticket.git
