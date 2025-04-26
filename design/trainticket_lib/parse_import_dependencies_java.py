@@ -35,6 +35,9 @@ def extract_service_dependencies(root_dir, subfolders):
     return service_names
 
 def find_selected_jars(root_folder, selected_subfolders):
+    full_path = os.path.abspath(os.path.join(root_folder))
+    logging.info(f"Adding JARs from folder {full_path}...")
+    
     jar_paths = {}
     for folder_name in selected_subfolders:
         service_path = os.path.join(root_folder, folder_name)
@@ -60,7 +63,8 @@ def analyze_jar(jar_path, all_jars_classpath):
         logging.error(f"Failed to analyze jar {jar_path}: {e}")
         return ""
 
-def extract_dependencies(jdeps_output, target_package):
+def extract_dependencies(jdeps_output, target_patterns, remove_identified_target_pattern):
+    compiled_patterns = [re.compile(pattern) for pattern in target_patterns]
     dependencies = []
     for line in jdeps_output.splitlines():
         if '->' in line:
@@ -69,9 +73,15 @@ def extract_dependencies(jdeps_output, target_package):
                 source = parts[0].strip()
                 dependency_part = parts[1].strip()
                 dependency = dependency_part.split()[0]
-                if dependency.startswith(target_package):
-                    source_clean = source.split('$')[0]
-                    dependencies.append((source_clean, dependency))
+                for pat in compiled_patterns:
+                    match = pat.match(dependency)
+                    if match:
+                        source_clean = source.split('$')[0]
+                        if remove_identified_target_pattern:
+                            dependency = dependency[match.end():]
+                            dependency = dependency.lstrip('.')
+                        dependencies.append((source_clean, dependency))
+                        break
     return dependencies
 
 def run_analysis(config_file):
@@ -79,8 +89,9 @@ def run_analysis(config_file):
         config = json.load(f)
 
     subfolders_to_traverse = config["subfolders_to_traverse"]
-    target_package = config["target_package"]
+    target_patterns = config["target_patterns"]
     root_folder = config["root_folder"]
+    remove_identified_target_pattern = config.get("remove_identified_target_pattern", False)
 
     all_jars_dict = find_selected_jars(root_folder, subfolders_to_traverse)
     all_jars_classpath = ':'.join(all_jars_dict.values())
@@ -88,7 +99,7 @@ def run_analysis(config_file):
     results = [] # contains ['microservice', 'source', 'dependency']
     for service_name, jar_path in all_jars_dict.items():
         analysis = analyze_jar(jar_path, all_jars_classpath)
-        dependencies = extract_dependencies(analysis, target_package)
+        dependencies = extract_dependencies(analysis, target_patterns, remove_identified_target_pattern)
         for source_class, dependency_class in dependencies:
             results.append([service_name, source_class, dependency_class])
 

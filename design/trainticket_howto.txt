@@ -1,5 +1,14 @@
 Calculating dependencies for the trainticket projects
 
+
+cd design/trainticket_CUHK-SE/train-ticket/
+docker run --platform linux/amd64 -it --rm -v $(pwd):/usr/src/mymaven -v ~/.m2:/root/.m2 -w /usr/src/mymaven maven:3.6.3-openjdk-8 mvn clean install -Dmaven.test.skip=true
+cd ../../trainticket_FUDAN/train-ticket/
+docker run --platform linux/amd64 -it --rm -v $(pwd):/usr/src/mymaven -v ~/.m2:/root/.m2 -w /usr/src/mymaven maven:3.6.3-openjdk-8 mvn clean install -Dmaven.test.skip=true
+cd ../../trainticket_SEALAB/train-ticket/
+docker run --platform linux/amd64 -it --rm -v $(pwd):/usr/src/mymaven -v ~/.m2:/root/.m2 -w /usr/src/mymaven maven:3.6.3-openjdk-8 mvn clean install -Dmaven.test.skip=true
+cd ../../
+
 ./trainticket_parse_dependencies.py ./trainticket_CUHK-SE
 ./trainticket_parse_dependencies.py ./trainticket_FUDAN/parse_tag100
-
+./trainticket_parse_dependencies.py ./trainticket_SEALAB      

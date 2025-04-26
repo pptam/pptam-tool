@@ -37,5 +37,6 @@
 		"ts-user-service",
 		"ts-verification-code-service",
 		"ts-wait-order-service"
-	]
+	],
+	"service_call_pattern": "getServiceUrl\\s*\\(\\s*\"([^\"]+)\"\\s*\\)"
 }

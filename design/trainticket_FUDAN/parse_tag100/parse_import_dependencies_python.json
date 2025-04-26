@@ -2,6 +2,6 @@
     "hard_coded_results": [
         "ts-voucher-service",
         "python",
-        "edu.fudan.common.entity.Order"
+        "Order"
     ]
 }

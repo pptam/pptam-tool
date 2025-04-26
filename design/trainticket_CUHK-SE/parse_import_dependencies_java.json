@@ -38,5 +38,8 @@
 		"ts-verification-code-service",
 		"ts-wait-order-service"
 	],
-	"target_package": "edu.fudan.common.entity"
+	"target_patterns": [
+    	"^edu\\.fudan\\.common\\.entity"
+	],
+    "remove_identified_target_pattern": true
 }

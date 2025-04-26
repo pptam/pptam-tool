@@ -6,8 +6,8 @@ import json
 import argparse
 import logging
 
-def extract_service_dependencies(root_dir, subfolders):
-    pattern = re.compile(r'getServiceUrl\s*\(\s*"([^"]+)"\s*\)')
+def extract_service_dependencies(root_dir, subfolders, service_call_pattern):
+    pattern = re.compile(service_call_pattern)
     service_names = {}
 
     for subfolder in subfolders:
@@ -19,19 +19,17 @@ def extract_service_dependencies(root_dir, subfolders):
                     file_path = os.path.join(dirpath, filename)
                     try:
                         with open(file_path, 'r', encoding='utf-8') as file:
-                            content = file.readlines()
-                            for line in content:
-                                if line.lstrip().startswith("//"):
-                                    continue
-                                matches = pattern.findall(line)
-                                if matches:
-                                    if subfolder not in service_names:
-                                        service_names[subfolder] = []
-                                    service_names[subfolder].extend(matches)
+                            content = file.read()  # <--- read whole file at once
+                            matches = pattern.findall(content)
+                            if matches:
+                                if subfolder not in service_names:
+                                    service_names[subfolder] = []
+                                service_names[subfolder].extend(matches)
                     except Exception as e:
                         logging.error(f"Failed to process file {file_path}: {e}")
 
     return service_names
+
 
 def run_analysis(config_file):
     with open(config_file, 'r') as f:
@@ -39,8 +37,9 @@ def run_analysis(config_file):
 
     root_folder = config["root_folder"]
     subfolders_to_traverse = config["subfolders_to_traverse"]
+    service_call_pattern = config["service_call_pattern"]
 
-    results = extract_service_dependencies(root_folder, subfolders_to_traverse)
+    results = extract_service_dependencies(root_folder, subfolders_to_traverse, service_call_pattern)
 
     lines = []
     for subfolder in sorted(results.keys()):

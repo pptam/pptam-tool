@@ -1,0 +1,6 @@
+{
+	"root_folder": "./trainticket_SEALAB/train-ticket",
+	"subfolders_to_traverse": [
+		"ts-voucher-service"
+	]
+}
