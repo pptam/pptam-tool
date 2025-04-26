@@ -2,6 +2,7 @@
 
 import os
 import re
+import json
 
 def extract_service_dependencies(root_dir, subfolders):
     pattern = re.compile(r'getServiceUrl\s*\(\s*"([^"]+)"\s*\)')
@@ -24,58 +25,17 @@ def extract_service_dependencies(root_dir, subfolders):
                                     if subfolder not in service_names:
                                         service_names[subfolder] = []
                                     service_names[subfolder].extend(matches)
-                    except Exception as e:
-                        print(f"Error reading {file_path}: {e}")
+                    except Exception:
+                        pass
 
     return service_names
 
-def run_analysis():
-    root_folder = "./train-ticket"
+def run_analysis(config_file):
+    with open(config_file, 'r') as f:
+        config = json.load(f)
 
-    # We included all ts-*-service folders and excluded 
-    # - the admin services since we are not interested in coupling with administrative services
-    # - ts-avatar-service since it does not call any other service
-    # - ts-news-service since it is written in GO
-    # - ts-ticket-office-service since it is written in JavaScript
-    # - ts-voucher-service since it is written in Python
-    subfolders_to_traverse = [
-        "ts-assurance-service", 
-        "ts-auth-service", 
-        "ts-basic-service", 
-        "ts-cancel-service", 
-        "ts-config-service", 
-        "ts-consign-price-service", 
-        "ts-consign-service", 
-        "ts-contacts-service", 
-        "ts-delivery-service", 
-        "ts-execute-service", 
-        "ts-food-delivery-service", 
-        "ts-food-service", 
-        "ts-gateway-service", 
-        "ts-inside-payment-service", 
-        "ts-notification-service", 
-        "ts-order-other-service", 
-        "ts-order-service", 
-        "ts-payment-service", 
-        "ts-preserve-other-service", 
-        "ts-preserve-service", 
-        "ts-price-service", 
-        "ts-rebook-service", 
-        "ts-route-plan-service", 
-        "ts-route-service", 
-        "ts-seat-service", 
-        "ts-security-service", 
-        "ts-station-food-service", 
-        "ts-station-service", 
-        "ts-train-food-service", 
-        "ts-train-service", 
-        "ts-travel-plan-service", 
-        "ts-travel-service", 
-        "ts-travel2-service", 
-        "ts-user-service", 
-        "ts-verification-code-service", 
-        "ts-wait-order-service"
-    ]
+    root_folder = config["root_folder"]
+    subfolders_to_traverse = config["subfolders_to_traverse"]
 
     results = extract_service_dependencies(root_folder, subfolders_to_traverse)
 
@@ -87,5 +47,9 @@ def run_analysis():
     return lines
 
 if __name__ == "__main__":
-    for line in run_analysis():
+    import sys
+    if len(sys.argv) != 2:
+        print("Usage: python parse_call_dependencies_java.py <config_file.json>")
+        sys.exit(1)
+    for line in run_analysis(sys.argv[1]):
         print(";".join(line))

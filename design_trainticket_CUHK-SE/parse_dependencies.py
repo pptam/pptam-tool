@@ -25,8 +25,8 @@ def get_pairwise_shared_entities(results):
 
 
 if __name__ == "__main__":
-    call_dependencies = parse_call_dependencies_java.run_analysis()
-    call_dependencies += (parse_call_dependencies_python.run_analysis())
+    call_dependencies = parse_call_dependencies_java.run_analysis("./parse_call_dependencies_java.json")
+    call_dependencies += (parse_call_dependencies_python.run_analysis("./parse_call_dependencies_python.json"))
     call_dependencies = list(map(list, set(map(tuple, call_dependencies)))) # remove duplicates
 
     with open("call_dependencies.csv", "w", newline="") as csvfile:
@@ -35,7 +35,7 @@ if __name__ == "__main__":
         for row in call_dependencies:
             writer.writerow(row)
 
-    import_dependencies = parse_import_dependencies_java.run_analysis()
+    import_dependencies = parse_import_dependencies_java.run_analysis("./parse_import_dependencies_java.json")
     import_dependencies += (parse_import_dependencies_python.run_analysis())
     import_dependencies = list(map(list, set(map(tuple, import_dependencies)))) # remove duplicates
 

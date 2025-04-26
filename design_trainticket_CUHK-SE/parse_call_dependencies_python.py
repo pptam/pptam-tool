@@ -2,6 +2,7 @@
 
 import os
 import re
+import json
 
 def extract_service_dependencies(root_dir, subfolders):
     pattern = re.compile(r'http://(ts-[a-zA-Z0-9\-]+-service)')
@@ -24,17 +25,17 @@ def extract_service_dependencies(root_dir, subfolders):
                                     if subfolder not in service_names:
                                         service_names[subfolder] = []
                                     service_names[subfolder].extend(matches)
-                    except Exception as e:
-                        print(f"Error reading {file_path}: {e}")
+                    except Exception:
+                        pass
 
     return service_names
 
-def run_analysis():
-    root_folder = "./train-ticket"
+def run_analysis(config_file):
+    with open(config_file, 'r') as f:
+        config = json.load(f)
 
-    subfolders_to_traverse = [
-        "ts-voucher-service"
-    ]
+    root_folder = config["root_folder"]
+    subfolders_to_traverse = config["subfolders_to_traverse"]
 
     results = extract_service_dependencies(root_folder, subfolders_to_traverse)
 
@@ -46,5 +47,9 @@ def run_analysis():
     return lines
 
 if __name__ == "__main__":
-    for line in run_analysis():
-        print(line)
+    import sys
+    if len(sys.argv) != 2:
+        print("Usage: python parse_call_dependencies_python.py <config_file.json>")
+        sys.exit(1)
+    for line in run_analysis(sys.argv[1]):
+        print(";".join(line))
