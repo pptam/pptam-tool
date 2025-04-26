@@ -1,1 +1,0 @@
-{{ include "mediamicroservices.templates.other.service-config.json"  . }}
