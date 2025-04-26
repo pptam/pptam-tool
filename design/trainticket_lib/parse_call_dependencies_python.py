@@ -3,6 +3,8 @@
 import os
 import re
 import json
+import argparse
+import logging
 
 def extract_service_dependencies(root_dir, subfolders):
     pattern = re.compile(r'http://(ts-[a-zA-Z0-9\-]+-service)')
@@ -10,7 +12,7 @@ def extract_service_dependencies(root_dir, subfolders):
 
     for subfolder in subfolders:
         full_path = os.path.abspath(os.path.join(root_dir, subfolder))
-        print(f"Analyzing folder {full_path}...")
+        logging.info(f"Analyzing folder {full_path}...")
         for dirpath, _, filenames in os.walk(full_path):
             for filename in filenames:
                 if filename.endswith(".py"):
@@ -26,8 +28,8 @@ def extract_service_dependencies(root_dir, subfolders):
                                     if subfolder not in service_names:
                                         service_names[subfolder] = []
                                     service_names[subfolder].extend(matches)
-                    except Exception:
-                        pass
+                    except Exception as e:
+                        logging.error(f"Failed to process file {file_path}: {e}")
 
     return service_names
 
@@ -48,9 +50,13 @@ def run_analysis(config_file):
     return lines
 
 if __name__ == "__main__":
-    import sys
-    if len(sys.argv) != 2:
-        print("Usage: python parse_call_dependencies_python.py <config_file.json>")
-        sys.exit(1)
-    for line in run_analysis(sys.argv[1]):
+    parser = argparse.ArgumentParser(description="Parse service call dependencies from Python source files.")
+    parser.add_argument("config_file", help="Path to the configuration JSON file.")
+    parser.add_argument("--logging", type=int, choices=range(0, 6), default=2,
+                        help="Logging level from 1 (everything) to 5 (nothing)")
+    args = parser.parse_args()
+
+    logging.basicConfig(format="%(message)s", level=args.logging * 10)
+
+    for line in run_analysis(args.config_file):
         print(";".join(line))
