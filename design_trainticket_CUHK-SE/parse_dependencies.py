@@ -7,23 +7,6 @@ import parse_import_dependencies_python
 import csv
 from itertools import combinations
 
-def get_pairwise_shared_entities(results):
-    entity_to_services = {}
-
-    # Step 1: Build a map from entity to the services that import it
-    for service, entities in results.items():
-        for entity in entities:
-            entity_to_services.setdefault(entity, set()).add(service)
-
-    # Step 2: Generate all unique service pairs per entity
-    pairwise_combos = []
-    for entity, services in entity_to_services.items():
-        if len(services) >= 2:
-            for service1, service2 in combinations(sorted(services), 2):
-                pairwise_combos.append([service1, service2, entity])
-    return pairwise_combos
-
-
 if __name__ == "__main__":
     call_dependencies = parse_call_dependencies_java.run_analysis("./parse_call_dependencies_java.json")
     call_dependencies += (parse_call_dependencies_python.run_analysis("./parse_call_dependencies_python.json"))
