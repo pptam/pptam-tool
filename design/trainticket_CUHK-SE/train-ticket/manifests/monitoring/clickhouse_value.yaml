@@ -1,7 +1,0 @@
-initdbScripts:
-  create_otel_db.sh: |
-     #!/bin/bash
-     # 使用 clickhouse-client 创建数据库
-     clickhouse-client -q "CREATE DATABASE IF NOT EXISTS otel" --user admin --password password
-     echo "Database 'otel' has been created."
-service.type: NodeIP

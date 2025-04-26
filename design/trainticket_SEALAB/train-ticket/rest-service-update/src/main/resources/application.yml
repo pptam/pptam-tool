@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: rest-travel.service-update
-
-server:
-  port: 15100
