@@ -1,15 +1,15 @@
-[submodule "design_hotelreservation/DeathStarBench"]
+[submodule "design/hotelreservation/DeathStarBench"]
 	path = design/hotelreservation/DeathStarBench
 	url = https://github.com/delimitrou/DeathStarBench.git
-[submodule "design_otel_demo/opentelemetry-demo"]
+[submodule "design/otel_demo/opentelemetry-demo"]
 	path = design/otel_demo/opentelemetry-demo
 	url = https://github.com/open-telemetry/opentelemetry-demo.git
-[submodule "design_trainticket_CUHK-SE/train-ticket"]
+[submodule "design/trainticket_CUHK-SE/train-ticket"]
 	path = design/trainticket_CUHK-SE/train-ticket
 	url = https://github.com/CUHK-SE-Group/train-ticket.git
-[submodule "design_trainticket_FUDAN/train-ticket"]
+[submodule "design/trainticket_FUDAN/train-ticket"]
 	path = design/trainticket_FUDAN/train-ticket
 	url = https://github.com/FudanSELab/train-ticket.git
-[submodule "design_trainticket_SEALAB/train-ticket"]
+[submodule "design/trainticket_SEALAB/train-ticket"]
 	path = design/trainticket_SEALAB/train-ticket
-	url = https://github.com/SEALABQualityGroup/train-ticket
+	url = https://github.com/SEALABQualityGroup/train-ticket.git
