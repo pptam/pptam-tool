@@ -2,8 +2,8 @@
 
 import parse_call_dependencies_java
 import parse_call_dependencies_python
-import parse_data_dependencies_java
-import parse_data_dependencies_python
+import parse_import_dependencies_java
+import parse_import_dependencies_python
 import csv
 from itertools import combinations
 
@@ -25,8 +25,9 @@ def get_pairwise_shared_entities(results):
 
 
 if __name__ == "__main__":
-    call_dependencies = parse_call_dependencies_java.main()
-    call_dependencies += parse_call_dependencies_python.main()
+    call_dependencies = parse_call_dependencies_java.run_analysis()
+    call_dependencies += (parse_call_dependencies_python.run_analysis())
+    call_dependencies = list(map(list, set(map(tuple, call_dependencies)))) # remove duplicates
 
     with open("call_dependencies.csv", "w", newline="") as csvfile:
         writer = csv.writer(csvfile, delimiter=";")
@@ -34,12 +35,23 @@ if __name__ == "__main__":
         for row in call_dependencies:
             writer.writerow(row)
 
-    data_dependencies = parse_data_dependencies_java.main()
-    data_dependencies.update(parse_data_dependencies_python.main())
+    import_dependencies = parse_import_dependencies_java.run_analysis()
+    import_dependencies += (parse_import_dependencies_python.run_analysis())
+    import_dependencies = list(map(list, set(map(tuple, import_dependencies)))) # remove duplicates
 
-    pairwise_data_dependencies = get_pairwise_shared_entities(data_dependencies)
+    # Step 1: build a mapping: entity -> set of microservices
+    entity_to_microservices = {}
+
+    for microservice, _, entity in import_dependencies:
+        if entity not in entity_to_microservices:
+            entity_to_microservices[entity] = set()
+        entity_to_microservices[entity].add(microservice)
+
+    # Step 2: find combinations
     with open("data_dependencies.csv", "w", newline="") as csvfile:
-        writer = csv.writer(csvfile, delimiter=';')
-        writer.writerow(["from", "to", "entity"])
-        for row in pairwise_data_dependencies:
-            writer.writerow(row)
+        writer = csv.writer(csvfile, delimiter=";")
+        writer.writerow(["from", "to"])
+        for entity, microservices in entity_to_microservices.items():
+            if len(microservices) > 1:
+                for combo in combinations(sorted(microservices), 2):
+                    writer.writerow(combo)

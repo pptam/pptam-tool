@@ -1,0 +1,7 @@
+Steps used to compile
+
+docker run --platform linux/amd64 -it --rm \
+  -v $(pwd):/usr/src/mymaven \
+  -v ~/.m2:/root/.m2 \
+  -w /usr/src/mymaven \
+  maven:3.6.3-openjdk-8 mvn clean install -Dmaven.test.skip=true

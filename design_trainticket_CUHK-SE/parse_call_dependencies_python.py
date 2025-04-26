@@ -29,7 +29,7 @@ def extract_service_dependencies(root_dir, subfolders):
 
     return service_names
 
-def main():
+def run_analysis():
     root_folder = "./train-ticket"
 
     subfolders_to_traverse = [
@@ -46,5 +46,5 @@ def main():
     return lines
 
 if __name__ == "__main__":
-    for line in main():
+    for line in run_analysis():
         print(line)
