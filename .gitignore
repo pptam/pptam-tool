@@ -147,5 +147,3 @@ workspace.code-workspace
 /toolchain/lib/python3.12
 /toolchain/bin
 
-/design_pipeline
-/design_hotelreservation/docker-compose.yml #generated
