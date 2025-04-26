@@ -1,7 +1,6 @@
 {
-    "root_folder": "./train-ticket",
-    "subfolders_to_traverse": [
-      "ts-voucher-service"
-    ]
-  }
-  
+  "root_folder": "./train-ticket",
+  "subfolders_to_traverse": [
+    "ts-voucher-service"
+  ]
+}
