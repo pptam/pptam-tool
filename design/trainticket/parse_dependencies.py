@@ -5,7 +5,7 @@ import logging
 import csv
 import os
 from itertools import combinations
-from trainticket_lib import (
+from lib import (
     parse_call_dependencies_java,
     parse_call_dependencies_python,
     parse_import_dependencies_java,
@@ -13,7 +13,7 @@ from trainticket_lib import (
 )
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Parse dependencies for TrainTicket design.")
+    parser = argparse.ArgumentParser(description="Parse dependencies.")
     parser.add_argument("design_folder", help="Path to the design folder containing JSON files.")
     parser.add_argument("--logging", type=int, choices=range(0, 6), default=2,
                         help="Logging level from 1 (everything) to 5 (nothing)")
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     if any(os.path.isfile(f"{design_folder}/{fname}") for fname in ["parse_call_dependencies_java.json", "parse_call_dependencies_python.json"]):
         call_dependencies = []
         if os.path.isfile(f"{design_folder}/parse_call_dependencies_java.json"):
-            logging.info(f"Parsing call dependencies for Java from {design_folder}/parse_call_dependencies_java.json")
+            logging.info(f"Parsing call dependencies from {design_folder}/parse_call_dependencies_java.json")
             call_dependencies += parse_call_dependencies_java.run_analysis(f"{design_folder}/parse_call_dependencies_java.json")
 
         if os.path.isfile(f"{design_folder}/parse_call_dependencies_python.json"):
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     if any(os.path.isfile(f"{design_folder}/{fname}") for fname in ["parse_import_dependencies_java.json", "parse_import_dependencies_python.json"]):
         import_dependencies = []
         if os.path.isfile(f"{design_folder}/parse_import_dependencies_java.json"):
-            logging.info(f"Parsing import dependencies for Java from {design_folder}/parse_import_dependencies_java.json")
+            logging.info(f"Parsing import dependencies from {design_folder}/parse_import_dependencies_java.json")
             import_dependencies += parse_import_dependencies_java.run_analysis(f"{design_folder}/parse_import_dependencies_java.json")
 
         if os.path.isfile(f"{design_folder}/parse_import_dependencies_python.json"):

@@ -1,0 +1,54 @@
+TrainTicket Projects - Dependency Calculation
+
+This guide describes how to build the TrainTicket projects and calculate their dependencies.
+
+Prerequisites:
+- Docker installed
+- Python 3 installed (for running the parse_dependencies.py script)
+- Maven dependencies cached locally (~/.m2)
+
+Steps:
+
+1. Build the Projects
+
+We will build each version of the TrainTicket project using Docker with Maven.
+
+Build CUHK-SE:
+cd CUHK-SE/trainticket/
+docker run --platform linux/amd64 -it --rm \
+    -v $(pwd):/usr/src/mymaven \
+    -v ~/.m2:/root/.m2 \
+    -w /usr/src/mymaven \
+    maven:3.6.3-openjdk-8 mvn clean install -Dmaven.test.skip=true
+
+Build FUDAN:
+cd ../../FUDAN/trainticket/
+docker run --platform linux/amd64 -it --rm \
+    -v $(pwd):/usr/src/mymaven \
+    -v ~/.m2:/root/.m2 \
+    -w /usr/src/mymaven \
+    maven:3.6.3-openjdk-8 mvn clean install -Dmaven.test.skip=true
+
+Build SEALAB:
+cd ../../SEALAB/trainticket/
+docker run --platform linux/amd64 -it --rm \
+    -v $(pwd):/usr/src/mymaven \
+    -v ~/.m2:/root/.m2 \
+    -w /usr/src/mymaven \
+    maven:3.6.3-openjdk-8 mvn clean install -Dmaven.test.skip=true
+
+After building all three, return to the root directory:
+cd ../../
+
+2. Calculate Dependencies
+
+Use the provided Python script parse_dependencies.py to extract dependencies for each project:
+
+./parse_dependencies.py ./CUHK-SE
+./parse_dependencies.py ./FUDAN/parse_tag100
+./parse_dependencies.py ./SEALAB
+
+Notes:
+- The maven:3.6.3-openjdk-8 image is used to ensure compatibility with the projects.
+- The -Dmaven.test.skip=true flag is used to skip tests during build to speed up the process.
+- Ensure that the parse_dependencies.py script is executable (chmod +x parse_dependencies.py) if needed.

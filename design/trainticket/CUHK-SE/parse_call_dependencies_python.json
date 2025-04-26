@@ -1,5 +1,5 @@
 {
-	"root_folder": "./trainticket_CUHK-SE/train-ticket",
+	"root_folder": "./CUHK-SE/trainticket",
 	"subfolders_to_traverse": [
 		"ts-voucher-service"
 	]

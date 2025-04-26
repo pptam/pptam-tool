@@ -1,5 +1,5 @@
 {
-	"root_folder": "./trainticket_FUDAN/train-ticket",
+	"root_folder": "./FUDAN/trainticket",
 	"subfolders_to_traverse": [
 		"ts-assurance-service",
 		"ts-auth-service",

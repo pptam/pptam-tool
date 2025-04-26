@@ -1,4 +1,4 @@
 #!/bin/bash
-cd ./train-ticket
+cd ./trainticket
 git fetch --tags
 git checkout "tags/0.0.1"

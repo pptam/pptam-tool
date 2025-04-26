@@ -1,0 +1,15 @@
+{
+	"root_folder": "./DeathStarBench/hotelReservation/services",
+	"subfolders_to_traverse": [
+		"attractions",
+        "geo",
+        "profile",
+        "rate",
+        "recommendation",
+        "reservation",
+        "review",
+        "search",
+        "user",
+        "frontend"
+    ]
+}
