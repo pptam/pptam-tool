@@ -1,0 +1,12 @@
+server:
+  port: 16115
+
+spring:
+  application:
+    name: ts-admin-user-service
+  zipkin:
+    baseUrl: http://zipkin:9411/
+  sleuth:
+    sampler:
+      percentage: 1.0
+

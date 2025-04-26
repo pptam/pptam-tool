@@ -1,0 +1,261 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  ports:
+    - port: 6379
+  selector:
+   app: redis
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-account-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-account-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-route-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-route-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-contacts-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-contacts-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-order-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-order-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-order-other-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-order-other-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-config-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-config-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-station-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-station-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-train-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-train-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-travel-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-travel-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-travel2-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-travel2-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-price-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-price-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-security-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-security-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-inside-payment-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-inside-payment-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-payment-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-payment-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-assurance-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-assurance-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-ticket-office-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-ticket-office-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-voucher-mysql
+spec:
+  ports:
+    - port: 3306
+  selector:
+   app: ts-voucher-mysql
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-food-map-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-food-map-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-consign-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-consign-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-consign-price-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-consign-price-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-food-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-food-mongo

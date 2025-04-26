@@ -1,0 +1,41 @@
+
+{host\=(?<host>[^\,]*)\, clock\=(?<clock>{.*})\, event\=(?<event>[^\,]*)\, }
+
+^=== (?<trace>.*) ===$
+
+
+
+=== Success execution ===
+{host=rest-service-6-instance-1, clock={"rest-service-6-instance-1":1}, event=From:from r6i1 to r3i1, }
+{host=rest-service-3-instance-1, clock={"rest-service-6-instance-1":1,"rest-service-3-instance-1":1}, event=To:from r6i1 to r3i1 | From:from r3i1 to r2i1, }
+{host=rest-service-2-instance-1, clock={"rest-service-3-instance-1":1,"rest-service-2-instance-1":1}, event=To:from r3i1 to r2i1 | From:from r2i1 to r1i1, }
+{host=rest-service-1-instance-1, clock={"rest-service-2-instance-1":1,"rest-service-1-instance-1":1}, event=To:from r2i1 to r1i1, }
+{host=rest-service-6-instance-2, clock={"rest-service-6-instance-2":1}, event=From:from r6i2 to r5i1, }
+{host=rest-service-5-instance-1, clock={"rest-service-6-instance-2":1,"rest-service-5-instance-1":1}, event=To:from r6i1 to r5i1 | From:from r5i1 to r4i1, }
+{host=rest-service-4-instance-1, clock={"rest-service-5-instance-1":1,"rest-service-4-instance-1":1}, event=To:from r5i1 to r4i1 | From:from r4i1 to r3i2, }
+{host=rest-service-3-instance-2, clock={"rest-service-4-instance-1":1,"rest-service-3-instance-2":1}, event=To:from r4i1 to r3i2 | From:from r3i2 to r2i2, }
+{host=rest-service-2-instance-2, clock={"rest-service-3-instance-2":1,"rest-service-2-instance-2":1}, event=To:from r3i2 to r2i2 | From:from r2i2 to r1i2, }
+{host=rest-service-1-instance-2, clock={"rest-service-2-instance-2":1,"rest-service-1-instance-2":1}, event=To:from r2i2 to r1i2, }
+{host=rest-service-1-instance-2, clock={"rest-service-1-instance-2":2}, event=From:from r1i2 to rend, }
+{host=rest-service-end, clock={"rest-service-1-instance-2":2,"rest-service-end":1}, event=From:from r1i2 to rend, }
+{host=rest-service-6-instance-3, clock={"rest-service-6-instance-3":1}, event=From:from r6i3 to r2i1, }
+{host=rest-service-2-instance-1, clock={"rest-service-6-instance-3":1,"rest-service-2-instance-1":2}, event=To:from r6i3 to r2i1 | From:from r2i1 to r1i3, }
+{host=rest-service-1-instance-3, clock={"rest-service-2-instance-1":2,"rest-service-1-instance-3":1}, event=To:from r2i1 to r1i3 | From:from r1i3 to rend, }
+{host=rest-service-end, clock={"rest-service-1-instance-3":1,"rest-service-end":2}, event=To:from r1to rend, }
+
+=== Fail execution ===
+{host=rest-service-6-instance-1, clock={"rest-service-6-instance-1":1}, event=From:from r6i1 to r3i1, }
+{host=rest-service-3-instance-1, clock={"rest-service-6-instance-1":1,"rest-service-3-instance-1":1}, event=To:from r6i1 to r3i1 | From:from r3i1 to r2i1, }
+{host=rest-service-2-instance-1, clock={"rest-service-6-instance-1":1,"rest-service-3-instance-1":1,"rest-service-2-instance-1":1}, event=To:from r3i1 to r2i1 | From:from r2i1 to r1i1, }
+{host=rest-service-1-instance-1, clock={"rest-service-6-instance-1":1,"rest-service-3-instance-1":1,"rest-service-2-instance-1":1,"rest-service-1-instance-1":1}, event=To:from r2i1 to r1i1, }
+{host=rest-service-6-instance-2, clock={"rest-service-6-instance-2":1}, event=From:from r6i2 to r5i1, }
+{host=rest-service-5-instance-1, clock={"rest-service-6-instance-2":1,"rest-service-5-instance-1":1}, event=To:from r6i1 to r5i1 | From:from r5i1 to r4i1, }
+{host=rest-service-4-instance-1, clock={"rest-service-6-instance-2":1,"rest-service-5-instance-1":1,"rest-service-4-instance-1":1}, event=To:from r5i1 to r4i1 | From:from r4i1 to r3i2, }
+{host=rest-service-3-instance-2, clock={"rest-service-6-instance-2":1,"rest-service-5-instance-1":1,"rest-service-4-instance-1":1,"rest-service-3-instance-2":1}, event=To:from r4i1 to r3i2 | From:from r3i2 to r1i2, }
+{host=rest-service-1-instance-2, clock={"rest-service-6-instance-2":1,"rest-service-5-instance-1":1,"rest-service-4-instance-1":1,"rest-service-3-instance-2":1,"rest-service-1-instance-2":1}, event=To:from r3i2 to r1i2, }
+{host=rest-service-1-instance-2, clock={"rest-service-6-instance-2":1,"rest-service-5-instance-1":1,"rest-service-4-instance-1":1,"rest-service-3-instance-2":1,"rest-service-1-instance-2":1,"rest-service-1-instance-2":2}, event=From:from r1i2 to rend, }
+{host=rest-service-end, clock={"rest-service-1-instance-2":2,"rest-service-end":1}, event=From:from r1i2 to rend, }
+{host=rest-service-6-instance-3, clock={"rest-service-6-instance-3":1}, event=From:from r6i3 to r2i2, }
+{host=rest-service-2-instance-2, clock={"rest-service-6-instance-3":1,"rest-service-2-instance-2":1}, event=To:from r6i3 to r2i2 | From:from r2i2 to r1i3, }
+{host=rest-service-1-instance-3, clock={"rest-service-6-instance-3":1,"rest-service-2-instance-2":1,"rest-service-1-instance-3":1}, event=To:from r2i1 to r1i3 | From:from r1i3 to rend, }
+{host=rest-service-end, clock={"rest-service-6-instance-3":1,"rest-service-2-instance-2":1,"rest-service-1-instance-3":1,"rest-service-end":2}, event=To:from r1i3 to rend, }

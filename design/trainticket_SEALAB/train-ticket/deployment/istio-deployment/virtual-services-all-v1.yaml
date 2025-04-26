@@ -1,0 +1,843 @@
+##############################################
+# virtual service config part 1
+##############################################
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: redis
+spec:
+  hosts:
+  - redis
+  http:
+  - route:
+    - destination:
+        host: redis
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-account-mongo
+spec:
+  hosts:
+  - ts-account-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-account-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-route-mongo
+spec:
+  hosts:
+  - ts-route-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-route-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-contacts-mongo
+spec:
+  hosts:
+  - ts-contacts-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-contacts-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-order-mongo
+spec:
+  hosts:
+  - ts-order-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-order-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-order-other-mongo
+spec:
+  hosts:
+  - ts-order-other-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-order-other-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-config-mongo
+spec:
+  hosts:
+  - ts-config-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-config-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-station-mongo
+spec:
+  hosts:
+  - ts-station-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-station-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-train-mongo
+spec:
+  hosts:
+  - ts-train-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-train-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-travel-mongo
+spec:
+  hosts:
+  - ts-travel-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-travel-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-travel2-mongo
+spec:
+  hosts:
+  - ts-travel2-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-travel2-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-price-mongo
+spec:
+  hosts:
+  - ts-price-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-price-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-security-mongo
+spec:
+  hosts:
+  - ts-security-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-security-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-inside-payment-mongo
+spec:
+  hosts:
+  - ts-inside-payment-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-inside-payment-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-payment-mongo
+spec:
+  hosts:
+  - ts-payment-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-payment-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-assurance-mongo
+spec:
+  hosts:
+  - ts-assurance-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-assurance-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-ticket-office-mongo
+spec:
+  hosts:
+  - ts-ticket-office-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-ticket-office-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-voucher-mysql
+spec:
+  hosts:
+  - ts-voucher-mysql
+  http:
+  - route:
+    - destination:
+        host: ts-voucher-mysql
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-food-map-mongo
+spec:
+  hosts:
+  - ts-food-map-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-food-map-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-consign-mongo
+spec:
+  hosts:
+  - ts-consign-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-consign-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-consign-price-mongo
+spec:
+  hosts:
+  - ts-consign-price-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-consign-price-mongo
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-food-mongo
+spec:
+  hosts:
+  - ts-food-mongo
+  http:
+  - route:
+    - destination:
+        host: ts-food-mongo
+        subset: v1
+---
+##############################################
+# virtual service config part 2-1
+##############################################
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-admin-basic-info-service
+spec:
+  hosts:
+  - ts-admin-basic-info-service
+  http:
+  - route:
+    - destination:
+        host: ts-admin-basic-info-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-admin-order-service
+spec:
+  hosts:
+  - ts-admin-order-service
+  http:
+  - route:
+    - destination:
+        host: ts-admin-order-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-admin-route-service
+spec:
+  hosts:
+  - ts-admin-route-service
+  http:
+  - route:
+    - destination:
+        host: ts-admin-route-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-admin-travel-service
+spec:
+  hosts:
+  - ts-admin-travel-service
+  http:
+  - route:
+    - destination:
+        host: ts-admin-travel-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-admin-user-service
+spec:
+  hosts:
+  - ts-admin-user-service
+  http:
+  - route:
+    - destination:
+        host: ts-admin-user-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-assurance-service
+spec:
+  hosts:
+  - ts-assurance-service
+  http:
+  - route:
+    - destination:
+        host: ts-assurance-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-basic-service
+spec:
+  hosts:
+  - ts-basic-service
+  http:
+  - route:
+    - destination:
+        host: ts-basic-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-cancel-service
+spec:
+  hosts:
+  - ts-cancel-service
+  http:
+  - route:
+    - destination:
+        host: ts-cancel-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-config-service
+spec:
+  hosts:
+  - ts-config-service
+  http:
+  - route:
+    - destination:
+        host: ts-config-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-consign-price-service
+spec:
+  hosts:
+  - ts-consign-price-service
+  http:
+  - route:
+    - destination:
+        host: ts-consign-price-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-consign-service
+spec:
+  hosts:
+  - ts-consign-service
+  http:
+  - route:
+    - destination:
+        host: ts-consign-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-contacts-service
+spec:
+  hosts:
+  - ts-contacts-service
+  http:
+  - route:
+    - destination:
+        host: ts-contacts-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-execute-service
+spec:
+  hosts:
+  - ts-execute-service
+  http:
+  - route:
+    - destination:
+        host: ts-execute-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-food-map-service
+spec:
+  hosts:
+  - ts-food-map-service
+  http:
+  - route:
+    - destination:
+        host: ts-food-map-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-food-service
+spec:
+  hosts:
+  - ts-food-service
+  http:
+  - route:
+    - destination:
+        host: ts-food-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-inside-payment-service
+spec:
+  hosts:
+  - ts-inside-payment-service
+  http:
+  - route:
+    - destination:
+        host: ts-inside-payment-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-login-service
+spec:
+  hosts:
+  - ts-login-service
+  http:
+  - route:
+    - destination:
+        host: ts-login-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-news-service
+spec:
+  hosts:
+  - ts-news-service
+  http:
+  - route:
+    - destination:
+        host: ts-news-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-notification-service
+spec:
+  hosts:
+  - ts-notification-service
+  http:
+  - route:
+    - destination:
+        host: ts-notification-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-order-other-service
+spec:
+  hosts:
+  - ts-order-other-service
+  http:
+  - route:
+    - destination:
+        host: ts-order-other-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-order-service
+spec:
+  hosts:
+  - ts-order-service
+  http:
+  - route:
+    - destination:
+        host: ts-order-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-payment-service
+spec:
+  hosts:
+  - ts-payment-service
+  http:
+  - route:
+    - destination:
+        host: ts-payment-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-preserve-other-service
+spec:
+  hosts:
+  - ts-preserve-other-service
+  http:
+  - route:
+    - destination:
+        host: ts-preserve-other-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-preserve-service
+spec:
+  hosts:
+  - ts-preserve-service
+  http:
+  - route:
+    - destination:
+        host: ts-preserve-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-price-service
+spec:
+  hosts:
+  - ts-price-service
+  http:
+  - route:
+    - destination:
+        host: ts-price-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-rebook-service
+spec:
+  hosts:
+  - ts-rebook-service
+  http:
+  - route:
+    - destination:
+        host: ts-rebook-service
+        subset: v1
+---
+##############################################
+# virtual service config part 2-2
+##############################################
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-register-service
+spec:
+  hosts:
+  - ts-register-service
+  http:
+  - route:
+    - destination:
+        host: ts-register-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-route-plan-service
+spec:
+  hosts:
+  - ts-route-plan-service
+  http:
+  - route:
+    - destination:
+        host: ts-route-plan-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-route-service
+spec:
+  hosts:
+  - ts-route-service
+  http:
+  - route:
+    - destination:
+        host: ts-route-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-seat-service
+spec:
+  hosts:
+  - ts-seat-service
+  http:
+  - route:
+    - destination:
+        host: ts-seat-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-security-service
+spec:
+  hosts:
+  - ts-security-service
+  http:
+  - route:
+    - destination:
+        host: ts-security-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-sso-service
+spec:
+  hosts:
+  - ts-sso-service
+  http:
+  - route:
+    - destination:
+        host: ts-sso-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-station-service
+spec:
+  hosts:
+  - ts-station-service
+  http:
+  - route:
+    - destination:
+        host: ts-station-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-ticket-office-service
+spec:
+  hosts:
+  - ts-ticket-office-service
+  http:
+  - route:
+    - destination:
+        host: ts-ticket-office-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-ticketinfo-service
+spec:
+  hosts:
+  - ts-ticketinfo-service
+  http:
+  - route:
+    - destination:
+        host: ts-ticketinfo-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-train-service
+spec:
+  hosts:
+  - ts-train-service
+  http:
+  - route:
+    - destination:
+        host: ts-train-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-travel2-service
+spec:
+  hosts:
+  - ts-travel2-service
+  http:
+  - route:
+    - destination:
+        host: ts-travel2-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-travel-plan-service
+spec:
+  hosts:
+  - ts-travel-plan-service
+  http:
+  - route:
+    - destination:
+        host: ts-travel-plan-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-travel-service
+spec:
+  hosts:
+  - ts-travel-service
+  http:
+  - route:
+    - destination:
+        host: ts-travel-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-verification-code-service
+spec:
+  hosts:
+  - ts-verification-code-service
+  http:
+  - route:
+    - destination:
+        host: ts-verification-code-service
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-voucher-service
+spec:
+  hosts:
+  - ts-voucher-service
+  http:
+  - route:
+    - destination:
+        host: ts-voucher-service
+        subset: v1
+---
+##############################################
+# virtual service config part 3
+##############################################
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-ui-dashboard
+spec:
+  hosts:
+  - ts-ui-dashboard
+  http:
+  - route:
+    - destination:
+        host: ts-ui-dashboard
+        subset: v1

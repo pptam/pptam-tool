@@ -1,0 +1,5881 @@
+[
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "574858fb4f6dc3cf",
+        "name": "http:/hello6",
+        "timestamp": 1496367351164000,
+        "duration": 5283697,
+        "annotations": [
+            {
+                "timestamp": 1496367351164000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367356410000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello6",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "cd8e8b59ebbc9b32",
+        "name": "http:/hello5",
+        "parentId": "574858fb4f6dc3cf",
+        "timestamp": 1496367351320000,
+        "duration": 3932000,
+        "annotations": [
+            {
+                "timestamp": 1496367351322000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367351681000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-5",
+                    "ipv4": "172.20.0.5",
+                    "port": 16005
+                }
+            },
+            {
+                "timestamp": 1496367355201000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-5",
+                    "ipv4": "172.20.0.5",
+                    "port": 16005
+                }
+            },
+            {
+                "timestamp": 1496367355254000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-5",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello5",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-5:16005/hello5?cal=50",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-5",
+                    "ipv4": "172.20.0.5",
+                    "port": 16005
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello5",
+                "endpoint": {
+                    "serviceName": "rest-service-5",
+                    "ipv4": "172.20.0.5",
+                    "port": 16005
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "afcafaa9d2b9:rest-service-5:16005",
+                "endpoint": {
+                    "serviceName": "rest-service-5",
+                    "ipv4": "172.20.0.5",
+                    "port": 16005
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "d44e920daa2cb066",
+        "name": "http:/hello4",
+        "parentId": "574858fb4f6dc3cf",
+        "timestamp": 1496367355256000,
+        "duration": 644000,
+        "annotations": [
+            {
+                "timestamp": 1496367355256000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367355286000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "timestamp": 1496367355897000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "timestamp": 1496367355900000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-4",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello4",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-4:16004/hello4?cal=50",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello4",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "b145e76b1b22:rest-service-4:16004",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "2cac01fb9e9245da",
+        "name": "http:/hello4",
+        "parentId": "574858fb4f6dc3cf",
+        "timestamp": 1496367355902000,
+        "duration": 441000,
+        "annotations": [
+            {
+                "timestamp": 1496367355902000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367355909000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "timestamp": 1496367356323000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "timestamp": 1496367356343000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-4",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello4",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-4:16004/hello4?cal=50.0",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello4",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "b145e76b1b22:rest-service-4:16004",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "4db63cf74610e8a7",
+        "name": "http:/hello4",
+        "parentId": "cd8e8b59ebbc9b32",
+        "timestamp": 1496367351896000,
+        "duration": 3116000,
+        "annotations": [
+            {
+                "timestamp": 1496367351899000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-5",
+                    "ipv4": "172.20.0.5",
+                    "port": 16005
+                }
+            },
+            {
+                "timestamp": 1496367352191000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "timestamp": 1496367354967000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "timestamp": 1496367355015000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-5",
+                    "ipv4": "172.20.0.5",
+                    "port": 16005
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-4",
+                "endpoint": {
+                    "serviceName": "rest-service-5",
+                    "ipv4": "172.20.0.5",
+                    "port": 16005
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-5",
+                    "ipv4": "172.20.0.5",
+                    "port": 16005
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello4",
+                "endpoint": {
+                    "serviceName": "rest-service-5",
+                    "ipv4": "172.20.0.5",
+                    "port": 16005
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-4:16004/hello4?cal=51.45631067961165",
+                "endpoint": {
+                    "serviceName": "rest-service-5",
+                    "ipv4": "172.20.0.5",
+                    "port": 16005
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello4",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "afcafaa9d2b9:rest-service-5:16005",
+                "endpoint": {
+                    "serviceName": "rest-service-5",
+                    "ipv4": "172.20.0.5",
+                    "port": 16005
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "b145e76b1b22:rest-service-4:16004",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "52255850ae9e63f9",
+        "name": "http:/hello3",
+        "parentId": "d44e920daa2cb066",
+        "timestamp": 1496367355315000,
+        "duration": 536000,
+        "annotations": [
+            {
+                "timestamp": 1496367355315000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "timestamp": 1496367355389000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367355840000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367355851000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-3",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello3",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-3:16003/hello3?cal=54.54545454545454",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello3",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "44609cd7adc8:rest-service-3:16003",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "b145e76b1b22:rest-service-4:16004",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "c9b88ba51c6809c8",
+        "name": "http:/hello3",
+        "parentId": "2cac01fb9e9245da",
+        "timestamp": 1496367355934000,
+        "duration": 379000,
+        "annotations": [
+            {
+                "timestamp": 1496367355935000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "timestamp": 1496367355937000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367356311000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367356314000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-3",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello3",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-3:16003/hello3?cal=54.54545454545454",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello3",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "44609cd7adc8:rest-service-3:16003",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "b145e76b1b22:rest-service-4:16004",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "97cb3c60454b7016",
+        "name": "http:/hello3",
+        "parentId": "4db63cf74610e8a7",
+        "timestamp": 1496367352317000,
+        "duration": 2413000,
+        "annotations": [
+            {
+                "timestamp": 1496367352321000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "timestamp": 1496367352482000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367354643000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367354734000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-3",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello3",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-3:16003/hello3?cal=55.869373345101494",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello3",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "44609cd7adc8:rest-service-3:16003",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "b145e76b1b22:rest-service-4:16004",
+                "endpoint": {
+                    "serviceName": "rest-service-4",
+                    "ipv4": "172.20.0.10",
+                    "port": 16004
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "cd0bdcd444ebbc0e",
+        "name": "http:/hello2",
+        "parentId": "52255850ae9e63f9",
+        "timestamp": 1496367355397000,
+        "duration": 113000,
+        "annotations": [
+            {
+                "timestamp": 1496367355397000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367355401000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367355507000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367355510000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-2",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello2",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-2:16002/hello2?cal=54.54545454545454",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello2",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "f6fe9f260011:rest-service-2:16002",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "44609cd7adc8:rest-service-3:16003",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "6649e8e5e0c6304f",
+        "name": "http:/hello1",
+        "parentId": "52255850ae9e63f9",
+        "timestamp": 1496367355520000,
+        "duration": 62000,
+        "annotations": [
+            {
+                "timestamp": 1496367355542000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367355550000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367355601000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367355604000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-1",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-1:16001/hello1?cal=54.54545454545454",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "44609cd7adc8:rest-service-3:16003",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "010a4544f679970c",
+        "name": "http:/hello2",
+        "parentId": "52255850ae9e63f9",
+        "timestamp": 1496367355666000,
+        "duration": 160000,
+        "annotations": [
+            {
+                "timestamp": 1496367355667000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367355688000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367355826000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367355827000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-2",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello2",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-2:16002/hello2?cal=29.752066115702473",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello2",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "f6fe9f260011:rest-service-2:16002",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "44609cd7adc8:rest-service-3:16003",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "f7032675f96bb353",
+        "name": "http:/hello2",
+        "parentId": "c9b88ba51c6809c8",
+        "timestamp": 1496367355956000,
+        "duration": 166000,
+        "annotations": [
+            {
+                "timestamp": 1496367355956000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367355997000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367356118000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367356122000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-2",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello2",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-2:16002/hello2?cal=54.54545454545454",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello2",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "f6fe9f260011:rest-service-2:16002",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "44609cd7adc8:rest-service-3:16003",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "1592f359dad41cfe",
+        "name": "http:/hello1",
+        "parentId": "c9b88ba51c6809c8",
+        "timestamp": 1496367356125000,
+        "duration": 92000,
+        "annotations": [
+            {
+                "timestamp": 1496367356125000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367356145000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367356210000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367356217000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-1",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-1:16001/hello1?cal=54.54545454545454",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "44609cd7adc8:rest-service-3:16003",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "79bbd5f81a03ff7d",
+        "name": "http:/hello2",
+        "parentId": "c9b88ba51c6809c8",
+        "timestamp": 1496367356219000,
+        "duration": 83000,
+        "annotations": [
+            {
+                "timestamp": 1496367356219000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367356223000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367356301000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367356302000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-2",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello2",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-2:16002/hello2?cal=29.752066115702473",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello2",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "f6fe9f260011:rest-service-2:16002",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "44609cd7adc8:rest-service-3:16003",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "a8cfb864346de08c",
+        "name": "http:/hello2",
+        "parentId": "97cb3c60454b7016",
+        "timestamp": 1496367352610000,
+        "duration": 1474000,
+        "annotations": [
+            {
+                "timestamp": 1496367352611000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367352768000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367354052000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367354085000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-2",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello2",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-2:16002/hello2?cal=55.869373345101494",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello2",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "f6fe9f260011:rest-service-2:16002",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "44609cd7adc8:rest-service-3:16003",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "94375f2292e07ef1",
+        "name": "http:/hello1",
+        "parentId": "97cb3c60454b7016",
+        "timestamp": 1496367354113000,
+        "duration": 144000,
+        "annotations": [
+            {
+                "timestamp": 1496367354113000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367354137000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367354245000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367354257000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-1",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-1:16001/hello1?cal=55.869373345101494",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "44609cd7adc8:rest-service-3:16003",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "fbe66cf30dafcbe0",
+        "name": "http:/hello2",
+        "parentId": "97cb3c60454b7016",
+        "timestamp": 1496367354276000,
+        "duration": 244000,
+        "annotations": [
+            {
+                "timestamp": 1496367354276000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "timestamp": 1496367354279000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367354495000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367354520000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-2",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello2",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-2:16002/hello2?cal=31.213868779743372",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello2",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "f6fe9f260011:rest-service-2:16002",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "44609cd7adc8:rest-service-3:16003",
+                "endpoint": {
+                    "serviceName": "rest-service-3",
+                    "ipv4": "172.20.0.3",
+                    "port": 16003
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "4a5211ea9308f5f1",
+        "name": "http:/hello1",
+        "parentId": "cd0bdcd444ebbc0e",
+        "timestamp": 1496367355404000,
+        "duration": 99000,
+        "annotations": [
+            {
+                "timestamp": 1496367355404000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367355415000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367355501000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367355503000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-1",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-1:16001/hello1?cal=73.85489458759965",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "f6fe9f260011:rest-service-2:16002",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "2436b28aa0396ce7",
+        "name": "http:/greeting",
+        "parentId": "6649e8e5e0c6304f",
+        "timestamp": 1496367355568000,
+        "duration": 31000,
+        "annotations": [
+            {
+                "timestamp": 1496367355568000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367355571000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355598000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355599000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-end",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-end:16000/greeting?cal=86.83792826127092",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "GreetingController",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "a1abca7b428af0b9",
+        "name": "http:/hello1",
+        "parentId": "010a4544f679970c",
+        "timestamp": 1496367355691000,
+        "duration": 132000,
+        "annotations": [
+            {
+                "timestamp": 1496367355691000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367355694000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367355792000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367355823000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-1",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-1:16001/hello1?cal=54.54545454545454",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "f6fe9f260011:rest-service-2:16002",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "5bd1750e888971b1",
+        "name": "http:/hello1",
+        "parentId": "f7032675f96bb353",
+        "timestamp": 1496367356000000,
+        "duration": 111000,
+        "annotations": [
+            {
+                "timestamp": 1496367356000000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367356002000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367356107000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367356111000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-1",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-1:16001/hello1?cal=73.85489458759965",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "f6fe9f260011:rest-service-2:16002",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "8ed275114bac2c33",
+        "name": "http:/greeting",
+        "parentId": "1592f359dad41cfe",
+        "timestamp": 1496367356153000,
+        "duration": 52000,
+        "annotations": [
+            {
+                "timestamp": 1496367356156000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367356159000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356207000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356208000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-end",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-end:16000/greeting?cal=86.83792826127092",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "GreetingController",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "f2daa9abeda21279",
+        "name": "http:/hello1",
+        "parentId": "79bbd5f81a03ff7d",
+        "timestamp": 1496367356228000,
+        "duration": 71000,
+        "annotations": [
+            {
+                "timestamp": 1496367356228000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367356239000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367356297000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367356299000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-1",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-1:16001/hello1?cal=54.54545454545454",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "f6fe9f260011:rest-service-2:16002",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "ab1cb7dcb43be5f7",
+        "name": "http:/hello1",
+        "parentId": "a8cfb864346de08c",
+        "timestamp": 1496367352902000,
+        "duration": 1008000,
+        "annotations": [
+            {
+                "timestamp": 1496367352903000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367353191000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367353878000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367353911000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-1",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-1:16001/hello1?cal=74.74581817406343",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "f6fe9f260011:rest-service-2:16002",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "b9fbf4ee24f520cd",
+        "name": "http:/greeting",
+        "parentId": "94375f2292e07ef1",
+        "timestamp": 1496367354166000,
+        "duration": 62000,
+        "annotations": [
+            {
+                "timestamp": 1496367354166000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367354170000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367354227000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367354228000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-end",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-end:16000/greeting?cal=87.35869000769789",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "GreetingController",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "d31fcf7c71182845",
+        "name": "http:/hello1",
+        "parentId": "fbe66cf30dafcbe0",
+        "timestamp": 1496367354283000,
+        "duration": 158000,
+        "annotations": [
+            {
+                "timestamp": 1496367354283000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "timestamp": 1496367354336000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367354438000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367354441000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-1",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-1:16001/hello1?cal=55.869373345101494",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "HelloController",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "hello1",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "f6fe9f260011:rest-service-2:16002",
+                "endpoint": {
+                    "serviceName": "rest-service-2",
+                    "ipv4": "172.20.0.6",
+                    "port": 16002
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "cae19060cb1e7f87",
+        "name": "http:/greeting",
+        "parentId": "4a5211ea9308f5f1",
+        "timestamp": 1496367355418000,
+        "duration": 80000,
+        "annotations": [
+            {
+                "timestamp": 1496367355419000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367355424000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355476000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355499000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-end",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-end:16000/greeting?cal=93.41896413063546",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "GreetingController",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "795f7b6d2b430d15",
+        "name": "message:output",
+        "parentId": "2436b28aa0396ce7",
+        "timestamp": 1496367355576000,
+        "duration": 2000,
+        "annotations": [
+            {
+                "timestamp": 1496367355576000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355578000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "add436242d2e9303",
+        "name": "message:output",
+        "parentId": "2436b28aa0396ce7",
+        "timestamp": 1496367355579000,
+        "duration": 1000,
+        "annotations": [
+            {
+                "timestamp": 1496367355579000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355580000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "08ad9b5c66114dd6",
+        "name": "message:output",
+        "parentId": "2436b28aa0396ce7",
+        "timestamp": 1496367355589000,
+        "annotations": [
+            {
+                "timestamp": 1496367355589000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355589000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "acf824c374efa9f5",
+        "name": "http:/greeting",
+        "parentId": "a1abca7b428af0b9",
+        "timestamp": 1496367355699000,
+        "duration": 87000,
+        "annotations": [
+            {
+                "timestamp": 1496367355700000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367355702000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355786000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355787000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-end",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-end:16000/greeting?cal=86.83792826127092",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "GreetingController",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "905b3261cdc8cc10",
+        "name": "http:/greeting",
+        "parentId": "5bd1750e888971b1",
+        "timestamp": 1496367356006000,
+        "duration": 95000,
+        "annotations": [
+            {
+                "timestamp": 1496367356007000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367356009000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356094000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356102000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-end",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-end:16000/greeting?cal=93.41896413063546",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "GreetingController",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "9cfe8211f314dfc2",
+        "name": "message:output",
+        "parentId": "8ed275114bac2c33",
+        "timestamp": 1496367356162000,
+        "duration": 14000,
+        "annotations": [
+            {
+                "timestamp": 1496367356162000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356176000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "5c3252f429ac083a",
+        "name": "message:output",
+        "parentId": "8ed275114bac2c33",
+        "timestamp": 1496367356189000,
+        "duration": 6000,
+        "annotations": [
+            {
+                "timestamp": 1496367356190000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356196000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "a59a0c2f96fad66a",
+        "name": "message:output",
+        "parentId": "8ed275114bac2c33",
+        "timestamp": 1496367356198000,
+        "duration": 4000,
+        "annotations": [
+            {
+                "timestamp": 1496367356199000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356203000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "0b00352dde8219a3",
+        "name": "http:/greeting",
+        "parentId": "f2daa9abeda21279",
+        "timestamp": 1496367356251000,
+        "duration": 44000,
+        "annotations": [
+            {
+                "timestamp": 1496367356251000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367356254000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356276000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356295000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-end",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-end:16000/greeting?cal=86.83792826127092",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "GreetingController",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "6f01cdfff3dea415",
+        "name": "http:/greeting",
+        "parentId": "ab1cb7dcb43be5f7",
+        "timestamp": 1496367353353000,
+        "duration": 433000,
+        "annotations": [
+            {
+                "timestamp": 1496367353354000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367353504000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367353750000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367353787000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-end",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-end:16000/greeting?cal=93.67934500384895",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "GreetingController",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "0c459ed5df972e92",
+        "name": "message:output",
+        "parentId": "b9fbf4ee24f520cd",
+        "timestamp": 1496367354181000,
+        "duration": 15000,
+        "annotations": [
+            {
+                "timestamp": 1496367354181000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367354196000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "070f69b02c06f43f",
+        "name": "message:output",
+        "parentId": "b9fbf4ee24f520cd",
+        "timestamp": 1496367354200000,
+        "duration": 1000,
+        "annotations": [
+            {
+                "timestamp": 1496367354200000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367354201000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "9a7fb59b0081eead",
+        "name": "message:output",
+        "parentId": "b9fbf4ee24f520cd",
+        "timestamp": 1496367354211000,
+        "duration": 2000,
+        "annotations": [
+            {
+                "timestamp": 1496367354211000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367354213000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "fd9f622e5a890007",
+        "name": "http:/greeting",
+        "parentId": "d31fcf7c71182845",
+        "timestamp": 1496367354346000,
+        "duration": 55000,
+        "annotations": [
+            {
+                "timestamp": 1496367354346000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "timestamp": 1496367354353000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367354399000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367354401000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "http.host",
+                "value": "rest-service-end",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.method",
+                "value": "GET",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.path",
+                "value": "/greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "http.url",
+                "value": "http://rest-service-end:16000/greeting?cal=87.35869000769789",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            },
+            {
+                "key": "mvc.controller.class",
+                "value": "GreetingController",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "mvc.controller.method",
+                "value": "greeting",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "key": "spring.instance_id",
+                "value": "4fd4762fb596:rest-service-1:16001",
+                "endpoint": {
+                    "serviceName": "rest-service-1",
+                    "ipv4": "172.20.0.7",
+                    "port": 16001
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "15c910dd17a4fa8a",
+        "name": "message:output",
+        "parentId": "cae19060cb1e7f87",
+        "timestamp": 1496367355443000,
+        "duration": 1000,
+        "annotations": [
+            {
+                "timestamp": 1496367355443000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355444000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "7cf97cd990e9f483",
+        "name": "message:output",
+        "parentId": "cae19060cb1e7f87",
+        "timestamp": 1496367355446000,
+        "duration": 2000,
+        "annotations": [
+            {
+                "timestamp": 1496367355446000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355448000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "4a05b3bf0a23b614",
+        "name": "message:output",
+        "parentId": "cae19060cb1e7f87",
+        "timestamp": 1496367355465000,
+        "duration": 6000,
+        "annotations": [
+            {
+                "timestamp": 1496367355466000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355472000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "670040cd959871a0",
+        "name": "message:input",
+        "parentId": "795f7b6d2b430d15",
+        "timestamp": 1496367355579000,
+        "duration": 2452,
+        "annotations": [
+            {
+                "timestamp": 1496367355579000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367355581000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "2bc6ccdf1499e873",
+        "name": "message:input",
+        "parentId": "add436242d2e9303",
+        "timestamp": 1496367355591000,
+        "duration": 11527,
+        "annotations": [
+            {
+                "timestamp": 1496367355591000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367355603000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "43699818afee77f9",
+        "name": "message:input",
+        "parentId": "08ad9b5c66114dd6",
+        "timestamp": 1496367355606000,
+        "duration": 1435,
+        "annotations": [
+            {
+                "timestamp": 1496367355606000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367355607000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "20d213b2c6af0512",
+        "name": "message:output",
+        "parentId": "acf824c374efa9f5",
+        "timestamp": 1496367355706000,
+        "duration": 4000,
+        "annotations": [
+            {
+                "timestamp": 1496367355706000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355710000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "c77da0cfe6f9e5df",
+        "name": "message:output",
+        "parentId": "acf824c374efa9f5",
+        "timestamp": 1496367355711000,
+        "duration": 19000,
+        "annotations": [
+            {
+                "timestamp": 1496367355711000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355730000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "a763e8698767c231",
+        "name": "message:output",
+        "parentId": "acf824c374efa9f5",
+        "timestamp": 1496367355731000,
+        "duration": 3000,
+        "annotations": [
+            {
+                "timestamp": 1496367355731000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367355734000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "f4b0f1d4b9cc6a41",
+        "name": "message:output",
+        "parentId": "905b3261cdc8cc10",
+        "timestamp": 1496367356015000,
+        "duration": 3000,
+        "annotations": [
+            {
+                "timestamp": 1496367356015000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356018000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "02ba77c296b324e1",
+        "name": "message:output",
+        "parentId": "905b3261cdc8cc10",
+        "timestamp": 1496367356040000,
+        "duration": 19000,
+        "annotations": [
+            {
+                "timestamp": 1496367356040000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356059000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "fb47ec1980f0727d",
+        "name": "message:output",
+        "parentId": "905b3261cdc8cc10",
+        "timestamp": 1496367356090000,
+        "annotations": [
+            {
+                "timestamp": 1496367356090000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356090000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "bf4b62426f7b172a",
+        "name": "message:input",
+        "parentId": "9cfe8211f314dfc2",
+        "timestamp": 1496367356173000,
+        "duration": 2296,
+        "annotations": [
+            {
+                "timestamp": 1496367356174000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367356176000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "151fcdbfb27795f7",
+        "name": "message:input",
+        "parentId": "5c3252f429ac083a",
+        "timestamp": 1496367356194000,
+        "duration": 1815,
+        "annotations": [
+            {
+                "timestamp": 1496367356194000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367356196000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "57331c8a679d9cdd",
+        "name": "message:input",
+        "parentId": "a59a0c2f96fad66a",
+        "timestamp": 1496367356204000,
+        "duration": 2137,
+        "annotations": [
+            {
+                "timestamp": 1496367356205000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367356207000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "52aa19a7e734de31",
+        "name": "message:output",
+        "parentId": "0b00352dde8219a3",
+        "timestamp": 1496367356259000,
+        "duration": 2000,
+        "annotations": [
+            {
+                "timestamp": 1496367356259000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356261000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "afdbfd5d4a722f77",
+        "name": "message:output",
+        "parentId": "0b00352dde8219a3",
+        "timestamp": 1496367356262000,
+        "duration": 1000,
+        "annotations": [
+            {
+                "timestamp": 1496367356262000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356263000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "cefa0de92029826b",
+        "name": "message:output",
+        "parentId": "0b00352dde8219a3",
+        "timestamp": 1496367356272000,
+        "duration": 1000,
+        "annotations": [
+            {
+                "timestamp": 1496367356272000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367356273000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "253dafebd776c877",
+        "name": "message:output",
+        "parentId": "6f01cdfff3dea415",
+        "timestamp": 1496367353569000,
+        "duration": 24000,
+        "annotations": [
+            {
+                "timestamp": 1496367353569000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367353593000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "bf5180444b666465",
+        "name": "message:output",
+        "parentId": "6f01cdfff3dea415",
+        "timestamp": 1496367353676000,
+        "duration": 2000,
+        "annotations": [
+            {
+                "timestamp": 1496367353676000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367353678000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "c68d309dfcee5f4e",
+        "name": "message:output",
+        "parentId": "6f01cdfff3dea415",
+        "timestamp": 1496367353679000,
+        "duration": 1000,
+        "annotations": [
+            {
+                "timestamp": 1496367353680000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367353681000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "7f6505b7347c03ca",
+        "name": "message:input",
+        "parentId": "0c459ed5df972e92",
+        "timestamp": 1496367354188000,
+        "duration": 11619,
+        "annotations": [
+            {
+                "timestamp": 1496367354188000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367354200000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "7c695a0de3573278",
+        "name": "message:input",
+        "parentId": "070f69b02c06f43f",
+        "timestamp": 1496367354209000,
+        "duration": 1903,
+        "annotations": [
+            {
+                "timestamp": 1496367354209000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367354211000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "7601300716fd113e",
+        "name": "message:input",
+        "parentId": "9a7fb59b0081eead",
+        "timestamp": 1496367354226000,
+        "duration": 1531,
+        "annotations": [
+            {
+                "timestamp": 1496367354226000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367354228000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "1d08c3a6bde03986",
+        "name": "message:output",
+        "parentId": "fd9f622e5a890007",
+        "timestamp": 1496367354385000,
+        "duration": 1000,
+        "annotations": [
+            {
+                "timestamp": 1496367354385000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367354386000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "90d5554915b089d4",
+        "name": "message:output",
+        "parentId": "fd9f622e5a890007",
+        "timestamp": 1496367354388000,
+        "duration": 2000,
+        "annotations": [
+            {
+                "timestamp": 1496367354388000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367354390000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "7d863bd3887bbdd2",
+        "name": "message:output",
+        "parentId": "fd9f622e5a890007",
+        "timestamp": 1496367354397000,
+        "annotations": [
+            {
+                "timestamp": 1496367354397000,
+                "value": "cr",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            },
+            {
+                "timestamp": 1496367354397000,
+                "value": "cs",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "007bbb4e790c:rest-service-end:16000",
+                "endpoint": {
+                    "serviceName": "rest-service-end",
+                    "ipv4": "172.20.0.4",
+                    "port": 16000
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "d7f7bb66b410680f",
+        "name": "message:input",
+        "parentId": "15c910dd17a4fa8a",
+        "timestamp": 1496367355445000,
+        "duration": 1733,
+        "annotations": [
+            {
+                "timestamp": 1496367355445000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367355447000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "1d11443cc4c93b31",
+        "name": "message:input",
+        "parentId": "7cf97cd990e9f483",
+        "timestamp": 1496367355459000,
+        "duration": 16461,
+        "annotations": [
+            {
+                "timestamp": 1496367355459000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367355476000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "5ca33fd1b04718e6",
+        "name": "message:input",
+        "parentId": "4a05b3bf0a23b614",
+        "timestamp": 1496367355484000,
+        "duration": 10697,
+        "annotations": [
+            {
+                "timestamp": 1496367355484000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367355495000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "90ae08c40393f4e3",
+        "name": "message:input",
+        "parentId": "20d213b2c6af0512",
+        "timestamp": 1496367355711000,
+        "duration": 2364,
+        "annotations": [
+            {
+                "timestamp": 1496367355711000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367355713000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "dbe20b44f8a1ee3f",
+        "name": "message:input",
+        "parentId": "c77da0cfe6f9e5df",
+        "timestamp": 1496367355731000,
+        "duration": 1783,
+        "annotations": [
+            {
+                "timestamp": 1496367355731000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367355733000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "1543373753728beb",
+        "name": "message:input",
+        "parentId": "a763e8698767c231",
+        "timestamp": 1496367355736000,
+        "duration": 2127,
+        "annotations": [
+            {
+                "timestamp": 1496367355737000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367355739000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "2f6308452a16b30d",
+        "name": "message:input",
+        "parentId": "f4b0f1d4b9cc6a41",
+        "timestamp": 1496367356018000,
+        "duration": 1493,
+        "annotations": [
+            {
+                "timestamp": 1496367356018000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367356020000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "01aba762698b4d76",
+        "name": "message:input",
+        "parentId": "02ba77c296b324e1",
+        "timestamp": 1496367356047000,
+        "duration": 3413,
+        "annotations": [
+            {
+                "timestamp": 1496367356047000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367356050000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "f59e00620150701a",
+        "name": "message:input",
+        "parentId": "fb47ec1980f0727d",
+        "timestamp": 1496367356092000,
+        "duration": 1960,
+        "annotations": [
+            {
+                "timestamp": 1496367356092000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367356094000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "b5261ee33d3e19a3",
+        "name": "message:input",
+        "parentId": "52aa19a7e734de31",
+        "timestamp": 1496367356270000,
+        "duration": 7735,
+        "annotations": [
+            {
+                "timestamp": 1496367356270000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367356278000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "bfe80df91f93c6e5",
+        "name": "message:input",
+        "parentId": "afdbfd5d4a722f77",
+        "timestamp": 1496367356287000,
+        "duration": 1518,
+        "annotations": [
+            {
+                "timestamp": 1496367356287000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367356288000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "58f5ce7481e43378",
+        "name": "message:input",
+        "parentId": "cefa0de92029826b",
+        "timestamp": 1496367356291000,
+        "duration": 1663,
+        "annotations": [
+            {
+                "timestamp": 1496367356291000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367356292000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "339861089c345ab6",
+        "name": "message:input",
+        "parentId": "253dafebd776c877",
+        "timestamp": 1496367353614000,
+        "duration": 6703,
+        "annotations": [
+            {
+                "timestamp": 1496367353614000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367353621000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "ccae982fe022c03f",
+        "name": "message:input",
+        "parentId": "bf5180444b666465",
+        "timestamp": 1496367353681000,
+        "duration": 2117,
+        "annotations": [
+            {
+                "timestamp": 1496367353681000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367353683000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "128877342e37a214",
+        "name": "message:input",
+        "parentId": "c68d309dfcee5f4e",
+        "timestamp": 1496367353695000,
+        "duration": 1741,
+        "annotations": [
+            {
+                "timestamp": 1496367353695000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367353696000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "9bec3ef0ae4507a2",
+        "name": "message:input",
+        "parentId": "1d08c3a6bde03986",
+        "timestamp": 1496367354390000,
+        "duration": 5624,
+        "annotations": [
+            {
+                "timestamp": 1496367354390000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367354396000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "ab7f0842971d2551",
+        "name": "message:input",
+        "parentId": "90d5554915b089d4",
+        "timestamp": 1496367354405000,
+        "duration": 1469,
+        "annotations": [
+            {
+                "timestamp": 1496367354405000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367354406000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    },
+    {
+        "traceId": "574858fb4f6dc3cf",
+        "id": "e795ed5630859b46",
+        "name": "message:input",
+        "parentId": "7d863bd3887bbdd2",
+        "timestamp": 1496367354414000,
+        "duration": 2387,
+        "annotations": [
+            {
+                "timestamp": 1496367354414000,
+                "value": "sr",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            },
+            {
+                "timestamp": 1496367354416000,
+                "value": "ss",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ],
+        "binaryAnnotations": [
+            {
+                "key": "spring.instance_id",
+                "value": "db8ad8804e40:rest-service-6:16006",
+                "endpoint": {
+                    "serviceName": "rest-service-6",
+                    "ipv4": "172.20.0.8",
+                    "port": 16006
+                }
+            }
+        ]
+    }
+]

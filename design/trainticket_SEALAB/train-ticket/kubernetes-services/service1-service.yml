@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service-1
+spec:
+  type: NodePort
+  ports:
+    - port: 16001
+      nodePort: 30001
+  selector:
+   app: rest-service-1

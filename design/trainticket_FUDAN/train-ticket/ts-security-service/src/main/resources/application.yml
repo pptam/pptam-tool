@@ -1,0 +1,33 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDRS:nacos-0.nacos-headless.default.svc.cluster.local,nacos-1.nacos-headless.default.svc.cluster.local,nacos-2.nacos-headless.default.svc.cluster.local}
+  application:
+    name: ts-security-service
+
+  datasource:
+    url: jdbc:mysql://${SECURITY_MYSQL_HOST:ts-security-mysql}:${SECURITY_MYSQL_PORT:3306}/${SECURITY_MYSQL_DATABASE:ts-security-mysql}?useSSL=false
+    username: ${SECURITY_MYSQL_USER:root}
+    password: ${SECURITY_MYSQL_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+# HTTP Server
+server:
+  port: 11188  # HTTP (Tomcat) port
+
+swagger:
+  controllerPackage: security.controller
+
+order-service:
+  url: http://${ORDER_SERVICE_HOST:ts-order-service}:${ORDER_SERVICE_PORT:12031}
+
+order-other-service:
+  url: http://${ORDER_OTHER_SERVICE_HOST:ts-order-other-service}:${ORDER_OTHER_SERVICE_PORT:12032}

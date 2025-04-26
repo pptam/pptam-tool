@@ -1,0 +1,25 @@
+server:
+  port: 12342
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDRS:nacos-0.nacos-headless.default.svc.cluster.local,nacos-1.nacos-headless.default.svc.cluster.local,nacos-2.nacos-headless.default.svc.cluster.local}
+  application:
+    name: ts-user-service
+  datasource:
+    url: jdbc:mysql://${USER_MYSQL_HOST:ts-user-mysql}:${USER_MYSQL_PORT:3306}/${USER_MYSQL_DATABASE:ts-user-mysql}?useSSL=false
+    username: ${USER_MYSQL_USER:root}
+    password: ${USER_MYSQL_PASSWORD:Abcd1234#}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+
+swagger:
+  controllerPackage: user.controller

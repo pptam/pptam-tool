@@ -1,0 +1,286 @@
+global:
+  image:
+    repository: 10.10.10.240/library
+    tag: latest
+  port: 8080
+  monitoring: "opentelemetry" 
+  otelcollector: "http://opentelemetry-collector-deployment.monitoring:4317"
+
+skywalking:
+  enabled: false  
+  image: apache/skywalking-java-agent:8.8.0-alpine
+
+opentelemetry:
+  enabled: true
+  image: 10.10.10.240/library/autoinstrumentation-java:latest
+
+services:
+  tsAdminBasicInfoService:
+    name: ts-admin-basic-info-service
+    secretRef: ts-admin-basic-info-service
+  tsAdminOrderService:
+    name: ts-admin-order-service
+    secretRef: ts-admin-order-service
+  tsAdminRouteService:
+    name: ts-admin-route-service
+    secretRef: ts-admin-route-service
+  tsAdminTravelService:
+    name: ts-admin-travel-service
+    secretRef: ts-admin-travel-service
+  tsAdminUserService:
+    name: ts-admin-user-service
+    secretRef: ts-admin-user-service
+  tsAssuranceService:
+    name: ts-assurance-service
+    secretRef: ts-assurance-service
+  tsAuthService:
+    name: ts-auth-service
+    secretRef: ts-auth-service
+  tsAvatarService:
+    name: ts-avatar-service
+    secretRef: ts-avatar-service
+    lang: python
+  tsBasicService:
+    name: ts-basic-service
+    secretRef: ts-basic-service
+  tsCancelService:
+    name: ts-cancel-service
+    secretRef: ts-cancel-service
+  tsConfigService:
+    name: ts-config-service
+    secretRef: ts-config-service
+  tsConsignPriceService:
+    name: ts-consign-price-service
+    secretRef: ts-consign-price-service
+  tsConsignService:
+    name: ts-consign-service
+    secretRef: ts-consign-service
+  tsContactsService:
+    name: ts-contacts-service
+    secretRef: ts-contacts-service
+  tsDeliveryService:
+    name: ts-delivery-service
+    secretRef: ts-delivery-service
+  tsExecuteService:
+    name: ts-execute-service
+    secretRef: ts-execute-service
+  tsFoodDeliveryService:
+    name: ts-food-delivery-service
+    secretRef: ts-food-delivery-service
+  tsFoodService:
+    name: ts-food-service
+    secretRef: ts-food-service
+  tsGatewayService:
+    name: ts-gateway-service
+    secretRef: ts-gateway-service
+  tsInsidePaymentService:
+    name: ts-inside-payment-service
+    secretRef: ts-inside-payment-service
+  tsNewsService:
+    name: ts-news-service
+    secretRef: ts-news-service
+    lang: golang
+  tsNotificationService:
+    name: ts-notification-service
+    secretRef: ts-notification-service
+  tsOrderOtherService:
+    name: ts-order-other-service
+    secretRef: ts-order-other-service
+  tsOrderService:
+    name: ts-order-service
+    secretRef: ts-order-service
+    resources:
+      requests:
+        cpu: 12
+        memory: 2Gi
+      limits:
+        cpu: 32
+        memory: 8Gi
+  tsPaymentService:
+    name: ts-payment-service
+    secretRef: ts-payment-service
+  tsPreserveOtherService:
+    name: ts-preserve-other-service
+    secretRef: ts-preserve-other-service
+  tsPreserveService:
+    name: ts-preserve-service
+    secretRef: ts-preserve-service
+  tsPriceService:
+    name: ts-price-service
+    secretRef: ts-price-service
+  tsRebookService:
+    name: ts-rebook-service
+    secretRef: ts-rebook-service
+  tsRoutePlanService:
+    name: ts-route-plan-service
+    secretRef: ts-route-plan-service
+  tsRouteService:
+    name: ts-route-service
+    secretRef: ts-route-service
+  tsSeatService:
+    name: ts-seat-service
+    secretRef: ts-seat-service
+  tsSecurityService:
+    name: ts-security-service
+    secretRef: ts-security-service
+  tsStationFoodService:
+    name: ts-station-food-service
+    secretRef: ts-station-food-service
+  tsStationService:
+    name: ts-station-service
+    secretRef: ts-station-service
+  tsTicketOfficeService:
+    name: ts-ticket-office-service
+    secretRef: ts-ticket-office-service
+    lang: javascript
+  tsTrainFoodService:
+    name: ts-train-food-service
+    secretRef: ts-train-food-service
+  tsTrainService:
+    name: ts-train-service
+    secretRef: ts-train-service
+  tsTravelPlanService:
+    name: ts-travel-plan-service
+    secretRef: ts-travel-plan-service
+  tsTravelService:
+    name: ts-travel-service
+    secretRef: ts-travel-service
+  tsTravel2Service:
+    name: ts-travel2-service
+    secretRef: ts-travel2-service
+  tsUiDashboard:
+    name: ts-ui-dashboard
+    secretRef: ts-ui-dashboard
+    type: NodePort
+    nodePort: 30080
+    lang: frontend
+  tsUserService:
+    name: ts-user-service
+    secretRef: ts-user-service
+  tsVerificationCodeService:
+    name: ts-verification-code-service
+    secretRef: ts-verification-code-service
+  tsVoucherService:
+    name: ts-voucher-service
+    secretRef: ts-voucher-service
+    lang: python
+  tsWaitOrderService:
+    name: ts-wait-order-service
+    secretRef: ts-wait-order-service
+
+resources:
+  requests:
+    cpu: 2
+    memory: 1Gi
+  limits:
+    cpu: 4
+    memory: 2Gi
+
+# Example of how to specify service-specific resources
+# services:
+#   tsServiceName:
+#     name: ts-service-name
+#     secretRef: ts-service-name
+#     resources:
+#       requests:
+#         cpu: 1
+#         memory: 512Mi
+#       limits:
+#         cpu: 2
+#         memory: 1Gi
+
+skywalking-helm:
+  oap:
+    name: oap
+    image:
+      tag: 9.6.0  # Must be set explicitly
+    storageType: postgresql
+    replicas: 2
+    service:
+      type: ClusterIP
+    javaOpts: -Xmx2g -Xms2g
+    resources:
+      limits:
+        cpu: 4
+        memory: 8Gi
+      requests:
+        cpu: 4
+        memory: 4Gi
+    livenessProbe: 
+      tcpSocket:
+        port: 12800
+      initialDelaySeconds: 10
+      periodSeconds: 20
+
+  ui:
+    name: ui
+    replicas: 1
+    image:
+      tag: 9.6.0  # Must be set explicitly
+    service:
+      type: ClusterIP
+  elasticsearch:
+    enabled: false
+
+  postgresql:
+    enabled: false # Whether to start a demo postgresql deployment, don't use this for production.
+    config:
+      # The hostname of your own postgresql service, this only takes effect when postgresql.enabled is false.
+      host: ts-postgresql # note: change the name to your corresponding name !!!!!!
+    auth:
+      username: postgres
+      password: "123456"
+      database: skywalking
+    containerPorts:
+      postgresql: 5432
+    primary:
+      persistence:
+        enabled: false
+    readReplicas:
+      persistence:
+        enabled: false
+
+  satellite:
+    image:
+      tag: 9.6.0 # Must be set explicitly
+
+
+mysql:
+  enabled: true
+  image: mysql:5.7
+  rootPassword: "yourpassword"
+  host: "mysql"
+  port: "3306"
+  database: "ts"
+  user: "root"
+  password: "yourpassword"
+  maxConnections: 1024
+  persistence:
+    enabled: false
+    # existingClaim: mysql-pvc
+  service:
+    type: NodePort
+    port: 3306
+    # nodePort: 30306
+
+# RabbitMQ Configuration
+rabbitmq:
+  enabled: true
+  podLabels: {app: ts-rabbitmq}
+  auth:
+    username: guest   # Using the default RabbitMQ username
+    password: guest   # Using the default RabbitMQ password
+    erlangCookie: "RABBITMQCOOKIE"  # A simple cookie value
+  service:
+    type: ClusterIP
+  persistence:
+    enabled: false    # Disabling persistence makes it stateless
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 1Gi
+      cpu: 1000m
+  metrics:
+    enabled: false

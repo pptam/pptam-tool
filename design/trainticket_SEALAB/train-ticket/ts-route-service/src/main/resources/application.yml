@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: ts-route-service
+  data:
+    mongodb:
+      host: ts-route-mongo
+#      username: user
+#      password: ${MONGODB_PASSWORD}
+      database: ts
+      port: 27017
+
+  zipkin:
+    baseUrl: http://zipkin:9411/
+  sleuth:
+    sampler:
+      percentage: 1.0
+
+# HTTP Server
+server:
+  port: 11178  # HTTP (Tomcat) port

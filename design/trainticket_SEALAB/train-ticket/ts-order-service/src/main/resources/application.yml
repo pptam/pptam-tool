@@ -1,0 +1,20 @@
+# HTTP Server
+server:
+  port: 12031  # HTTP (Tomcat) port
+
+spring:
+  application:
+    name: ts-order-service
+  data:
+    mongodb:
+      host: ts-order-mongo
+#      username: user
+#      password: ${MONGODB_PASSWORD}
+#      database: piggymetrics
+      port: 27017
+
+  zipkin:
+    baseUrl: http://zipkin:9411/
+  sleuth:
+    sampler:
+      percentage: 1.0

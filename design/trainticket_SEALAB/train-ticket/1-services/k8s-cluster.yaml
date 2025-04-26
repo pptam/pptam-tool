@@ -1,0 +1,433 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - name: mongo
+        image: 10.141.212.25:5555/cluster-ts-mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rabbitmq
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+      - name: rabbitmq
+        image: rabbitmq:management
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5672
+        - containerPort: 15672
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zipkin
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: zipkin
+    spec:
+      containers:
+      - name: zipkin
+        image: openzipkin/zipkin
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9411
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-service-6
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-service-6
+    spec:
+      containers:
+      - name: rest-service-6
+        image: 10.141.212.25:5555/my-rest-service-6
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 16006
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-service-5
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-service-5
+    spec:
+      containers:
+      - name: rest-service-5
+        image: 10.141.212.25:5555/my-rest-service-5
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 16005
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-service-4
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-service-4
+    spec:
+      containers:
+      - name: rest-service-4
+        image: 10.141.212.25:5555/my-rest-service-4
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 16004
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-service-3
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-service-3
+    spec:
+      containers:
+      - name: rest-service-3
+        image: 10.141.212.25:5555/my-rest-service-3
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 16003
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-service-2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-service-2
+    spec:
+      containers:
+      - name: rest-service-2
+        image: 10.141.212.25:5555/my-rest-service-2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 16002
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-service-1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-service-1
+    spec:
+      containers:
+      - name: rest-service-1
+        image: 10.141.212.25:5555/my-rest-service-1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 16001
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-service-end
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-service-end
+    spec:
+      containers:
+      - name: rest-service-end
+        image: 10.141.212.25:5555/my-rest-service-end
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 16000
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-service-nodejs
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-service-nodejs
+    spec:
+      containers:
+      - name: rest-service-nodejs
+        image: 10.141.212.25:5555/my-rest-service-nodejs
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 16100
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-service-python
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-service-python
+    spec:
+      containers:
+      - name: rest-service-python
+        image: 10.141.212.25:5555/my-rest-service-python
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 16101
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-service-go
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-service-go
+    spec:
+      containers:
+      - name: rest-service-go
+        image: 10.141.212.25:5555/my-rest-service-go
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 16102
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+spec:
+  ports:
+    - name: rabbitmq-1
+      port: 5672
+    - name: rabbitmq-2
+      port: 15672
+  selector:
+   app: rabbitmq
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipkin
+spec:
+  type: NodePort
+  ports:
+    - port: 9411
+      nodePort: 32411
+  selector:
+   app: zipkin
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service-6
+spec:
+  type: NodePort
+  ports:
+    - port: 16006
+      nodePort: 32006
+  selector:
+   app: rest-service-6
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service-5
+spec:
+  ports:
+    - port: 16005
+  selector:
+   app: rest-service-5
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service-4
+spec:
+  ports:
+    - port: 16004
+  selector:
+   app: rest-service-4
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service-3
+spec:
+  ports:
+    - port: 16003
+  selector:
+   app: rest-service-3
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service-2
+spec:
+  ports:
+    - port: 16002
+  selector:
+   app: rest-service-2
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service-1
+spec:
+  ports:
+    - port: 16001
+  selector:
+   app: rest-service-1
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service-end
+spec:
+  ports:
+    - port: 16000
+  selector:
+   app: rest-service-end
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service-nodejs
+spec:
+  ports:
+    - port: 16100
+  selector:
+   app: rest-service-nodejs
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service-python
+spec:
+  ports:
+    - port: 16101
+  selector:
+   app: rest-service-python
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service-go
+spec:
+  ports:
+    - port: 16102
+  selector:
+   app: rest-service-go
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,44 @@
+# HTTP Server
+server:
+  port: 17853  # HTTP (Tomcat) port
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDRS:nacos-0.nacos-headless.default.svc.cluster.local,nacos-1.nacos-headless.default.svc.cluster.local,nacos-2.nacos-headless.default.svc.cluster.local}
+  application:
+    name: ts-notification-service
+  mail:
+    host: smtp.163.com
+    port: 465
+    username: ${email_address:trainticket_notify@163.com}
+    password: ${email_password:GZKSCXHBOLKMCLDQ}
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  datasource:
+    url: jdbc:mysql://${NOTIFICATION_MYSQL_HOST:ts-notification-mysql}:${NOTIFICATION_MYSQL_PORT:3306}/${NOTIFICATION_MYSQL_DATABASE:ts-notification-mysql}?useSSL=false
+    username: ${NOTIFICATION_MYSQL_USER:root}
+    password: ${NOTIFICATION_MYSQL_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+  rabbitmq:
+    host: ${rabbitmq_host:localhost}
+    port: 5672
+
+
+swagger:
+  controllerPackage: notification.controller

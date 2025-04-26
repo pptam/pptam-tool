@@ -1,0 +1,24 @@
+server:
+  port: 18808
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDRS:nacos-0.nacos-headless.default.svc.cluster.local,nacos-1.nacos-headless.default.svc.cluster.local,nacos-2.nacos-headless.default.svc.cluster.local}
+  application:
+    name: ts-delivery-service
+  datasource:
+    url: jdbc:mysql://${DELIVERY_MYSQL_HOST:ts-delivery-mysql}:${DELIVERY_MYSQL_PORT:3306}/${DELIVERY_MYSQL_DATABASE:ts-delivery-mysql}?useSSL=false
+    username: ${DELIVERY_MYSQL_USER:root}
+    password: ${DELIVERY_MYSQL_PASSWORD:Abcd1234#}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  rabbitmq:
+    host: ${rabbitmq_host:localhost}
+    port: 5672
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect

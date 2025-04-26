@@ -1,0 +1,39 @@
+
+bug list:
+
+# Cannot read the HTTP response of the restTemplate call for other microservices——
+The last parameter of restTemplate's postForObject/getForObject method must be the class of the return object
+of the request url, the properties' name must be the same.
+
+# The url mapping is ambiguous——
+Two paths of the RequestMapping annotation is the same
+
+# When executing the "ADD ./target/ts-food-service-1.0.jar /app/",  cannot find the jar package——
+Change the version of pom.xml to 1.0
+
+#When I create flow three "Voucher&Consign" by copying the code of flow two, everytime I click refresh order button in flow two, 
+the result are displayed in the view of flow three. I have changed the id of the corresponding html element. It doesn't work.——
+Since all javascript files are included in the same html file, I didn't change the name of the copied js code from flow two. 
+The code of flow two are overlapped by the copied code and it caused the problem.
+
+#When I implemented the function of route update, it failed with the message "Can not deserialize instance of java.lang.String 
+out of START_ARRAY token "——
+Since stationList and distanceList in the route are actually string list, the admin route service took it as an array when I post
+it by http of angularjs. I add the code " +"" " to remind the angularjs to post it as a single string. And it works.
+
+#When I implement the admin page, I first wrote a html page name login.html. However, I couldn't access it in the browser.——
+I change the name to adminlogin.html and I can access it in the browser. Maybe "login" is a reserved word in nginx.
+
+#When I add new angularjs http request, the docker-compose up failed with the information "/xxx/xxx can not find in the nginx"——
+Add the mapping relation in the nginx.conf. It works.
+
+# Throws Type-Convert-Error exception after implemented a new method that get an ArrayList from another service
+This is because the wrong usage of the RestTemplate.postForObject method.
+We package the ArrayList into a new class and use this new class as a return type in RestTemplate.postForObject
+
+# Cannot receive any message from ts-travel2-service
+This is because the name of interfaces in ts-travel2-service is similar but a little different with interfaces ts-travel-service.
+One of the developers made a mistake when implements the path of a request.
+
+# Successfully sent the data but the receiver cannot receive anything
+Forgot to add @RequestBody annotation in controller.

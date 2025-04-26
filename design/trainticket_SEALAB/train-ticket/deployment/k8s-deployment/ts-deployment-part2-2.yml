@@ -1,0 +1,312 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-register-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-register-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-register-service
+        image: kylinxiang/ts-register-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12344
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-route-plan-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-route-plan-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-route-plan-service
+        image: kylinxiang/ts-route-plan-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 14578
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-route-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-route-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-route-service
+        image: kylinxiang/ts-route-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 11178
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-seat-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-seat-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-seat-service
+        image: kylinxiang/ts-seat-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18898
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-security-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-security-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-security-service
+        image: kylinxiang/ts-security-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 11188
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-sso-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-sso-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-sso-service
+        image: kylinxiang/ts-sso-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12349
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-station-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-station-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-station-service
+        image: kylinxiang/ts-station-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12345
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-ticket-office-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-ticket-office-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-ticket-office-service
+        image: kylinxiang/ts-ticket-office-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16108
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-ticketinfo-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-ticketinfo-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-ticketinfo-service
+        image: kylinxiang/ts-ticketinfo-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 15681
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-train-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-train-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-train-service
+        image: kylinxiang/ts-train-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 14567
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-travel2-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-travel2-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-travel2-service
+        image: kylinxiang/ts-travel2-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16346
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-travel-plan-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-travel-plan-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-travel-plan-service
+        image: kylinxiang/ts-travel-plan-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 14322
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-travel-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-travel-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-travel-service
+        image: kylinxiang/ts-travel-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12346
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-verification-code-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-verification-code-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-verification-code-service
+        image: kylinxiang/ts-verification-code-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 15678
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-voucher-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-voucher-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-voucher-service
+        image: kylinxiang/ts-voucher-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16101

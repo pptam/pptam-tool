@@ -1,0 +1,5 @@
+random_station_food_store_id_1|food1_13.5,food2_13.5,food3_13.5,food4_13.5,food5_13.5|random_trip_id_1|101|random_created_time_1|random_delivery_time1|1.88
+random_station_food_store_id_2|food1_13.5,food4_13.5,food7_13.5|random_trip_id_2|102|random_created_time_2|random_delivery_time2|2.88
+random_station_food_store_id_3|food2_13.5,food6_13.5,food10_13.5|random_trip_id_3|103|random_created_time_3|random_delivery_time3|3.88
+random_station_food_store_id_4|food3_13.5,food4_13.5,food5_13.5|random_trip_id_4|104|random_created_time_4|random_delivery_time4|4.88
+random_station_food_store_id_5|food2_13.5,food7_13.5,food9_13.5|random_trip_id_5|105|random_created_time_5|random_delivery_time5|5.88

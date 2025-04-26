@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  serviceName: {{ .Values.nacos.headlessService }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      initContainers:
+        - name: initmysql
+          image: {{ .Values.initmysql.image }}
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: {{ .Values.nacos.secretName }}
+      containers:
+        - name: k8snacos
+          env:
+            - name: NACOS_REPLICAS
+              value: "3"
+            - name: NACOS_SERVER_PORT
+              value: "8848"
+            - name: NACOS_APPLICATION_PORT
+              value: "8848"
+            - name: PREFER_HOST_MODE
+              value: hostname
+            - name: MODE
+              value: cluster
+            - name: NACOS_SERVERS
+              value: "{{ .Release.Name }}-0.{{ .Values.nacos.headlessService }}.{{ .Release.Namespace }}.svc.{{ .Values.nacos.domainName }}:{{ .Values.nacos.serverPort}} {{ .Release.Name }}-1.{{ .Values.nacos.headlessService }}.{{ .Release.Namespace }}.svc.{{ .Values.nacos.domainName }}:{{ .Values.nacos.serverPort}} {{ .Release.Name }}-2.{{ .Values.nacos.headlessService }}.{{ .Release.Namespace }}.svc.{{ .Values.nacos.domainName }}:{{ .Values.nacos.serverPort}}"
+          envFrom:
+            - secretRef:
+                name: {{ .Values.nacos.secretName }}
+          image: "{{ .Values.nacos.image.repository }}:{{ .Values.nacos.image.tag }}"
+          imagePullPolicy: {{ .Values.nacos.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.nacos.serverPort }}
+              name: client
+              protocol: TCP
+            - containerPort: 7848
+              name: old-rpc
+              protocol: TCP
+            - containerPort: 9848
+              name: client-rpc
+              protocol: TCP
+            - containerPort: 9849
+              name: raft-rpc
+              protocol: TCP
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: { }
+      terminationGracePeriodSeconds: 30
+  updateStrategy:
+    rollingUpdate:
+      partition: 0
+    type: RollingUpdate

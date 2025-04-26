@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Wed Jul 05 16:03:01 CST 2017
+micro-service-monitoring-zipkin-1.2.2.BUILD-SNAPSHOT.pom>=
+micro-service-monitoring-zipkin-1.2.2.BUILD-SNAPSHOT-sources.jar>=
+micro-service-monitoring-zipkin-1.2.2.BUILD-SNAPSHOT.jar>=
+micro-service-monitoring-zipkin-1.2.2.BUILD-SNAPSHOT-javadoc.jar>=

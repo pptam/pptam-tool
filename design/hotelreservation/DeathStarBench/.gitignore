@@ -1,0 +1,11 @@
+.vscode
+.vs
+
+.DS_Store
+
+bin
+build
+
+wrk2/wrk
+wrk2/*.[oa]
+wrk2/obj/

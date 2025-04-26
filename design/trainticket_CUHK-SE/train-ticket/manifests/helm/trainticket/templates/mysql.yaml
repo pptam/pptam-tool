@@ -1,0 +1,101 @@
+{{- if .Values.mysql.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-db
+data:
+  mysql-init.sql: |
+    CREATE DATABASE IF NOT EXISTS ts;
+    USE mysql;
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  my.cnf: |
+    [mysqld]
+    max_connections = {{ .Values.mysql.maxConnections | default 1024 }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  serviceName: "mysql"
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: disk
+                operator: In
+                values:
+                - ssd
+      containers:
+      - name: mysql
+        image: {{ .Values.mysql.image | default "mysql:5.7" }}
+        command: ["/bin/sh"]
+        args: ["-c", "ulimit -n 10240 && docker-entrypoint.sh mysqld"]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: {{ .Values.mysql.rootPassword | default "yourpassword" | quote }}
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        {{- if .Values.mysql.persistence.enabled }}
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+        {{- end }}
+        - name: mysql-init-db
+          mountPath: /docker-entrypoint-initdb.d
+        - name: mysql-config
+          mountPath: /etc/mysql/conf.d
+        livenessProbe:
+          exec:
+            command: ["mysqladmin", "ping", "-uroot", "-p{{ .Values.mysql.rootPassword | default "yourpassword" }}"]
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+      volumes:
+      - name: mysql-init-db
+        configMap:
+          name: mysql-init-db
+      - name: mysql-config
+        configMap:
+          name: mysql-config
+      {{- if .Values.mysql.persistence.enabled }}
+      {{- if .Values.mysql.persistence.existingClaim }}
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.mysql.persistence.existingClaim }}
+      {{- end }}
+      {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  type: {{ .Values.mysql.service.type | default "NodePort" }}
+  ports:
+  - port: {{ .Values.mysql.service.port | default 3306 }}
+    targetPort: 3306
+    {{- if and (eq .Values.mysql.service.type "NodePort") .Values.mysql.service.nodePort }}
+    nodePort: {{ .Values.mysql.service.nodePort }}
+    {{- end }}
+  selector:
+    app: mysql
+{{- end }}

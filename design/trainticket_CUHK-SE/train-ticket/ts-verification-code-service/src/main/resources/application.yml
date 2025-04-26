@@ -1,0 +1,9 @@
+server:
+  port: 8080  # HTTP (Tomcat) port
+
+spring:
+  application:
+    name: ts-verification-code-service
+
+swagger:
+  controllerPackage: verifycode.controller

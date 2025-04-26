@@ -1,0 +1,33 @@
+name: Publish Helm Chart
+
+on:
+  push:
+    paths:
+      - 'manifests/helm/trainticket/**'
+      - '.github/workflows/release-helm.yml'
+
+jobs:
+  deploy:
+    name: Deploy to gh-pages
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v4.3.0
+      with:
+        version: 'v3.16.3'
+
+    - name: Run publish script
+      run: |
+        bash scripts/publish.sh
+
+    - name: Publish to gh-pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: .deploy
+        publish_branch: gh-pages
+        force_orphan: true

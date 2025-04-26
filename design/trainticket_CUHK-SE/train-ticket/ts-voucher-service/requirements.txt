@@ -1,0 +1,5 @@
+cryptography
+tornado
+pymysql
+opentelemetry-distro
+opentelemetry-exporter-otlp

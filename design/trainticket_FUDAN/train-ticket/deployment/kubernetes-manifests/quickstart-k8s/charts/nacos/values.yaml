@@ -1,0 +1,57 @@
+# Default values for nacos.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  mode: cluster
+
+############################nacos###########################
+nacos:
+  image:
+    repository: nacos/nacos-server
+    tag: 2.0.1
+    pullPolicy: IfNotPresent
+  replicaCount: 3
+  domainName: cluster.local
+  preferhostmode: hostname
+  serverPort: 8848
+  health:
+    enabled: false
+  secretName: nacos-mysql
+  db:
+    name: "nacos"
+    host: "nacos-mysql-leader"
+    username: "nacos"
+    passowrd: "Abcd1234#"
+    port: "3306"
+  headlessService: "nacos-headless"
+service:
+  #type: ClusterIP
+  type: NodePort
+  port: 8848
+
+initmysql:
+  image: "codewisdom/mysqlclient:0.1"
+
+
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  # limits:
+  #   cpu: 1000m
+  #   memory: 4Gi
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+
+
+annotations: { }
+
+nodeSelector: { }
+
+tolerations: [ ]
+
+affinity: { }

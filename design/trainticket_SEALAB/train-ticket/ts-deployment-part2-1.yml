@@ -1,0 +1,517 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-admin-basic-info-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-admin-basic-info-service
+    spec:
+      containers:
+      - name: ts-admin-basic-info-service
+        image: ts/ts-admin-basic-info-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18767
+---
+
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-admin-order-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-admin-order-service
+    spec:
+      containers:
+      - name: ts-admin-order-service
+        image: ts/ts-admin-order-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16112
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-admin-route-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-admin-route-service
+    spec:
+      containers:
+      - name: ts-admin-route-service
+        image: ts/ts-admin-route-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16113
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-admin-travel-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-admin-travel-service
+    spec:
+      containers:
+      - name: ts-admin-travel-service
+        image: ts/ts-admin-travel-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16114
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-admin-user-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-admin-user-service
+    spec:
+      containers:
+      - name: ts-admin-user-service
+        image: ts/ts-admin-user-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16115
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-assurance-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-assurance-service
+    spec:
+      containers:
+      - name: ts-assurance-service
+        image: ts/ts-assurance-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18888
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-basic-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-basic-service
+    spec:
+      containers:
+      - name: ts-basic-service
+        image: ts/ts-basic-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 15680
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-cancel-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-cancel-service
+    spec:
+      containers:
+      - name: ts-cancel-service
+        image: ts/ts-cancel-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18885
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-config-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-config-service
+    spec:
+      containers:
+      - name: ts-config-service
+        image: ts/ts-config-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 15679
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-consign-price-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-consign-price-service
+    spec:
+      containers:
+      - name: ts-consign-price-service
+        image: ts/ts-consign-price-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16110
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-consign-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-consign-service
+    spec:
+      containers:
+      - name: ts-consign-service
+        image: ts/ts-consign-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16111
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-contacts-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-contacts-service
+    spec:
+      containers:
+      - name: ts-contacts-service
+        image: ts/ts-contacts-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12347
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-execute-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-execute-service
+    spec:
+      containers:
+      - name: ts-execute-service
+        image: ts/ts-execute-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12386
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-food-map-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-food-map-service
+    spec:
+      containers:
+      - name: ts-food-map-service
+        image: ts/ts-food-map-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18855
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-food-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-food-service
+    spec:
+      containers:
+      - name: ts-food-service
+        image: ts/ts-food-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18856
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-inside-payment-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-inside-payment-service
+    spec:
+      containers:
+      - name: ts-inside-payment-service
+        image: ts/ts-inside-payment-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18673
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-login-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-login-service
+    spec:
+      containers:
+      - name: ts-login-service
+        image: ts/ts-login-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12342
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-news-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-news-service
+    spec:
+      containers:
+      - name: ts-news-service
+        image: ts/ts-news-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12862
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-notification-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-notification-service
+    spec:
+      containers:
+      - name: ts-notification-service
+        image: ts/ts-notification-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 17853
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-order-other-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-order-other-service
+    spec:
+      containers:
+      - name: ts-order-other-service
+        image: ts/ts-order-other-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12032
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-order-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-order-service
+    spec:
+      containers:
+      - name: ts-order-service
+        image: ts/ts-order-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12031
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-payment-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-payment-service
+    spec:
+      containers:
+      - name: ts-payment-service
+        image: ts/ts-payment-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 19001
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-preserve-other-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-preserve-other-service
+    spec:
+      containers:
+      - name: ts-preserve-other-service
+        image: ts/ts-preserve-other-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 14569
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-preserve-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-preserve-service
+    spec:
+      containers:
+      - name: ts-preserve-service
+        image: ts/ts-preserve-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 14568
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-price-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-price-service
+    spec:
+      containers:
+      - name: ts-price-service
+        image: ts/ts-price-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16579
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-rebook-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-rebook-service
+    spec:
+      containers:
+      - name: ts-rebook-service
+        image: ts/ts-rebook-service
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18886

@@ -1,0 +1,181 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-register-service
+spec:
+  ports:
+    - port: 12344
+  selector:
+   app: ts-register-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-route-plan-service
+spec:
+  ports:
+    - port: 14578
+  selector:
+   app: ts-route-plan-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-route-service
+spec:
+  ports:
+    - port: 11178
+  selector:
+   app: ts-route-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-seat-service
+spec:
+  ports:
+    - port: 18898
+  selector:
+   app: ts-seat-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-security-service
+spec:
+  ports:
+    - port: 11188
+  selector:
+   app: ts-security-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-sso-service
+spec:
+  type: NodePort
+  ports:
+    - port: 12349
+      nodePort: 30003
+  selector:
+   app: ts-sso-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-station-service
+spec:
+  ports:
+    - port: 12345
+  selector:
+   app: ts-station-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-ticket-office-service
+spec:
+  ports:
+    - port: 16108
+  selector:
+   app: ts-ticket-office-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-ticketinfo-service
+spec:
+  ports:
+    - port: 15681
+  selector:
+   app: ts-ticketinfo-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-train-service
+spec:
+  ports:
+    - port: 14567
+  selector:
+   app: ts-train-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-travel2-service
+spec:
+  ports:
+    - port: 16346
+  selector:
+   app: ts-travel2-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-travel-plan-service
+spec:
+  ports:
+    - port: 14322
+  selector:
+   app: ts-travel-plan-service
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-travel-service
+spec:
+  ports:
+    - port: 12346
+  selector:
+   app: ts-travel-service
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-verification-code-service
+spec:
+  ports:
+    - port: 15678
+  selector:
+   app: ts-verification-code-service
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-voucher-service
+spec:
+  ports:
+    - port: 16101
+  selector:
+   app: ts-voucher-service

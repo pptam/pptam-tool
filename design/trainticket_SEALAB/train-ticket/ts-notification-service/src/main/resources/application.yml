@@ -1,0 +1,40 @@
+# HTTP Server
+server:
+  port: 17853  # HTTP (Tomcat) port
+
+#spring:
+#  data:
+#    mongodb:
+#      host: ts-notification-mongo
+##      username: user
+##      password: ${MONGODB_PASSWORD}
+##      database: piggymetrics
+#      port: 27017
+
+spring:
+  application:
+    name: ts-notification-service
+  mail:
+    host: smtp.163.com
+    username: fdse_microservices@163.com
+    password: fdse1234
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+  zipkin:
+    baseUrl: http://zipkin:9411/
+  sleuth:
+    sampler:
+      percentage: 1.0
+      
+#  main:
+#    banner-mode: off
+
+#  velocity:
+#    resource-loader-path: classpath:/templates/
+#    check-template-location: true

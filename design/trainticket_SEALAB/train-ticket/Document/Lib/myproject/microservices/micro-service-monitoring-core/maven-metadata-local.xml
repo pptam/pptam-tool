@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>myproject.microservices</groupId>
+  <artifactId>micro-service-monitoring-core</artifactId>
+  <versioning>
+    <versions>
+      <version>1.2.2.BUILD-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20170705080051</lastUpdated>
+  </versioning>
+</metadata>

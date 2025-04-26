@@ -1,0 +1,663 @@
+worker_processes  1;
+error_log logs/error.log;
+events {
+    worker_connections 1024;
+}
+http {
+
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    #                  '$status $body_bytes_sent "$http_referer" '
+    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+    #access_log  logs/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    server {
+        listen 8080;
+
+        location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+
+        location = /lua_test {
+            default_type text/html;
+            content_by_lua '
+                ngx.say("<p>hello, world</p>")
+            ';
+        }
+
+
+        # For account and verification
+        location /account/findAll {
+            proxy_pass   http://ts-sso-service:12349;
+        }
+        location /account/findAllLogin {
+            proxy_pass   http://ts-sso-service:12349;
+        }
+        location /account/modify {
+            proxy_pass   http://ts-sso-service:12349;
+        }
+
+        location /register {
+            proxy_pass   http://ts-register-service:12344;
+        }
+        location /login {
+            proxy_pass   http://ts-login-service:12342;
+        }
+        location /logout {
+            proxy_pass   http://ts-login-service:12342;
+        }
+        location /verification/generate {
+            proxy_pass   http://ts-verification-code-service:15678;
+        }
+        #For admin login
+        location /account/adminlogin {
+            proxy_pass http://ts-sso-service:12349;
+        }
+
+        # For station service
+
+        location /station/create {
+            proxy_pass   http://ts-station-service:12345;
+        }
+        location /station/exist {
+            proxy_pass   http://ts-station-service:12345;
+        }
+        location /station/delete {
+            proxy_pass   http://ts-station-service:12345;
+        }
+        location /station/query {
+            proxy_pass   http://ts-station-service:12345;
+        }
+        location /station/update {
+            proxy_pass   http://ts-station-service:12345;
+        }
+
+
+
+
+        # For train service
+
+        location /train/create {
+            proxy_pass   http://ts-train-service:14567;
+        }
+        location /train/retrieve {
+            proxy_pass   http://ts-train-service:14567;
+        }
+        location /train/update {
+            proxy_pass   http://ts-train-service:14567;
+        }
+        location /train/delete {
+            proxy_pass   http://ts-train-service:14567;
+        }
+        location /train/query {
+            proxy_pass   http://ts-train-service:14567;
+        }
+
+
+
+
+        # For config service
+
+        location /config/create {
+            proxy_pass   http://ts-config-service:15679;
+        }
+        location /config/query {
+            proxy_pass   http://ts-config-service:15679;
+        }
+        location /config/update {
+            proxy_pass   http://ts-config-service:15679;
+        }
+        location /config/delete {
+            proxy_pass   http://ts-config-service:15679;
+        }
+        location /config/queryAll {
+            proxy_pass   http://ts-config-service:15679;
+        }
+
+        # For security service
+
+        location /securityConfig/findAll {
+            proxy_pass   http://ts-security-service:11188;
+        }
+        location /securityConfig/create {
+            proxy_pass   http://ts-security-service:11188;
+        }
+        location /securityConfig/update {
+            proxy_pass   http://ts-security-service:11188;
+        }
+        location /securityConfig/delete {
+            proxy_pass   http://ts-security-service:11188;
+        }
+        location /security/check {
+            proxy_pass   http://ts-security-service:11188;
+        }
+
+        # For Execute service
+
+        location /execute/execute {
+            proxy_pass   http://ts-execute-service:12386;
+        }
+        location /execute/collected {
+            proxy_pass   http://ts-execute-service:12386;
+        }
+
+
+        # For contacts service
+
+        location /contacts/create {
+            proxy_pass   http://ts-contacts-service:12347;
+        }
+
+        location /contacts/findContacts {
+            proxy_pass   http://ts-contacts-service:12347;
+        }
+
+        location /contacts/findAll {
+            proxy_pass   http://ts-contacts-service:12347;
+        }
+
+        location /contacts/modifyContacts {
+            proxy_pass   http://ts-contacts-service:12347;
+        }
+        location /contacts/deleteContacts {
+            proxy_pass   http://ts-contacts-service:12347;
+        }
+        location /contacts/admincreate {
+            proxy_pass   http://ts-contacts-service:12347;
+        }
+
+
+        # For order service
+
+        location /order/create {
+            proxy_pass   http://ts-order-service:12031;
+        }
+
+        location /order/alter {
+            proxy_pass   http://ts-order-service:12031;
+        }
+
+        location /order/query {
+            proxy_pass   http://ts-order-service:12031;
+        }
+
+        location /order/update {
+            proxy_pass   http://ts-order-service:12031;
+        }
+
+        location /order/cancel {
+            proxy_pass   http://ts-order-service:12031;
+        }
+
+        location /order/calculate {
+            proxy_pass   http://ts-order-service:12031;
+        }
+
+        location /order/findAll {
+            proxy_pass   http://ts-order-service:12031;
+        }
+
+        location /order/modifyOrderStatus {
+            proxy_pass   http://ts-order-service:12031;
+        }
+
+        location /order/price {
+            proxy_pass   http://ts-order-other-service:12031;
+        }
+
+        location /order/payOrder {
+            proxy_pass   http://ts-order-other-service:12031;
+        }
+
+        # For order other service
+
+        location /orderOther/create {
+            proxy_pass   http://ts-order-other-service:12032;
+        }
+
+        location /orderOther/alter {
+            proxy_pass   http://ts-order-other-service:12032;
+        }
+
+        location /orderOther/query {
+            proxy_pass   http://ts-order-other-service:12032;
+        }
+
+        location /orderOther/update {
+            proxy_pass   http://ts-order-other-service:12032;
+        }
+
+        location /orderOther/cancel {
+            proxy_pass   http://ts-order-other-service:12032;
+        }
+
+        location /orderOther/calculate {
+            proxy_pass   http://ts-order-other-service:12032;
+        }
+
+        location /orderOther/findAll {
+            proxy_pass   http://ts-order-other-service:12032;
+        }
+
+        location /orderOther/modifyOrderStatus {
+            proxy_pass   http://ts-order-other-service:12032;
+        }
+
+        location /orderOther/price {
+            proxy_pass   http://ts-order-other-service:12032;
+        }
+
+        location /orderOther/payOrder {
+            proxy_pass   http://ts-order-other-service:12032;
+        }
+
+
+        # For travel service
+
+        location /travel/create {
+            proxy_pass   http://ts-travel-service:12346;
+        }
+        location /travel/retrieve {
+            proxy_pass   http://ts-travel-service:12346;
+        }
+        location /travel/update {
+            proxy_pass   http://ts-travel-service:12346;
+        }
+        location /travel/delete {
+            proxy_pass   http://ts-travel-service:12346;
+        }
+        location /travel/query {
+            proxy_pass   http://ts-travel-service:12346;
+        }
+        location /travel/queryAll {
+            proxy_pass   http://ts-travel-service:12346;
+        }
+
+
+        # For travel2 service
+
+        location /travel2/create {
+            proxy_pass   http://ts-travel2-service:16346;
+        }
+        location /travel2/retrieve {
+            proxy_pass   http://ts-travel2-service:16346;
+        }
+        location /travel2/update {
+            proxy_pass   http://ts-travel2-service:16346;
+        }
+        location /travel2/delete {
+            proxy_pass   http://ts-travel2-service:16346;
+        }
+        location /travel2/query {
+            proxy_pass   http://ts-travel2-service:16346;
+        }
+        location /travel2/queryAll {
+            proxy_pass   http://ts-travel2-service:16346;
+       }
+
+
+
+
+        #For preserve service
+
+        location /preserve {
+            proxy_pass   http://ts-preserve-service:14568;
+        }
+
+        #For preserve other service
+
+        location /preserveOther {
+            proxy_pass   http://ts-preserve-other-service:14569;
+        }
+
+
+
+        #For price service
+        location /price/query {
+            proxy_pass  http://ts-price-service:16579;
+        }
+        location /price/queryAll {
+            proxy_pass  http://ts-price-service:16579;
+        }
+        location /price/create {
+            proxy_pass  http://ts-price-service:16579;
+        }
+        location /price/delete {
+            proxy_pass  http://ts-price-service:16579;
+        }
+        location /price/update {
+            proxy_pass  http://ts-price-service:16579;
+        }
+
+        #For basic information service
+        location /basic/queryForTravel {
+            proxy_pass  http://ts-basic-service:15680;
+        }
+
+        #For ticket information service
+        location /ticketinfo/queryForTravel {
+            proxy_pass  http://ts-ticketinfo-service:15681;
+        }
+
+        #For notification service
+        location /notification/preserve_success {
+            proxy_pass  http://ts-notification-service:17853;
+        }
+        location /notification/order_create_success {
+            proxy_pass  http://ts-notification-service:17853;
+        }
+        location /notification/order_changed_success {
+            proxy_pass  http://ts-notification-service:17853;
+        }
+
+        #For inside payment service
+        location /inside_payment/pay {
+            proxy_pass  http://ts-inside-payment-service:18673;
+        }
+        location /inside_payment/createAccount {
+            proxy_pass  http://ts-inside-payment-service:18673;
+        }
+        location /inside_payment/addMoney {
+            proxy_pass  http://ts-inside-payment-service:18673;
+        }
+        location /inside_payment/queryPayment {
+            proxy_pass  http://ts-inside-payment-service:18673;
+        }
+        location /inside_payment/queryAccount {
+            proxy_pass  http://ts-inside-payment-service:18673;
+        }
+        location /inside_payment/queryAddMoney {
+             proxy_pass  http://ts-inside-payment-service:18673;
+        }
+
+
+        #For payment service
+        location /payment/pay {
+            proxy_pass  http://ts-payment-service:19001;
+        }
+        location /payment/addMoney {
+            proxy_pass  http://ts-payment-service:19001;
+        }
+        location /payment/query {
+            proxy_pass  http://ts-payment-service:19001;
+        }
+
+        #For rebook service
+        location /rebook {
+            proxy_pass  http://ts-rebook-service:18886;
+        }
+
+        #For cancel Order
+        location /cancelOrder {
+           proxy_pass  http://ts-cancel-service:18885;
+        }
+        location /cancelCalculateRefund {
+           proxy_pass  http://ts-cancel-service:18885;
+        }
+        #For station name
+        location /station/queryById {
+           proxy_pass  http://ts-station-service:12345;
+        }
+
+        #For rebook
+        location /rebook/rebook {
+             proxy_pass  http://ts-rebook-service:18886;
+        }
+        location /rebook/payDifference {
+             proxy_pass  http://ts-rebook-service:18886;
+        }
+
+        #For Route
+        location /route/createAndModify {
+            proxy_pass  http://ts-route-service:11178;
+        }
+        location /route/delete {
+            proxy_pass  http://ts-route-service:11178;
+        }
+        location /route/queryAll {
+            proxy_pass  http://ts-route-service:11178;
+        }
+        location /route/queryById {
+            proxy_pass  http://ts-route-service:11178;
+        }
+        location /route/queryByStartAndTerminal {
+            proxy_pass  http://ts-route-service:11178;
+        }
+
+         #For Assurance
+        location /assurance/getAllAssuranceType {
+            proxy_pass  http://ts-assurance-service:18888;
+        }
+        location /assurance/getAssuranceById {
+            proxy_pass  http://ts-assurance-service:18888;
+        }
+        location /assurance/findAssuranceByOrderId {
+            proxy_pass  http://ts-assurance-service:18888;
+        }
+        location /assurance/findAll {
+            proxy_pass  http://ts-assurance-service:18888;
+        }
+        location /assurance/create {
+            proxy_pass  http://ts-assurance-service:18888;
+        }
+        location /assurance/deleteAssurance {
+            proxy_pass  http://ts-assurance-service:18888;
+        }
+        location /assurance/deleteAssuranceByOrderId {
+            proxy_pass  http://ts-assurance-service:18888;
+        }
+        location /assurance/modifyAssurance {
+            proxy_pass  http://ts-assurance-service:18888;
+        }
+
+        #For Ticket Office
+        location /office/getRegionList {
+            proxy_pass  http://ts-ticket-office-service:16108;
+        }
+        location /office/getAll {
+            proxy_pass  http://ts-ticket-office-service:16108;
+        }
+        location /office/getSpecificOffices {
+            proxy_pass  http://ts-ticket-office-service:16108;
+        }
+        location /office/addOffice {
+            proxy_pass  http://ts-ticket-office-service:16108;
+        }
+        location /office/deleteOffice {
+            proxy_pass  http://ts-ticket-office-service:16108;
+        }
+        location /office/updateOffice {
+            proxy_pass  http://ts-ticket-office-service:16108;
+        }
+
+        #For Travel Transit
+        location /travelPlan/getTransferResult {
+            proxy_pass  http://ts-travel-plan-service:14322;
+        }
+        location /travelPlan/getCheapest {
+            proxy_pass  http://ts-travel-plan-service:14322;
+        }
+        location /travelPlan/getQuickest {
+            proxy_pass  http://ts-travel-plan-service:14322;
+        }
+        location /travelPlan/getMinStation {
+            proxy_pass  http://ts-travel-plan-service:14322;
+        }
+
+        #For Consign and Voucher
+        location /consign/insertConsign {
+            proxy_pass  http://ts-consign-service:16111;
+        }
+        location /consign/findByAccountId {
+            proxy_pass  http://ts-consign-service:16111;
+        }
+        location /getVoucher {
+            proxy_pass  http://ts-voucher-service:16101;
+        }
+
+        #For Route Plan
+        location /routePlan/minStopStations {
+            proxy_pass  http://ts-route-plan-service:14578;
+        }
+        location /routePlan/cheapestRoute {
+            proxy_pass  http://ts-route-plan-service:14578;
+        }
+        location /routePlan/quickestRoute {
+            proxy_pass  http://ts-route-plan-service:14578;
+        }
+
+        #For Food
+        location /food/getFood {
+            proxy_pass http://ts-food-service:18856;
+        }
+        location /food/createFoodOrder {
+             proxy_pass http://ts-food-service:18856;
+         }
+        location /food/cancelFoodOrder {
+             proxy_pass http://ts-food-service:18856;
+         }
+        location /food/updateFoodOrder {
+              proxy_pass http://ts-food-service:18856;
+         }
+        location /food/findAllFoodOrder {
+              proxy_pass http://ts-food-service:18856;
+         }
+        location /food/findFoodOrderByOrderId {
+             proxy_pass http://ts-food-service:18856;
+         }
+
+        #For Food
+        location /news-service/news {
+            proxy_pass http://ts-news-service:12862;
+        }
+
+        #For Admin basic info
+        location /adminbasic/getAllContacts{
+            proxy_pass http://ts-admin-basic-info-service:18767;
+        }
+        location /adminbasic/deleteContacts{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+         location /adminbasic/modifyContacts{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+        location /adminbasic/addContacts{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+        location /adminbasic/getAllStations{
+            proxy_pass http://ts-admin-basic-info-service:18767;
+        }
+        location /adminbasic/deleteStation{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+         location /adminbasic/modifyStation{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+        location /adminbasic/addStation{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+        location /adminbasic/getAllTrains{
+            proxy_pass http://ts-admin-basic-info-service:18767;
+        }
+        location /adminbasic/deleteTrain{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+         location /adminbasic/modifyTrain{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+        location /adminbasic/addTrain{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+        location /adminbasic/getAllPrices{
+            proxy_pass http://ts-admin-basic-info-service:18767;
+        }
+        location /adminbasic/deletePrice{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+         location /adminbasic/modifyPrice{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+        location /adminbasic/addPrice{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+        location /adminbasic/getAllConfigs{
+            proxy_pass http://ts-admin-basic-info-service:18767;
+        }
+        location /adminbasic/deleteConfig{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+         location /adminbasic/modifyConfig{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+        location /adminbasic/addConfig{
+             proxy_pass http://ts-admin-basic-info-service:18767;
+         }
+
+
+        #For Admin Order
+        location /adminorder/findAll{
+            proxy_pass http://ts-admin-order-service:16112;
+        }
+        location /adminorder/addOrder{
+            proxy_pass http://ts-admin-order-service:16112;
+        }
+        location /adminorder/updateOrder{
+            proxy_pass http://ts-admin-order-service:16112;
+        }
+        location /adminorder/deleteOrder{
+            proxy_pass http://ts-admin-order-service:16112;
+        }
+
+        #For Admin Route
+        location /adminroute/findAll {
+            proxy_pass http://ts-admin-route-service:16113;
+        }
+        location /adminroute/createAndModifyRoute {
+            proxy_pass http://ts-admin-route-service:16113;
+        }
+        location /adminroute/deleteRoute {
+            proxy_pass http://ts-admin-route-service:16113;
+        }
+
+        #For Admin Travel
+        location /admintravel/findAll {
+            proxy_pass http://ts-admin-travel-service:16114;
+        }
+        location /admintravel/addTravel {
+            proxy_pass http://ts-admin-travel-service:16114;
+        }
+        location /admintravel/updateTravel {
+            proxy_pass http://ts-admin-travel-service:16114;
+        }
+        location /admintravel/deleteTravel {
+            proxy_pass http://ts-admin-travel-service:16114;
+        }
+
+        #For Admin User
+        location /adminuser/findAll {
+            proxy_pass http://ts-admin-user-service:16115;
+        }
+        location /adminuser/addUser {
+            proxy_pass http://ts-admin-user-service:16115;
+        }
+        location /adminuser/updateUser {
+            proxy_pass http://ts-admin-user-service:16115;
+        }
+        location /adminuser/deleteUser {
+            proxy_pass http://ts-admin-user-service:16115;
+        }
+
+    }
+}

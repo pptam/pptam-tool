@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mms-client
+  labels:
+    death-star-project: media-microsvc
+    app: mms-client
+  namespace: media-microsvc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      death-star-project: media-microsvc
+      app: mms-client
+  template:
+    metadata:
+      labels: 
+        death-star-project: media-microsvc
+        app: mms-client
+      name: mms-client
+#      annotations:
+#        sidecar.istio.io/inject: "true"
+    spec:
+      containers:
+      - name: mms-client
+        image: deathstarbench/wrk2-client
+        command:  ["/bin/sh"]
+        args:
+          - -c
+          - sleep 365d
+#        volumeMounts:
+#        - mountPath: /root/DeathStarBench
+#          name: deathstarbench
+        imagePullPolicy: Always
+        restartPolicy: Always
+#        volumes:
+#        - name: deathstarbench
+#          PersistentVolumeClaim:
+#            claimName: deathstarbench-mms
+

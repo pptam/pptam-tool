@@ -1,0 +1,26 @@
+server:
+  port: 18957
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+          server-addr: ${NACOS_ADDRS:nacos-0.nacos-headless.default.svc.cluster.local,nacos-1.nacos-headless.default.svc.cluster.local,nacos-2.nacos-headless.default.svc.cluster.local}
+#          server-addr: 10.176.122.80:8848
+  application:
+    name: ts-food-delivery-service
+  datasource:
+#    url: jdbc:mysql://localhost:30001/ts-food-delivery-mysql?useSSL=false
+    url: jdbc:mysql://${FOOD_DELIVERY_MYSQL_HOST:ts-food-delivery-mysql}:${FOOD_DELIVERY_MYSQL_PORT:3306}/${FOOD_DELIVERY_MYSQL_DATABASE:ts-food-delivery-mysql}?useSSL=false
+    username: ${FOOD_DELIVERY_MYSQL_USER:root}
+    password: ${FOOD_DELIVERY_MYSQL_PASSWORD:root}
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+swagger:
+  controllerPackage: fooddelivery.controller

@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: rest-service-2
+server:
+  port: 16002

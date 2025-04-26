@@ -1,0 +1,12 @@
+name: memcached-rate
+
+ports:
+  - port: 11212
+    targetPort: 11211
+ 
+container:
+  image: memcached
+  imageVersion: latest
+  name: hotel-reserv-rate-mmc
+  ports:
+  - containerPort: 11211

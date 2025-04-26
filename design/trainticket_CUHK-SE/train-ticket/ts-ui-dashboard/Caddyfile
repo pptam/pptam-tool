@@ -1,0 +1,146 @@
+{
+	admin :2020
+}
+
+:8080 {
+	log {
+		output stdout
+	}
+	handle /api* {
+		tracing {
+			span "{http.request.method} {http.request.uri.path}"
+		}
+		handle /api/v1/adminbasicservice* {
+			reverse_proxy ts-admin-basic-info-service:8080
+		}
+		handle /api/v1/adminorderservice* {
+			reverse_proxy ts-admin-order-service:8080
+		}
+		handle /api/v1/adminrouteservice* {
+			reverse_proxy ts-admin-route-service:8080
+		}
+		handle /api/v1/admintravelservice* {
+			reverse_proxy ts-admin-travel-service:8080
+		}
+		handle /api/v1/adminuserservice/users* {
+			reverse_proxy ts-admin-user-service:8080
+		}
+		handle /api/v1/assuranceservice* {
+			reverse_proxy ts-assurance-service:8080
+		}
+		handle /api/v1/auth* {
+			reverse_proxy ts-auth-service:8080
+		}
+		handle /api/v1/users* {
+			reverse_proxy ts-auth-service:8080
+		}
+		handle /api/v1/avatar* {
+			reverse_proxy ts-avatar-service:8080
+		}
+		handle /api/v1/basicservice* {
+			reverse_proxy ts-basic-service:8080
+		}
+		handle /api/v1/cancelservice* {
+			reverse_proxy ts-cancel-service:8080
+		}
+		handle /api/v1/configservice* {
+			reverse_proxy ts-config-service:8080
+		}
+		handle /api/v1/consignpriceservice* {
+			reverse_proxy ts-consign-price-service:8080
+		}
+		handle /api/v1/consignservice* {
+			reverse_proxy ts-consign-service:8080
+		}
+		handle /api/v1/contactservice* {
+			reverse_proxy ts-contacts-service:8080
+		}
+		handle /api/v1/executeservice* {
+			reverse_proxy ts-execute-service:8080
+		}
+		handle /api/v1/foodservice* {
+			reverse_proxy ts-food-service:8080
+		}
+		handle /api/v1/inside_pay_service* {
+			reverse_proxy ts-inside-payment-service:8080
+		}
+		handle /api/v1/notifyservice* {
+			reverse_proxy ts-notification-service:8080
+		}
+		handle /api/v1/orderOtherService* {
+			reverse_proxy ts-order-other-service:8080
+		}
+		handle /api/v1/orderservice* {
+			reverse_proxy ts-order-service:8080
+		}
+		handle /api/v1/paymentservice* {
+			reverse_proxy ts-payment-service:8080
+		}
+		handle /api/v1/preserveotherservice* {
+			reverse_proxy ts-preserve-other-service:8080
+		}
+		handle /api/v1/preserveservice* {
+			reverse_proxy ts-preserve-service:8080
+		}
+		handle /api/v1/priceservice* {
+			reverse_proxy ts-price-service:8080
+		}
+		handle /api/v1/rebookservice* {
+			reverse_proxy ts-rebook-service:8080
+		}
+		handle /api/v1/routeplanservice* {
+			reverse_proxy ts-route-plan-service:8080
+		}
+		handle /api/v1/routeservice* {
+			reverse_proxy ts-route-service:8080
+		}
+		handle /api/v1/seatservice* {
+			reverse_proxy ts-seat-service:8080
+		}
+		handle /api/v1/securityservice* {
+			reverse_proxy ts-security-service:8080
+		}
+		handle /api/v1/stationfoodservice* {
+			reverse_proxy ts-station-food-service:8080
+		}
+		handle /api/v1/stationservice* {
+			reverse_proxy ts-station-service:8080
+		}
+		handle /api/v1/trainfoodservice* {
+			reverse_proxy ts-train-food-service:8080
+		}
+		handle /api/v1/trainservice* {
+			reverse_proxy ts-train-service:8080
+		}
+		handle /api/v1/travel2service* {
+			reverse_proxy ts-travel2-service:8080
+		}
+		handle /api/v1/travelplanservice* {
+			reverse_proxy ts-travel-plan-service:8080
+		}
+		handle /api/v1/travelservice* {
+			reverse_proxy ts-travel-service:8080
+		}
+		handle /api/v1/userservice/users* {
+			reverse_proxy ts-user-service:8080
+		}
+		handle /api/v1/verifycode* {
+			reverse_proxy ts-verification-code-service:8080
+		}
+		handle /api/v1/waitorderservice* {
+			reverse_proxy ts-wait-order-service:8080
+		}
+		handle /api/v1/fooddeliveryservice* {
+			reverse_proxy ts-food-delivery-service:8080
+		}
+	}
+
+	handle {
+		tracing {
+			span app
+		}
+		root * /usr/share/nginx/html
+		file_server
+		try_files {path} /index.html
+	}
+}

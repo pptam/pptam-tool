@@ -1,0 +1,18 @@
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: rest-service-delay
+spec:
+  destination:
+    name: rest-service-2
+  route:
+  - labels:
+      version: v1
+  httpFault:
+    delay:
+      percent: 100
+      fixedDelay: 10s
+
+
+
+

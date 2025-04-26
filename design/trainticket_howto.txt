@@ -1,0 +1,5 @@
+Calculating dependencies for the trainticket projects
+
+./trainticket_parse_dependencies.py ./trainticket_CUHK-SE
+./trainticket_parse_dependencies.py ./trainticket_FUDAN/parse_tag100
+

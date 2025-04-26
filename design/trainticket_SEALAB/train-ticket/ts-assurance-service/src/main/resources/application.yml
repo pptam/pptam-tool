@@ -1,0 +1,19 @@
+server:
+  port: 18888
+
+spring:
+  application:
+    name: ts-assurance-service
+  data:
+    mongodb:
+      host: ts-assurance-mongo
+#      username: user
+#      password: ${MONGODB_PASSWORD}
+      database: ts
+      port: 27017
+  zipkin:
+    baseUrl: http://zipkin:9411/
+  sleuth:
+    sampler:
+      percentage: 1.0
+

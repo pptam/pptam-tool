@@ -1,0 +1,114 @@
+# Valid values are "daemonset", "deployment", and "statefulset".
+mode: "deployment"
+
+presets:
+  kubernetesEvents:
+    enabled: true
+  clusterMetrics:
+    enabled: true
+
+image:
+  # If you want to use the core image `otel/opentelemetry-collector`, you also need to change `command.name` value to `otelcol`.
+  repository: otel/opentelemetry-collector-contrib
+
+configMap:
+  create: true
+
+config:
+  exporters:
+    debug:
+      verbosity: normal
+    clickhouse:
+      endpoint: tcp://10.10.10.58:9000?dial_timeout=10s&compress=lz4&username=default&password=password
+      database: default
+      ttl: 72h
+      logs_table_name: otel_logs
+      traces_table_name: otel_traces
+      metrics_table_name: otel_metrics
+      timeout: 5s
+      retry_on_failure:
+        enabled: true
+        initial_interval: 5s
+        max_interval: 30s
+        max_elapsed_time: 300s
+  extensions:
+    health_check:
+      endpoint: ${env:MY_POD_IP}:13133
+  processors:
+    batch:
+      timeout: 5s
+      send_batch_size: 10000
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+          endpoint: ${env:MY_POD_IP}:4317
+        http:
+          endpoint: ${env:MY_POD_IP}:4318
+    prometheus:
+      config:
+        scrape_configs:
+          - job_name: kube-prom-exporter
+            scrape_interval: 5s
+            static_configs:
+              - targets:
+                - prometheus-stack-prometheus-node-exporter.monitoring:9100
+                - prometheus-stack-kube-state-metrics.monitoring:8080
+                - 10.10.10.222:9500
+                - 10.10.10.221:9500
+                - 10.10.10.223:9500
+  service:
+    telemetry:
+      metrics:
+        address: ${env:MY_POD_IP}:8888
+    extensions:
+      - health_check
+    pipelines:
+      logs: 
+        exporters:
+          - clickhouse
+        processors:
+          - memory_limiter
+          - batch
+        receivers:
+          - otlp
+      metrics: 
+        exporters:
+          - clickhouse
+        processors:
+          - memory_limiter
+          - batch
+        receivers:
+          - otlp
+          - prometheus
+      traces:
+        exporters:
+          - clickhouse
+        processors:
+          - memory_limiter
+          - batch
+        receivers:
+          - otlp
+
+# Adding entries to Pod /etc/hosts with HostAliases
+# https://kubernetes.io/docs/tasks/network/customize-hosts-file-for-pods/
+hostAliases:
+  - ip: "10.10.10.221"
+    hostnames:
+    - "worker1"
+  - ip: "10.10.10.222"
+    hostnames:
+    - "worker2"
+  - ip: "10.10.10.223"
+    hostnames:
+    - "worker3"
+  - ip: "10.10.10.224"
+    hostnames:
+    - "worker4"
+  - ip: "10.10.10.225"
+    hostnames:
+    - "worker5"
+  - ip: "10.10.10.226"
+    hostnames:
+    - "worker6"
+

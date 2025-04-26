@@ -1,0 +1,12 @@
+name: memcached-profile
+
+ports:
+  - port: 11213
+    targetPort: 11211
+ 
+container:
+  image: memcached
+  imageVersion: latest
+  name: hotel-reserv-profile-mmc
+  ports:
+  - containerPort: 11211

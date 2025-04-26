@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: rest-service-4
+
+  zipkin:
+    baseUrl: http://rest-service-collector:9412/
+  sleuth:
+    sampler:
+      percentage: 1.0
+
+server:
+  port: 16004

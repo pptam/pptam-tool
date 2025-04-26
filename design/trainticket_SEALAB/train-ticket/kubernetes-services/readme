@@ -1,0 +1,32 @@
+#上传镜像到25仓库
+docker tag my-service-cluster/rest-service-1 10.141.212.25:5555/rest-service-1
+docker push 10.141.212.25:5555/rest-service-1
+
+docker tag my-service-cluster/rest-service-2 10.141.212.25:5555/rest-service-2
+docker push 10.141.212.25:5555/rest-service-2
+
+docker tag my-service-cluster/rest-service-3 10.141.212.25:5555/rest-service-3
+docker push 10.141.212.25:5555/rest-service-3
+
+#在kubernetes master中执行，以创建pods
+kubectl create -f service2-deployment.yml
+kubectl create -f service1-deployment.yml
+
+#在kubernetes master中执行，以创建service
+kubectl create -f service2-service.yml
+kubectl create -f service1-service.yml
+
+#启动
+kubectl create -f sky-dns-svc.yml
+kubectl create -f sky-dns-rc.yml
+
+kubelet --cluster_dns=10.254.236.67 --cluster_domain=cluster.local restart
+
+kubectl delete deployment rest-service-1-deployment
+
+
+vi /etc/kubernetes/kubelet
+KUBELET_ARGS="--cluster_dns=10.254.236.67 --cluster_domain=cluster.local"
+
+kubectl apply -f <(istioctl kube-inject -f demo.yml)
+kubectl delete -f <(istioctl kube-inject -f demo.yml)

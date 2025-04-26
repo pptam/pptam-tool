@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ts-admin-basic-info-service
+
+swagger:
+  controllerPackage: adminbasic.microservice

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+data:
+  NACOS_ADDRS: "{{ .Release.Name }}-0.{{ .Values.nacos.headlessService }}.{{ .Release.Namespace }}.svc.{{ .Values.nacos.domainName }}:{{ .Values.nacos.serverPort}},{{ .Release.Name }}-1.{{ .Values.nacos.headlessService }}.{{ .Release.Namespace }}.svc.{{ .Values.nacos.domainName }}:{{ .Values.nacos.serverPort}},{{ .Release.Name }}-2.{{ .Values.nacos.headlessService }}.{{ .Release.Namespace }}.svc.{{ .Values.nacos.domainName }}:{{ .Values.nacos.serverPort}}"

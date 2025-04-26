@@ -1,0 +1,237 @@
+version: '3'
+services:
+
+
+  # rest-service-dashboard:
+  #   build: dashboard_x
+  #   # image: my-service-cluster/rest-service-dashboard
+  #   image: 10.141.212.25:5555/my-rest-service-dashboard
+  #   restart: always
+  #   ports:
+  #     - 16600:16600
+  #   deploy:
+  #     replicas: 3
+  #     restart_policy:
+  #       condition: on-failure
+  #   networks:
+  #     - my-network
+
+  # mysql:
+  #   image: mysql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #   deploy:
+  #     replicas: 1
+  #     restart_policy:
+  #       condition: on-failure
+  #   networks:
+  #     - my-network
+
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  # kafka:
+  #   container_name: kafka
+  #   image: spotify/kafka:latest
+  #   ports:
+  #    - 2181:2181
+  #    - 9092:9092
+  #   networks:
+  #     - my-network
+
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - 9411:9411
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  # redis:
+  #   image: redis
+  #   ports:
+  #     - 6379:6379
+  #   deploy:
+  #     replicas: 1
+  #     restart_policy:
+  #       condition: on-failure
+  #   networks:
+  #     - my-network
+    
+  
+
+  rest-service-6:
+    build: rest-service-6
+    # image: my-service-cluster/rest-service-6
+    image: 10.141.212.25:5555/my-rest-service-6
+    restart: always
+    ports:
+      - 16006:16006
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  rest-service-5:
+    build: rest-service-5
+    # image: my-service-cluster/rest-service-5
+    image: 10.141.212.25:5555/my-rest-service-5
+    restart: always
+    ports:
+      - 16005:16005
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  rest-service-4:
+    build: rest-service-4
+    # image: my-service-cluster/rest-service-4
+    image: 10.141.212.25:5555/my-rest-service-4
+    restart: always
+    ports:
+      - 16004:16004
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  rest-service-3:
+    build: rest-service-3
+    # image: my-service-cluster/rest-service-3
+    image: 10.141.212.25:5555/my-rest-service-3
+    restart: always
+    ports:
+      - 16003:16003
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  rest-service-2:
+    build: rest-service-2
+    # image: my-service-cluster/rest-service-2
+    image: 10.141.212.25:5555/my-rest-service-2
+    restart: always
+    ports:
+      - 16002:16002
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  rest-service-1:
+    build: rest-service-1
+    # image: my-service-cluster/rest-service-1
+    image: 10.141.212.25:5555/my-rest-service-1
+    restart: always
+    ports:
+      - 16001:16001
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  rest-service-end:
+    build: rest-service-end
+    # image: my-service-cluster/rest-service-end
+    image: 10.141.212.25:5555/my-rest-service-end
+    restart: always
+    ports:
+      - 16000:16000
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  rest-service-nodejs:
+    build: rest-service-nodejs
+    # image: my-service-cluster/rest-service-nodejs
+    image: 10.141.212.25:5555/rest-service-nodejs
+    restart: always
+    ports:
+      - 16100:16100
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  rest-service-python:
+    build: rest-service-python
+    # image: my-service-cluster/rest-service-python
+    image: 10.141.212.25:5555/rest-service-python
+    restart: always
+    ports:
+      - 16101:16101
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  rest-service-go:
+    build: rest-service-go
+    image: my-service-cluster/rest-service-go
+    # image: 10.141.212.25:5555/rest-service-go
+    restart: always
+    ports:
+      - 16102:16102
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+
+networks:
+  my-network:
+    driver: overlay
+    # driver: bridge
+
+
+
+
+
+  

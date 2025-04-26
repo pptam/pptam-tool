@@ -1,0 +1,110 @@
+##################################################################################################
+# Rest Service 1
+##################################################################################################
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-service-1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-service-1
+        version: v1
+    spec:
+      containers:
+      - name: rest-service-1
+        image: 10.141.212.25:5555/rest-service-1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16001
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-service-1
+spec:
+  type: NodePort
+  ports:
+    - name: http-svc1
+      port: 16001
+      nodePort: 30001
+  selector:
+   app: rest-service-1
+---
+##################################################################################################
+# Rest Service 2
+##################################################################################################
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-service-2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-service-2
+        version: v1
+    spec:
+      containers:
+      - name: rest-service-2
+        image: 10.141.212.25:5555/rest-service-2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16002
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: rest-service-2
+spec:
+    type: NodePort
+    ports:
+       - name: http-svc2
+         port: 16002
+         nodePort: 30002
+    selector:
+      app: rest-service-2
+---
+##################################################################################################
+# Rest Service 3
+##################################################################################################
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-service-3
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rest-service-3
+        version: v1
+    spec:
+      containers:
+      - name: rest-service-3
+        image: 10.141.212.25:5555/rest-service-3
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16003
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: rest-service-3
+spec:
+    type: NodePort
+    ports:
+       - name: http-svc3
+         port: 16003
+         nodePort: 30003
+    selector:
+      app: rest-service-3

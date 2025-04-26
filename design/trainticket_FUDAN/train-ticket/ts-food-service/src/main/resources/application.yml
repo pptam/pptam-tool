@@ -1,0 +1,38 @@
+server:
+  port: 18856
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDRS:nacos-0.nacos-headless.default.svc.cluster.local,nacos-1.nacos-headless.default.svc.cluster.local,nacos-2.nacos-headless.default.svc.cluster.local}
+  application:
+    name: ts-food-service
+  datasource:
+    url: jdbc:mysql://${FOOD_MYSQL_HOST:ts-food-mysql}:${FOOD_MYSQL_PORT:3306}/${FOOD_MYSQL_DATABASE:ts-food-mysql}?useSSL=false
+    username: ${FOOD_MYSQL_USER:root}
+    password: ${FOOD_MYSQL_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  rabbitmq:
+    host: ${rabbitmq_host:localhost}
+    port: 5672
+swagger:
+  controllerPackage: foodsearch.controller
+
+station-service:
+  url: http://${STATION_SERVICE_HOST:ts-station-service}:${STATION_SERVICE_PORT:12345}
+
+travel-service:
+  url: http://${TRAVEL_SERVICE_HOST:ts-travel-service}:${TRAVEL_SERVICE_PORT:12346}
+
+train-food-service:
+  url: http://${TRAIN_FOOD_SERVICE_HOST:ts-train-food-service}:${TRAIN_FOOD_SERVICE_PORT:19999}
+
+station-food-service:
+  url: http://${STATION_FOOD_SERVICE_HOST:ts-station-food-service}:${STATION_FOOD_SERVICE_PORT:18855}

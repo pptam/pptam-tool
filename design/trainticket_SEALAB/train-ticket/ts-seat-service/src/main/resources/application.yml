@@ -1,0 +1,12 @@
+server:
+  port: 18898
+
+spring:
+  application:
+    name: ts-seat-service
+  zipkin:
+    baseUrl: http://zipkin:9411/
+  sleuth:
+    sampler:
+      percentage: 1.0
+

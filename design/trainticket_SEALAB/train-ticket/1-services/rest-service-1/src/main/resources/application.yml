@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: rest-service-1
+
+  zipkin:
+    baseUrl: http://zipkin:9411/
+  sleuth:
+    sampler:
+      percentage: 1.0
+
+server:
+  port: 16001

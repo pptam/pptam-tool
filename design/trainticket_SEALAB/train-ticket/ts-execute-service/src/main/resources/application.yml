@@ -1,0 +1,11 @@
+server:
+  port: 12386
+
+spring:
+  application:
+    name: ts-execute-service
+  zipkin:
+    baseUrl: http://zipkin:9411/
+  sleuth:
+    sampler:
+      percentage: 1.0

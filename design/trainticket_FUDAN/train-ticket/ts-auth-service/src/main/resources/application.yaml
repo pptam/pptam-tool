@@ -1,0 +1,24 @@
+server:
+  port: 12340
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDRS:nacos-0.nacos-headless.default.svc.cluster.local,nacos-1.nacos-headless.default.svc.cluster.local,nacos-2.nacos-headless.default.svc.cluster.local}
+  application:
+    name: ts-auth-service
+  datasource:
+    url: jdbc:mysql://${AUTH_MYSQL_HOST:ts-auth-mysql}:${AUTH_MYSQL_PORT:3306}/${AUTH_MYSQL_DATABASE:ts-auth-mysql}?useSSL=false
+    username: ${AUTH_MYSQL_USER:root}
+    password: ${AUTH_MYSQL_PASSWORD:Abcd1234#}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+
+swagger:
+  controllerPackage: auth.controller

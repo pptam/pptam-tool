@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: rest-service-3
+server:
+  port: 16003

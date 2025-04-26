@@ -1,0 +1,543 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-admin-basic-info-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-admin-basic-info-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-admin-basic-info-service
+        image: kylinxiang/ts-admin-basic-info-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18767
+---
+
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-admin-order-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-admin-order-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-admin-order-service
+        image: kylinxiang/ts-admin-order-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16112
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-admin-route-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-admin-route-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-admin-route-service
+        image: kylinxiang/ts-admin-route-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16113
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-admin-travel-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-admin-travel-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-admin-travel-service
+        image: kylinxiang/ts-admin-travel-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16114
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-admin-user-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-admin-user-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-admin-user-service
+        image: kylinxiang/ts-admin-user-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16115
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-assurance-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-assurance-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-assurance-service
+        image: kylinxiang/ts-assurance-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18888
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-basic-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-basic-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-basic-service
+        image: kylinxiang/ts-basic-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 15680
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-cancel-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-cancel-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-cancel-service
+        image: kylinxiang/ts-cancel-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18885
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-config-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-config-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-config-service
+        image: kylinxiang/ts-config-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 15679
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-consign-price-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-consign-price-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-consign-price-service
+        image: kylinxiang/ts-consign-price-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16110
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-consign-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-consign-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-consign-service
+        image: kylinxiang/ts-consign-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16111
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-contacts-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-contacts-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-contacts-service
+        image: kylinxiang/ts-contacts-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12347
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-execute-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-execute-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-execute-service
+        image: kylinxiang/ts-execute-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12386
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-food-map-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-food-map-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-food-map-service
+        image: kylinxiang/ts-food-map-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18855
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-food-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-food-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-food-service
+        image: kylinxiang/ts-food-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18856
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-inside-payment-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-inside-payment-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-inside-payment-service
+        image: kylinxiang/ts-inside-payment-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18673
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-login-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-login-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-login-service
+        image: kylinxiang/ts-login-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12342
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-news-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-news-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-news-service
+        image: kylinxiang/ts-news-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12862
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-notification-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-notification-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-notification-service
+        image: kylinxiang/ts-notification-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 17853
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-order-other-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-order-other-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-order-other-service
+        image: kylinxiang/ts-order-other-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12032
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-order-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-order-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-order-service
+        image: kylinxiang/ts-order-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 12031
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-payment-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-payment-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-payment-service
+        image: kylinxiang/ts-payment-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 19001
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-preserve-other-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-preserve-other-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-preserve-other-service
+        image: kylinxiang/ts-preserve-other-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 14569
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-preserve-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-preserve-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-preserve-service
+        image: kylinxiang/ts-preserve-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 14568
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-price-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-price-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-price-service
+        image: kylinxiang/ts-price-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16579
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-rebook-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-rebook-service
+        version: v1
+    spec:
+      containers:
+      - name: ts-rebook-service
+        image: kylinxiang/ts-rebook-service:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 18886
