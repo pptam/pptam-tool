@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Refactor Clique</title>
+    <style>
+        html {
+            font-family: arial;
+        }
+        header {
+            text-align: center;
+        }
+    </style>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <header>
+        <h1>Refactor Clique</h1>
+    </header>
+    <div>
+        <ul>
+            <li>Clique manifests as a circular dependency between DRH modules after DRH clustering with DSM.
+                <ul>
+                    <li>DRH aggregates the files with the strongest coupling into modules.</li>
+                    <li>If there is a dependency between DRH modules, there is a possibility that these modules can be further decoupled into stand-alone modules.</li>
+                </ul>
+            </li>
+        </ul>
+        <ul>
+            <li>Analyze the activity of these modules. If they have already generated high maintenance costs and will continue to be active, they should be refactored.</li>
+        </ul>
+        <ul>
+            <li>These DRH modules should be examined for the following characteristics before refactoring:
+                <ul>
+                    <li>Whether the files in the DRH module are semantically consistent.</li>
+                    <li>Whether the dependencies between modules is worth decoupling, i.e. whether these DRH modules form separate functional modules.</li>
+                </ul>
+            </li>
+        </ul>
+        <ul>
+            <li>Refactoring method: Decoupling between modules by using dependency inversion.</li>
+        </ul>
+        <ul>
+            <li>Use DV8 to extract the design space led by the module that needs to be refactored, and put all the files in the space into a refactoring branch.</li>
+        </ul>
+        <ul>
+            <li>Do the following in the refactoring branch:
+                <ul>
+                    <li>Design the corresponding decoupling design rule files, i.e. interface files, so that the original coupling modules rely only on these interface files, not on each other (depending on inverted).</li>
+                    <li>If the module is too large, or if the files in the module are too long, consider decoupling the file into multiple small files, or decoupling a large module into multiple small modules, ensuring that the modules depend only on the interface and not on each other.</li>
+                    <li>The development team can use the degree of evolutionary coupling to determine which files should form a module.</li>
+                    <li>Write the appropriate unit test cases to ensure that the new code is functionally correct.</li>
+                    <li>Make sure the new code doesn't have code smells.</li>
+                    <li>Using DV8, detect:
+                        <ul>
+                            <li>Whether the refactored code conforms to the target design.</li>
+                            <li>Whether the modules truly decoupled.</li>
+                            <li>Whether the decoupling score has improved.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

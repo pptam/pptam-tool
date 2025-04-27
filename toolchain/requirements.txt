@@ -10,3 +10,5 @@ networkx
 grpcio
 grpcio-tools
 protobuf
+deap
+pymupdf

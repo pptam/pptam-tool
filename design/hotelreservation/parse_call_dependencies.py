@@ -29,14 +29,15 @@ def extract_grpc_calls(root_dir, subfolders):
                                 if func_match:
                                     current_function = func_match.group(1)
                     
-                                # Look for gRPC connection inside the current function
                                 if grpc_pattern.search(line):
                                     if subfolder not in service_calls:
                                         service_calls[subfolder] = []
                                     if current_function:
                                         cleaned_function = current_function
-                                        if cleaned_function.startswith("init") and cleaned_function.endswith("Client"):
-                                            cleaned_function = cleaned_function[4:-6]
+                                        if cleaned_function.startswith("init"):
+                                            cleaned_function = cleaned_function[4:]  # Remove 'init'
+                                        if cleaned_function.endswith("Client"):
+                                            cleaned_function = cleaned_function[:-6]  # Remove 'Client'
                                         service_calls[subfolder].append(cleaned_function)
                                     else:
                                         service_calls[subfolder].append("(no function)")

@@ -1,8 +1,8 @@
 from;to
-frontend;initReservation
-frontend;Search
-search;Geo
-search;Rate
-frontend;Recommendation
 frontend;User
+search;Geo
 frontend;Profile
+frontend;Recommendation
+frontend;Reservation
+frontend;Search
+search;Rate

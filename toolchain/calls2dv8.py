@@ -1,8 +1,11 @@
+#!/usr/bin/env python3
+
 import csv
 import json
-import sys
+import argparse
+import logging
 
-def convert_csv_to_json(csv_filename):
+def convert_csv_to_json(csv_filename, output_filename):
     services = set()
     connections = []
 
@@ -25,16 +28,21 @@ def convert_csv_to_json(csv_filename):
     data = {
         "@schemaVersion": "1.0",
         "name": "ServiceCalls",
-        "variables": unique_services,
+        "variables": unique_services, 
         "cells": cells
     }
 
-    with open('service_calls.json', 'w') as json_file:
+    with open(output_filename, 'w') as json_file:
         json.dump(data, json_file, indent=4)
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python convert2dv8.py <input_csv_file>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Convert service call CSV to dv8 JSON format.")
+    parser.add_argument("input_csv", help="Path to input CSV file.")
+    parser.add_argument("output_json", help="Path to output JSON file.")
+    parser.add_argument("--logging", type=int, choices=range(0, 6), default=2,
+                        help="Logging level from 1 (everything) to 5 (nothing)")
+    args = parser.parse_args()
 
-    convert_csv_to_json(sys.argv[1])
+    logging.basicConfig(format="%(message)s", level=args.logging * 10)
+
+    convert_csv_to_json(args.input_csv, args.output_json)
