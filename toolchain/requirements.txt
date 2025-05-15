@@ -12,3 +12,5 @@ grpcio-tools
 protobuf
 deap
 pymupdf
+scikit-learn
+pygraphviz

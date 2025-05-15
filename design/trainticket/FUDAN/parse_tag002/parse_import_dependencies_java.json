@@ -1,5 +1,5 @@
 {
-	"root_folder": "./SEALAB/trainticket",
+	"root_folder": "./FUDAN/trainticket",
 	"subfolders_to_traverse": [
 		"ts-assurance-service",
         "ts-basic-service",
@@ -35,5 +35,11 @@
         "ts-travel2-service",
         "ts-verification-code-service"
 	],
-    "service_call_pattern": "restTemplate\\.exchange\\(\\s*\\\"http://([^:/\\\"]+):"
+    "target_patterns": [
+        "^.*\\.domain\\.",
+        "^.*\\.bean\\.",
+        "^.*\\.model\\.",
+        "^.*\\.entity\\."
+    ],
+    "remove_identified_target_pattern": true
 }

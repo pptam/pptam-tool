@@ -1,0 +1,6 @@
+{
+	"root_folder": "./FUDAN/trainticket",
+	"subfolders_to_traverse": [
+		"ts-voucher-service"
+	]
+}

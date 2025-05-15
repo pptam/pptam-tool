@@ -1,0 +1,14 @@
+{
+    "/account/": "ts-login-service",
+    "/assurance/getAllAssuranceType": "ts-assurance-service",
+    "/contacts/create": "ts-contacts-service",
+    "/contacts/findContacts": "ts-contacts-service",
+    "/execute/collected": "ts-execute-service",
+    "/execute/execute": "ts-execute-service",
+    "/food/getFood": "ts-food-service",
+    "/inside_payment/pay/": "ts-inside-payment-service",
+    "/login": "ts-login-service",
+    "/order/queryForRefresh": "ts-order-service",
+    "/preserve": "ts-preserve-service",
+    "/travel/query": "ts-travel-service"
+}

@@ -1,6 +1,8 @@
-from locust import HttpUser, task, between
+from locust import HttpUser, task, between, stats
 import random
 import time
+
+stats.PERCENTILES_TO_REPORT = [0.25, 0.50, 0.75]
 
 class HotelBookingUser(HttpUser):
     wait_time = between(1, 3)  # Simulates real users with random wait times
@@ -51,7 +53,7 @@ class HotelBookingUser(HttpUser):
         
         self.client.post(
             f"/user?username={username}&password={password}",
-            name="/user (login)"
+            name="/login"
         )
 
 

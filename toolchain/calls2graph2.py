@@ -53,7 +53,7 @@ def optimize_node_order(G, generations=50, population_size=100):
     return best_node_order
 
 
-def save_dag_as_pdf(output_pdf, G, node_order_file=None):
+def save_dag_as_pdf(output_pdf, G, node_order_file=None, optimizeorder=False, width=0):
     if node_order_file:
         with open(node_order_file, 'r') as f:
             optimized_nodes = json.load(f)
@@ -61,8 +61,10 @@ def save_dag_as_pdf(output_pdf, G, node_order_file=None):
         missing_nodes = [node for node in G.nodes if node not in optimized_nodes]
         if missing_nodes:
             optimized_nodes.extend(missing_nodes)
-    else:
+    elif optimizeorder:
         optimized_nodes = optimize_node_order(G)
+    else:
+        optimized_nodes = sorted(G.nodes)
 
     node_positions = {node: (i, 0) for i, node in enumerate(optimized_nodes)}
 
@@ -74,10 +76,13 @@ def save_dag_as_pdf(output_pdf, G, node_order_file=None):
     def gray_to_red(val):
         return (0.5 + 0.5 * val, 0.5 * (1 - val), 0.5 * (1 - val))
 
-    in_colors = [gray_to_red(deg / max_in_degree) for deg in in_degrees]
+    def gray_to_blue(val):
+        return (0.5 * (1 - val), 0.5 * (1 - val), 0.5 + 0.5 * val)
+    
+    in_colors = [gray_to_blue(deg / max_in_degree) for deg in in_degrees]
     out_colors = [gray_to_red(deg / max_out_degree) for deg in out_degrees]
 
-    fig, ax = plt.subplots(figsize=(1+len(G.nodes)*0.18, 1.5))
+    fig, ax = plt.subplots(figsize=(width, 1.5))
     ax.set_axis_off()
 
     for node, (x, y), out_color, in_color in zip(optimized_nodes, node_positions.values(), out_colors, in_colors):
@@ -142,15 +147,21 @@ def main():
     parser.add_argument("--cropbottom", type=float, default=0, help="Crop margin from the bottom in points.")
     parser.add_argument("--cropright", type=float, default=0, help="Crop margin from the right in points.")
     parser.add_argument("--croptop", type=float, default=0, help="Crop margin from the top in points.")
+    parser.add_argument("--width", type=float, default=0, help="Width of the image.")
     parser.add_argument("--orderfile", type=str, default=None,
                         help="Path to a JSON file specifying node order (optional).")
-    
+    parser.add_argument("--optimizeorder", action="store_true",
+                        help="Enable node order optimization with a genetic algorithm.")
+
     args = parser.parse_args()
 
     logging.basicConfig(format="%(message)s", level=args.logging * 10)
 
     G = read_csv_and_build_graph(args.input_csv)
-    save_dag_as_pdf(args.output_pdf, G, node_order_file=args.orderfile)
+    save_dag_as_pdf(args.output_pdf, G,
+                    node_order_file=args.orderfile,
+                    optimizeorder=args.optimizeorder,
+                    width=args.width)
 
     base, ext = os.path.splitext(args.output_pdf)
     output_pdf_path = f"{base}_cropped{ext}"
@@ -160,9 +171,6 @@ def main():
     
     os.remove(args.output_pdf)    
     os.rename(output_pdf_path, args.output_pdf)
-
-
-
 
 if __name__ == "__main__":
     main()

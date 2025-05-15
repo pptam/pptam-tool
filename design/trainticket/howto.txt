@@ -45,6 +45,7 @@ cd ../../
 Use the provided Python script parse_dependencies.py to extract dependencies for each project:
 
 ./parse_dependencies.py ./CUHK-SE
+./parse_dependencies.py ./FUDAN/parse_tag002
 ./parse_dependencies.py ./FUDAN/parse_tag100
 ./parse_dependencies.py ./SEALAB
 

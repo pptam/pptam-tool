@@ -1,0 +1,729 @@
+{
+    "@schemaVersion": "1.0",
+    "name": "Entities",
+    "variables": [
+        "ts-preserve-service",
+        "ts-route-plan-service",
+        "ts-cancel-service",
+        "ts-train-food-service",
+        "ts-execute-service",
+        "ts-preserve-other-service",
+        "ts-order-other-service",
+        "ts-basic-service",
+        "ts-travel2-service",
+        "ts-seat-service",
+        "ts-rebook-service",
+        "ts-food-delivery-service",
+        "ts-order-service",
+        "ts-wait-order-service",
+        "ts-inside-payment-service",
+        "ts-travel-plan-service",
+        "ts-voucher-service",
+        "ts-station-food-service",
+        "ts-travel-service",
+        "ts-security-service",
+        "ts-food-service"
+    ],
+    "cells": [
+        {
+            "src": 6,
+            "dest": 0,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 12,
+            "dest": 0,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 18,
+            "dest": 8,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 5,
+            "dest": 16,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 4,
+            "dest": 16,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 15,
+            "dest": 18,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 15,
+            "dest": 8,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 7,
+            "dest": 20,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 10,
+            "dest": 13,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 10,
+            "dest": 9,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 2,
+            "dest": 14,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 7,
+            "dest": 9,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 5,
+            "dest": 13,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 10,
+            "dest": 15,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 5,
+            "dest": 9,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 2,
+            "dest": 6,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 4,
+            "dest": 13,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 0,
+            "dest": 10,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 14,
+            "dest": 0,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 2,
+            "dest": 0,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 10,
+            "dest": 18,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 7,
+            "dest": 15,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 2,
+            "dest": 4,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 10,
+            "dest": 8,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 5,
+            "dest": 15,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 20,
+            "dest": 5,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 7,
+            "dest": 18,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 20,
+            "dest": 3,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 7,
+            "dest": 8,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 14,
+            "dest": 10,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 2,
+            "dest": 10,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 5,
+            "dest": 18,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 5,
+            "dest": 8,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 4,
+            "dest": 12,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 1,
+            "dest": 15,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 6,
+            "dest": 10,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 12,
+            "dest": 10,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 11,
+            "dest": 17,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 10,
+            "dest": 1,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 1,
+            "dest": 18,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 1,
+            "dest": 8,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 7,
+            "dest": 5,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 7,
+            "dest": 1,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 20,
+            "dest": 18,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 17,
+            "dest": 3,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 20,
+            "dest": 8,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 7,
+            "dest": 0,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 5,
+            "dest": 1,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 4,
+            "dest": 5,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 12,
+            "dest": 19,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 5,
+            "dest": 0,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 14,
+            "dest": 6,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 0,
+            "dest": 16,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 20,
+            "dest": 1,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 14,
+            "dest": 16,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 2,
+            "dest": 16,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 20,
+            "dest": 0,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 0,
+            "dest": 13,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 20,
+            "dest": 10,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 0,
+            "dest": 9,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 4,
+            "dest": 14,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 14,
+            "dest": 13,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 0,
+            "dest": 15,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 2,
+            "dest": 13,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 6,
+            "dest": 19,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 4,
+            "dest": 6,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 0,
+            "dest": 18,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 6,
+            "dest": 13,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 4,
+            "dest": 0,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 12,
+            "dest": 13,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 0,
+            "dest": 8,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 6,
+            "dest": 9,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 12,
+            "dest": 9,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 7,
+            "dest": 10,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 2,
+            "dest": 15,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 5,
+            "dest": 10,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 20,
+            "dest": 17,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 11,
+            "dest": 20,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 14,
+            "dest": 12,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 4,
+            "dest": 10,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 2,
+            "dest": 12,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 2,
+            "dest": 18,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 6,
+            "dest": 15,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 12,
+            "dest": 15,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 2,
+            "dest": 8,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 11,
+            "dest": 3,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 6,
+            "dest": 12,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 6,
+            "dest": 18,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 12,
+            "dest": 18,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 6,
+            "dest": 8,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 0,
+            "dest": 1,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 12,
+            "dest": 8,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 9,
+            "dest": 15,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 14,
+            "dest": 5,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 2,
+            "dest": 5,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 9,
+            "dest": 18,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 9,
+            "dest": 8,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 6,
+            "dest": 5,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 12,
+            "dest": 5,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        },
+        {
+            "src": 10,
+            "dest": 16,
+            "values": {
+                "Entity_Dep": 1.0
+            }
+        }
+    ]
+}

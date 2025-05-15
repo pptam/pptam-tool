@@ -19,7 +19,7 @@ def extract_service_dependencies(root_dir, subfolders, service_call_pattern):
                     file_path = os.path.join(dirpath, filename)
                     try:
                         with open(file_path, 'r', encoding='utf-8') as file:
-                            content = file.read()  # <--- read whole file at once
+                            content = file.read() 
                             matches = pattern.findall(content)
                             if matches:
                                 if subfolder not in service_names:

@@ -23,7 +23,7 @@ services:
       - JAEGER_SAMPLER_TYPE=const
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
-    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design_hotelreservation/DeathStarBench/hotelReservation/.
+    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design/hotelreservation/DeathStarBench/hotelReservation/.
     image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: frontend
     ports:
@@ -47,7 +47,7 @@ services:
       - JAEGER_SAMPLER_TYPE=const
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
-    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design_hotelreservation/DeathStarBench/hotelReservation/.
+    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design/hotelreservation/DeathStarBench/hotelReservation/.
     image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: profile
     depends_on:
@@ -71,7 +71,7 @@ services:
       - JAEGER_SAMPLER_TYPE=const
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
-    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design_hotelreservation/DeathStarBench/hotelReservation/.
+    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design/hotelreservation/DeathStarBench/hotelReservation/.
     image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: search
     depends_on:
@@ -93,7 +93,7 @@ services:
       - JAEGER_SAMPLER_TYPE=const
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
-    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design_hotelreservation/DeathStarBench/hotelReservation/.
+    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design/hotelreservation/DeathStarBench/hotelReservation/.
     image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: geo
     depends_on:
@@ -116,7 +116,7 @@ services:
       - JAEGER_SAMPLER_TYPE=const
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
-    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design_hotelreservation/DeathStarBench/hotelReservation/.
+    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design/hotelreservation/DeathStarBench/hotelReservation/.
     image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: rate
     depends_on:
@@ -138,7 +138,7 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - MEMC_TIMEOUT
       - LOG_LEVEL
-    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design_hotelreservation/DeathStarBench/hotelReservation/.
+    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design/hotelreservation/DeathStarBench/hotelReservation/.
     image: pptam_hotel_reserv_review_single_node
     entrypoint: review
     container_name: 'hotel_reserv_review'
@@ -157,7 +157,7 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - MEMC_TIMEOUT
       - LOG_LEVEL
-    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design_hotelreservation/DeathStarBench/hotelReservation/.
+    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design/hotelreservation/DeathStarBench/hotelReservation/.
     image: pptam_hotel_reserv_attractions_single_node
     entrypoint: attractions
     container_name: 'hotel_reserv_attractions'
@@ -177,7 +177,7 @@ services:
       - JAEGER_SAMPLER_TYPE=const
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
-    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design_hotelreservation/DeathStarBench/hotelReservation/.
+    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design/hotelreservation/DeathStarBench/hotelReservation/.
     image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: recommendation
     depends_on:
@@ -200,7 +200,7 @@ services:
       - JAEGER_SAMPLER_TYPE=const
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
-    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design_hotelreservation/DeathStarBench/hotelReservation/.
+    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design/hotelreservation/DeathStarBench/hotelReservation/.
     image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: user
     depends_on:
@@ -223,7 +223,7 @@ services:
       - JAEGER_SAMPLER_TYPE=const
       - JAEGER_SAMPLER_PARAM=1
       - LOG_LEVEL
-    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design_hotelreservation/DeathStarBench/hotelReservation/.
+    build: /Users/ajanes/Documents/code/pptam/pptam-tool/design/hotelreservation/DeathStarBench/hotelReservation/.
     image: pptam_deathstarbench/hotel-reservation:latest
     entrypoint: reservation
     depends_on:
@@ -409,4 +409,4 @@ volumes:
 
 configs:
   server_config:
-    file: /Users/ajanes/Documents/code/pptam/pptam-tool/design_hotelreservation/DeathStarBench/hotelReservation/config.json
+    file: /Users/ajanes/Documents/code/pptam/pptam-tool/design/hotelreservation/DeathStarBench/hotelReservation/config.json
