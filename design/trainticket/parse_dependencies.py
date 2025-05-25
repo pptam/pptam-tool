@@ -67,18 +67,18 @@ if __name__ == "__main__":
                     entity_to_microservices[entity] = set()
                 entity_to_microservices[entity].add(microservice)
 
-        call_dependencies = []
+        data_dependencies = []
         for entity, microservices in entity_to_microservices.items():
             if len(microservices) > 1:
                 for combo in combinations(sorted(microservices), 2):
-                    call_dependencies.append(combo)
+                    data_dependencies.append(combo)
 
-        call_dependencies = list(map(list, set(map(tuple, call_dependencies))))  # Remove duplicates
+        data_dependencies = list(map(list, set(map(tuple, data_dependencies))))  # Remove duplicates
 
         data_csv_path = f"{design_folder}/data_dependencies.csv"
         logging.info(f"Writing data dependencies to {data_csv_path}")
         with open(data_csv_path, "w", newline="") as csvfile:
             writer = csv.writer(csvfile, delimiter=";")
             writer.writerow(["from", "to"])
-            for dep in call_dependencies:
+            for dep in data_dependencies:
                 writer.writerow(dep)

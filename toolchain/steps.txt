@@ -8,6 +8,7 @@ See howto.txt in ../design/trainticket
 ./calls2dv8.py ../design/trainticket/FUDAN/parse_tag100/call_dependencies.csv ./call_dependencies-trainticket-FUDAN_tag100.json
 ./calls2dv8.py ../design/trainticket/SEALAB/call_dependencies.csv ./call_dependencies-trainticket-SEALAB.json
 
+./datadependencies2dv8.py ../design/hotelreservation/data_dependencies.csv ./data_dependencies-hotelreservation.json
 ./datadependencies2dv8.py ../design/trainticket/CUHK-SE/data_dependencies.csv ./data_dependencies-trainticket-CUHK-SE.json
 ./datadependencies2dv8.py ../design/trainticket/FUDAN/parse_tag002/data_dependencies.csv ./data_dependencies-trainticket-FUDAN_tag002.json
 ./datadependencies2dv8.py ../design/trainticket/FUDAN/parse_tag100/data_dependencies.csv ./data_dependencies-trainticket-FUDAN_tag100.json
@@ -93,7 +94,8 @@ mv trainticket-SEALAB-slope-vs-nd2.pdf trainticket-SEALAB-slope-vs-nd.pdf
 
 ---
 
-./calls2graph2.py ../design/hotelreservation/call_dependencies.csv ./graph-hotelreservation.pdf --width 2 --cropleft 7 --cropbottom 10 --cropright 7 --croptop 5
-./calls2graph2.py ../design/trainticket/CUHK-SE/call_dependencies.csv ./graph-trainticket-CUHK-SE.pdf --width 6.5 --cropleft 18 --cropbottom 10 --cropright 18 --croptop 5
-./calls2graph2.py ../design/trainticket/FUDAN/parse_tag100/call_dependencies.csv ./graph-trainticket-FUDAN_tag100.pdf --width 6.5 --cropleft 18 --cropbottom 10 --cropright 17.1 --croptop 5
-./calls2graph2.py ../design/trainticket/SEALAB/call_dependencies.csv ./graph-trainticket-SEALAB.pdf --width 6.5 --cropleft 18 --cropbottom 10 --cropright 17 --croptop 5 
+#./calls2graph2.py ../design/hotelreservation/data_dependencies.csv ./graph-data-hotelreservation.pdf --width 2 --cropleft 7 --cropbottom 10 --cropright 7 --croptop 5
+#./calls2graph2.py ../design/trainticket/CUHK-SE/data_dependencies.csv ./graph-data-trainticket-CUHK-SE.pdf --width 6.5 --cropleft 18 --cropbottom 10 --cropright 18 --croptop 5
+#./calls2graph2.py ../design/trainticket/FUDAN/parse_tag002/data_dependencies.csv ./graph-data-trainticket-FUDAN_tag002.pdf --width 6.5 --cropleft 18 --cropbottom 10 --cropright 17.1 --croptop 5
+#./calls2graph2.py ../design/trainticket/FUDAN/parse_tag100/data_dependencies.csv ./graph-data-trainticket-FUDAN_tag100.pdf --width 6.5 --cropleft 18 --cropbottom 10 --cropright 17.1 --croptop 5
+#./calls2graph2.py ../design/trainticket/SEALAB/data_dependencies.csv ./graph-data-trainticket-SEALAB.pdf --width 6.5 --cropleft 18 --cropbottom 10 --cropright 17 --croptop 5 

@@ -1,0 +1,13 @@
+{
+    "/api/v1/assuranceservice/assurances/types": "ts-assurance-service",
+    "/api/v1/contactservice/contacts": "ts-contacts-service",
+    "/api/v1/contactservice/contacts/account/user": "ts-contacts-service",
+    "/api/v1/executeservice/execute/collected/order": "ts-execute-service",
+    "/api/v1/executeservice/execute/execute/order": "ts-execute-service",
+    "/api/v1/foodservice/foods/departure/shanghai/suzhou/D1345": "ts-food-service",
+    "/api/v1/inside_pay_service/inside_payment": "ts-inside-payment-service",
+    "/api/v1/orderservice/order/refresh": "ts-order-service",
+    "/api/v1/preserveservice/preserve": "ts-preserve-service",
+    "/api/v1/travelservice/trips/left": "ts-travel-service",
+    "/api/v1/users/login": "ts-user-service"
+}

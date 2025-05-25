@@ -2,9 +2,8 @@
 
 import os
 import re
+import json
 from collections import defaultdict
-
-services_path = "./DeathStarBench/hotelReservation/services"  # Root directory containing all service folders
 
 def extract_proto_fields(proto_file):
     fields = set()
@@ -13,11 +12,11 @@ def extract_proto_fields(proto_file):
         messages = re.findall(r'message\s+\w+\s*{([^}]*)}', content, re.DOTALL)
         for message in messages:
             matches = re.findall(r'\s*(\w+)\s+(\w+)\s*=\s*\d+;', message)
-            for field_type, field_name in matches:
-                fields.add((field_type, field_name))
+            for _, field_name in matches:
+                fields.add(field_name)
     return fields
 
-def collect_service_fields():
+def collect_service_fields(services_path):
     service_fields = defaultdict(set)
     for service_name in os.listdir(services_path):
         service_dir = os.path.join(services_path, service_name, "proto")
@@ -31,24 +30,30 @@ def collect_service_fields():
     return service_fields
 
 def find_shared_fields(service_fields):
-    shared = defaultdict(set)
+    shared = []
     services = list(service_fields.keys())
     for i in range(len(services)):
         for j in range(i + 1, len(services)):
-            s1, s2 = services[i], services[j]
+            s1, s2 = sorted((services[i], services[j]))  # sort to avoid reverse duplicates
             common = service_fields[s1] & service_fields[s2]
             if common:
-                shared[(s1, s2)] = common
+                shared.append((s1, s2, sorted(common)))
     return shared
 
 def main():
-    service_fields = collect_service_fields()
-    shared = find_shared_fields(service_fields)
+    with open("parse_import_dependencies.json", "r") as f:
+        config = json.load(f)
+    services_path = config["services_path"]
 
-    for (s1, s2), fields in shared.items():
-        print(f"\nShared fields between {s1} and {s2}:")
-        for field_type, field_name in fields:
-            print(f"  {field_type} {field_name}")
+    service_fields = collect_service_fields(services_path)
+    shared_dependencies = find_shared_fields(service_fields)
+
+    if shared_dependencies:
+        with open("data_dependencies.csv", "w", newline="", encoding="utf-8") as f:
+            f.write("from;to;fields\n")
+            for s1, s2, fields in shared_dependencies:
+                field_list = ",".join(fields)
+                f.write(f"{s1};{s2};{field_list}\n")
 
 if __name__ == "__main__":
     main()

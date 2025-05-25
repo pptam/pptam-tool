@@ -2,54 +2,19 @@
     "@schemaVersion": "1.0",
     "name": "ServiceCalls",
     "variables": [
-        "Rate",
-        "Recommendation",
-        "Search",
         "Geo",
-        "Profile",
-        "frontend",
-        "search",
+        "Rate",
         "User",
-        "Reservation"
+        "Profile",
+        "Recommendation",
+        "Reservation",
+        "search",
+        "frontend",
+        "Search"
     ],
     "cells": [
         {
-            "src": 5,
-            "dest": 7,
-            "values": {
-                "Call": 1.0
-            }
-        },
-        {
-            "src": 6,
-            "dest": 3,
-            "values": {
-                "Call": 1.0
-            }
-        },
-        {
-            "src": 5,
-            "dest": 4,
-            "values": {
-                "Call": 1.0
-            }
-        },
-        {
-            "src": 5,
-            "dest": 1,
-            "values": {
-                "Call": 1.0
-            }
-        },
-        {
-            "src": 5,
-            "dest": 8,
-            "values": {
-                "Call": 1.0
-            }
-        },
-        {
-            "src": 5,
+            "src": 7,
             "dest": 2,
             "values": {
                 "Call": 1.0
@@ -58,6 +23,41 @@
         {
             "src": 6,
             "dest": 0,
+            "values": {
+                "Call": 1.0
+            }
+        },
+        {
+            "src": 7,
+            "dest": 3,
+            "values": {
+                "Call": 1.0
+            }
+        },
+        {
+            "src": 7,
+            "dest": 4,
+            "values": {
+                "Call": 1.0
+            }
+        },
+        {
+            "src": 7,
+            "dest": 5,
+            "values": {
+                "Call": 1.0
+            }
+        },
+        {
+            "src": 7,
+            "dest": 8,
+            "values": {
+                "Call": 1.0
+            }
+        },
+        {
+            "src": 6,
+            "dest": 1,
             "values": {
                 "Call": 1.0
             }
