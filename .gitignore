@@ -147,3 +147,4 @@ workspace.code-workspace
 /toolchain/lib/python3.12
 /toolchain/bin
 
+design/hotelreservation/docker-compose.yml
