@@ -21,7 +21,7 @@ def run_plugins(configuration, section, design_path, output, test_id, func, halt
     plugin_list = configuration[section]["enabled_plugins"].split()    
     global plugin_source
     
-    if plugin_source==None:
+    if plugin_source is None:
         plugin_base = PluginBase(package='plugins')
         plugin_source = plugin_base.make_plugin_source(searchpath=['./plugins'])
 
@@ -31,13 +31,13 @@ def run_plugins(configuration, section, design_path, output, test_id, func, halt
         plugin = plugin_source.load_plugin(plugin_name)
         try:
             function_to_call = getattr(plugin, func, None)
-            if function_to_call!=None:
+            if function_to_call is not None:
                 call_result = function_to_call(configuration[section], design_path, output, test_id)
                 result.append(call_result)
                 
         except Exception as e:
             logging.critical(f"Cannot invoke plugin {plugin_name}: {repr(e)}")
-            if haltiferror==True:
+            if haltiferror:
                 sys.exit(1)
     
     return result
@@ -66,7 +66,7 @@ def create_output_directory(configuration, section, commit):
 
 def perform_test(configuration, section, design_path, project, commit, haltiferror):
     output, test_id, now = create_output_directory(configuration, section, commit)
-    if output==None:
+    if output is None:
         return
         
     logging.debug(f"Created a folder name {test_id} in {output}.")
@@ -84,13 +84,13 @@ def perform_test(configuration, section, design_path, project, commit, haltiferr
 
     replacements.append({"search_for": "${TEST_NAME}", "replace_with": test_id})
 
-    logging.debug(f"Replacing values.")
+    logging.debug("Replacing values.")
     for plugin_file in plugin_files:
         if os.path.join(output, plugin_file):
             replace_values_in_file(os.path.join(output, plugin_file), replacements)
 
     with open(os.path.join(output, "configuration.ini"), "w") as f:
-        f.write(f"[CONFIGURATION]\n")
+        f.write("[CONFIGURATION]\n")
         for option in configuration.options(section):
             f.write(f"{option.upper()}={configuration[section][option]}\n")
         f.write(f"TIMESTAMP={now.timestamp()}\n")
@@ -191,7 +191,7 @@ def execute_tests(design_path, project, commit, haltiferror):
 
     run_plugins(configuration, "DEFAULT", design_path, None, None, "teardown_all", haltiferror)
 
-    logging.info(f"Done.")
+    logging.info("Done.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Executes test cases.")
