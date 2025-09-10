@@ -14,3 +14,4 @@ deap
 pymupdf
 scikit-learn
 pygraphviz
+numpy
