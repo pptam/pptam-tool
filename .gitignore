@@ -134,6 +134,8 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+.DS_Store
+
 # Application specific paths to ignore
 workspace.code-workspace
 .vagrant
