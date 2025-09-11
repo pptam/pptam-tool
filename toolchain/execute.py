@@ -10,7 +10,7 @@ import datetime
 import csv
 import json
 from pluginbase import PluginBase
-from lib import run_external_applicaton, replace_values_in_file
+from lib import run_external_application, replace_values_in_file
 import jinja2
 import sys
 
@@ -42,7 +42,7 @@ def run_plugins(configuration, section, design_path, output, test_id, func, halt
     
     return result
 
-def create_output_directory(configuration, section, commit):
+def create_output_directory(configuration, section, commit, overwrite):
     now = datetime.datetime.now()
     test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower()
     if commit != "":
@@ -56,16 +56,21 @@ def create_output_directory(configuration, section, commit):
     
     if any(x.endswith(test_id_without_timestamp) for x in os.listdir(all_outputs)):
         name_of_existing_folder = next(x for x in os.listdir(all_outputs) if x.endswith(test_id_without_timestamp))
-        logging.warning(f"Skipping {name_of_existing_folder}, since it already exists.")
-        return None, None, None
+        existing_folder_path = os.path.join(all_outputs, name_of_existing_folder)
+        if overwrite:
+            logging.warning(f"Deleting {name_of_existing_folder}, since it already exists and overwrite is enabled.")
+            shutil.rmtree(existing_folder_path)
+        else:
+            logging.warning(f"Skipping {name_of_existing_folder}, since it already exists.")
+            return None, None, None
 
     output = os.path.join(all_outputs, test_id)
     os.makedirs(output)
 
     return output, test_id, now
 
-def perform_test(configuration, section, design_path, project, commit, haltiferror):
-    output, test_id, now = create_output_directory(configuration, section, commit)
+def perform_test(configuration, section, design_path, project, commit, haltiferror, overwrite):
+    output, test_id, now = create_output_directory(configuration, section, commit, overwrite)
     if output is None:
         return
         
@@ -168,7 +173,7 @@ def perform_test(configuration, section, design_path, project, commit, haltiferr
 
     logging.info(f"Test {test_id} completed. Test results can be found in {output}.")
 
-def execute_tests(design_path, project, commit, haltiferror):
+def execute_tests(design_path, project, commit, haltiferror, overwrite):
     if os.path.exists(os.path.join(design_path, "test_plan.ini.jinja")):
         template_loader = jinja2.FileSystemLoader(searchpath=design_path)
         template_environment = jinja2.Environment(loader=template_loader)
@@ -187,7 +192,7 @@ def execute_tests(design_path, project, commit, haltiferror):
         if section.lower().startswith("test"):
             enabled = (configuration[section]["enabled"] == "1")
             if enabled:
-                perform_test(configuration, section, design_path, project, commit, haltiferror)
+                perform_test(configuration, section, design_path, project, commit, haltiferror, overwrite)
 
     run_plugins(configuration, "DEFAULT", design_path, None, None, "teardown_all", haltiferror)
 
@@ -200,6 +205,7 @@ if __name__ == "__main__":
     parser.add_argument("--projectname", help="Name of the project", type=str, default="")
     parser.add_argument("--commit", help="Link execution to specific commit identifier", type=str, default="")
     parser.add_argument("--haltiferror", help="Halt execution if an error occurs", action="store_true")
+    parser.add_argument("--overwrite", help="Delete output directory if it already exists before executing tests", action="store_true")
     args = parser.parse_args()
 
     logging.basicConfig(format='%(message)s', level=args.logging * 10)
@@ -210,5 +216,4 @@ if __name__ == "__main__":
         logging.fatal(f"Cannot find the design folder {args.design}. Please indicate one.")
         quit()
 
-    execute_tests(args.design, args.projectname, args.commit, args.haltiferror)  
-        
+    execute_tests(args.design, args.projectname, args.commit, args.haltiferror, args.overwrite)

@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/bionic64"
+  config.vm.box = "ubuntu/noble64"
   config.disksize.size = '20GB'
 
   required_plugins = %w(
@@ -20,7 +20,6 @@ Vagrant.configure("2") do |config|
 
   config.vagrant.plugins = "vagrant-vbguest"
   config.vm.provision "shell", path: "scripts/install_both.sh"
-  config.vm.box_download_insecure = true
   config.vm.boot_timeout = 3600
 
   config.vm.define "driver", primary: true do |driver|
@@ -43,10 +42,6 @@ Vagrant.configure("2") do |config|
     driver.vm.provision :reload
   end
 
-  # The following ports should be open to allow Docker Swarm communication
-  # - TCP port 2377 for cluster management communications
-  # - TCP and UDP port 7946 for communication among nodes
-  # - UDP port 4789 for overlay network traffic
   
   config.vm.define "testbed" do |testbed|
     testbed.vm.network "private_network", ip: "192.168.50.101"

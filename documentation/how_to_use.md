@@ -105,7 +105,7 @@ The following settings are used if the `measure_jaeger.py` plugin is used:
 
 The following settings are used if the `test_deployment.py` plugin is used:
 - DOCKER_TEST_HOSTNAME: host to contact to contact Docker
-- DOCKER_TEST_IF_IMAGE_IS_PRESENT: either choose 'all' or indicate the services, separated by a space.
+- TEST_IF_IMAGE_IS_PRESENT: either choose 'all' or indicate the services, separated by a space.
 
 The following settings are used if the `deploy_files.py` plugin is used:
 - FILES_TO_INCLUDE: the list of files, separated by space, to include in the output folder

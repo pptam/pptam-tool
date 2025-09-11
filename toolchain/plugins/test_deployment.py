@@ -1,33 +1,31 @@
 import logging
-import docker
+import requests
 
 def ready(current_configuration, design_path, output, test_id):
-    docker_daemon_base_url = current_configuration["docker_daemon_base_url"]
-    logging.debug(f"Testing if SUT is correctly deployed connecting to {docker_daemon_base_url}.")
-    
-    # The docker url is often tcp://localhost:2375 on Windows or unix:///var/run/docker.sock on Linux or Mac
-    client = docker.DockerClient(base_url=docker_daemon_base_url)
-    tests = current_configuration["docker_test_if_image_is_present"].split()
+    cadvisor_hostname = current_configuration["cadvisor_hostname"]
+    logging.debug(f"Testing if SUT is correctly deployed connecting to {cadvisor_hostname}.")
 
-    for container_name in tests:
-        logging.info(f"Checking if any running container contains '{container_name}' in its name.")            
+    url = f"http://{cadvisor_hostname}:8080/api/v1.3/docker/"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+    except requests.RequestException as e:
+        logging.critical(f"HTTP error when connecting to cAdvisor API: {repr(e)}")
+        return False
 
-        try:
-            running_containers = client.containers.list()
-            logging.info(f"Running containers: {[c.name for c in running_containers]}.")   
+    container_names_to_check = current_configuration["test_if_image_is_present"].split()
+    found_aliases = []
+    if isinstance(data, dict):
+        for container_info in data.values():
+            aliases = container_info.get("aliases") or []
+            for alias in aliases:
+                if alias:
+                    found_aliases.append(alias)
 
-            matching_containers = [
-                container for container in running_containers if container_name in container.name
-            ]
-
-            if matching_containers:
-                logging.info(f"Found a running container matching '{container_name}': {[c.name for c in matching_containers]}")
-            else:
-                logging.critical(f"No running container contains '{container_name}' in its name.")
-                return False
-
-        except docker.errors.APIError as e:
-            logging.critical(f"Docker API error: {repr(e)}")
+    for container_name in container_names_to_check:
+        if not any(container_name in alias for alias in found_aliases):
+            logging.critical(f"No running container contains '{container_name}' in its name.")
             return False
 
     return True

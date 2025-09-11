@@ -149,5 +149,6 @@ workspace.code-workspace
 /toolchain/lib/python3.12
 /toolchain/bin
 
+design/trainticket/CUHK-SE/trainticket
 design/hotelreservation/docker-compose.yml
 analyze_performance_variations*.*

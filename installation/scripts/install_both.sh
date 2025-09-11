@@ -1,28 +1,26 @@
-#!/bin/bash 
-set -e
+#!/bin/bash
+set -euo pipefail
 
-# http://patorjk.com/software/taag/#p=display&c=echo&f=Standard&t=Generic%20setup
-echo "   ____                      _                 _               ";
-echo "  / ___| ___ _ __   ___ _ __(_) ___   ___  ___| |_ _   _ _ __  ";
-echo " | |  _ / _ \ '_ \ / _ \ '__| |/ __| / __|/ _ \ __| | | | '_ \ ";
-echo " | |_| |  __/ | | |  __/ |  | | (__  \__ \  __/ |_| |_| | |_) |";
-echo "  \____|\___|_| |_|\___|_|  |_|\___| |___/\___|\__|\__,_| .__/ ";
-echo "                                                        |_|    ";
+export DEBIAN_FRONTEND=noninteractive
 
-# Installing docker 
-sudo apt-get update
+sudo apt-get update -y
 sudo apt-get upgrade -y
-curl -sSL https://get.docker.com/ | sh
+sudo apt-get install -y ca-certificates curl gnupg
 
-# Add the user that will carry out the tests to the docker group
-usermod -aG docker vagrant
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-# Adding both machines to the hosts file so that they can be found by name 
-sudo echo 192.168.50.100 driver >> /etc/hosts
-sudo echo 192.168.50.101 testbed >> /etc/hosts
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# This increases the number of allowed open files
-sudo echo * - nofile 100000 >> /etc/security/limits.conf
+sudo apt-get update -y
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
+sudo systemctl enable --now docker
 
+sudo usermod -aG docker vagrant
 
+echo "192.168.50.100 driver" | sudo tee -a /etc/hosts >/dev/null
+echo "192.168.50.101 testbed" | sudo tee -a /etc/hosts >/dev/null
+
+echo "* - nofile 100000" | sudo tee -a /etc/security/limits.conf >/dev/null

@@ -1,37 +1,36 @@
-#!/bin/bash 
-set -e
+#!/bin/bash
+set -euo pipefail
 
-# http://patorjk.com/software/taag/#p=display&c=echo&f=Standard&t=Driver%20setup
-echo "  ____       _                           _               ";
-echo " |  _ \ _ __(_)_   _____ _ __   ___  ___| |_ _   _ _ __  ";
-echo " | | | | '__| \ \ / / _ \ '__| / __|/ _ \ __| | | | '_ \ ";
-echo " | |_| | |  | |\ V /  __/ |    \__ \  __/ |_| |_| | |_) |";
-echo " |____/|_|  |_| \_/ \___|_|    |___/\___|\__|\__,_| .__/ ";
-echo "                                                  |_|    ";
+export DEBIAN_FRONTEND=noninteractive
 
-# Docker swarm installation and writing join token into file
+echo "  ____       _                ";
+echo " |  _ \\ _ __(_)_   _____ _ __ ";
+echo " | | | | '__| \\ \\ / / _ \\ '__|";
+echo " | |_| | |  | |\\ V /  __/ |   ";
+echo " |____/|_|  |_| \\_/ \\___|_|   ";
+echo "                              ";
+
 docker swarm init --advertise-addr $1 --listen-addr $1
 docker swarm join-token -q worker > /vagrant/.join-token-worker
 
-# Python installation
-apt install -y python3.9 python3.9-dev python3-pip 
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1
-sudo update-alternatives --set python /usr/bin/python3.9
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get install -y python3 python3-dev python3-pip git
 
-sudo update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip3.9 1
-sudo update-alternatives --set pip /usr/local/bin/pip3.9
+# python3 -m pip install --upgrade pip
+# pip install -r /home/vagrant/requirements.txt
 
-sudo pip install -r /home/vagrant/requirements.txt
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-# Update to the last version of Git and configure it
-sudo add-apt-repository ppa:git-core/ppa -y
-sudo apt-get update
-sudo apt-get install git -y
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# Install Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+sudo apt-get update -y
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# Setup PPTAM
-cd /home/vagrant/
-git clone --depth 1 https://github.com/pptam/pptam-tool.git
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
+
+# cd /home/$USER/
+# git clone --depth 1 https://github.com/pptam/pptam-tool.git
