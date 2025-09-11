@@ -16,7 +16,7 @@ def run(current_configuration, design_path, output, test_id):
     logging.info(f"Starting background PPTAM-Client")
 
     command_start_pptam_client = f"python3 ./pptam-client/pptam-client.py &" 
-    run_external_applicaton(command_start_pptam_client)
+    run_external_application(command_start_pptam_client)
 
     logging.info(f"Starting collecting data for PPTAM-CLIENT")
     last_folder = os.path.basename(output)
