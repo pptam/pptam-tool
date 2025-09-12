@@ -43,12 +43,12 @@ def deploy(current_configuration, design_path, output, test_id):
         command_check_folder = f'ssh {target_machine} "test -d {target_folder}"'
         result = run_external_application(command_check_folder, False)
         if result != 0:
-            command_copy = f"scp -r {design_path}/* {target_machine}:{target_folder}"
+            source_path = os.path.join(design_path, "*")
+            command_copy = f"scp -r {source_path} {target_machine}:{target_folder}"
             run_external_application(command_copy)
         
         deployment_descriptor = os.path.join(output, "docker-compose.yml")
         target_deployment_descriptor = os.path.join(target_folder, "docker-compose.yml")
-        target_deployment_descriptor = f"{target_folder}\\docker-compose.yml"
         command_copy_compose = f'scp -r {deployment_descriptor} "{target_machine}:{target_deployment_descriptor}"'
         run_external_application(command_copy_compose)
 
