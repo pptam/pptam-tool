@@ -66,14 +66,12 @@ class CAdvisorCollector:
             cpu_percent = self.calculate_cpu_percent_from_cadvisor_samples(previous_sample, current_sample)
             mem_usage = int(current_sample.get("memory", {}).get("usage", 0))
             mem_limit = int(current_sample.get("memory", {}).get("limit", 0))
-            mem_percent = (mem_usage / mem_limit * 100.0) if mem_limit > 0 else 0.0
             a = f"{cpu_percent:.2f}"
-            b = f"{mem_percent:.2f}"
             c = f"{float(mem_usage):.2f}"
             d = f"{float(mem_limit):.2f}"
             col_ts = round(collection_timestamp)
             sample_ts = round(datetime.timestamp(dateutil.parser.isoparse(current_sample.get('timestamp'))))
-            self.write_queue.put(f"{col_ts},{sample_ts},{service_name},{a},{b},{c},{d}\n")
+            self.write_queue.put(f"{col_ts},{sample_ts},{service_name},{a},{c},{d}\n")
         except Exception:
             logging.exception("Failed to collect cAdvisor stats for container")
 
@@ -88,15 +86,14 @@ class CAdvisorCollector:
             cpu_percent = self.calculate_cpu_percent_from_cadvisor_samples(previous_sample, current_sample)
             mem_usage = int(current_sample.get("memory", {}).get("usage", 0))
             mem_limit = int(current_sample.get("memory", {}).get("limit", 0))
-            mem_percent = (mem_usage / mem_limit * 100.0) if mem_limit > 0 else 0.0
+            # mem_percent_of_machine_str calculation removed
             a = f"{cpu_percent:.2f}"
-            b = f"{mem_percent:.2f}"
             c = f"{float(mem_usage):.2f}"
             d = f"{float(mem_limit):.2f}"
             host_label = self.get_machine_hostname()
             col_ts = round(collection_timestamp)
             sample_ts = round(datetime.timestamp(dateutil.parser.isoparse(current_sample.get('timestamp'))))
-            self.host_write_queue.put(f"{col_ts},{sample_ts},{host_label},{a},{b},{c},{d}\n")
+            self.host_write_queue.put(f"{col_ts},{sample_ts},{host_label},{a},{c},{d}\n")
         except Exception:
             logging.exception("Failed to collect cAdvisor stats for host")
 
@@ -191,7 +188,7 @@ class CAdvisorCollector:
         logging.info("Waiting for container stats results.")
         file_path = os.path.join(self.output_path, "cadvisor_container.csv")
         with open(file_path, "w") as f:
-            f.write("collected,timestamp,service,cpu_usage_percent,memory_usage_percent,memory_usage,memory_limit\n")
+            f.write("collected,timestamp,service,cpu_usage_percent,memory_usage,memory_limit\n")
         with open(file_path, "a") as f:
             while not self.stop_event.is_set():
                 try:
@@ -213,7 +210,7 @@ class CAdvisorCollector:
         logging.info("Waiting for host stats results.")
         file_path = os.path.join(self.output_path, "cadvisor_host.csv")
         with open(file_path, "w") as f:
-            f.write("collected,timestamp,host,cpu_usage_percent,memory_usage_percent,memory_usage,memory_limit\n")
+            f.write("collected,timestamp,host,cpu_usage_percent,memory_usage,memory_limit\n")
         with open(file_path, "a") as f:
             while not self.stop_event.is_set():
                 try:
@@ -237,11 +234,19 @@ class CAdvisorCollector:
             info = data.get("machineInfo", data)
             num_cpus = info.get("num_cores") or info.get("numCores") or info.get("num_cpus") or 0
             memory_bytes = info.get("memory_capacity") or info.get("memoryCapacity") or 0
+            host_entry = self.get_host_container_stats()
+            stats_list = host_entry.get("stats", []) if isinstance(host_entry, dict) else []
+            if len(stats_list) > 0:
+                current_sample = stats_list[-1]
+                memory_usage_bytes = int(current_sample.get("memory", {}).get("usage", 0))
+            else:
+                memory_usage_bytes = 0
             file_path = os.path.join(self.output_path, "cadvisor_host_configuration.csv")
             with open(file_path, "w") as f:
                 f.write("key,value\n")
                 f.write(f"number_of_cpus,{int(num_cpus)}\n")
-                f.write(f"memory_limit,{int(memory_bytes)}\n")
+                f.write(f"memory_capacity,{int(memory_bytes)}\n")
+                f.write(f"memory_usage,{int(memory_usage_bytes)}\n")
         except Exception:
             logging.exception("Failed to write host configuration CSV")
 

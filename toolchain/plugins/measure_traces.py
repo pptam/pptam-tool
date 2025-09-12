@@ -4,7 +4,7 @@ import networkx as nx
 import json
 import os
 import pandas as pd
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 import pygraphviz as pgv
 
 def fetch_services(jaeger_api_url):
