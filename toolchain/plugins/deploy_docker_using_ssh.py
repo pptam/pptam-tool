@@ -48,10 +48,11 @@ def deploy(current_configuration, design_path, output, test_id):
         
         deployment_descriptor = os.path.join(output, "docker-compose.yml")
         target_deployment_descriptor = os.path.join(target_folder, "docker-compose.yml")
-        command_copy_compose = f"scp -r {deployment_descriptor} {target_machine}:{target_deployment_descriptor}"
+        target_deployment_descriptor = f"{target_folder}\\docker-compose.yml"
+        command_copy_compose = f'scp -r {deployment_descriptor} "{target_machine}:{target_deployment_descriptor}"'
         run_external_application(command_copy_compose)
 
-        command_deploy = f"ssh {target_machine} docker compose -f {target_deployment_descriptor} up -d"
+        command_deploy = f'ssh {target_machine} docker compose -f "{target_deployment_descriptor}" up -d --build'
         run_external_application(command_deploy)
 
         logging.info(f"Waiting for {seconds_to_wait_for_deployment} seconds to allow the application to deploy.")
@@ -64,7 +65,7 @@ def undeploy(current_configuration, design_path, output, test_id):
         
         target_machine = current_configuration["docker_deploy_ssh_target_machine"]
         target_file = os.path.join(current_configuration["docker_deploy_ssh_target_folder"], "docker-compose.yml")
-        command_undeploy = f"ssh {target_machine} docker compose -f {target_file} down --timeout 1"
+        command_undeploy = f'ssh {target_machine} docker compose -f "{target_file}" down --timeout 1'
         run_external_application(command_undeploy)
 
         logging.info(f"Waiting for {seconds_to_wait_for_undeployment} seconds to allow the application to undeploy.")
