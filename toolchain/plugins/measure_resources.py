@@ -56,6 +56,38 @@ class CAdvisorCollector:
             logging.exception("Failed to calculate CPU percent from cAdvisor samples")
             return 0.0
 
+    def extract_filesystem_counters(self, sample):
+        filesystem_list = sample.get("filesystem") or sample.get("fs") or []
+        total_reads = 0
+        total_writes = 0
+        total_read_bytes = 0
+        total_write_bytes = 0
+        for fs_entry in filesystem_list:
+            reads_value = fs_entry.get("reads")
+            if reads_value is None:
+                reads_value = fs_entry.get("readsCompleted")
+            writes_value = fs_entry.get("writes")
+            if writes_value is None:
+                writes_value = fs_entry.get("writesCompleted")
+            read_bytes_value = fs_entry.get("readBytes")
+            if read_bytes_value is None:
+                read_bytes_value = fs_entry.get("readbytes")
+            if read_bytes_value is None:
+                read_bytes_value = fs_entry.get("read_bytes")
+            write_bytes_value = fs_entry.get("writeBytes")
+            if write_bytes_value is None:
+                write_bytes_value = fs_entry.get("writebytes")
+            if write_bytes_value is None:
+                write_bytes_value = fs_entry.get("write_bytes")
+            try:
+                total_reads += int(reads_value or 0)
+                total_writes += int(writes_value or 0)
+                total_read_bytes += int(read_bytes_value or 0)
+                total_write_bytes += int(write_bytes_value or 0)
+            except Exception:
+                continue
+        return total_reads, total_writes, total_read_bytes, total_write_bytes
+
     def collect_single_container_from_cadvisor(self, service_name, container_entry, collection_timestamp):
         try:
             stats_list = container_entry.get("stats", [])
@@ -66,12 +98,17 @@ class CAdvisorCollector:
             cpu_percent = self.calculate_cpu_percent_from_cadvisor_samples(previous_sample, current_sample)
             mem_usage = int(current_sample.get("memory", {}).get("usage", 0))
             mem_limit = int(current_sample.get("memory", {}).get("limit", 0))
+            reads_count, writes_count, read_bytes, write_bytes = self.extract_filesystem_counters(current_sample)
             a = f"{cpu_percent:.2f}"
             c = f"{float(mem_usage):.2f}"
             d = f"{float(mem_limit):.2f}"
+            r = str(int(reads_count))
+            w = str(int(writes_count))
+            rb = str(int(read_bytes))
+            wb = str(int(write_bytes))
             col_ts = round(collection_timestamp)
             sample_ts = round(datetime.timestamp(dateutil.parser.isoparse(current_sample.get('timestamp'))))
-            self.write_queue.put(f"{col_ts},{sample_ts},{service_name},{a},{c},{d}\n")
+            self.write_queue.put(f"{col_ts},{sample_ts},{service_name},{a},{c},{d},{r},{w},{rb},{wb}\n")
         except Exception:
             logging.exception("Failed to collect cAdvisor stats for container")
 
@@ -86,14 +123,18 @@ class CAdvisorCollector:
             cpu_percent = self.calculate_cpu_percent_from_cadvisor_samples(previous_sample, current_sample)
             mem_usage = int(current_sample.get("memory", {}).get("usage", 0))
             mem_limit = int(current_sample.get("memory", {}).get("limit", 0))
-            # mem_percent_of_machine_str calculation removed
+            reads_count, writes_count, read_bytes, write_bytes = self.extract_filesystem_counters(current_sample)
             a = f"{cpu_percent:.2f}"
             c = f"{float(mem_usage):.2f}"
             d = f"{float(mem_limit):.2f}"
+            r = str(int(reads_count))
+            w = str(int(writes_count))
+            rb = str(int(read_bytes))
+            wb = str(int(write_bytes))
             host_label = self.get_machine_hostname()
             col_ts = round(collection_timestamp)
             sample_ts = round(datetime.timestamp(dateutil.parser.isoparse(current_sample.get('timestamp'))))
-            self.host_write_queue.put(f"{col_ts},{sample_ts},{host_label},{a},{c},{d}\n")
+            self.host_write_queue.put(f"{col_ts},{sample_ts},{host_label},{a},{c},{d},{r},{w},{rb},{wb}\n")
         except Exception:
             logging.exception("Failed to collect cAdvisor stats for host")
 
@@ -188,7 +229,7 @@ class CAdvisorCollector:
         logging.info("Waiting for container stats results.")
         file_path = os.path.join(self.output_path, "cadvisor_container.csv")
         with open(file_path, "w") as f:
-            f.write("collected,timestamp,service,cpu_usage_percent,memory_usage,memory_limit\n")
+            f.write("collected,timestamp,service,cpu_usage,memory_usage,memory_limit,reads,writes,readBytes,writeBytes\n")
         with open(file_path, "a") as f:
             while not self.stop_event.is_set():
                 try:
@@ -210,7 +251,7 @@ class CAdvisorCollector:
         logging.info("Waiting for host stats results.")
         file_path = os.path.join(self.output_path, "cadvisor_host.csv")
         with open(file_path, "w") as f:
-            f.write("collected,timestamp,host,cpu_usage_percent,memory_usage,memory_limit\n")
+            f.write("collected,timestamp,host,cpu_usage,memory_usage,memory_limit,reads,writes,readBytes,writeBytes\n")
         with open(file_path, "a") as f:
             while not self.stop_event.is_set():
                 try:
