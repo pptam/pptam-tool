@@ -1,9 +1,27 @@
 import logging
 import requests
+import time
+from lib import run_external_application
+
 
 def ready(current_configuration, design_path, output, test_id):
     cadvisor_hostname = current_configuration["cadvisor_hostname"]
     logging.debug(f"Testing if SUT is correctly deployed connecting to {cadvisor_hostname}.")
+    target_machine = current_configuration["docker_deploy_ssh_target_machine"]
+    command_deploy = f'ssh {target_machine} docker run -d \
+                                            --name=cadvisor \
+                                            --restart=unless-stopped \
+                                            -p 8080:8080 \
+                                            -v /:/rootfs:ro \
+                                            -v /var/run:/var/run:ro \
+                                            -v /sys:/sys:ro \
+                                            -v /var/lib/docker/:/var/lib/docker:ro \
+                                            -v /dev/disk/:/dev/disk:ro \
+                                            gcr.io/cadvisor/cadvisor:latest'
+    run_external_application(command_deploy)
+    logging.debug(f"waiting for 30 seconds for cAdvisor to start...")
+    time.sleep(30)
+
 
     url = f"http://{cadvisor_hostname}:8080/api/v1.3/docker/"
     try:
