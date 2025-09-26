@@ -39,8 +39,11 @@ def deploy(current_configuration, design_path, output, test_id):
         logging.info(f"Deploying for test {test_id}.")
         seconds_to_wait_for_deployment = int(current_configuration["docker_waiting_for_deployment_in_seconds"])
         deployment_descriptor = os.path.join(output, "docker-compose.yml")
-        command_deploy_stack = f"docker stack deploy --detach=false --with-registry-auth --compose-file={deployment_descriptor} {test_id}"
+
+        # This command does not collect logs; needs to be implemented if needed
+        command_deploy_stack = f'docker stack deploy --detach=false --with-registry-auth --compose-file="{deployment_descriptor}" {test_id}'
         run_external_application(command_deploy_stack)
+        
         logging.info(f"Waiting for {seconds_to_wait_for_deployment} seconds to allow the application to deploy.")
         time.sleep(seconds_to_wait_for_deployment)
 

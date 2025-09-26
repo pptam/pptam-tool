@@ -48,11 +48,12 @@ def deploy(current_configuration, design_path, output, test_id):
             run_external_application(command_copy)
         
         deployment_descriptor = os.path.join(output, "docker-compose.yml")
-        target_deployment_descriptor = os.path.join(target_folder, "docker-compose.yml")
+        target_deployment_descriptor = os.path.join(target_folder, "docker-compose.yml")        
         command_copy_compose = f'scp -r {deployment_descriptor} "{target_machine}:{target_deployment_descriptor}"'
         run_external_application(command_copy_compose)
 
-        command_deploy = f'ssh {target_machine} docker compose -f "{target_deployment_descriptor}" up -d --build'
+        out_file = os.path.splitext(target_deployment_descriptor)[0] + ".out"
+        command_deploy = f'ssh {target_machine} docker compose -f "{target_deployment_descriptor}" up -d --build > {out_file} 2>&1'
         run_external_application(command_deploy)
 
         logging.info(f"Waiting for {seconds_to_wait_for_deployment} seconds to allow the application to deploy.")

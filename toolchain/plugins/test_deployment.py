@@ -16,11 +16,15 @@ def ready(current_configuration, design_path, output, test_id):
 
     container_names_to_check = current_configuration["test_if_image_is_present"].split()
     found_aliases = []
+    print("1")
+    print(data)
     if isinstance(data, dict):
         for container_info in data.values():
+            print(container_info)
             aliases = container_info.get("aliases") or []
             for alias in aliases:
                 if alias:
+                    print(alias)
                     found_aliases.append(alias)
 
     for container_name in container_names_to_check:

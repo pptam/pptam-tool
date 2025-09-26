@@ -28,9 +28,12 @@ def deploy(current_configuration, design_path, output, test_id):
     if current_configuration["docker_deploy"]=="1":
         logging.info(f"Deploying for test {test_id}.")
         seconds_to_wait_for_deployment = int(current_configuration["docker_waiting_for_deployment_in_seconds"])
+
         deployment_descriptor = os.path.join(output, "docker-compose.yml")
-        command_deploy = f"docker compose --file {deployment_descriptor} up --detach"
+        out_file = os.path.splitext(deployment_descriptor)[0] + ".out"
+        command_deploy = f'docker compose -f "{deployment_descriptor}" up -d --build > {out_file} 2>&1'
         run_external_application(command_deploy)
+        
         logging.info(f"Waiting for {seconds_to_wait_for_deployment} seconds to allow the application to deploy.")
         time.sleep(seconds_to_wait_for_deployment)
 
