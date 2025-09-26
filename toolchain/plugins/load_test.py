@@ -4,19 +4,22 @@ import jinja2
 from lib import run_external_application
 
 def get_files(current_configuration, design_path, output, test_id):
-    if os.path.exists(os.path.join(design_path, "locustfile.py.jinja")):
+    locust_file_name = current_configuration.get("locust_file", "locustfile.py")
+    template_file = f"{locust_file_name}.jinja"
+
+    if os.path.exists(os.path.join(design_path, template_file)):
         template_loader = jinja2.FileSystemLoader(searchpath=design_path)
         template_environment = jinja2.Environment(loader=template_loader)
-        template_file = "locustfile.py.jinja"
         template = template_environment.get_template(template_file)
         outputText = template.render(design_path=os.path.abspath(design_path))
-        with open(os.path.join(design_path, "locustfile.py"), "w") as f:
+        with open(os.path.join(design_path, locust_file_name), "w") as f:
             f.write(outputText)
 
-    return ["locustfile.py"]
+    return [locust_file_name]
 
 def run(current_configuration, design_path, output, test_id):
-    driver = f"{output}/locustfile.py"
+    locust_file_name = current_configuration.get("locust_file", "locustfile.py")
+    driver = f"{output}/{locust_file_name}"
     host = current_configuration["locust_host_url"]
     load = current_configuration["load"]
     spawn_rate = current_configuration["spawn_rate_per_second"]
