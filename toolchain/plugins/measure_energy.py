@@ -109,10 +109,7 @@ class ScaphandreCollector:
                     # You might want to accumulate this over time or use a different approach
                     metrics[pid]["cpu_seconds"] = value / 100.0  # Convert percentage to fraction
                 elif metric_name == "scaph_process_power_consumption_microwatts":
-                    # Convert microwatts to joules (this is an approximation)
-                    # Power * time = energy, but we need to know the time interval
-                    # For now, just store the power value - you might need to integrate over time
-                    metrics[pid]["energy_joules"] = value / 1000000.0  # Convert to watts
+                    metrics[pid]["consumption_milliwatts"] = value / 1000.0  # Convert to watts
                     
             except Exception as e:
                 logging.warning(f"Failed to parse line: {line}, error: {e}")
@@ -129,9 +126,9 @@ class ScaphandreCollector:
                 cpu_seconds = vals.get("cpu_seconds", 0.0)
                 mem_bytes = vals.get("memory_bytes", 0.0)
                 disk_bytes = vals.get("disk_bytes", 0.0)
-                energy_joules = vals.get("energy_joules", 0.0)
+                consumption_milliwatts = vals.get("consumption_milliwatts", 0.0)
                 self.write_queue.put(
-                    f"{collection_timestamp},{pid},{cpu_seconds},{mem_bytes},{disk_bytes},{energy_joules}\n"
+                    f"{collection_timestamp},{pid},{cpu_seconds},{mem_bytes},{disk_bytes},{consumption_milliwatts}\n"
                 )
         except Exception:
             logging.exception("Failed to collect batch via Scaphandre")
@@ -153,7 +150,7 @@ class ScaphandreCollector:
         logging.info("Waiting for process stats results.")
         file_path = os.path.join(self.output_path, "scaphandre_process.csv")
         with open(file_path, "w") as f:
-            f.write("collected,pid,cpu_seconds,memory_bytes,disk_bytes,energy_joules\n")
+            f.write("collected,pid,cpu_seconds,memory_bytes,disk_bytes,consumption_milliwatts\n")
         with open(file_path, "a") as f:
             while not self.stop_event.is_set():
                 try:

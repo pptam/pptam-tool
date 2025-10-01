@@ -54,11 +54,17 @@ class ResourceAgentCollector:
             for proc in containers:
                 container_name = proc.get("container_name", "")
                 container_id = proc.get("container_id", "")
-                pid = proc.get("pid", "")
+                #pid = proc.get("pid", "")
+                host_pid = proc.get("host_pid", "")
+                container_pids = proc.get("container_pids", [])
 
-                self.write_queue.put(
-                    f"{now},{container_name},{container_id},{pid}\n"
-                )
+                for pid in container_pids:
+                    self.write_queue.put(
+                        f"{now},{container_name},{container_id},{host_pid},{pid}\n"
+                    )       
+                #self.write_queue.put(
+                #    f"{now},{container_name},{container_id},{pid}\n"
+                #)
         except Exception:
             logging.exception("Failed to collect resourceagent stats")
 
@@ -77,7 +83,8 @@ class ResourceAgentCollector:
         logging.info("Waiting for process stats results.")
         file_path = os.path.join(self.output_path, "resourceagent_stats.csv")
         with open(file_path, "w") as f:
-            f.write("collected,container_name,container_id,pid\n")
+            f.write("collected,container_name,container_id,host_pid,container_pid\n")
+            # f.write("collected,container_name,container_id,pid\n")
         with open(file_path, "a") as f:
             while True:
                 try:
