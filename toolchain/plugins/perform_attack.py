@@ -5,6 +5,8 @@ import time
 import random
 import logging
 import importlib
+import os
+from datetime import datetime
 from typing import List
 
 _executor_instance = None
@@ -18,6 +20,11 @@ class AttackExecutor:
         self.test_identifier = test_identifier
         self.stop_event = threading.Event()
         self.worker_thread = None
+        os.makedirs(self.output_path, exist_ok=True)
+        self.timeline_path = os.path.join(self.output_path, "attack_timeline.csv")
+        self.timeline_lock = threading.Lock()
+        with open(self.timeline_path, "w", encoding="utf-8") as f:
+            f.write("event,attack_name,timestamp_iso,timestamp_unix\n")
 
     def _resolve_attack(self, name):
         module_name = f"attacks.{name}"
@@ -65,6 +72,18 @@ class AttackExecutor:
         logging.info("perform_attack: selected attacks %s from ATTACK_NAMES_LIST=%s (count=%d).",
                      selected, unique_names, attack_count)
         return selected
+
+    def _timestamp_now(self):
+        now = datetime.utcnow()
+        return now.isoformat() + "Z", f"{now.timestamp():.6f}"
+
+    def _write_timeline_event(self, event, attack_name=None):
+        iso_ts, unix_ts = self._timestamp_now()
+        safe_name = attack_name or ""
+        line = f"{event},{safe_name},{iso_ts},{unix_ts}\n"
+        with self.timeline_lock:
+            with open(self.timeline_path, "a", encoding="utf-8") as f:
+                f.write(line)
 
     def _compute_timing_parameters(self):
         total_run_time = int(float(self.configuration.get("run_time_in_seconds", 0)))
@@ -175,6 +194,7 @@ class AttackExecutor:
     def worker(self):
         specs = self._prepare_attack_specs()
         if not specs:
+            self._write_timeline_event("experiment_finish")
             return
 
         threads = []
@@ -194,10 +214,12 @@ class AttackExecutor:
             )
             if self.stop_event.wait(timeout=start_after):
                 logging.info("perform_attack: vector '%s' cancelled before start.", name)
+                self._write_timeline_event("attack_cancelled", name)
                 return
 
             start_ts = time.time()
             logging.info("perform_attack: vector '%s' starting now.", name)
+            self._write_timeline_event("attack_start", name)
             self._run_attack(attack_class, attack_func, duration)
 
             elapsed = time.time() - start_ts
@@ -205,6 +227,7 @@ class AttackExecutor:
             if remaining > 0:
                 self.stop_event.wait(timeout=remaining)
             logging.info("perform_attack: vector '%s' window finished.", name)
+            self._write_timeline_event("attack_finish", name)
 
         for spec in specs:
             t = threading.Thread(target=attack_thread, args=(spec,), daemon=True)
@@ -214,7 +237,10 @@ class AttackExecutor:
         for t in threads:
             t.join()
 
+        self._write_timeline_event("experiment_finish")
+
     def start(self):
+        self._write_timeline_event("experiment_start")
         self.worker_thread = threading.Thread(target=self.worker, daemon=True)
         self.worker_thread.start()
 
