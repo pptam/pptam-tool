@@ -18,56 +18,61 @@ class Attack:
         self.output_path = output_path
         self.test_identifier = test_identifier
         self.base_url = (configuration.get("locust_host_url") or "").rstrip("/")
-        # Endpoints (override in config if your API differs)
-        self.reserve_path = configuration.get("attack_reserve_path") or "/api/v1/reservation"
-        self.cancel_path = configuration.get("attack_cancel_path") or "/api/v1/reservation/cancel"
-        self.hotel_id = configuration.get("attack_hotel_id") or "attack-hotel"
+        self.reserve_path = configuration.get("attack_reserve_path") or "/reservation"
         self.concurrency = int(float(configuration.get("attack_concurrency", 30)))
         self.timeout = float(configuration.get("attack_request_timeout_seconds", 5))
-        lock_hold = configuration.get("attack_reservation_lock_hold_seconds")
         try:
-            self.lock_hold_seconds = max(0.0, float(lock_hold))
-        except (TypeError, ValueError):
-            self.lock_hold_seconds = 0.15
+            self.max_rooms = max(1, int(float(configuration.get("attack_reservation_max_rooms", 3))))
+        except Exception:
+            self.max_rooms = 3
+        try:
+            self.max_stay_nights = max(1, int(float(configuration.get("attack_reservation_max_stay_nights", 4))))
+        except Exception:
+            self.max_stay_nights = 4
+
+    def _build_params(self):
+        start_day = random.randint(1, 25)
+        stay = random.randint(1, self.max_stay_nights)
+        in_date = f"2015-04-{start_day:02d}"
+        out_day = min(30, start_day + stay)
+        out_date = f"2015-04-{out_day:02d}"
+        lat = 38.0235 + (random.randint(0, 481) - 240.5) / 1000.0
+        lon = -122.095 + (random.randint(0, 325) - 157.0) / 1000.0
+        hotel_id = random.randint(1, 80)
+        customer = f"load-user-{random.randint(1, 10000)}"
+        username = customer
+        password = f"{random.randint(1000, 9999)}"
+        rooms = random.randint(1, self.max_rooms)
+        params = {
+            "inDate": in_date,
+            "outDate": out_date,
+            "lat": f"{lat:.4f}",
+            "lon": f"{lon:.4f}",
+            "hotelId": str(hotel_id),
+            "customerName": customer,
+            "username": username,
+            "password": password,
+            "number": str(rooms),
+        }
+        return params
 
     def worker(self, end_ts, stop_event):
         session = requests.Session()
         reserve_url = f"{self.base_url}{self.reserve_path}"
-        cancel_url = f"{self.base_url}{self.cancel_path}"
         while (time.time() < end_ts) and (not stop_event.is_set()):
+            params = self._build_params()
             try:
-                in_date = f"2020-01-{random.randint(1, 15):02d}"
-                out_date = f"2020-01-{random.randint(16, 28):02d}"
-                body = {
-                    "hotelId": self.hotel_id,
-                    "inDate": in_date,
-                    "outDate": out_date,
-                    "rooms": random.randint(1, 3),
-                    "guests": random.randint(1, 4),
-                }
-                r = session.post(reserve_url, json=body, timeout=self.timeout)
-                reservation_id = None
-                try:
-                    data = r.json() if r is not None else None
-                    reservation_id = (data or {}).get("reservationId") or (data or {}).get("id")
-                except Exception:
-                    pass
-                if self.lock_hold_seconds > 0:
-                    stop_event.wait(timeout=self.lock_hold_seconds)
-                # Immediately cancel (best effort)
-                cancel_body = {"hotelId": self.hotel_id}
-                if reservation_id is not None:
-                    cancel_body["reservationId"] = reservation_id
-                session.post(cancel_url, json=cancel_body, timeout=self.timeout)
+                session.post(reserve_url, params=params, timeout=self.timeout)
             except Exception:
                 pass
 
     def run(self, duration_seconds, stop_event):
         logging.info(
-            "reservation_churn: starting (target_service=%s, concurrency=%d, hold=%.2fs)",
+            "reservation_churn: starting (target_service=%s, concurrency=%d, max_rooms=%d, max_stay=%d)",
             self.TARGET_SERVICE,
             self.concurrency,
-            self.lock_hold_seconds,
+            self.max_rooms,
+            self.max_stay_nights,
         )
         end_ts = time.time() + duration_seconds
         threads = [threading.Thread(target=self.worker, args=(end_ts, stop_event), daemon=True) for _ in range(self.concurrency)]
