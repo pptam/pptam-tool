@@ -10,7 +10,7 @@ Each attack can be provided either as:
 or as a function:
     run(duration_seconds, stop_event, configuration, design_path, output_path, test_identifier)
 
-The perform_attack plugin dynamically loads the module named by ATTACK_NAME
-from configuration and invokes it during the test window.
+The perform_attack plugin dynamically loads one or more modules listed in
+ATTACK_NAMES_LIST from the configuration and invokes them during the attack
+window.
 """
-

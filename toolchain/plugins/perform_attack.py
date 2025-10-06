@@ -45,30 +45,26 @@ class AttackExecutor:
 
     def _select_attack_names(self) -> List[str]:
         names_list = self._parse_attack_names_list()
-        if names_list:
-            try:
-                attack_count = int(float(self.configuration.get("attack_numbers", 1)))
-            except Exception:
-                attack_count = 1
-            if attack_count <= 0:
-                logging.info("perform_attack: ATTACK_NUMBERS <= 0; no attacks selected.")
-                return []
-            unique_names = list(dict.fromkeys(names_list))
-            if attack_count >= len(unique_names):
-                selected = unique_names
-            else:
-                selected = random.sample(unique_names, attack_count)
-            logging.info("perform_attack: selected attacks %s from ATTACK_NAMES_LIST=%s (count=%d).",
-                         selected, unique_names, attack_count)
-            return selected
+        if not names_list:
+            logging.info("perform_attack: ATTACK_NAMES_LIST empty; no attacks selected.")
+            return []
 
-        name = (self.configuration.get("attack_name") or "").strip()
-        if name:
-            logging.info("perform_attack: ATTACK_NAME set to '%s'.", name)
-            return [name]
+        try:
+            attack_count = int(float(self.configuration.get("attack_numbers", 1)))
+        except Exception:
+            attack_count = 1
+        if attack_count <= 0:
+            logging.info("perform_attack: ATTACK_NUMBERS <= 0; no attacks selected.")
+            return []
 
-        logging.info("perform_attack: no attacks requested (ATTACK_NAME empty and ATTACK_NAMES_LIST empty).")
-        return []
+        unique_names = list(dict.fromkeys(names_list))
+        if attack_count >= len(unique_names):
+            selected = unique_names
+        else:
+            selected = random.sample(unique_names, attack_count)
+        logging.info("perform_attack: selected attacks %s from ATTACK_NAMES_LIST=%s (count=%d).",
+                     selected, unique_names, attack_count)
+        return selected
 
     def _compute_timing_parameters(self):
         total_run_time = int(float(self.configuration.get("run_time_in_seconds", 0)))
