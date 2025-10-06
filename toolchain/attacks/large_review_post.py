@@ -19,48 +19,48 @@ class Attack:
         self.output_path = output_path
         self.test_identifier = test_identifier
         self.base_url = (configuration.get("locust_host_url") or "").rstrip("/")
-        self.review_path = (
-            configuration.get("attack_recommendation_path")
-            or configuration.get("attack_review_path")
-            or "/api/v1/recommendation"
-        )
+        self.review_path = configuration.get("attack_recommendation_path") or "/recommendations"
         self.concurrency = int(float(configuration.get("attack_concurrency", 10)))
         self.timeout = float(configuration.get("attack_request_timeout_seconds", 10))
         size = int(float(configuration.get("attack_large_body_size_bytes", 2 * 1024 * 1024)))
-        safe_size = min(size, 10_000_000)
-        if safe_size <= 0:
-            safe_size = 1024
-        # Pre-build a large ASCII payload to avoid regeneration on each request
+        safe_size = max(512, min(size, 200000))
         alphabet = string.ascii_letters + string.digits
-        self.large_blob = "".join(random.choices(alphabet, k=safe_size))
-        self.context_tags = ["similar_users", "popular_now", "geo_proximity", "personalized", "seasonal"]
+        self.large_hint = "".join(random.choices(alphabet, k=safe_size))
+        self.context_tags = ["dis", "rate", "price"]
+        burst = configuration.get("attack_recommendation_requests_per_worker")
+        try:
+            self.requests_per_worker = max(1, int(float(burst)))
+        except (TypeError, ValueError):
+            self.requests_per_worker = 3
 
     def worker(self, end_ts, stop_event):
         session = requests.Session()
         url = f"{self.base_url}{self.review_path}"
-        headers = {"Content-Type": "application/json"}
         while (time.time() < end_ts) and (not stop_event.is_set()):
-            try:
-                payload = {
-                    "requestId": f"adv-{random.randint(1, 1_000_000)}",
-                    "userId": f"noisy-user-{random.randint(1, 10_000)}",
-                    "context": {
-                        "tags": random.sample(self.context_tags, k=min(3, len(self.context_tags))),
-                        "seed": random.randint(1, 1_000),
-                    },
-                    "candidateIds": [f"item-{random.randint(1, 5000)}" for _ in range(25)],
-                    "oversizedPayload": self.large_blob,
-                }
-                session.post(url, json=payload, headers=headers, timeout=self.timeout)
-            except Exception:
-                pass
+            for _ in range(self.requests_per_worker):
+                if (time.time() >= end_ts) or stop_event.is_set():
+                    break
+                try:
+                    require = random.choice(self.context_tags)
+                    lat = 38.0235 + (random.randint(0, 481) - 240.5) / 1000.0
+                    lon = -122.095 + (random.randint(0, 325) - 157.0) / 1000.0
+                    params = {
+                        "require": require,
+                        "lat": f"{lat:.4f}",
+                        "lon": f"{lon:.4f}",
+                        "context": self.large_hint,
+                        "topk": str(random.randint(50, 100)),
+                    }
+                    session.get(url, params=params, timeout=self.timeout)
+                except Exception:
+                    pass
 
     def run(self, duration_seconds, stop_event):
         logging.info(
-            "large_review_post: starting (target_service=%s, concurrency=%d, payload_bytes=%d)",
+            "large_review_post: starting (target_service=%s, concurrency=%d, payload_hint_bytes=%d)",
             self.TARGET_SERVICE,
             self.concurrency,
-            len(self.large_blob),
+            len(self.large_hint),
         )
         end_ts = time.time() + duration_seconds
         threads = [threading.Thread(target=self.worker, args=(end_ts, stop_event), daemon=True) for _ in range(self.concurrency)]

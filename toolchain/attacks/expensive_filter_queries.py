@@ -18,10 +18,15 @@ class Attack:
         self.configuration = configuration
         self.output_path = output_path
         self.base_url = (configuration.get("locust_host_url") or "").rstrip("/")
-        self.path = configuration.get("attack_search_path") or "/api/v1/search"
+        self.path = configuration.get("attack_search_path") or "/hotels"
         self.concurrency = int(float(configuration.get("attack_concurrency", 40)))
         self.timeout = float(configuration.get("attack_request_timeout_seconds", 10))
         self.page_size = int(float(configuration.get("attack_search_page_size", 500)))
+        burst = configuration.get("attack_search_requests_per_worker")
+        try:
+            self.requests_per_worker = max(1, int(float(burst)))
+        except (TypeError, ValueError):
+            self.requests_per_worker = 3
 
     def _build_query(self):
         # Randomly combine many filters and sorts
@@ -44,13 +49,14 @@ class Attack:
             "Accept-Encoding": "gzip, deflate"
         }
         while (time.time() < end_ts) and (not stop_event.is_set()):
-            url = f"{self.base_url}{self.path}?{self._build_query()}"
-            try:
-                session.get(url, headers=headers, timeout=self.timeout)
-                if self.timeout > 1:
-                    stop_event.wait(timeout=0.05)
-            except Exception:
-                pass
+            for _ in range(self.requests_per_worker):
+                if (time.time() >= end_ts) or stop_event.is_set():
+                    break
+                url = f"{self.base_url}{self.path}?{self._build_query()}"
+                try:
+                    session.get(url, headers=headers, timeout=self.timeout)
+                except Exception:
+                    pass
 
     def run(self, duration_seconds, stop_event):
         logging.info(

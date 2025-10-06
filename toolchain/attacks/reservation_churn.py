@@ -29,6 +29,11 @@ class Attack:
             self.max_stay_nights = max(1, int(float(configuration.get("attack_reservation_max_stay_nights", 4))))
         except Exception:
             self.max_stay_nights = 4
+        burst = configuration.get("attack_reservation_requests_per_worker")
+        try:
+            self.requests_per_worker = max(1, int(float(burst)))
+        except (TypeError, ValueError):
+            self.requests_per_worker = 3
 
     def _build_params(self):
         start_day = random.randint(1, 25)
@@ -60,11 +65,14 @@ class Attack:
         session = requests.Session()
         reserve_url = f"{self.base_url}{self.reserve_path}"
         while (time.time() < end_ts) and (not stop_event.is_set()):
-            params = self._build_params()
-            try:
-                session.post(reserve_url, params=params, timeout=self.timeout)
-            except Exception:
-                pass
+            for _ in range(self.requests_per_worker):
+                if (time.time() >= end_ts) or stop_event.is_set():
+                    break
+                params = self._build_params()
+                try:
+                    session.post(reserve_url, params=params, timeout=self.timeout)
+                except Exception:
+                    pass
 
     def run(self, duration_seconds, stop_event):
         logging.info(

