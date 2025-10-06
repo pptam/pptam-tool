@@ -90,6 +90,15 @@ class AttackExecutor:
             if attack_class is not None:
                 # Expected interface: Attack(configuration, design_path, output_path, test_identifier)
                 instance = attack_class(self.configuration, self.design_path, self.output_path, self.test_identifier)
+                vector_label = getattr(instance, "VECTOR_NAME", getattr(instance, "vector_name", attack_class.__name__))
+                target_service = getattr(instance, "TARGET_SERVICE", getattr(instance, "target_service", None))
+                resource_hint = getattr(instance, "RESOURCE_DIMENSIONS", None)
+                meta_suffix = ""
+                if target_service:
+                    meta_suffix += f" target_service={target_service}"
+                if resource_hint:
+                    meta_suffix += f" focus={','.join(resource_hint)}"
+                logging.info("perform_attack: activating vector '%s'%s.", vector_label, meta_suffix)
                 # Expected method: run(duration_seconds, stop_event)
                 instance.run(duration_seconds, self.stop_event)
             else:

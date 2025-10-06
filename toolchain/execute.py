@@ -141,7 +141,7 @@ def perform_test(configuration, section, design_path, project, commit, haltiferr
             break
 
         logging.critical("Cannot start because not all plugins are ready, waiting 1 min.")
-        time.sleep(60)
+        time.sleep(30)
 
     if (plugins_are_ready is None) or (False in plugins_are_ready):
         logging.critical("Cannot start because not all plugins are ready.")
