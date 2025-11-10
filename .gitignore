@@ -150,5 +150,8 @@ workspace.code-workspace
 /toolchain/bin
 
 design/trainticket/CUHK-SE/trainticket
+design/trainticket/SEALAB/trainticket
+design/trainticket/FUDAN/trainticket
 design/hotelreservation/docker-compose.yml
 analyze_performance_variations*.*
+design/performance_vs_energy
