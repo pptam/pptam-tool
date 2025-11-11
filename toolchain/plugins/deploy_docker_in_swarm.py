@@ -52,10 +52,6 @@ def setup(current_configuration, design_path, output, test_id):
         run_external_application("sudo service docker restart")
         run_external_application("sudo docker start registry")
     
-# def teardown_all(current_configuration, design_path, output, test_id):
-#     if current_configuration["docker_undeploy"]=="1":
-#         cleanup_swarm_environment()
-
 def deploy(current_configuration, design_path, output, test_id):
     if current_configuration["docker_deploy"]=="1":
         logging.info(f"Deploying for test {test_id}.")

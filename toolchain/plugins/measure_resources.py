@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import logging
 import os
+import re
 import sched
 import threading
 from queue import Queue, Empty
@@ -258,6 +259,37 @@ class CAdvisorCollector:
             return data.get("machineInfo", {}).get("name") or data.get("name") or "host"
         except Exception:
             return "host"
+
+    def get_docker_containers_map(self):
+        base = self.get_cadvisor_base_url()
+        url = f"{base}/api/v1.3/docker/"
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        if not isinstance(data, dict):
+            raise ValueError("Unexpected cAdvisor docker payload")
+        return data
+
+    @staticmethod
+    def normalize_service_name(raw_name):
+        """
+        Normalize docker/container aliases so configuration can match them reliably.
+        - Trim whitespace and leading/trailing separators
+        - Collapse common docker-compose suffixes like `_1` or `-2`
+        - Lowercase and replace problematic chars with `_`
+        """
+        if not raw_name:
+            return "unknown"
+        service = str(raw_name).strip()
+        if not service:
+            return "unknown"
+        service = service.strip("/ ")
+        # Replace separators that commonly appear in alias names
+        service = service.replace(" ", "_").replace(":", "_").replace(".", "_").replace("/", "_")
+        # Drop docker-compose replica suffixes (_1, -2, etc.)
+        service = re.sub(r"([_-])\d+$", "", service)
+        service = service.strip("_-")
+        return service.lower() or "unknown"
 
     def scheduler_worker(self):
         logging.info("Collecting container stats in background via /api/v1.3/docker/.")
