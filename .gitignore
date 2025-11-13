@@ -154,4 +154,5 @@ design/trainticket/SEALAB/trainticket
 design/trainticket/FUDAN/trainticket
 design/hotelreservation/docker-compose.yml
 analyze_performance_variations*.*
+analyze_performance_energy*.*
 design/performance_vs_energy

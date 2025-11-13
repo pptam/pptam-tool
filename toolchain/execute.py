@@ -44,7 +44,11 @@ def run_plugins(configuration, section, design_path, output, test_id, func, halt
 
 def create_output_directory(configuration, section, commit, overwrite):
     now = datetime.datetime.now()
-    test_id_without_timestamp = configuration[section]["test_case_prefix"].lower() + "-" + section.lower()
+    test_case_prefix = configuration[section]["test_case_prefix"].lower()
+    test_id_parts = [section.lower()]
+    if test_case_prefix:
+        test_id_parts.insert(0, test_case_prefix)
+    test_id_without_timestamp = "-".join(test_id_parts)
     if commit != "":
         test_id_without_timestamp = test_id_without_timestamp + "-" + commit[:8]
     test_id = now.strftime("%Y%m%d%H%M") + "-" + test_id_without_timestamp

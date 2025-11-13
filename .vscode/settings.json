@@ -1,10 +1,11 @@
-{  
+{
   "python.envFile": "${workspaceFolder}/.env",
-  "python.formatting.provider": "black",
-  "python.formatting.blackArgs": [
-    "--line-length",
-    "80"
-  ],
-  "jupyter.jupyterServerType": "local",
-  "java.compile.nullAnalysis.mode": "disabled"
+  "[python]": {
+    "editor.defaultFormatter": "eeyore.yapf"
+  },
+  "[jupyter]": {
+    "editor.defaultFormatter": "eeyore.yapf"
+  },
+  "editor.formatOnSave": true,
+  "notebook.formatOnSave.enabled": true 
 }

@@ -1,0 +1,2 @@
+When creating or modifying batch files: do not use variables. hard code everything. use relative paths. assume the current folder to be the one in which the file is NOW.
+When creating or modifying python code: never use pathlib, prefer strings, relative paths. Write in one line as much as you can. Line length is unlimited.

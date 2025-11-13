@@ -1,0 +1,34 @@
+[style]
+based_on_style = pep8
+
+# Make wrapping basically never happen
+column_limit = 1000000
+
+# Strongly discourage all common split points
+split_before_first_argument = false
+split_before_expression_after_opening_paren = false
+split_before_named_assigns = false
+split_arguments_when_comma_terminated = false
+allow_split_before_dict_value = false
+each_dict_entry_on_separate_line = false
+split_complex_comprehension = false
+split_before_logical_operator = false
+split_before_arithmetic_operator = false
+split_before_bitwise_operator = false
+split_before_dict_set_generator = false
+split_before_dot = false
+disable_ending_comma_heuristic = true
+
+# Encourage packing things back together
+coalesce_brackets = true
+
+# Crank up penalties so YAPF “hates” splitting
+split_penalty_after_opening_bracket = 1000000
+split_penalty_after_unary_operator = 1000000
+split_penalty_arithmetic_operator = 1000000
+split_penalty_before_if_expr = 1000000
+split_penalty_comprehension = 1000000
+split_penalty_dict_entry = 1000000
+split_penalty_import_names = 1000000
+split_penalty_logical_operator = 1000000
+split_penalty_excess_character = 1000000

@@ -15,3 +15,6 @@ pymupdf
 scikit-learn
 pygraphviz
 numpy
+statsmodels
+nbconvert
+yapf
